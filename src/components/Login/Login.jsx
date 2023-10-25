@@ -22,7 +22,7 @@ function Login() {
 	};
 
 	return (
-		<Main>
+		<div className="container">
 			<Card>
 				<div className="login-poster">
 					<img src={poster} alt="" />
@@ -59,7 +59,7 @@ function Login() {
 					</p>
 				</div>
 			</Card>
-		</Main>
+		</div>
 	);
 }
 

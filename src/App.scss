@@ -7,20 +7,21 @@
 	font-family: Arial, Helvetica, sans-serif;
 }
 
-// Theme :
+// Theme variables:
 $black: #0f0f0f;
 $dark-blue: #232d3f;
+$mid-blue: #364560;
+$light-blue: #3f5071;
 $dark-green: #005b41;
 $teal: #008170;
 $light-teal: #00b69e;
 
 .card {
 	text-align: left;
-	background-color: #eee;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	overflow: hidden;
+	flex-wrap: wrap;
 	margin: 2rem auto;
 	width: fit-content;
 	border-radius: 7px;
@@ -31,10 +32,11 @@ $light-teal: #00b69e;
 .header {
 	background-color: $dark-blue;
 	color: white;
-	position: fixed;
+	position: sticky;
 	top: 0;
-	width: 100%;
-	height: 5rem;
+	left: 0;
+	right: 0;
+	z-index: 1000;
 
 	.navbar {
 		display: flex;
@@ -86,14 +88,12 @@ $light-teal: #00b69e;
 
 // Homepage
 .main {
-	background-color: #ddd;
+	background-color: transparent;
 	width: 100%;
-	height: calc(100vh - 8.5rem);
 	display: flex;
-	justify-content: space-around;
 	align-items: center;
-	margin: 85px 0 50px 0;
-	padding: 1.5rem;
+	justify-content: center;
+	padding: 1rem;
 	gap: 1.5rem;
 	text-align: center;
 	overflow: auto;
@@ -115,20 +115,6 @@ $light-teal: #00b69e;
 	}
 	.right {
 		width: 80%;
-
-		.home {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			overflow: hidden;
-			background-color: #eee;
-			width: 100%;
-			border-radius: 7px;
-			.info {
-				text-align: justify;
-				padding: 1rem;
-			}
-		}
 	}
 }
 
@@ -158,25 +144,33 @@ $light-teal: #00b69e;
 	}
 }
 
-// .home-poster {
-// 	width: 100%;
-// 	height: 100%;
-// 	img {
-// 		width: 800px;
-// 		height: 800px;
-// 		object-fit: scale-down;
-// 	}
-// }
+// css for user profile page
+.user-profile {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	margin: 1rem;
+	.exercise-poster {
+		img {
+			object-fit: contain;
+			width: 100%;
+			height: 100%;
+		}
+	}
+}
 
 // footer
 .footer {
-	padding: 1rem;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: 1rem 0;
 	background-color: $dark-blue;
 	color: $light-teal;
-	bottom: 0;
-	position: fixed;
 	width: 100%;
-	height: 3rem;
+	z-index: 1000;
 	.footer-content {
 		text-align: center;
 	}

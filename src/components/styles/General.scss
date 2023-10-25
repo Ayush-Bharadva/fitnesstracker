@@ -2,17 +2,30 @@
 	box-sizing: border-box;
 }
 
-// Theme :
+// Theme variables:
 $black: #0f0f0f;
 $dark-blue: #232d3f;
 $mid-blue: #364560;
+$light-blue: #3f5071;
 $dark-green: #005b41;
 $teal: #008170;
 $light-teal: #00b69e;
 
+.container {
+	border: 5px solid red;
+	height: 100vh;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	align-items: center;
+	background-color: $dark-blue;
+	overflow: auto;
+}
+
 .login-card,
 .signup-card {
-	padding: 2rem;
+	padding: 1rem;
 	h2 {
 		font-size: 2rem;
 		padding: 2rem 0;
@@ -27,7 +40,6 @@ $light-teal: #00b69e;
 		border: none;
 		border-radius: 7px;
 		outline: none;
-		color: $light-teal;
 	}
 
 	.btn {
@@ -57,8 +69,7 @@ $light-teal: #00b69e;
 .user-profile-form {
 	height: fit-content;
 	width: 100%;
-	padding: 1rem 1.5rem;
-
+	padding: 1rem;
 	h2 {
 		color: $light-teal;
 		font-size: 2.5rem;
@@ -67,18 +78,37 @@ $light-teal: #00b69e;
 
 	input,
 	select {
-		color: $light-teal;
+		color: white;
 		display: block;
 		width: 100%;
 		font-size: 1.5rem;
-		margin: 0.7rem auto;
+		margin: 0.4rem auto;
 		padding: 0.2rem 0.4rem;
 		border: none;
 		border-bottom: 2px solid $light-teal;
 		outline: none;
-		background: transparent;
 		border-radius: 5px;
 		background-color: $mid-blue;
+	}
+
+	.radio-option {
+		background-color: $mid-blue;
+		color: white;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		padding: 10px 0;
+		margin: 5px 0;
+		border-radius: 7px;
+		border-bottom: 2px solid $light-teal;
+
+		.male-radio,
+		.female-radio {
+			margin: 0 0.5rem;
+			display: flex;
+			align-items: center;
+			gap: 7px;
+		}
 	}
 
 	::placeholder {
@@ -86,10 +116,7 @@ $light-teal: #00b69e;
 	}
 
 	select {
-		padding: 0.5rem 0.6rem 0.6rem;
-		option {
-			margin: 1.2rem;
-		}
+		padding: 0.5rem 0.6rem;
 	}
 
 	button {
@@ -105,12 +132,23 @@ $light-teal: #00b69e;
 	}
 }
 
+.signup-poster,
 .login-poster {
-	width: 100%;
-	height: 100%;
-	background-color: transparent;
 	img {
+		border-radius: 7px;
 		width: 100%;
 		height: 100%;
+		object-fit: cover;
+		// border: 4px solid blue;
+	}
+}
+
+@media screen and (max-width: 782px) {
+	.navbar {
+		flex-direction: column;
+		align-items: center;
+		.link {
+			text-align: center;
+		}
 	}
 }

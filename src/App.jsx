@@ -39,14 +39,16 @@ const WeightTracking = lazy(() =>
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
-		<Route path="/" element={<Layout />}>
-			<Route path="" element={<Home />} />
-			<Route path="user-profile" element={<UserProfile />} />
-			<Route path="daily-goals" element={<DailyGoals />} />
-			<Route path="weight-tracking" element={<WeightTracking />} />
+		<>
+			<Route path="/" element={<Layout />}>
+				<Route path="" element={<Home />} />
+				<Route path="user-profile" element={<UserProfile />} />
+				<Route path="daily-goals" element={<DailyGoals />} />
+				<Route path="weight-tracking" element={<WeightTracking />} />
+			</Route>
 			<Route path="signup" element={<SignUp />} />
 			<Route path="login" element={<Login />} />
-		</Route>
+		</>
 	)
 );
 

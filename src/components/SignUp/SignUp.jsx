@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Card from "../UI/Card";
 import Main from "../UI/Main";
 import poster from "../../refrences/signup_poster.jpg";
+import "../styles/General.scss";
 
 function InputError() {
 	return <></>;
@@ -35,22 +36,22 @@ function SignUp() {
 			"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*-+=_?/.";
 
 		let isValidEmail = emailPattern.test(userCredentials["email"]);
-		console.log("isValidEmail :", isValidEmail);
+		// console.log("isValidEmail :", isValidEmail);
 
 		// password = #Ayush123
-		console.log(userCredentials["password"]);
+		// console.log(userCredentials["password"]);
 
 		let isValidPassword =
 			userCredentials["password"].length > 6 &&
 			userCredentials["password"] === userCredentials["confirm-password"];
 
-		console.log("isValidPassword :", isValidPassword);
+		// console.log("isValidPassword :", isValidPassword);
 
 		isValidEmail && isValidPassword
 			? allUserCredentials.push(userCredentials)
 			: console.log("credentials are not proper");
 
-		console.log("allUserCredentials", allUserCredentials);
+		// console.log("allUserCredentials", allUserCredentials);
 	};
 
 	const handleSubmit = (e) => {
@@ -60,7 +61,7 @@ function SignUp() {
 	};
 
 	return (
-		<Main>
+		<div className="container">
 			<Card>
 				<div className="signup-card">
 					<h2>Create Account</h2>
@@ -125,7 +126,7 @@ function SignUp() {
 					<img src={poster} alt="" />
 				</div>
 			</Card>
-		</Main>
+		</div>
 	);
 }
 

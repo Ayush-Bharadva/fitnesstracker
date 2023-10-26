@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Card from "../UI/Card";
 import "../styles/General.scss";
-import Main from "../UI/Main";
 import poster from "../../refrences/signup_poster.jpg";
 
 function Login() {

@@ -4,9 +4,9 @@ import Main from "../UI/Main";
 
 function UserProfile() {
 	return (
-		<Main>
+		<div className="main-container">
 			<CreateProfile />
-		</Main>
+		</div>
 	);
 }
 

@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import ProfileMenu from "../ProfileMenu";
 
 function Header() {
 	return (
@@ -41,9 +42,11 @@ function Header() {
 						<button className="signup">SignUp</button>
 					</NavLink>
 				</div>
+				<ProfileMenu />{" "}
 			</nav>
 		</header>
 	);
+	ProfileMenu;
 }
 
 export default Header;

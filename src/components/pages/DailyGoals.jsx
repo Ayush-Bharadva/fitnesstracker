@@ -1,11 +1,14 @@
 import React from "react";
 import Main from "../UI/Main";
+import LogExercise from "./Daily Goals/LogExercise";
+import LogMeals from "./Daily Goals/LogMeals";
 
 function DailyGoals() {
 	return (
-		<Main>
-			<h1 className="daily-goals">DailyGoals</h1>
-		</Main>
+		<div className="main-container flex-container">
+			<LogExercise />
+			<LogMeals />
+		</div>
 	);
 }
 

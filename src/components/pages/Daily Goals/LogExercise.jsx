@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import training from "../../../assets/images/training.jpg";
-import ProfileMenu from "../../ProfileMenu";
 
 function LogExercise() {
 	const [exerciseInfo, setExerciseInfo] = useState({

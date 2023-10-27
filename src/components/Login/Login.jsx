@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Card from "../UI/Card";
 import "../styles/General.scss";
 import poster from "../../refrences/signup_poster.jpg";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { AuthContext } from "../userContext/AuthProvider";
+
+const logInUrl = "http://localhost:8080/user/login";
 
 function Login() {
+	const navigate = useNavigate();
+	const { logIn } = useContext(AuthContext);
+
 	const [userCredentials, setuserCredentials] = useState({
 		email: "",
 		password: "",
@@ -17,6 +25,16 @@ function Login() {
 
 	const handleLoginSubmit = (e) => {
 		e.preventDefault();
+		axios
+			.post(logInUrl, JSON.stringify(userCredentials))
+			.then((response) => {
+				console.log(response);
+				if (response.data === "Sucessfull login") {
+					logIn();
+					navigate("/");
+				}
+			})
+			.catch((error) => console.log("login error :", error));
 		console.log("userCredentials :", userCredentials);
 	};
 
@@ -54,7 +72,10 @@ function Login() {
 						</button>
 					</form>
 					<p>
-						Don't have an account ? <span>Register</span>
+						Don't have an account ?{" "}
+						<span onClick={() => navigate("/signup")}>
+							Register
+						</span>
 					</p>
 				</div>
 			</Card>

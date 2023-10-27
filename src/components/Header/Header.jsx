@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { NavLink } from "react-router-dom";
 import ProfileMenu from "../ProfileMenu";
+import { useContext } from "react";
+import { AuthContext } from "../userContext/AuthProvider";
 
 function Header() {
+	const { isSignedUp, isLoggedIn } = useContext(AuthContext);
+
 	return (
 		<header className="header">
 			<nav className="navbar">
@@ -34,19 +38,21 @@ function Header() {
 						</NavLink>
 					</li>
 				</ul>
-				<div className="buttons">
-					<NavLink to="login">
-						<button className="login">LogIn</button>
-					</NavLink>
-					<NavLink to="signup">
-						<button className="signup">SignUp</button>
-					</NavLink>
-				</div>
-				<ProfileMenu />{" "}
+				{!(isSignedUp || isLoggedIn) ? (
+					<div className="buttons">
+						<NavLink to="login">
+							<button className="login">LogIn</button>
+						</NavLink>
+						<NavLink to="signup">
+							<button className="signup">SignUp</button>
+						</NavLink>
+					</div>
+				) : (
+					<ProfileMenu />
+				)}
 			</nav>
 		</header>
 	);
-	ProfileMenu;
 }
 
 export default Header;

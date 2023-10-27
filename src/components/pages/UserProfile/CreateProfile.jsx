@@ -18,13 +18,20 @@ function CreateProfile() {
 		console.log(userInfo);
 	};
 
-	const isValidUser = () => {};
-
 	const handleInputChange = (input, value) => {
 		setUserInfo((preValue) => {
 			return { ...preValue, [input]: value };
 		});
 	};
+
+	const profileInput = document.getElementById("profile-image");
+	profileInput.addEventListener("change", (e) => {
+		const selectedFile = e.target.files[0];
+		console.log(selectedFile);
+
+		const imageUrl = URL.createObjectURL(selectedFile);
+		console.log(imageUrl);
+	});
 
 	return (
 		<div className="user-profile">

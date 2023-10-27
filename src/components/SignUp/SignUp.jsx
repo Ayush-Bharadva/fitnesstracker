@@ -1,17 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import Card from "../UI/Card";
-import Main from "../UI/Main";
 import poster from "../../refrences/signup_poster.jpg";
 import "../styles/General.scss";
+import { AuthContext } from "../userContext/AuthProvider";
 
-function InputError() {
-	return <></>;
-}
+const signUpUrl = "http://localhost:8080/user/signup";
 
 function SignUp() {
-	const [allUserCredentials, setAllUserCredentials] = useState([]);
+	const navigate = useNavigate();
+	// console.log("navigate :", navigate);
+
 	const [userCredentials, setuserCredentials] = useState({
-		"full-name": "",
+		fullname: "",
+		email: "",
+		password: "",
+		"confirm-password": "",
+	});
+
+	const [error, setError] = useState({
+		fullname: "",
 		email: "",
 		password: "",
 		"confirm-password": "",
@@ -23,41 +32,90 @@ function SignUp() {
 		});
 	};
 
+	// function for password validation
+	const isPasswordValid = (password) => {
+		if (password.length <= 5) {
+			setError((prevError) => ({
+				...prevError,
+				password: "password lenght should more than 5",
+			}));
+			return false;
+		}
+
+		// special character checking
+		const specialCharacterPattern = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\|/]/;
+		if (!specialCharacterPattern.test(password)) {
+			setError((prevError) => ({
+				...prevError,
+				password: "password must contain atleast one special character",
+			}));
+			return false;
+		}
+
+		// digit checking checking
+		const digitPattern = /\d/;
+		if (!digitPattern.test(password)) {
+			setError((prevError) => ({
+				...prevError,
+				password: "password must contain atleast one digit",
+			}));
+			return false;
+		}
+
+		// alphabets checking
+		const alphabetPattern = /[a-zA-Z]/;
+		if (!alphabetPattern.test(password)) {
+			setError((prevError) => ({
+				...prevError,
+				password: "password must contain alphabets",
+			}));
+			return false;
+		}
+
+		setError((prevError) => ({ ...prevError, password: "" }));
+		return true;
+	};
+
+	// function to check validity of password and email
 	const isValidCredentials = (userCredentials) => {
 		const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-		let passwordPattern = {
-			numbers: "0123456789",
-			alphabets: "abcdefghijklmnopqrstuvwxyz",
-			specialChars: "!@#$%^&*+.,/-_",
-		};
-
-		const passwordString =
-			"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*-+=_?/.";
-
 		let isValidEmail = emailPattern.test(userCredentials["email"]);
-		// console.log("isValidEmail :", isValidEmail);
+		let isValidPassword = isPasswordValid(userCredentials["password"]);
 
-		// password = #Ayush123
-		// console.log(userCredentials["password"]);
+		if (!isValidPassword) {
+			console.log(error);
+		}
 
-		let isValidPassword =
-			userCredentials["password"].length > 6 &&
-			userCredentials["password"] === userCredentials["confirm-password"];
+		return isValidEmail &&
+			isValidPassword &&
+			userCredentials["password"] === userCredentials["confirm-password"]
+			? true
+			: false;
+	};
 
-		// console.log("isValidPassword :", isValidPassword);
+	const { signUp } = useContext(AuthContext);
 
-		isValidEmail && isValidPassword
-			? allUserCredentials.push(userCredentials)
-			: console.log("credentials are not proper");
-
-		// console.log("allUserCredentials", allUserCredentials);
+	const handleSignUp = (userCredentials) => {
+		axios
+			.post(signUpUrl, JSON.stringify(userCredentials))
+			.then((response) => {
+				console.log(typeof response.status);
+				if (response.data === "User Successfully registered.") {
+					signUp();
+					navigate("/");
+				}
+			});
 	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		isValidCredentials(userCredentials);
-		// console.table(userCredentials);
+		if (isValidCredentials(userCredentials)) {
+			console.log("credentials are proper");
+			handleSignUp(userCredentials);
+		} else {
+			console.log("credentials are not proper");
+		}
 	};
 
 	return (
@@ -71,10 +129,10 @@ function SignUp() {
 						onSubmit={handleSubmit}>
 						<input
 							type="text"
-							id="full-name"
-							value={userCredentials["full-name"]}
+							id="fullname"
+							value={userCredentials["fullname"]}
 							onChange={(e) =>
-								handleInputChange("full-name", e.target.value)
+								handleInputChange("fullname", e.target.value)
 							}
 							placeholder="full name"
 							required
@@ -119,7 +177,8 @@ function SignUp() {
 						</button>
 					</form>
 					<p>
-						Already have an account ? <span>Sign In</span>
+						Already have an account ?{" "}
+						<span onClick={() => navigate("/login")}>Sign In</span>
 					</p>
 				</div>
 				<div className="signup-poster">

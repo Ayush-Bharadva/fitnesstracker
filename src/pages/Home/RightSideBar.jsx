@@ -1,6 +1,5 @@
 import React from "react";
-import "../../../App.scss";
-import home from "../../../refrences/home.jpg";
+import "../../App.scss";
 
 function RightSideBar({ children }) {
 	return (

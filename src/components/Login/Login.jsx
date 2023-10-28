@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
 import Card from "../UI/Card";
 import "../styles/General.scss";
-import poster from "../../refrences/signup_poster.jpg";
+import poster from "../../assets/images/signup_poster.jpg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { AuthContext } from "../userContext/AuthProvider";
-
+import { AuthContext } from "../../contexts/AuthProvider";
+import { handleUserLogIn } from "../../services/fetchServices";
 const logInUrl = "http://localhost:8080/user/login";
 
 function Login() {
@@ -23,19 +23,15 @@ function Login() {
 		});
 	};
 
-	const handleLoginSubmit = (e) => {
+	const handleLoginSubmit = async (e) => {
 		e.preventDefault();
-		axios
-			.post(logInUrl, JSON.stringify(userCredentials))
-			.then((response) => {
-				console.log(response);
-				if (response.data === "Sucessfull login") {
-					logIn();
-					navigate("/");
-				}
-			})
-			.catch((error) => console.log("login error :", error));
-		console.log("userCredentials :", userCredentials);
+
+		const response = await handleUserLogIn(userCredentials);
+		console.log(response);
+		if (response === "Sucessfull login") {
+			logIn();
+			navigate("/");
+		}
 	};
 
 	return (

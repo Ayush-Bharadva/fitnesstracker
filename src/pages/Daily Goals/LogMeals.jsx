@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import meal from "../../../assets/images/meal.png";
+import meal from "../../assets/images/meal.png";
 
 function LogMeals() {
 	const [mealInfo, setMealInfo] = useState({

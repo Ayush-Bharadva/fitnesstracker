@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import ProfileMenu from "../ProfileMenu";
 import { useContext } from "react";
-import { AuthContext } from "../userContext/AuthProvider";
+import { AuthContext } from "../../contexts/AuthProvider";
 
 function Header() {
 	const { isSignedUp, isLoggedIn } = useContext(AuthContext);

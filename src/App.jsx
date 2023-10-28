@@ -17,22 +17,22 @@ import SignUp from "./components/SignUp/SignUp";
 import Login from "./components/Login/Login";
 
 const Home = lazy(() =>
-	import("./components/pages/index").then((module) => {
+	import("./pages/index").then((module) => {
 		return { default: module.Home };
 	})
 );
 const UserProfile = lazy(() =>
-	import("./components/pages/index").then((module) => {
+	import("./pages/index").then((module) => {
 		return { default: module.UserProfile };
 	})
 );
 const DailyGoals = lazy(() =>
-	import("./components/pages/index").then((module) => {
+	import("./pages/index").then((module) => {
 		return { default: module.DailyGoals };
 	})
 );
 const WeightTracking = lazy(() =>
-	import("./components/pages/index").then((module) => {
+	import("./pages/index").then((module) => {
 		return { default: module.WeightTracking };
 	})
 );

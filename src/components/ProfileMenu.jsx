@@ -5,7 +5,7 @@ import userIcon from "../assets/icons/userIcon.png";
 import settingsIcon from "../assets/icons/settingsIcon.png";
 import logoutIcon from "../assets/icons/logoutIcon.png";
 import historyIcon from "../assets/icons/historyIcon.png";
-import { AuthContext } from "./userContext/AuthProvider";
+import { AuthContext } from "../contexts/AuthProvider";
 
 const logOutUrl = "http://localhost:8080/user/logout";
 
@@ -28,11 +28,6 @@ function ProfileMenu() {
 			img: logoutIcon,
 		},
 	];
-
-	/*
-    "email":"       ayush29@gmail.com       ",
-    "password":"        a@2929          ",
-    */
 
 	const [openProfile, setOpenProfile] = useState(false);
 

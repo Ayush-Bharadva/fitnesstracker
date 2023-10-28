@@ -1,0 +1,19 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+$black: #0f0f0f;
+$dark-blue: #232d3f;
+$mid-blue: #364560;
+$light-blue: #3f5071;
+$dark-green: #005b41;
+$teal: #008170;
+$light-teal: #00b69e;
+
+.box {
+	background-color: $dark-blue;
+	color: #fff;
+	// height: 100vh;
+}

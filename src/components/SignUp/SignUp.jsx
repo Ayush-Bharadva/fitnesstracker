@@ -2,9 +2,10 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Card from "../UI/Card";
-import poster from "../../refrences/signup_poster.jpg";
+import poster from "../../assets/images/signup_poster.jpg";
 import "../styles/General.scss";
-import { AuthContext } from "../userContext/AuthProvider";
+import { AuthContext } from "../../contexts/AuthProvider";
+import { handleUserSignUp } from "../../services/fetchServices";
 
 const signUpUrl = "http://localhost:8080/user/signup";
 
@@ -96,16 +97,13 @@ function SignUp() {
 
 	const { signUp } = useContext(AuthContext);
 
-	const handleSignUp = (userCredentials) => {
-		axios
-			.post(signUpUrl, JSON.stringify(userCredentials))
-			.then((response) => {
-				console.log(typeof response.status);
-				if (response.data === "User Successfully registered.") {
-					signUp();
-					navigate("/");
-				}
-			});
+	const handleSignUp = async () => {
+		const response = await handleUserSignUp(userCredentials);
+		console.log(response);
+		if (response === "User Successfully registered.") {
+			signUp();
+			navigate("/");
+		}
 	};
 
 	const handleSubmit = (e) => {

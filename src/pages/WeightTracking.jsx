@@ -1,11 +1,13 @@
 import React from "react";
-import Main from "../UI/Main";
+// import Main from "../UI/Main";
 
 function WeightTracking() {
 	return (
-		<Main>
+		// <Main>
+		<div className="main-container flex-container">
 			<h1 className="weight-tracking">WeightTracking</h1>
-		</Main>
+		</div>
+		// {/* </Main> */}
 	);
 }
 

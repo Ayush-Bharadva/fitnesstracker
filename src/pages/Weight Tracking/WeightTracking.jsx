@@ -3,11 +3,9 @@ import React from "react";
 
 function WeightTracking() {
 	return (
-		// <Main>
-		<div className="main-container flex-container">
+		<div className="main-container flex-container main">
 			<h1 className="weight-tracking">WeightTracking</h1>
 		</div>
-		// {/* </Main> */}
 	);
 }
 

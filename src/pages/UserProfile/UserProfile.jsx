@@ -1,5 +1,5 @@
 import React from "react";
-import CreateProfile from "./UserProfile/CreateProfile";
+import CreateProfile from "./CreateProfile";
 function UserProfile() {
 	return (
 		<div className="main-container">

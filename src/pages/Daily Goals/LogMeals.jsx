@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 import meal from "../../assets/images/meal.png";
 
-function LogMeals() {
+const initialValue = {
+	mealType: "",
+	ingredients: "",
+	caloriesConsumed: "",
+};
+
+function LogMeals({ addMeals }) {
 	const [mealInfo, setMealInfo] = useState({
-		"meal-type": "",
-		"meal-calories": "",
+		mealType: "",
+		ingredients: "",
+		caloriesConsumed: "",
 	});
 
 	const handleInputChange = (input, value) => {
@@ -13,7 +20,12 @@ function LogMeals() {
 
 	const handleMealSubmit = (e) => {
 		e.preventDefault();
+		addMeals(mealInfo);
 		console.log("mealInfo :", mealInfo);
+	};
+
+	const hadleAddAnotherMeal = () => {
+		setMealInfo(initialValue);
 	};
 
 	return (
@@ -25,30 +37,47 @@ function LogMeals() {
 						<select
 							name="meals"
 							id="meal"
-							value={mealInfo["meal-type"]}
+							value={mealInfo["mealType"]}
 							onChange={(e) =>
-								handleInputChange("meal-type", e.target.value)
-							}>
+								handleInputChange("mealType", e.target.value)
+							}
+							required>
 							<option value="">select meals type</option>
 							<option value="breakfast">breakfast</option>
 							<option value="lunch">lunch</option>
 							<option value="dinner">dinner</option>
+							<option value="dinner">snack</option>
 						</select>
+					</div>
+					<div className="field">
+						<label htmlFor="ingredients">Ingredients</label>
+						<input
+							type="text"
+							id="ingredients"
+							name="ingredients"
+							value={mealInfo["ingredients"]}
+							onChange={(e) =>
+								handleInputChange("ingredients", e.target.value)
+							}
+							placeholder="meal ingredients"
+							required
+						/>
 					</div>
 					<div className="field">
 						<label htmlFor="calories">calories</label>
 						<input
 							type="number"
 							id="calories"
-							name="meal-calories"
-							value={mealInfo["meal-calories"]}
+							name="caloriesConsumed"
+							value={mealInfo["caloriesConsumed"]}
 							onChange={(e) =>
 								handleInputChange(
-									"meal-calories",
+									"caloriesConsumed",
 									e.target.value
 								)
 							}
 							placeholder="estimated calories"
+							required
 						/>
 					</div>
 					<button type="submit">Log meal</button>
@@ -56,7 +85,7 @@ function LogMeals() {
 				<button
 					className="btn"
 					disabled={false}
-					onClick={() => console.log("add another meal clicked")}>
+					onClick={hadleAddAnotherMeal}>
 					Add another meal
 				</button>
 			</div>

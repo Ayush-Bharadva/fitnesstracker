@@ -1,12 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import training from "../../assets/images/training.jpg";
 
-function LogExercise() {
+function LogExercise({ addExercise }) {
 	const [exerciseInfo, setExerciseInfo] = useState({
-		"exercise-type": "",
-		"exercise-duration": "",
-		"burned-calories": "",
+		exerciseType: "",
+		duration: "",
+		caloriesBurned: "",
 	});
+
+	// useEffect(() => {
+	// 	if (editExercise) {
+	// 		setExerciseInfo({
+	// 			exerciseType: editExercise["exerciseType"],
+	// 			duration: editExercise["duration"],
+	// 			caloriesBurned: editExercise["caloriesBurned"],
+	// 		});
+	// 	}
+	// }, [editExercise]);
 
 	const handleInputChange = (input, value) => {
 		setExerciseInfo((prevInfo) => ({ ...prevInfo, [input]: value }));
@@ -14,7 +24,7 @@ function LogExercise() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log("exerciseInfo :", exerciseInfo);
+		addExercise(exerciseInfo);
 	};
 	return (
 		<>
@@ -30,13 +40,14 @@ function LogExercise() {
 							<select
 								name="exercise"
 								id="exercise"
-								value={exerciseInfo["exercise-type"]}
+								value={exerciseInfo["exerciseType"]}
 								onChange={(e) =>
 									handleInputChange(
-										"exercise-type",
+										"exerciseType",
 										e.target.value
 									)
 								}
+								required
 								placeholder="select exercise type">
 								<option value="">select exercise type</option>
 								<option value="walking">walking</option>
@@ -54,14 +65,15 @@ function LogExercise() {
 								type="number"
 								id="duration"
 								name="duration"
-								value={exerciseInfo["exercise-duration"]}
+								value={exerciseInfo["duration"]}
 								onChange={(e) =>
 									handleInputChange(
-										"exercise-duration",
+										"duration",
 										e.target.value
 									)
 								}
 								placeholder="exercise duration (in min)"
+								required
 							/>
 						</div>
 						<div className="field">
@@ -70,14 +82,15 @@ function LogExercise() {
 								type="number"
 								id="calories"
 								name="calories"
-								value={exerciseInfo["burned-calories"]}
+								value={exerciseInfo["caloriesBurned"]}
 								onChange={(e) =>
 									handleInputChange(
-										"burned-calories",
+										"caloriesBurned",
 										e.target.value
 									)
 								}
 								placeholder="enter calories burned (approx)"
+								required
 							/>
 						</div>
 						<button type="submit">Log Exercise</button>

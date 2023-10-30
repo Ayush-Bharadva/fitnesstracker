@@ -1,0 +1,62 @@
+// Theme variables:
+$black: #0f0f0f;
+$dark-blue: #232d3f;
+$mid-blue: #364560;
+$light-blue: #3f5071;
+$sky-blue: #87ceeb;
+$dark-green: #005b41;
+$teal: #008170;
+$light-teal: #00b69e;
+
+.record-tracker {
+	border: 2px solid $light-teal;
+	width: 100%;
+	gap: 1rem;
+	border-radius: 7px;
+	// align-items: center;
+	.empty-record {
+		text-align: center;
+		flex: 1 0 50%;
+	}
+}
+
+.records-container {
+	background-color: $sky-blue;
+	width: 100%;
+	gap: 1rem;
+	color: #fff;
+	padding: 1rem;
+	border-radius: 7px;
+
+	.exercise-records,
+	.meal-records {
+		background-color: $light-blue;
+		flex: 1;
+		flex-basis: 50%;
+		padding: 0.5rem;
+		border-radius: 7px;
+		gap: 1rem;
+	}
+	.record {
+		background-color: $light-teal;
+		padding: 0.75rem;
+		flex-wrap: wrap;
+		.info {
+			p {
+				border: 2px solid white;
+				padding: 0.5rem;
+			}
+			align-items: center;
+			flex: 1;
+			gap: 1rem;
+		}
+		.actions {
+			.edit-btn,
+			.delete-btn {
+				padding: 0.5rem 1rem;
+				font-size: 1rem;
+				margin: 0.2rem;
+			}
+		}
+	}
+}

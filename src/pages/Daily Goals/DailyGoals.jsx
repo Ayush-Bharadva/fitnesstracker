@@ -6,7 +6,6 @@ import RecordTracker from "./RecordTracker";
 function DailyGoals() {
 	const [userExerciseRecords, setUserExerciseRecords] = useState([]);
 	const [mealRecords, setMealRecords] = useState([]);
-	const [editExercise, setEditExercise] = useState({});
 
 	const addExercise = (exerciseInfo) => {
 		setUserExerciseRecords([...userExerciseRecords, exerciseInfo]);
@@ -42,15 +41,11 @@ function DailyGoals() {
 
 	return (
 		<div className="main-container flex-container">
-			<LogExercise
-				addExercise={addExercise}
-				editExercise={editExercise}
-			/>
+			<LogExercise addExercise={addExercise} />
 
 			<RecordTracker
 				exerciseRecords={userExerciseRecords}
 				deleteExercise={deleteExercise}
-				editExercise={handleEditExercise}
 				mealRecords={mealRecords}
 				deleteMeal={deleteMeal}
 			/>

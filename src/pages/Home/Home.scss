@@ -1,0 +1,61 @@
+// Theme variables:
+$black: #0f0f0f;
+$dark-blue: #232d3f;
+$mid-blue: #364560;
+$light-blue: #3f5071;
+$sky-blue: #87ceeb;
+$dark-green: #005b41;
+$teal: #008170;
+$light-teal: #00b69e;
+
+// new homepage styles
+.home-container {
+	height: 100vh;
+	width: 100%;
+	align-items: center;
+	justify-content: space-around;
+	gap: 1rem;
+	padding: 1rem;
+
+	.sidebar {
+		background-color: #ddd;
+		height: 100%;
+		border-radius: 7px;
+		padding: 1rem;
+		text-align: center;
+	}
+
+	.left {
+		flex: 1 0 20%;
+	}
+
+	.right {
+		flex: 1 0 80%;
+		padding: 1rem;
+		gap: 1rem;
+	}
+}
+
+// day-wise-records styles
+.day-wise-record {
+	background-color: $light-blue;
+	color: #fff;
+	padding: 1rem;
+	margin: 1.5rem 0;
+	border-radius: 7px;
+	justify-content: space-between;
+}
+
+.activity-tracker {
+	gap: 1rem;
+	height: 100%;
+}
+
+.home-record {
+	background-color: #eee;
+	border-radius: 7px;
+	gap: 1rem;
+	p {
+		margin: 0.5rem 0;
+	}
+}

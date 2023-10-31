@@ -15,5 +15,45 @@ $light-teal: #00b69e;
 .box {
 	background-color: $dark-blue;
 	color: #fff;
-	// height: 100vh;
+}
+
+.image-dropzone {
+	justify-content: center;
+	align-items: center;
+	border-radius: 7px;
+	border: 2px dashed skyblue;
+	height: 200px;
+	padding: 1rem;
+
+	p {
+		font-weight: bold;
+		width: 100%;
+		text-align: center;
+		padding: 1rem;
+	}
+}
+
+.profile-img {
+	height: 100px;
+	width: 100px;
+	border-radius: 50%;
+	overflow: hidden;
+	img {
+		height: 100%;
+		width: 100%;
+		object-fit: cover;
+	}
+	.preview-text {
+		color: #fff;
+	}
+}
+
+.remove-img-btn {
+	padding: 0.2rem 0.4rem;
+	background-color: $light-teal;
+	color: #fff;
+	align-self: flex-end;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
 }

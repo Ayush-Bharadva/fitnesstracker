@@ -1,0 +1,27 @@
+// Theme variables:
+$black: #0f0f0f;
+$dark-blue: #232d3f;
+$mid-blue: #364560;
+$light-blue: #3f5071;
+$sky-blue: #87ceeb;
+$dark-green: #005b41;
+$teal: #008170;
+$light-teal: #00b69e;
+
+// common css classes
+.flex {
+	display: flex;
+}
+
+.fles-column {
+	display: flex;
+	flex-direction: column;
+}
+
+.record-tile {
+	padding: 0.5rem;
+	// background-color: $teal;
+	height: 100%;
+	border-radius: 7px;
+	border: 2px solid $light-teal;
+}

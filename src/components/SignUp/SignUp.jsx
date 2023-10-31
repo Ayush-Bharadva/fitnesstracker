@@ -5,9 +5,7 @@ import Card from "../UI/Card";
 import poster from "../../assets/images/signup_poster.jpg";
 import "../styles/General.scss";
 import { AuthContext } from "../../contexts/AuthProvider";
-import { handleUserSignUp } from "../../services/fetchServices";
-
-const signUpUrl = "http://localhost:8080/user/signup";
+import { userSignUpService } from "../../services/services";
 
 function SignUp() {
 	const navigate = useNavigate();
@@ -98,9 +96,10 @@ function SignUp() {
 	const { signUp } = useContext(AuthContext);
 
 	const handleSignUp = async () => {
-		const response = await handleUserSignUp(userCredentials);
+		const response = await userSignUpService(userCredentials);
 		console.log(response);
-		if (response === "User Successfully registered.") {
+		console.log(response.status);
+		if (response.data === "User Successfully registered.") {
 			signUp();
 			navigate("/");
 		}
@@ -176,7 +175,7 @@ function SignUp() {
 					</form>
 					<p>
 						Already have an account ?{" "}
-						<span onClick={() => navigate("/login")}>Sign In</span>
+						<span onClick={() => navigate("/login")}>Log In</span>
 					</p>
 				</div>
 				<div className="signup-poster">

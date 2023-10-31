@@ -1,9 +1,17 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../../components/UI/Card";
 import exercise from "../../assets/images/exercise.jpg";
-import { createUserProfile } from "../../services/fetchServices";
+import { createUserProfileService } from "../../services/services";
+import "./UserProfile.scss";
+import "../../common.scss";
+import { useDropzone } from "react-dropzone";
+import { AuthContext } from "../../contexts/AuthProvider";
+import { useContext } from "react";
 
 function CreateProfile() {
+	const { isLoggedIn, isSignedUp } = useContext(AuthContext);
+	console.log(isLoggedIn);
+
 	const [userInfo, setUserInfo] = useState({
 		profilePhoto: null,
 		fullName: "",
@@ -13,18 +21,6 @@ function CreateProfile() {
 		weight: "",
 		healthGoal: "",
 	});
-	const [imageUrl, setImageUrl] = useState(null);
-	const inputRef = useRef(null);
-
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		const response = await createUserProfile(userInfo);
-		console.log(response);
-		// if (response) {
-
-		// }
-		console.log(userInfo);
-	};
 
 	const handleInputChange = (input, value) => {
 		setUserInfo((preValue) => {
@@ -32,30 +28,46 @@ function CreateProfile() {
 		});
 	};
 
-	const handleDragOver = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		// console.log(e, "drag over ");
-	};
-
-	const handleDrop = (e) => {
-		e.preventDefault();
-		// console.log(e.dataTransfer.files);
-
-		const droppedFile = e.dataTransfer.files[0];
-		if (droppedFile && droppedFile.type.startsWith("image/")) {
-			const imageUrl = URL.createObjectURL(droppedFile);
-
-			// console.log("imageUrl :", imageUrl);
-			handleInputChange("profilePhoto", imageUrl);
-			setImageUrl(imageUrl);
-			// console.log(userInfo);
+		console.log(userInfo);
+		console.log("isLoggedIn :", isLoggedIn);
+		console.log("isSignedUp :", isSignedUp);
+		// for (const key in userInfo) {
+		// 	console.log(typeof userInfo[key], userInfo[key]);
+		// }
+		if (isLoggedIn || isSignedUp) {
+			const response = await createUserProfileService(userInfo);
+			console.log(response);
+		} else {
+			console.log("Please Login/SignUp First");
 		}
 	};
 
-	const handleSelectClick = (e) => {
+	const handleRemoveImage = (e) => {
 		e.preventDefault();
-		inputRef.current.click();
+		setImageUrl("");
 	};
+
+	const [imageUrl, setImageUrl] = useState(null);
+
+	const handleDrop = (acceptedFiles) => {
+		console.log(acceptedFiles);
+		console.log("drop occured");
+		console.log(URL.createObjectURL(acceptedFiles[0]));
+		setImageUrl(URL.createObjectURL(acceptedFiles[0]));
+	};
+
+	useEffect(() => {
+		handleInputChange("profilePhoto", imageUrl);
+		console.log(userInfo);
+	}, [imageUrl]);
+
+	// console.log("imageUrl :", imageUrl);
+
+	const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+		onDrop: handleDrop,
+	});
 
 	return (
 		<div className="user-profile">
@@ -71,40 +83,30 @@ function CreateProfile() {
 						onSubmit={handleSubmit}>
 						<div className="field">
 							<div
-								className="image-dropzone"
-								onDragOver={handleDragOver}
-								onDrop={handleDrop}>
-								<button className="remove-img-btn">
-									remove image
-								</button>
-								{!imageUrl && (
+								{...getRootProps({
+									className:
+										"dropzone image-dropzone flex-column",
+								})}>
+								<input {...getInputProps()} />
+								{imageUrl ? (
 									<>
-										<p>Drag n Drop your profile here</p>
-										<p>or</p>
-										<input
-											type="file"
-											style={{ display: "none" }}
-											ref={inputRef}
-											hidden
-										/>
 										<button
-											className="select-image-button"
-											onClick={handleSelectClick}>
-											select
+											className="remove-img-btn"
+											onClick={handleRemoveImage}>
+											remove image
 										</button>
-									</>
-								)}
-								{imageUrl && (
-									<>
-										<div className="dropped-image-container">
-											<img
-												className="dropped-image"
-												src={imageUrl}
-												alt="dropped image"
-											/>
+										<div className="profile-img">
+											<img src={imageUrl} alt="" />
 										</div>
-										<p>profile preview</p>
+										<p className="preview-text">
+											profile preview
+										</p>
 									</>
+								) : (
+									<p>
+										Drag 'n' drop profile here, or click to
+										select files
+									</p>
 								)}
 							</div>
 						</div>
@@ -169,7 +171,10 @@ function CreateProfile() {
 									id="age"
 									value={userInfo["age"]}
 									onChange={(e) =>
-										handleInputChange("age", e.target.value)
+										handleInputChange(
+											"age",
+											Number(e.target.value)
+										)
 									}
 									placeholder="age"
 									min="5"
@@ -185,7 +190,7 @@ function CreateProfile() {
 									onChange={(e) =>
 										handleInputChange(
 											"height",
-											e.target.value
+											Number(e.target.value)
 										)
 									}
 									placeholder="height (cm)"
@@ -200,7 +205,7 @@ function CreateProfile() {
 									onChange={(e) =>
 										handleInputChange(
 											"weight",
-											e.target.value
+											Number(e.target.value)
 										)
 									}
 									placeholder="weight (kg)"

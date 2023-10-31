@@ -3,10 +3,8 @@ import Card from "../UI/Card";
 import "../styles/General.scss";
 import poster from "../../assets/images/signup_poster.jpg";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { AuthContext } from "../../contexts/AuthProvider";
-import { handleUserLogIn } from "../../services/fetchServices";
-const logInUrl = "http://localhost:8080/user/login";
+import { userLogInService } from "../../services/services";
 
 function Login() {
 	const navigate = useNavigate();
@@ -26,9 +24,10 @@ function Login() {
 	const handleLoginSubmit = async (e) => {
 		e.preventDefault();
 
-		const response = await handleUserLogIn(userCredentials);
+		const response = await userLogInService(userCredentials);
+		console.log(response.status);
 		console.log(response);
-		if (response === "Sucessfull login") {
+		if (response.data === "Successfull login") {
 			logIn();
 			navigate("/");
 		}

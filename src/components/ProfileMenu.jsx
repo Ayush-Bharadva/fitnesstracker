@@ -6,6 +6,7 @@ import settingsIcon from "../assets/icons/settingsIcon.png";
 import logoutIcon from "../assets/icons/logoutIcon.png";
 import historyIcon from "../assets/icons/historyIcon.png";
 import { AuthContext } from "../contexts/AuthProvider";
+import { FaRegCircleUser } from "react-icons/fa6";
 
 const logOutUrl = "http://localhost:8080/user/logout";
 

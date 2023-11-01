@@ -5,7 +5,11 @@ function ExerciseOfDay({ day }) {
 	return (
 		<div className="main-container home-record flex-column">
 			<p>Exercise @ : {day}</p>
-			<RecordTile />
+			<RecordTile>
+				<p>Exercise Type :</p>
+				<p>Exercise Duration :</p>
+				<p>Calories Burned :</p>
+			</RecordTile>
 		</div>
 	);
 }

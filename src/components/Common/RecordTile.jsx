@@ -1,14 +1,8 @@
 import React from "react";
 import "../../common.scss";
 
-function RecordTile() {
-	return (
-		<div className="record-tile">
-			<p>Exercise type</p>
-			<p>Exercise duration</p>
-			<p>calories burned</p>
-		</div>
-	);
+function RecordTile({ children }) {
+	return <div className="record-tile">{children}</div>;
 }
 
 export default RecordTile;

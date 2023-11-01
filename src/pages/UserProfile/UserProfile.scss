@@ -12,11 +12,6 @@ $dark-green: #005b41;
 $teal: #008170;
 $light-teal: #00b69e;
 
-.box {
-	background-color: $dark-blue;
-	color: #fff;
-}
-
 .image-dropzone {
 	justify-content: center;
 	align-items: center;
@@ -56,4 +51,39 @@ $light-teal: #00b69e;
 	border: none;
 	border-radius: 10px;
 	cursor: pointer;
+}
+
+// view profile styles
+.view-profile {
+	background-color: $dark-green;
+	color: #fff;
+}
+
+.profile-info {
+	gap: 1rem;
+	align-items: center;
+
+	.profile-img-container {
+		height: 150px;
+		width: 150px;
+		border-radius: 50%;
+		overflow: hidden;
+		img {
+			height: 100%;
+			width: 100%;
+			object-fit: cover;
+		}
+	}
+
+	.profile-info-container {
+		background-color: $light-blue;
+		flex: 1 0;
+		padding: 0.5rem;
+		p {
+			padding: 1rem;
+			margin: 1rem 0;
+			border: 2px solid white;
+			font-weight: bold;
+		}
+	}
 }

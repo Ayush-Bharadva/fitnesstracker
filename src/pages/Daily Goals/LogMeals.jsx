@@ -33,7 +33,7 @@ function LogMeals({ addMeals }) {
 			<div className="log-meals-form">
 				<form action="" onSubmit={handleMealSubmit}>
 					<div className="field">
-						<label htmlFor="meal">meal type</label>
+						<label htmlFor="meal">Meal Type</label>
 						<select
 							name="meals"
 							id="meal"
@@ -42,11 +42,11 @@ function LogMeals({ addMeals }) {
 								handleInputChange("mealType", e.target.value)
 							}
 							required>
-							<option value="">select meals type</option>
-							<option value="breakfast">breakfast</option>
-							<option value="lunch">lunch</option>
-							<option value="dinner">dinner</option>
-							<option value="dinner">snack</option>
+							<option value="">Select meals type</option>
+							<option value="breakfast">Breakfast</option>
+							<option value="lunch">Lunch</option>
+							<option value="dinner">Dinner</option>
+							<option value="snacks">Snacks</option>
 						</select>
 					</div>
 					<div className="field">
@@ -64,7 +64,7 @@ function LogMeals({ addMeals }) {
 						/>
 					</div>
 					<div className="field">
-						<label htmlFor="calories">calories</label>
+						<label htmlFor="calories">Calories</label>
 						<input
 							type="number"
 							id="calories"

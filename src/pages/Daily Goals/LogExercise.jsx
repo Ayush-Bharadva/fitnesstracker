@@ -49,18 +49,18 @@ function LogExercise({ addExercise }) {
 								}
 								required
 								placeholder="select exercise type">
-								<option value="">select exercise type</option>
-								<option value="walking">walking</option>
-								<option value="running">running</option>
+								<option value="">Select exercise type</option>
+								<option value="walking">Walking</option>
+								<option value="running">Running</option>
 								<option value="weight-lifting">
-									weight lifting
+									Weight lifting
 								</option>
-								<option value="gym">gym</option>
-								<option value="yoga">yoga</option>
+								<option value="gym">Gym</option>
+								<option value="yoga">Yoga</option>
 							</select>
 						</div>
 						<div className="field">
-							<label htmlFor="duration">duration</label>
+							<label htmlFor="duration">Duration</label>
 							<input
 								type="number"
 								id="duration"
@@ -77,7 +77,7 @@ function LogExercise({ addExercise }) {
 							/>
 						</div>
 						<div className="field">
-							<label htmlFor="calories">calories burned</label>
+							<label htmlFor="calories">Calories Burned</label>
 							<input
 								type="number"
 								id="calories"

@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import ProfileMenu from "../ProfileMenu";
+import ProfileMenu from "../Common/ProfileMenu";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthProvider";
 

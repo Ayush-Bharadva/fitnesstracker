@@ -3,14 +3,13 @@ import Card from "../../components/UI/Card";
 import exercise from "../../assets/images/exercise.jpg";
 import { createUserProfileService } from "../../services/services";
 import "./UserProfile.scss";
-import "../../common.scss";
+import "../../components/Common/common.scss";
 import { useDropzone } from "react-dropzone";
 import { AuthContext } from "../../contexts/AuthProvider";
 import { useContext } from "react";
 
-function CreateProfile() {
+function CreateProfile({ setUserProfileInfo, setIsProfileCreated }) {
 	const { isLoggedIn, isSignedUp } = useContext(AuthContext);
-	console.log(isLoggedIn);
 
 	const [userInfo, setUserInfo] = useState({
 		profilePhoto: null,
@@ -33,12 +32,12 @@ function CreateProfile() {
 		console.log(userInfo);
 		console.log("isLoggedIn :", isLoggedIn);
 		console.log("isSignedUp :", isSignedUp);
-		// for (const key in userInfo) {
-		// 	console.log(typeof userInfo[key], userInfo[key]);
-		// }
+
 		if (isLoggedIn || isSignedUp) {
 			const response = await createUserProfileService(userInfo);
 			console.log(response);
+			setUserProfileInfo(userInfo);
+			// setIsProfileCreated(true);
 		} else {
 			console.log("Please Login/SignUp First");
 		}
@@ -47,6 +46,7 @@ function CreateProfile() {
 	const handleRemoveImage = (e) => {
 		e.preventDefault();
 		setImageUrl("");
+		e.stopPropagation();
 	};
 
 	const [imageUrl, setImageUrl] = useState(null);

@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import Card from "../UI/Card";
 import poster from "../../assets/images/signup_poster.jpg";
 import "../styles/General.scss";
@@ -99,7 +98,9 @@ function SignUp() {
 		const response = await userSignUpService(userCredentials);
 		console.log(response);
 		console.log(response.status);
-		if (response.data === "User Successfully registered.") {
+		if (
+			response.data === "Successfull loginUser Successfully registered."
+		) {
 			signUp();
 			navigate("/");
 		}

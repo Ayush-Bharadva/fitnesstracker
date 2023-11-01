@@ -4,7 +4,7 @@ import RecordTile from "../../components/Common/RecordTile";
 function ExerciseOfDay({ day }) {
 	return (
 		<div className="main-container home-record flex-column">
-			<p>Exercise @ : {day}</p>
+			<p>Exercise At : {day}</p>
 			<RecordTile>
 				<p>Exercise Type :</p>
 				<p>Exercise Duration :</p>

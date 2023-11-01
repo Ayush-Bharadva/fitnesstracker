@@ -13,15 +13,13 @@ $light-teal: #00b69e;
 	display: flex;
 }
 
-.fles-column {
+.flex-column {
 	display: flex;
 	flex-direction: column;
 }
 
 .record-tile {
 	padding: 0.5rem;
-	// background-color: $teal;
-	// height: 100%;
 	border-radius: 7px;
 	border: 2px solid $light-teal;
 	p {
@@ -32,5 +30,33 @@ $light-teal: #00b69e;
 		border-radius: 7px;
 		margin: 1.5rem 0;
 		font-weight: bold;
+	}
+}
+
+.profile-icon {
+	font-size: 2rem;
+}
+
+.dropdown-button {
+	padding: 0.5rem 1rem;
+	font-size: 1rem;
+	border-radius: 7px;
+}
+
+.dropdown {
+	background-color: #ddd;
+	color: #333;
+	border-radius: 7px;
+	text-align: center;
+	.dropdown-items {
+		list-style-type: none;
+		padding: 0.5rem;
+
+		.dropdown-item {
+			border-radius: 5px;
+		}
+		.dropdown-item:hover {
+			background-color: skyblue;
+		}
 	}
 }

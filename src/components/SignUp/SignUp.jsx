@@ -97,12 +97,15 @@ function SignUp() {
 	const handleSignUp = async () => {
 		const response = await userSignUpService(userCredentials);
 		console.log(response);
-		console.log(response.status);
-		if (
-			response.data === "Successfull loginUser Successfully registered."
-		) {
+		if (response.code === 409) {
+			console.log("email id already registered");
+		} else if (response.status === 200) {
+			const tokenId = response.data.userId;
+			console.log("tokenId :", tokenId);
+			document.cookie = `tokenId=${tokenId}`;
 			signUp();
 			navigate("/");
+			console.log("signup successful");
 		}
 	};
 

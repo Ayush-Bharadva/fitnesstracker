@@ -15,10 +15,16 @@ export async function userSignUpService(userCredentials) {
 		const response = await axios.post(
 			signUpUrl,
 			JSON.stringify(userCredentials)
+			// { withCredentials: true }
 		);
+		console.log("services response :", response);
 		return response;
 	} catch (error) {
-		console.log("SignUp error :", error);
+		console.log(
+			"SignUp error, error.response.data :",
+			error.response.data.code
+		);
+		return error.response.data;
 	}
 }
 
@@ -46,13 +52,18 @@ export async function userLogOutService() {
 }
 
 // CreateProfile
-export async function createUserProfileService(userInfo) {
+export async function createUserProfileService(userInfo, tokenId) {
 	try {
+		const headers = {
+			Authorization: tokenId,
+		};
+
 		console.log(userInfo);
-		const response = await axios.get(
+		const response = await axios.post(
 			createUserUrl,
-			JSON.stringify(userInfo),
-			{ withCredentials: true }
+			userInfo,
+			{ headers: headers }
+			// { withCredentials: true }
 		);
 		return response;
 	} catch (error) {

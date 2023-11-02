@@ -6,7 +6,7 @@ function UserProfile() {
 	const [userProfileInfo, setUserProfileInfo] = useState({});
 
 	return (
-		<div className="main-container">
+		<div className="home-container">
 			{!isProfileCreated ? (
 				<CreateProfile
 					setUserProfileInfo={setUserProfileInfo}

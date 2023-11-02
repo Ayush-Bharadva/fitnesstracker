@@ -7,12 +7,6 @@ import {
 	createRoutesFromElements,
 } from "react-router-dom";
 import Layout from "./Layout";
-// import {
-// 	Home,
-// 	UserProfile,
-// 	DailyGoals,
-// 	WeightTracking,
-// } from "./components/pages/index";
 import SignUp from "./components/SignUp/SignUp";
 import Login from "./components/Login/Login";
 

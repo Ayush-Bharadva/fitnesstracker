@@ -8,12 +8,22 @@ $dark-green: #005b41;
 $teal: #008170;
 $light-teal: #00b69e;
 
+// .left-sidebar {
+// 	height: 100%;
+// }
+// .right-sidebar {
+// 	height: 100%;
+// }
+
 // new homepage styles
 .home-container {
-	height: 100vh;
+	height: calc(100vh - 137px);
+	position: relative;
 	width: 100%;
 	align-items: center;
 	justify-content: space-around;
+	flex-wrap: wrap;
+	align-content: center;
 	gap: 1rem;
 	padding: 1rem;
 
@@ -30,7 +40,7 @@ $light-teal: #00b69e;
 	}
 
 	.right {
-		flex: 1 0 80%;
+		flex: 1 0 75%;
 		padding: 1rem;
 		gap: 1rem;
 	}
@@ -56,6 +66,7 @@ $light-teal: #00b69e;
 	border-radius: 7px;
 	gap: 1rem;
 	p {
+		font-weight: bold;
 		margin: 0.5rem 0;
 	}
 }

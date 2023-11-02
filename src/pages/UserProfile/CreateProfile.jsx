@@ -34,10 +34,17 @@ function CreateProfile({ setUserProfileInfo, setIsProfileCreated }) {
 		console.log("isSignedUp :", isSignedUp);
 
 		if (isLoggedIn || isSignedUp) {
-			const response = await createUserProfileService(userInfo);
+			const tokenId = document.cookie.split("=");
+			console.log(tokenId[1]);
+			// console.log(tokenId, typeof tokenId);
+			const response = await createUserProfileService(
+				userInfo,
+				tokenId[1]
+			);
 			console.log(response);
 			setUserProfileInfo(userInfo);
-			// setIsProfileCreated(true);
+			setIsProfileCreated(true);
+			console.log("User profile created successfully");
 		} else {
 			console.log("Please Login/SignUp First");
 		}

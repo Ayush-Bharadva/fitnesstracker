@@ -3,8 +3,8 @@ import React from "react";
 
 function WeightTracking() {
 	return (
-		<div className="main-container flex-container main">
-			<h1 className="weight-tracking">WeightTracking</h1>
+		<div className="home-container flex">
+			<h1 className="weight-tracking text-center">WeightTracking</h1>
 		</div>
 	);
 }

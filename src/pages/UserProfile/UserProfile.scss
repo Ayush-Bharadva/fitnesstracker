@@ -55,35 +55,33 @@ $light-teal: #00b69e;
 
 // view profile styles
 .view-profile {
-	background-color: $dark-green;
-	color: #fff;
+	background-color: #ddd;
+	color: #333;
+	border-radius: 7px;
 }
 
 .profile-info {
 	gap: 1rem;
-	align-items: center;
+	align-items: flex-start;
 
 	.profile-img-container {
 		height: 150px;
 		width: 150px;
-		border-radius: 50%;
-		overflow: hidden;
+		// overflow: hidden;
 		img {
+			border-radius: 50%;
 			height: 100%;
 			width: 100%;
 			object-fit: cover;
 		}
 	}
 
-	.profile-info-container {
-		background-color: $light-blue;
-		flex: 1 0;
-		padding: 0.5rem;
-		p {
-			padding: 1rem;
-			margin: 1rem 0;
-			border: 2px solid white;
-			font-weight: bold;
-		}
+	p {
+		padding: 1rem;
+		margin: 1rem 0;
+		border: 2px solid white;
+		font-weight: bold;
+		color: #fff;
+		flex: 1;
 	}
 }

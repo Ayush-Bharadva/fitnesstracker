@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import LogExercise from "./LogExercise";
 import LogMeals from "./LogMeals";
 import RecordTracker from "./RecordTracker";
+import "../../global.scss";
 
 function DailyGoals() {
 	const [userExerciseRecords, setUserExerciseRecords] = useState([]);
@@ -40,7 +41,7 @@ function DailyGoals() {
 	};
 
 	return (
-		<div className="main-container flex-container">
+		<div className="home-container">
 			<LogExercise addExercise={addExercise} />
 
 			<RecordTracker

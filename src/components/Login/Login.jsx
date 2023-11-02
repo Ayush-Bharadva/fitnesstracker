@@ -27,7 +27,7 @@ function Login() {
 		const response = await userLogInService(userCredentials);
 		console.log(response.status);
 		console.log(response);
-		if (response.data === "Successfull login") {
+		if (response.status === 200) {
 			logIn();
 			navigate("/");
 		}

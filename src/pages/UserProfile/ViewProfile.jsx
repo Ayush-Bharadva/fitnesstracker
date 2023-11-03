@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Card from "../../components/UI/Card";
+import Card from "../../components/Common/Card";
 import "./UserProfile.scss";
 import "../../global.scss";
 
@@ -9,7 +9,7 @@ function ViewProfile({ userProfileInfo }) {
 
 	return (
 		<div className="full-width full-height view-profile padding-1 home-container">
-			<h2 className="text-center margin-1">Your Profile</h2>
+			<h2 className="text-center margin-y-1">Your Profile</h2>
 			<div className="profile-info flex padding-1 full-height">
 				<div className="flex-column gap-1 flex-50">
 					<div className="flex bg-grey gap-1 rounded-border padding-1">
@@ -20,8 +20,8 @@ function ViewProfile({ userProfileInfo }) {
 									alt="profile image"
 								/>
 							</div>
-							<h3 className="text-center margin-1 text-white">
-								Your profile
+							<h3 className="text-center margin-y-1 text-white">
+								profile
 							</h3>
 						</div>
 						<p className="">Full Name :</p>

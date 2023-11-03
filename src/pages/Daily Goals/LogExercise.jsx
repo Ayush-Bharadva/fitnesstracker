@@ -1,29 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import training from "../../assets/images/training.jpg";
+import { AuthContext } from "../../contexts/AuthProvider";
+import { getCookie } from "../../services/helper";
+import { addExerciseService } from "../../services/services";
 
 function LogExercise({ addExercise }) {
+	const { logInStatus } = useContext(AuthContext);
+
 	const [exerciseInfo, setExerciseInfo] = useState({
 		exerciseType: "",
 		duration: "",
 		caloriesBurned: "",
 	});
 
-	// useEffect(() => {
-	// 	if (editExercise) {
-	// 		setExerciseInfo({
-	// 			exerciseType: editExercise["exerciseType"],
-	// 			duration: editExercise["duration"],
-	// 			caloriesBurned: editExercise["caloriesBurned"],
-	// 		});
-	// 	}
-	// }, [editExercise]);
-
 	const handleInputChange = (input, value) => {
 		setExerciseInfo((prevInfo) => ({ ...prevInfo, [input]: value }));
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
+		console.log(exerciseInfo);
+		console.log(logInStatus);
+
+		if (logInStatus) {
+			const response = await addExerciseService(exerciseInfo);
+			console.log(response);
+			if (response.status === 200) {
+				console.log("meals added successfully");
+			}
+			return response;
+		}
 		addExercise(exerciseInfo);
 	};
 	return (
@@ -50,9 +56,9 @@ function LogExercise({ addExercise }) {
 								required
 								placeholder="select exercise type">
 								<option value="">Select exercise type</option>
-								<option value="walking">Walking</option>
-								<option value="running">Running</option>
-								<option value="weight-lifting">
+								<option value="Walking">Walking</option>
+								<option value="Running">Running</option>
+								<option value="Weight_lifting">
 									Weight lifting
 								</option>
 								<option value="gym">Gym</option>
@@ -69,7 +75,7 @@ function LogExercise({ addExercise }) {
 								onChange={(e) =>
 									handleInputChange(
 										"duration",
-										e.target.value
+										Number(e.target.value)
 									)
 								}
 								placeholder="exercise duration (in min)"
@@ -86,7 +92,7 @@ function LogExercise({ addExercise }) {
 								onChange={(e) =>
 									handleInputChange(
 										"caloriesBurned",
-										e.target.value
+										Number(e.target.value)
 									)
 								}
 								placeholder="enter calories burned (approx)"

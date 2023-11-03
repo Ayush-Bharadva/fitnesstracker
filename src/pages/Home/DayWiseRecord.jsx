@@ -6,7 +6,7 @@ import { FiChevronRight } from "react-icons/fi";
 function DayWiseRecord({ totalDays, handleDayClick }) {
 	return (
 		<div className="full-height overflow-auto">
-			<h2>Daily Records</h2>
+			<h2 className="text-left margin-y-1">Daily Records</h2>
 			{totalDays.map((day, index) => (
 				<div
 					key={index}

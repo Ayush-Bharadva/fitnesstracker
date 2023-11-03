@@ -7,6 +7,7 @@ function UserProfile() {
 
 	return (
 		<div className="home-container">
+			{console.log(userProfileInfo)}
 			{!isProfileCreated ? (
 				<CreateProfile
 					setUserProfileInfo={setUserProfileInfo}

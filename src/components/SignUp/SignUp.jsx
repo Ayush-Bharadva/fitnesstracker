@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import Card from "../UI/Card";
+import Card from "../Common/Card";
 import poster from "../../assets/images/signup_poster.jpg";
 import "../styles/General.scss";
-import { AuthContext } from "../../contexts/AuthProvider";
 import { userSignUpService } from "../../services/services";
+import { setCookie } from "../../services/helper";
 
 function SignUp() {
 	const navigate = useNavigate();
@@ -92,18 +92,14 @@ function SignUp() {
 			: false;
 	};
 
-	const { signUp } = useContext(AuthContext);
-
 	const handleSignUp = async () => {
 		const response = await userSignUpService(userCredentials);
 		console.log(response);
 		if (response.code === 409) {
 			console.log("email id already registered");
 		} else if (response.status === 200) {
-			const tokenId = response.data.userId;
-			console.log("tokenId :", tokenId);
-			document.cookie = `tokenId=${tokenId}`;
-			signUp();
+			setCookie("userId", response.data.userId);
+			console.log("userId :", response.data.userId);
 			navigate("/");
 			console.log("signup successful");
 		}

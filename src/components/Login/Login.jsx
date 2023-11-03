@@ -1,14 +1,13 @@
 import React, { useContext, useState } from "react";
-import Card from "../UI/Card";
+import Card from "../Common/Card";
 import "../styles/General.scss";
 import poster from "../../assets/images/signup_poster.jpg";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthProvider";
 import { userLogInService } from "../../services/services";
+import { setCookie } from "../../services/helper";
 
 function Login() {
 	const navigate = useNavigate();
-	const { logIn } = useContext(AuthContext);
 
 	const [userCredentials, setuserCredentials] = useState({
 		email: "",
@@ -28,7 +27,7 @@ function Login() {
 		console.log(response.status);
 		console.log(response);
 		if (response.status === 200) {
-			logIn();
+			setCookie("userId", response.data.userId);
 			navigate("/");
 		}
 	};
@@ -47,6 +46,7 @@ function Login() {
 						onSubmit={handleLoginSubmit}>
 						<input
 							type="email"
+							id="email"
 							value={userCredentials["email"]}
 							onChange={(e) =>
 								handleInputChange("email", e.target.value)
@@ -55,6 +55,7 @@ function Login() {
 						/>
 						<input
 							type="password"
+							id="password"
 							value={userCredentials["password"]}
 							onChange={(e) =>
 								handleInputChange("password", e.target.value)

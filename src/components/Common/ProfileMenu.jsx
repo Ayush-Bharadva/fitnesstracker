@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
-import { AuthContext } from "../../contexts/AuthProvider";
 import { VscAccount } from "react-icons/vsc";
 import { CiUser, CiSettings, CiLogout } from "react-icons/ci";
 import "./common.scss";
 import { useNavigate } from "react-router-dom";
 import { userLogOutService } from "../../services/services";
+import { setCookie } from "../../services/helper";
 
 function ProfileMenu() {
 	const navigate = useNavigate();
@@ -26,8 +26,6 @@ function ProfileMenu() {
 
 	const [openProfile, setOpenProfile] = useState(false);
 
-	const { signOut, logOut } = useContext(AuthContext);
-
 	const handleClick = async (text) => {
 		if (text === "view profile") {
 			navigate("/user-profile");
@@ -36,8 +34,8 @@ function ProfileMenu() {
 		if (text === "logout") {
 			const response = await userLogOutService();
 			if (response.statusText === "OK") {
-				signOut();
-				logOut();
+				setCookie("userId", "");
+				navigate("/");
 			}
 		}
 	};

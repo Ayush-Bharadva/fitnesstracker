@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import Card from "../../components/UI/Card";
+import React, { useState, useEffect, useContext } from "react";
+import Card from "../../components/Common/Card";
 import exercise from "../../assets/images/exercise.jpg";
 import { createUserProfileService } from "../../services/services";
 import "./UserProfile.scss";
 import "../../components/Common/common.scss";
 import { useDropzone } from "react-dropzone";
 import { AuthContext } from "../../contexts/AuthProvider";
-import { useContext } from "react";
+import { getCookie } from "../../services/helper";
 
 function CreateProfile({ setUserProfileInfo, setIsProfileCreated }) {
-	const { isLoggedIn, isSignedUp } = useContext(AuthContext);
+	const { logInStatus } = useContext(AuthContext);
 
 	const [userInfo, setUserInfo] = useState({
 		profilePhoto: null,
@@ -30,20 +30,12 @@ function CreateProfile({ setUserProfileInfo, setIsProfileCreated }) {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		console.log(userInfo);
-		console.log("isLoggedIn :", isLoggedIn);
-		console.log("isSignedUp :", isSignedUp);
 
-		if (isLoggedIn || isSignedUp) {
-			const tokenId = document.cookie.split("=");
-			console.log(tokenId[1]);
-			// console.log(tokenId, typeof tokenId);
-			const response = await createUserProfileService(
-				userInfo,
-				tokenId[1]
-			);
+		if (logInStatus) {
+			const response = await createUserProfileService(userInfo);
 			console.log(response);
-			setUserProfileInfo(userInfo);
-			setIsProfileCreated(true);
+			// setUserProfileInfo(userInfo);
+			// setIsProfileCreated(true);
 			console.log("User profile created successfully");
 		} else {
 			console.log("Please Login/SignUp First");

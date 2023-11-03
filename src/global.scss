@@ -13,6 +13,10 @@ $light-teal: #00b69e;
 	text-align: center;
 }
 
+.text-left {
+	text-align: left;
+}
+
 .img-cover {
 	object-fit: cover;
 }
@@ -68,20 +72,18 @@ $light-teal: #00b69e;
 	color: #fff;
 }
 
-.separator {
-	height: 100%;
-	color: white;
-	width: 2px;
-}
-
-.padding-1 {
+.padding-y-1 {
 	padding: 1rem;
 }
 
-.margin-1 {
-	margin: 1rem;
+.padding-x-1 {
+	padding: 1rem;
 }
 
-.margin-1 {
-	margin: 1rem;
+.margin-x-1 {
+	margin: 0 1rem;
+}
+
+.margin-y-1 {
+	margin: 1rem 0;
 }

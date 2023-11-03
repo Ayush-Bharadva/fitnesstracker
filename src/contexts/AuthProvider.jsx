@@ -1,27 +1,14 @@
 import React, { createContext, useState } from "react";
+import { getCookie, isUserLoggedIn } from "../services/helper";
 
 export const AuthContext = createContext();
 
 function AuthProvider({ children }) {
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
-	const [isSignedUp, setIsSignedUp] = useState(false);
-
-	const signUp = () => {
-		setIsSignedUp(true);
-	};
-	const signOut = () => {
-		setIsSignedUp(false);
-	};
-	const logIn = () => {
-		setIsLoggedIn(true);
-	};
-	const logOut = () => {
-		setIsLoggedIn(false);
-	};
+	const logInStatus = isUserLoggedIn() || "";
+	console.log("logInStatus :", logInStatus);
 
 	return (
-		<AuthContext.Provider
-			value={{ isLoggedIn, isSignedUp, signUp, signOut, logIn, logOut }}>
+		<AuthContext.Provider value={{ logInStatus }}>
 			{children}
 		</AuthContext.Provider>
 	);

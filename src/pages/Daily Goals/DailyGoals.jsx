@@ -41,15 +41,15 @@ function DailyGoals() {
 	};
 
 	return (
-		<div className="home-container">
+		<div className="daily-goals-container">
 			<LogExercise addExercise={addExercise} />
-
-			<RecordTracker
+			<div className="spacer"></div>
+			{/* <RecordTracker
 				exerciseRecords={userExerciseRecords}
 				deleteExercise={deleteExercise}
 				mealRecords={mealRecords}
 				deleteMeal={deleteMeal}
-			/>
+			/> */}
 
 			<LogMeals addMeals={addMeals} />
 		</div>

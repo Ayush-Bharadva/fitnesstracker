@@ -1,11 +1,11 @@
 import { Suspense, lazy } from "react";
-import "./App.scss";
 import {
 	Route,
 	RouterProvider,
 	createBrowserRouter,
 	createRoutesFromElements,
 } from "react-router-dom";
+import "./App.scss";
 import Layout from "./Layout";
 import SignUp from "./components/SignUp/SignUp";
 import Login from "./components/Login/Login";
@@ -48,7 +48,7 @@ const router = createBrowserRouter(
 
 function App() {
 	return (
-		<Suspense fallback={<div>Loading...</div>}>
+		<Suspense fallback={<h1>Loading...</h1>}>
 			<RouterProvider router={router} />
 		</Suspense>
 	);

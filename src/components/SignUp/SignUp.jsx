@@ -5,19 +5,13 @@ import poster from "../../assets/images/signup_poster.jpg";
 import "../styles/General.scss";
 import { userSignUpService } from "../../services/services";
 import { setCookie } from "../../services/helper";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function SignUp() {
 	const navigate = useNavigate();
-	// console.log("navigate :", navigate);
 
 	const [userCredentials, setuserCredentials] = useState({
-		fullname: "",
-		email: "",
-		password: "",
-		"confirm-password": "",
-	});
-
-	const [error, setError] = useState({
 		fullname: "",
 		email: "",
 		password: "",
@@ -29,6 +23,13 @@ function SignUp() {
 			return { ...previousCred, [input]: value };
 		});
 	};
+
+	const [error, setError] = useState({
+		fullname: "",
+		email: "",
+		password: "",
+		"confirm-password": "",
+	});
 
 	// function for password validation
 	const isPasswordValid = (password) => {

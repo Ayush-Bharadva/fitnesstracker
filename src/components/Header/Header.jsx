@@ -1,13 +1,9 @@
 import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import ProfileMenu from "../Common/ProfileMenu";
-import { useContext } from "react";
-import { AuthContext } from "../../contexts/AuthProvider";
 import { isUserLoggedIn } from "../../services/helper";
 
 function Header() {
-	// const { logInStatus } = useContext(AuthContext);
-
 	return (
 		<header className="header">
 			<nav className="navbar">

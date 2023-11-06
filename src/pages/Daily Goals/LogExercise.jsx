@@ -1,11 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import training from "../../assets/images/training.jpg";
-import { AuthContext } from "../../contexts/AuthProvider";
-import { getCookie } from "../../services/helper";
+import { getCookie, isUserLoggedIn } from "../../services/helper";
 import { addExerciseService } from "../../services/services";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function LogExercise({ addExercise }) {
-	const { logInStatus } = useContext(AuthContext);
+	const showToast = () => {
+		toast.success("Exercise added..", {
+			position: toast.POSITION.TOP_RIGHT,
+		});
+	};
 
 	const [exerciseInfo, setExerciseInfo] = useState({
 		exerciseType: "",
@@ -20,15 +25,17 @@ function LogExercise({ addExercise }) {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		console.log(exerciseInfo);
-		console.log(logInStatus);
+		// console.log(logInStatus);
 
-		if (logInStatus) {
+		if (isUserLoggedIn()) {
 			const response = await addExerciseService(exerciseInfo);
 			console.log(response);
 			if (response.status === 200) {
-				console.log("meals added successfully");
+				showToast();
+				console.log("exercise added successfully..");
+			} else if (response.status === 409) {
+				console.log("exercise added already..");
 			}
-			return response;
 		}
 		addExercise(exerciseInfo);
 	};
@@ -99,11 +106,18 @@ function LogExercise({ addExercise }) {
 								required
 							/>
 						</div>
-						<button type="submit">Log Exercise</button>
+						{/* <button type="submit">Log Exercise</button> */}
+						<div className="field">
+							<button
+								className="btn"
+								type="submit"
+								onClick={handleSubmit}
+								disabled={false}>
+								Add exercise
+							</button>
+						</div>
 					</form>
-					<button className="btn" disabled={false}>
-						Add more exercise
-					</button>
+					<ToastContainer />
 				</div>
 			</div>
 		</>

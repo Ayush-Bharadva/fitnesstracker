@@ -8,6 +8,16 @@ $dark-green: #005b41;
 $teal: #008170;
 $light-teal: #00b69e;
 
+.daily-goals-container {
+	height: 100%;
+	padding: 1rem;
+	overflow-y: scroll;
+}
+
+.spacer {
+	margin: 2rem 0;
+}
+
 .record-tracker {
 	border: 2px solid $light-teal;
 	width: 100%;

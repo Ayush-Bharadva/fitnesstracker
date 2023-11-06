@@ -8,14 +8,34 @@ const userMealApiUrl = `${userApiUrl}/meal`;
 
 // create axios instance with common headers
 const userId = getCookie("userId");
+const headers = {
+	Authorization: userId,
+	"Content-Type": "application/json",
+};
 const createApiInstance = axios.create({
 	baseURL: baseApiUrl,
-	headers: {
-		Authorization: userId,
-		"Content-Type": "application/json",
-	},
+	headers: headers,
 });
 
+createApiInstance.interceptors.request.use((config) => {
+	const userId = getCookie("userId");
+	config.headers.Authorization = userId;
+	return config;
+});
+
+// createApiInstance.interceptors.response.use((config) => {
+// 	const userId = getCookie("userId");
+// 	config.headers.Authorization = userId;
+// 	return config;
+// });
+
+const post = async (url, body) => {
+	const userId = getCookie("userId");
+
+	return await createApiInstance.post(url, body, {
+		headers: { ...headers, Authorization: userId },
+	});
+};
 // SignUp User
 export async function userSignUpService(userCredentials) {
 	try {
@@ -55,6 +75,7 @@ export async function userLogOutService() {
 	}
 }
 
+/******************profile services**************************/
 // CreateProfile
 export async function createUserProfileService(userInfo) {
 	try {
@@ -62,6 +83,7 @@ export async function createUserProfileService(userInfo) {
 			`${userProfileApiUrl}/add`,
 			userInfo
 		);
+		console.log(userId);
 		return response;
 	} catch (error) {
 		console.log("create user profile error :", error);
@@ -96,7 +118,7 @@ export async function updateUserProfileService(userInfo) {
 	}
 }
 
-// deleteUserProfile
+// deleteUserProfile (not necessary)
 export async function deleteUserProfileService() {
 	try {
 		const response = await createApiInstance.delete(
@@ -109,8 +131,7 @@ export async function deleteUserProfileService() {
 	}
 }
 
-/*********************************************************************************/
-// exercise services
+/**************************exercise services************************************/
 // add exercise
 export async function addExerciseService(exerciseInfo) {
 	try {
@@ -152,8 +173,8 @@ export async function daleteExerciseService() {
 	}
 }
 
-/******************************************************************************/
-// meal services
+/*****************meal services**************************/
+//
 // add meal service
 export async function addMealService(mealInfo) {
 	try {

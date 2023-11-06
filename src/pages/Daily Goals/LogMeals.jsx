@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import meal from "../../assets/images/meal.png";
+import { addMealService } from "../../services/services";
+import { isUserLoggedIn } from "../../services/helper";
 
 const initialValue = {
 	mealType: "",
@@ -18,10 +20,18 @@ function LogMeals({ addMeals }) {
 		setMealInfo((prevInfo) => ({ ...prevInfo, [input]: value }));
 	};
 
-	const handleMealSubmit = (e) => {
+	const handleMealSubmit = async (e) => {
 		e.preventDefault();
 		addMeals(mealInfo);
 		console.log("mealInfo :", mealInfo);
+
+		if (isUserLoggedIn()) {
+			const response = await addMealService(mealInfo);
+			console.log(response);
+			if (response.status === 200) {
+				console.log("meal added successfully..");
+			}
+		}
 	};
 
 	const hadleAddAnotherMeal = () => {
@@ -32,6 +42,7 @@ function LogMeals({ addMeals }) {
 		<div className="log-meals-section">
 			<div className="log-meals-form">
 				<form action="" onSubmit={handleMealSubmit}>
+					<h2>Log Meals</h2>
 					<div className="field">
 						<label htmlFor="meal">Meal Type</label>
 						<select
@@ -80,14 +91,16 @@ function LogMeals({ addMeals }) {
 							required
 						/>
 					</div>
-					<button type="submit">Log meal</button>
+
+					<div className="field">
+						<button
+							type="submit"
+							className="btn"
+							onClick={handleMealSubmit}>
+							Add meal
+						</button>
+					</div>
 				</form>
-				<button
-					className="btn"
-					disabled={false}
-					onClick={hadleAddAnotherMeal}>
-					Add another meal
-				</button>
 			</div>
 			<div className="meals-image">
 				<img src={meal} alt="" />

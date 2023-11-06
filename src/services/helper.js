@@ -19,9 +19,53 @@ export function isUserLoggedIn() {
 	return !!userId;
 }
 
-// eg
-if (isUserLoggedIn()) {
-	console.log("User is logged in.");
-} else {
-	console.log("User is not logged in.");
-}
+// function to validate password
+// const [error, setError] = useState({
+// 	fullname: "",
+// 	email: "",
+// 	password: "",
+// 	"confirm-password": "",
+// });
+
+// export const isPasswordValid = (password) => {
+// 	if (password.length <= 5) {
+// 		setError((prevError) => ({
+// 			...prevError,
+// 			password: "password lenght should more than 5",
+// 		}));
+// 		return false;
+// 	}
+
+// 	// special character checking
+// 	const specialCharacterPattern = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\|/]/;
+// 	if (!specialCharacterPattern.test(password)) {
+// 		setError((prevError) => ({
+// 			...prevError,
+// 			password: "password must contain atleast one special character",
+// 		}));
+// 		return false;
+// 	}
+
+// 	// digit checking checking
+// 	const digitPattern = /\d/;
+// 	if (!digitPattern.test(password)) {
+// 		setError((prevError) => ({
+// 			...prevError,
+// 			password: "password must contain atleast one digit",
+// 		}));
+// 		return false;
+// 	}
+
+// 	// alphabets checking
+// 	const alphabetPattern = /[a-zA-Z]/;
+// 	if (!alphabetPattern.test(password)) {
+// 		setError((prevError) => ({
+// 			...prevError,
+// 			password: "password must contain alphabets",
+// 		}));
+// 		return false;
+// 	}
+
+// 	setError((prevError) => ({ ...prevError, password: "" }));
+// 	return true;
+// };

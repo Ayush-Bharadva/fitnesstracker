@@ -1,5 +1,5 @@
 import React from "react";
-import "../../App.scss";
+import "../Common/common.scss";
 
 function Card({ children }) {
 	return <div className="card">{children}</div>;

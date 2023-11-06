@@ -35,6 +35,7 @@ function ProfileMenu() {
 			const response = await userLogOutService();
 			if (response.statusText === "OK") {
 				setCookie("userId", "");
+				localStorage.removeItem("profileExists");
 				navigate("/");
 			}
 		}

@@ -1,14 +1,15 @@
 import React from "react";
 import RecordTile from "../../components/Common/RecordTile";
+import "./Home.scss";
 
 function MealOfDay({ day }) {
 	return (
-		<div className="main-container home-record flex-column">
-			<p>Meal At : {day}</p>
+		<div className="record-card flex-column">
+			<h3 className="title">Meal </h3>
 			<RecordTile>
 				<p>Meal Type :</p>
 				<p>Meal Ingredients :</p>
-				<p>Estimated Calories :</p>
+				<p>Calories Consumed :</p>
 			</RecordTile>
 		</div>
 	);

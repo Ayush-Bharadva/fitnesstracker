@@ -1,66 +1,135 @@
-// Theme variables:
 $black: #0f0f0f;
-$dark-blue: #232d3f;
-$mid-blue: #364560;
-$light-blue: #3f5071;
-$sky-blue: #87ceeb;
-$dark-green: #005b41;
-$teal: #008170;
 $light-teal: #00b69e;
 
-// new homepage styles
-.home-container {
-	min-height: calc(100vh - 137px);
+body {
+	overflow-x: hidden;
+	margin: 0;
+	padding: 0;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.record-tile {
+	border-radius: 7px;
+	p {
+		background-color: $light-teal;
+		padding: 1rem;
+		text-align: left;
+		color: white;
+		border-radius: 7px;
+		margin: 1.5rem 0;
+		font-weight: bold;
+	}
+}
+
+.homepage {
+	// height: calc(100vh - 125px);
 	width: 100%;
-	align-items: stretch;
-	justify-content: space-around;
-	flex-wrap: wrap;
+	height: 100%;
+	overflow-y: auto;
 	gap: 1rem;
-	padding: 1rem;
+	// flex-wrap: wrap;
 
 	.sidebar {
-		justify-content: left;
-		background-color: #ddd;
+		border-right: 1px solid black;
+		width: 20%;
 		height: 100%;
-		border-radius: 7px;
-		padding: 1rem;
-		text-align: center;
-		flex: 1;
+		overflow-y: auto;
+		display: flex;
+		flex-direction: column;
+
+		.sidebar-container {
+			flex: 1;
+			padding: 3px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
 	}
 
-	.left {
-		flex: 1 0 20%;
+	.sidebar::-webkit-scrollbar {
+		display: none;
 	}
 
-	.right {
-		flex: 1 0 75%;
-		padding: 1rem;
-		gap: 1rem;
+	.records {
+		align-items: flex-start;
+		flex: 1 0;
+		overflow-y: auto;
+		width: 100%;
+		overflow-x: hidden;
+		flex-wrap: wrap;
+
+		.record-card {
+			border-radius: 7px;
+			background-color: #eee;
+			box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
+
+			padding: 1rem;
+			flex: 1 0 50%;
+			transition: all 0.3s ease;
+
+			.title {
+				text-align: left;
+				font-weight: bold;
+			}
+		}
+
+		.record-card:hover {
+			scale: 1.01;
+			box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+				rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+		}
 	}
 }
 
-// day-wise-records styles
-.day-wise-record {
-	background-color: $light-blue;
+.exercise-records,
+.meal-records {
+	padding: 1.5rem;
+	width: 45%;
+	flex-wrap: wrap;
+}
+
+.title {
+	text-align: center;
+	font-size: 1.25rem;
+	font-weight: bold;
+	padding: 0.5rem;
+}
+
+.days {
+	border: 1px solid #503524;
+	width: 90%;
+	text-align: center;
+	padding: 0.75rem;
+	margin: 0.5rem 0;
+	cursor: pointer;
+}
+
+.days-active {
+	background-color: #ec615b;
+}
+
+.days:hover {
 	color: #fff;
-	padding: 1rem;
-	margin: 1.5rem 0;
-	border-radius: 7px;
-	justify-content: space-between;
+	background-color: #ec615b;
+	border: 1px solid #ec615b;
+	text-decoration: none;
 }
 
-.activity-tracker {
-	gap: 1rem;
-	height: 100%;
-}
-
-.home-record {
-	background-color: #eee;
-	border-radius: 7px;
-	gap: 1rem;
-	p {
-		font-weight: bold;
-		margin: 0.5rem 0;
-		text-align: left;
+@media only screen and (max-width: 768px) {
+	.exercise-records,
+	.meal-records {
+		width: 100%;
+		gap: 0;
+	}
+	.homepage {
+		gap: 0;
 	}
 }
+
+//# 320px — 480px: Mobile devices
+//# 481px — 768px: iPads, Tablets
+//# 769px — 1024px: Small screens, laptops
+//# 1025px — 1200px: Desktops, large screens
+//# 1201px and more —  Extra large screens, TV
+
+/******************************************************************************************************/

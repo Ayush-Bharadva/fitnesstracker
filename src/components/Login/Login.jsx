@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Card from "../Common/Card";
 import "../styles/General.scss";
 import poster from "../../assets/images/signup_poster.jpg";

@@ -1,21 +1,10 @@
 import React, { useEffect, useState } from "react";
 import CreateProfile from "./CreateProfile";
 import ViewProfile from "./ViewProfile";
+import { getProfileStatus } from "../../services/helper";
+
 function UserProfile() {
-	const [isProfileCreated, setIsProfileCreated] = useState(false);
 	const [userProfileInfo, setUserProfileInfo] = useState({});
-
-	useEffect(() => {
-		const profileCreated = localStorage.getItem("profileExists");
-		if (profileCreated) {
-			setIsProfileCreated(true);
-		}
-	}, []);
-
-	const setProfileCreated = (value) => {
-		setIsProfileCreated(value);
-		localStorage.setItem("profileExists", value);
-	};
 
 	const setProfileInfo = (info) => {
 		setUserProfileInfo(info);
@@ -25,11 +14,8 @@ function UserProfile() {
 
 	return (
 		<div className="user-profile-container">
-			{!isProfileCreated ? (
-				<CreateProfile
-					setUserProfileInfo={setProfileInfo}
-					setIsProfileCreated={setProfileCreated}
-				/>
+			{!getProfileStatus() ? (
+				<CreateProfile setUserProfileInfo={setProfileInfo} />
 			) : (
 				<ViewProfile userProfileInfo={userProfileInfo} />
 			)}

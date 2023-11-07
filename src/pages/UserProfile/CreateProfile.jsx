@@ -3,7 +3,11 @@ import { createUserProfileService } from "../../services/services";
 import "./UserProfile.scss";
 import "../../components/Common/common.scss";
 import { useDropzone } from "react-dropzone";
-import { getCookie, isUserLoggedIn } from "../../services/helper";
+import {
+	getCookie,
+	isUserLoggedIn,
+	setProfileStatus,
+} from "../../services/helper";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -45,7 +49,7 @@ function CreateProfile({ setUserProfileInfo, setIsProfileCreated }) {
 
 			if (response.status === 200) {
 				setUserProfileInfo(userInfo);
-				setIsProfileCreated(true);
+				setProfileStatus(true);
 			}
 		} else {
 			console.log("Please Login/SignUp First");

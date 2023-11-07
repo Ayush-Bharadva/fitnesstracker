@@ -19,6 +19,15 @@ export function isUserLoggedIn() {
 	return !!userId;
 }
 
+export function setProfileStatus(value) {
+	localStorage.setItem("profileExists", value);
+}
+
+export function getProfileStatus() {
+	const profileStatus = localStorage.getItem("profileExists");
+	return !!profileStatus;
+}
+
 // function to validate password
 // const [error, setError] = useState({
 // 	fullname: "",

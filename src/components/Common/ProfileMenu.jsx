@@ -3,7 +3,6 @@ import { VscAccount } from "react-icons/vsc";
 import { CiUser, CiSettings, CiLogout } from "react-icons/ci";
 import "./common.scss";
 import { useNavigate } from "react-router-dom";
-import { userLogOutService } from "../../services/services";
 import { setCookie } from "../../services/helper";
 
 function ProfileMenu() {
@@ -32,12 +31,9 @@ function ProfileMenu() {
 		}
 
 		if (text === "logout") {
-			const response = await userLogOutService();
-			if (response.statusText === "OK") {
-				setCookie("userId", "");
-				localStorage.removeItem("profileExists");
-				navigate("/");
-			}
+			setCookie("userId", "");
+			localStorage.removeItem("profileExists");
+			navigate("/");
 		}
 	};
 

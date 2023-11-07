@@ -29,18 +29,18 @@ createApiInstance.interceptors.request.use((config) => {
 // 	return config;
 // });
 
-const post = async (url, body) => {
-	const userId = getCookie("userId");
+// const post = async (url, body) => {
+// 	const userId = getCookie("userId");
 
-	return await createApiInstance.post(url, body, {
-		headers: { ...headers, Authorization: userId },
-	});
-};
+// 	return await createApiInstance.post(url, body, {
+// 		headers: { ...headers, Authorization: userId },
+// 	});
+// };
 // SignUp User
 export async function userSignUpService(userCredentials) {
 	try {
 		const response = await axios.post(
-			`${userApiUrl}/signup`,
+			`${baseApiUrl}/signup`,
 			userCredentials
 		);
 		return response;
@@ -54,7 +54,7 @@ export async function userSignUpService(userCredentials) {
 export async function userLogInService(userCredentials) {
 	try {
 		const response = await axios.post(
-			`${userApiUrl}/login`,
+			`${baseApiUrl}/login`,
 			userCredentials
 		);
 		return response;
@@ -65,22 +65,22 @@ export async function userLogInService(userCredentials) {
 }
 
 // LogOut User
-export async function userLogOutService() {
-	try {
-		const response = await axios.get(`${userApiUrl}/logout`);
-		return response;
-	} catch (error) {
-		console.log("logout error :", error);
-		return error.response.data;
-	}
-}
+// export async function userLogOutService() {
+// 	try {
+// 		const response = await axios.get(`${userApiUrl}/logout`);
+// 		return response;
+// 	} catch (error) {
+// 		console.log("logout error :", error);
+// 		return error.response.data;
+// 	}
+// }
 
 /******************profile services**************************/
 // CreateProfile
 export async function createUserProfileService(userInfo) {
 	try {
-		const response = await createApiInstance.post(
-			`${userProfileApiUrl}/add`,
+		const response = await createApiInstance.put(
+			`${userProfileApiUrl}`,
 			userInfo
 		);
 		console.log(userId);
@@ -94,7 +94,7 @@ export async function createUserProfileService(userInfo) {
 // ShowUserProfile
 export async function showUserProfileService() {
 	try {
-		const response = await createApiInstance.post(
+		const response = await createApiInstance.get(
 			`${userProfileApiUrl}/show`
 		);
 		return response;
@@ -119,24 +119,24 @@ export async function updateUserProfileService(userInfo) {
 }
 
 // deleteUserProfile (not necessary)
-export async function deleteUserProfileService() {
-	try {
-		const response = await createApiInstance.delete(
-			`${userProfileApiUrl}/delete`
-		);
-		return response;
-	} catch (error) {
-		console.log("delete user profile error :", error);
-		return error.response.data;
-	}
-}
+// export async function deleteUserProfileService() {
+// 	try {
+// 		const response = await createApiInstance.delete(
+// 			`${userProfileApiUrl}/delete`
+// 		);
+// 		return response;
+// 	} catch (error) {
+// 		console.log("delete user profile error :", error);
+// 		return error.response.data;
+// 	}
+// }
 
 /**************************exercise services************************************/
 // add exercise
 export async function addExerciseService(exerciseInfo) {
 	try {
 		const response = await createApiInstance.post(
-			`${userExerciseApiUrl}/add`,
+			`${userExerciseApiUrl}`,
 			exerciseInfo
 		);
 		return response;
@@ -146,11 +146,25 @@ export async function addExerciseService(exerciseInfo) {
 	}
 }
 
+// show/get exercise
+export async function showExerciseService(currentDate) {
+	try {
+		console.log(currentDate);
+		const response = await createApiInstance.get(`${userExerciseApiUrl}`, {
+			params: currentDate,
+		});
+		return response;
+	} catch (error) {
+		console.log("get exercise error :", error);
+		return error.response;
+	}
+}
+
 // update exercise
 export async function updateExerciseServise(exerciseInfo) {
 	try {
 		const response = await createApiInstance.put(
-			`${userExerciseApiUrl}/update`,
+			`${userExerciseApiUrl}`,
 			exerciseInfo
 		);
 		return response;
@@ -164,7 +178,7 @@ export async function updateExerciseServise(exerciseInfo) {
 export async function daleteExerciseService() {
 	try {
 		const response = await createApiInstance.delete(
-			`${userExerciseApiUrl}/delete`
+			`${userExerciseApiUrl}`
 		);
 		return response;
 	} catch (error) {
@@ -174,14 +188,10 @@ export async function daleteExerciseService() {
 }
 
 /*****************meal services**************************/
-//
 // add meal service
 export async function addMealService(mealInfo) {
 	try {
-		const response = createApiInstance.post(
-			`${userMealApiUrl}/add`,
-			mealInfo
-		);
+		const response = createApiInstance.post(`${userMealApiUrl}`, mealInfo);
 		return response;
 	} catch (error) {
 		console.log("add meal error :", error);
@@ -189,13 +199,23 @@ export async function addMealService(mealInfo) {
 	}
 }
 
+// show meal service
+export async function showMealService(currentDate) {
+	try {
+		const response = createApiInstance.get(`${userMealApiUrl}`, {
+			params: currentDate,
+		});
+		return response;
+	} catch (error) {
+		console.log("show meal error :", error);
+		return error.response.data;
+	}
+}
+
 // update meal service
 export async function updateMealService(mealInfo) {
 	try {
-		const response = createApiInstance.put(
-			`${userMealApiUrl}/update`,
-			mealInfo
-		);
+		const response = createApiInstance.put(`${userMealApiUrl}`, mealInfo);
 		return response;
 	} catch (error) {
 		console.log("update meal error :", error);
@@ -206,7 +226,7 @@ export async function updateMealService(mealInfo) {
 // delete meal service
 export async function deleteMealService() {
 	try {
-		const response = createApiInstance.delete(`${userMealApiUrl}/delete`);
+		const response = createApiInstance.delete(`${userMealApiUrl}`);
 		return response;
 	} catch (error) {
 		console.log("delete meal error :", error);

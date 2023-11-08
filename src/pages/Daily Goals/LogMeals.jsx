@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import { addMealService } from "../../services/services";
 import { getProfileStatus, isUserLoggedIn } from "../../services/helper";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const initialValue = {
 	mealType: "",
@@ -11,17 +8,6 @@ const initialValue = {
 };
 
 function LogMeals({ addMeals }) {
-	const showAddToast = () => {
-		toast.success("Meal added..", {
-			position: toast.POSITION.TOP_RIGHT,
-		});
-	};
-	const showDuplicateToast = () => {
-		toast.error("Meal_Type already added..", {
-			position: toast.POSITION.TOP_RIGHT,
-		});
-	};
-
 	const [mealInfo, setMealInfo] = useState({
 		mealType: "",
 		ingredients: "",
@@ -38,23 +24,14 @@ function LogMeals({ addMeals }) {
 		console.log("mealInfo :", mealInfo);
 
 		if (isUserLoggedIn() && getProfileStatus()) {
-			const response = await addMealService(mealInfo);
-			console.log(response);
-			if (response.status === 200) {
-				showAddToast();
-				setMealInfo(initialValue);
-				console.log("meal added successfully..");
-			} else if (response.status == 409) {
-				showDuplicateToast();
-				console.log("meal added already");
-			}
+			addMeals(mealInfo);
+			setMealInfo(initialValue);
 		} else {
-			console.log("make sure you have logged in and Created Profile");
+			console.log("Make sure you have logged in OR created profile");
 		}
 	};
 
 	return (
-		// <div className="log-meals-section">
 		<div className="log-meals-form">
 			<form action="" onSubmit={handleMealSubmit}>
 				<h2>Log Meals</h2>
@@ -116,9 +93,7 @@ function LogMeals({ addMeals }) {
 					</button>
 				</div>
 			</form>
-			<ToastContainer />
 		</div>
-		// </div>
 	);
 }
 

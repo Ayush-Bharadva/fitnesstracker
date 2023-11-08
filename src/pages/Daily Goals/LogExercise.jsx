@@ -1,9 +1,5 @@
-import React, { useEffect, useState } from "react";
-import training from "../../assets/images/training.jpg";
+import React, { useState } from "react";
 import { getProfileStatus, isUserLoggedIn } from "../../services/helper";
-import { addExerciseService } from "../../services/services";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const initialValue = {
 	exerciseType: "",
@@ -12,17 +8,6 @@ const initialValue = {
 };
 
 function LogExercise({ addExercise }) {
-	const showAddToast = () => {
-		toast.success("Exercise added..", {
-			position: toast.POSITION.TOP_RIGHT,
-		});
-	};
-	const showDuplicateToast = () => {
-		toast.error("Exercise-Type already added..", {
-			position: toast.POSITION.TOP_RIGHT,
-		});
-	};
-
 	const [exerciseInfo, setExerciseInfo] = useState({
 		exerciseType: "",
 		duration: "",
@@ -33,33 +18,20 @@ function LogExercise({ addExercise }) {
 		setExerciseInfo((prevInfo) => ({ ...prevInfo, [input]: value }));
 	};
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = (e) => {
 		e.preventDefault();
 		console.log(exerciseInfo);
 		// console.log(logInStatus);
 
 		if (isUserLoggedIn() && getProfileStatus()) {
-			const response = await addExerciseService(exerciseInfo);
-			console.log(response);
-			if (response.status === 200) {
-				showAddToast();
-				addExercise(exerciseInfo);
-				setExerciseInfo(initialValue);
-				console.log("exercise added successfully..");
-			} else if (response.status === 409) {
-				showDuplicateToast();
-				console.log("exercise added already..");
-			}
+			addExercise(exerciseInfo);
+			setExerciseInfo(initialValue);
 		} else {
 			console.log("Make sure you have logged in OR created profile");
 		}
 	};
 	return (
 		<>
-			{/* <div className="log-exercise-section"> */}
-			{/* <div className="exercises-image">
-					<img src={training} alt="" />
-				</div> */}
 			<div className="log-exercise-form">
 				<form action="" onSubmit={handleSubmit}>
 					<h2>Log Exercise</h2>
@@ -131,9 +103,7 @@ function LogExercise({ addExercise }) {
 						</button>
 					</div>
 				</form>
-				<ToastContainer />
 			</div>
-			{/* </div> */}
 		</>
 	);
 }

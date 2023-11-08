@@ -118,18 +118,21 @@ export async function updateUserProfileService(userInfo) {
 	}
 }
 
-// deleteUserProfile (not necessary)
-// export async function deleteUserProfileService() {
-// 	try {
-// 		const response = await createApiInstance.delete(
-// 			`${userProfileApiUrl}/delete`
-// 		);
-// 		return response;
-// 	} catch (error) {
-// 		console.log("delete user profile error :", error);
-// 		return error.response.data;
-// 	}
-// }
+// to get all details from date
+export async function getDetailsFromDate(currentDate) {
+	try {
+		const response = await createApiInstance.get(
+			`${userApiUrl}/alldetails`,
+			{
+				params: currentDate,
+			}
+		);
+		return response;
+	} catch (error) {
+		console.log("get all details error :", error);
+		return error.response;
+	}
+}
 
 /**************************exercise services************************************/
 // add exercise
@@ -143,20 +146,6 @@ export async function addExerciseService(exerciseInfo) {
 	} catch (error) {
 		console.log("add exercise error :", error);
 		return error.response.data;
-	}
-}
-
-// show/get exercise
-export async function showExerciseService(currentDate) {
-	try {
-		console.log(currentDate);
-		const response = await createApiInstance.get(`${userExerciseApiUrl}`, {
-			params: currentDate,
-		});
-		return response;
-	} catch (error) {
-		console.log("get exercise error :", error);
-		return error.response;
 	}
 }
 
@@ -195,19 +184,6 @@ export async function addMealService(mealInfo) {
 		return response;
 	} catch (error) {
 		console.log("add meal error :", error);
-		return error.response.data;
-	}
-}
-
-// show meal service
-export async function showMealService(currentDate) {
-	try {
-		const response = createApiInstance.get(`${userMealApiUrl}`, {
-			params: currentDate,
-		});
-		return response;
-	} catch (error) {
-		console.log("show meal error :", error);
 		return error.response.data;
 	}
 }

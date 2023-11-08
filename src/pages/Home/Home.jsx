@@ -110,7 +110,7 @@ function Home() {
 						<Line options={options} data={data} />
 					</div>
 					<div className="records flex">
-						<div className="exercise-records flex-column gap-1">
+						{/* <div className="exercise-records flex-column gap-1">
 							<p className="title text-left">
 								Exercise performed
 							</p>
@@ -121,7 +121,7 @@ function Home() {
 							<p className="title text-left">Meals Taken</p>
 							<MealOfDay />
 							<MealOfDay />
-						</div>
+						</div> */}
 					</div>
 				</div>
 			</div>

@@ -1,68 +1,125 @@
 import React, { useState } from "react";
 import "./DailyGoals.scss";
 import { getProfileStatus, isUserLoggedIn } from "../../services/helper";
+import { addExerciseService, addMealService } from "../../services/services";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
-function AddActivityForm({ isExercise, addExercise, addMeals }) {
-	// console.log(isExercise);
-	const formType = isExercise ? "exercise" : "meal";
+function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
+	// console.log(allDetails);
 
-	const activityInfo = {
-		type: "",
-		detail: "",
-		calories: "",
+	const showAddToast = (type = "success", message) => {
+		toast[type](message, {
+			position: toast.POSITION.TOP_RIGHT,
+		});
 	};
 
-	const exerciseOptions = [
-		{
-			label: "exerciseType",
-			value: ["Walking", "Running", "Gym", "Yoga", "WeightLifting"],
-		},
-	];
+	const formType = isExercise ? "exercise" : "meal";
 
-	const [exerciseInfo, setExerciseInfo] = useState({
-		exerciseType: "",
+	let options = [];
+	if (isExercise)
+		options = ["Walking", "Running", "Weight_lifting", "Gym", "Yoga"];
+	else options = ["Breakfast", "Lunch", "Dinner", "Snacks"];
+
+	const [activityInfo, setActivityInfo] = useState({
+		type: "",
 		duration: "",
-		caloriesBurned: "",
-	});
-	const [mealInfo, setMealInfo] = useState({
-		mealType: "",
 		ingredients: "",
-		caloriesConsumed: "",
+		calories: "",
 	});
 
-	// const initialValue = isExercise
-	// 	? {
-	// 			exerciseType: "",
-	// 			duration: "",
-	// 			caloriesBurned: "",
-	// 	  }
-	// 	: {
-	// 			mealType: "",
-	// 			ingredients: "",
-	// 			caloriesConsumed: "",
-	// 	  };
+	const addActivity = async () => {
+		const { type, duration, ingredients, calories } = activityInfo;
+
+		let response = isExercise
+			? await addExerciseService({
+					exerciseType: type,
+					duration: duration,
+					caloriesBurned: calories,
+			  })
+			: await addMealService({
+					mealType: type,
+					ingredients: ingredients,
+					caloriesConsumed: calories,
+			  });
+
+		if (response.status === 200) {
+			console.log("activity added successfully..");
+
+			if (isExercise) {
+				showAddToast("success", "exercise added successfully");
+				setAllDetails({
+					...allDetails,
+					exerciseDetails: [
+						...allDetails.exerciseDetails,
+						{
+							exerciseType: type,
+							duration: duration,
+							caloriesBurned: calories,
+						},
+					],
+				});
+			} else {
+				showAddToast("success", "meal added successfully");
+				setAllDetails({
+					...allDetails,
+					mealDetails: [
+						...allDetails.mealDetails,
+						{
+							mealType: type,
+							ingredients: ingredients,
+							caloriesConsumed: calories,
+						},
+					],
+				});
+			}
+		} else if (response.status === 409) {
+			// showDuplicateToast();
+			console.log("exercise added already..");
+		}
+	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
 		if (isUserLoggedIn() && getProfileStatus()) {
-			isExercise
-				? addExercise(exerciseInfo) && setExerciseInfo(initialValue)
-				: addMeals(mealInfo) && setMealInfo(initialValue);
+			addActivity();
 		} else {
 			console.log("Make sure you have logged in OR created profile");
 		}
 	};
 
 	const handleInputChange = (input, value) => {
-		isExercise
-			? setExerciseInfo((prevInfo) => ({ ...prevInfo, [input]: value }))
-			: setMealInfo((prevInfo) => ({ ...prevInfo, [input]: value }));
+		if (input === "type") {
+			const activityDetails = isExercise
+				? allDetails.exerciseDetails.find(
+						(exercise) => exercise.exerciseType === value
+				  )
+				: allDetails.mealDetails.find(
+						(meal) => meal.mealType === value
+				  );
+			const {
+				exerciseType = "",
+				duration = "",
+				caloriesBurned = "",
+				mealType = "",
+				ingredients = "",
+				caloriesConsumed = "",
+			} = activityDetails || {};
+
+			setActivityInfo({
+				type: exerciseType || mealType || value,
+				duration,
+				ingredients,
+				calories: caloriesBurned || caloriesConsumed,
+			});
+		} else {
+			setActivityInfo((prevInfo) => ({ ...prevInfo, [input]: value }));
+		}
 	};
 
 	return (
 		<div className="log-activity-form">
-			<h3>new form</h3>
 			<form action="" onSubmit={handleSubmit}>
 				<h2>Log {formType}</h2>
 				<div className="field">
@@ -70,51 +127,78 @@ function AddActivityForm({ isExercise, addExercise, addMeals }) {
 					<select
 						name="type"
 						id="exercise"
-						value={exerciseInfo["exerciseType"]}
+						value={activityInfo["type"]}
 						onChange={(e) =>
-							handleInputChange("exerciseType", e.target.value)
+							handleInputChange("type", e.target.value)
 						}
-						required
-						placeholder="select exercise type">
+						required>
 						<option value="">Select exercise type</option>
-						<option value="Walking">Walking</option>
-						<option value="Running">Running</option>
-						<option value="Weight_lifting">Weight lifting</option>
-						<option value="Gym">Gym</option>
-						<option value="Yoga">Yoga</option>
+						{options.map((data, index) => (
+							<option key={index} value={data}>
+								{data}
+							</option>
+						))}
 					</select>
 				</div>
 				<div className="field">
-					<label htmlFor="duration">Duration</label>
-					<input
-						type="number"
-						id="duration"
-						name="duration"
-						value={exerciseInfo["duration"]}
-						onChange={(e) =>
-							handleInputChange(
-								"duration",
-								Number(e.target.value)
-							)
-						}
-						placeholder="exercise duration (in min)"
-						required
-					/>
+					{isExercise ? (
+						<>
+							<label htmlFor="duration">Duration</label>
+							<input
+								type="number"
+								id="duration"
+								name="duration"
+								value={activityInfo["duration"]}
+								onChange={(e) =>
+									handleInputChange(
+										"duration",
+										Number(e.target.value)
+									)
+								}
+								placeholder="exercise duration (in min)"
+								required
+							/>
+						</>
+					) : (
+						<>
+							<label htmlFor="ingredients">Ingredients</label>
+							<input
+								type="text"
+								id="ingredients"
+								name="ingredients"
+								value={activityInfo["ingredients"]}
+								onChange={(e) =>
+									handleInputChange(
+										"ingredients",
+										e.target.value
+									)
+								}
+								placeholder="meal ingredients"
+								required
+							/>
+						</>
+					)}
 				</div>
 				<div className="field">
-					<label htmlFor="calories">Calories Burned</label>
+					<label htmlFor="calories">
+						Calories {isExercise ? "burned" : "consumed"}
+					</label>
 					<input
 						type="number"
 						id="calories"
 						name="calories"
-						value={exerciseInfo["caloriesBurned"]}
+						value={activityInfo["calories"]}
 						onChange={(e) =>
 							handleInputChange(
-								"caloriesBurned",
+								"calories",
 								Number(e.target.value)
 							)
 						}
-						placeholder="enter calories burned (approx)"
+						placeholder={
+							isExercise
+								? "enter calories burned (approx)"
+								: "enter calories consumed (approx)"
+						}
 						required
 					/>
 				</div>
@@ -122,145 +206,12 @@ function AddActivityForm({ isExercise, addExercise, addMeals }) {
 					<button
 						className="btn"
 						type="submit"
-						onClick={handleSubmit}
-						disabled={false}>
-						Add exercise
+						onClick={handleSubmit}>
+						{isExercise ? "Add exercise" : "Add meal"}
 					</button>
 				</div>
 			</form>
-			{/* {isExercise ? (
-				<form action="" onSubmit={handleSubmit}>
-					<h2>Log Exercise</h2>
-					<div className="field">
-						<label htmlFor="exercise">Exercise Type</label>
-						<select
-							name="type"
-							id="exercise"
-							value={exerciseInfo["exerciseType"]}
-							onChange={(e) =>
-								handleInputChange(
-									"exerciseType",
-									e.target.value
-								)
-							}
-							required
-							placeholder="select exercise type">
-							<option value="">Select exercise type</option>
-							<option value="Walking">Walking</option>
-							<option value="Running">Running</option>
-							<option value="Weight_lifting">
-								Weight lifting
-							</option>
-							<option value="Gym">Gym</option>
-							<option value="Yoga">Yoga</option>
-						</select>
-					</div>
-					<div className="field">
-						<label htmlFor="duration">Duration</label>
-						<input
-							type="number"
-							id="duration"
-							name="duration"
-							value={exerciseInfo["duration"]}
-							onChange={(e) =>
-								handleInputChange(
-									"duration",
-									Number(e.target.value)
-								)
-							}
-							placeholder="exercise duration (in min)"
-							required
-						/>
-					</div>
-					<div className="field">
-						<label htmlFor="calories">Calories Burned</label>
-						<input
-							type="number"
-							id="calories"
-							name="calories"
-							value={exerciseInfo["caloriesBurned"]}
-							onChange={(e) =>
-								handleInputChange(
-									"caloriesBurned",
-									Number(e.target.value)
-								)
-							}
-							placeholder="enter calories burned (approx)"
-							required
-						/>
-					</div>
-					<div className="field">
-						<button
-							className="btn"
-							type="submit"
-							onClick={handleSubmit}
-							disabled={false}>
-							Add exercise
-						</button>
-					</div>
-				</form>
-			) : (
-				<form action="" onSubmit={handleSubmit}>
-					<h2>Log Meals</h2>
-					<div className="field">
-						<label htmlFor="meal">Meal Type</label>
-						<select
-							name="meals"
-							id="meal"
-							value={mealInfo["mealType"]}
-							onChange={(e) =>
-								handleInputChange("mealType", e.target.value)
-							}
-							required>
-							<option value="">Select meals type</option>
-							<option value="Breakfast">Breakfast</option>
-							<option value="Lunch">Lunch</option>
-							<option value="Dinner">Dinner</option>
-							<option value="Snacks">Snacks</option>
-						</select>
-					</div>
-					<div className="field">
-						<label htmlFor="ingredients">Ingredients</label>
-						<input
-							type="text"
-							id="ingredients"
-							name="ingredients"
-							value={mealInfo["ingredients"]}
-							onChange={(e) =>
-								handleInputChange("ingredients", e.target.value)
-							}
-							placeholder="meal ingredients"
-							required
-						/>
-					</div>
-					<div className="field">
-						<label htmlFor="calories">Calories</label>
-						<input
-							type="number"
-							id="calories"
-							name="caloriesConsumed"
-							value={mealInfo["caloriesConsumed"]}
-							onChange={(e) =>
-								handleInputChange(
-									"caloriesConsumed",
-									Number(e.target.value)
-								)
-							}
-							placeholder="estimated calories"
-							required
-						/>
-					</div>
-
-					<div className="field">
-						<button
-							type="submit"
-							className="btn"
-							onClick={handleSubmit}>
-							Add meal
-						</button>
-					</div>
-				</form>
-			)} */}
+			<ToastContainer />
 		</div>
 	);
 }

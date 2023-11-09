@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import "./RecordCard.scss";
 
 function RecordCard({ allDetails }) {
@@ -12,53 +12,82 @@ function RecordCard({ allDetails }) {
 
 	return (
 		<div className="record-card">
-			<div className="records">
-				{exerciseDetails?.map((exercise) => (
-					<>
-						<div className="record-container">
-							<div className="record-info">
-								<p className="record-type">ExerciseType</p>
-								<p>:</p>
-								<p className="record-data">
-									{exercise.exerciseType}
-								</p>
+			<div className="records flex gap-1">
+				<div className="full-width ">
+					{exerciseDetails?.map((exercise, index) => (
+						<Fragment key={index}>
+							<div className="record-container exercise-card-bg">
+								<div className="bg-cream">
+									<div className="record-info">
+										<p className="record-type font-bold">
+											ExerciseType
+										</p>
+										<p>:</p>
+										<p className="record-data">
+											{exercise.exerciseType}
+										</p>
+									</div>
+									<div className="record-info">
+										<p className="font-bold">Duration</p>
+										<p>:</p>
+										<p>{exercise.duration}</p>
+									</div>
+									<div className="record-info">
+										<p className="font-bold">
+											Calories Burned
+										</p>
+										<p>:</p>
+										<p>{exercise.caloriesBurned}</p>
+									</div>
+								</div>
+								<div className="actions">
+									<button className="record-delete">
+										Delete
+									</button>
+								</div>
 							</div>
-							<div className="record-info">
-								<p>Duration</p>
-								<p>:</p>
-								<p>{exercise.duration}</p>
-							</div>
-							<div className="record-info">
-								<p>Calories Burned</p>
-								<p>:</p>
-								<p>{exercise.caloriesBurned}</p>
-							</div>
-						</div>
-					</>
-				))}
-
-				{/* <div className="record">
-					<div className="type">
-						<p>Walking</p>
-					</div>
-					<div className="info">
-						<div className="data">
-							<p>Duration</p> : <p className="value">30 min</p>
-						</div>
-						<div className="data">
-							<p>Calories</p> : <p className="value">150 cal</p>
-						</div>
-					</div>
-				</div> */}
-			</div>
-
-			<div className="actions">
-				<button
-					className="record-delete"
-					// style={{ display: buttonDisabled ? "hidden" : "visible" }}
-				>
-					Delete
-				</button>
+						</Fragment>
+					))}
+				</div>
+				<div className="full-width">
+					{mealDetails?.length > 0 &&
+						mealDetails.map((meal, index) => (
+							<Fragment key={index}>
+								<div className="record-container  meal-card-bg">
+									<div className="bg-cream">
+										<div className="record-info">
+											<p className="record-type font-bold">
+												MealType
+											</p>
+											<p>:</p>
+											<p className="record-data">
+												{meal.mealType}
+											</p>
+										</div>
+										<div className="record-info">
+											<p className="font-bold">
+												Duration
+											</p>
+											<p>:</p>
+											<p>{meal.ingredients}</p>
+										</div>
+										<div className="record-info">
+											<p className="font-bold">
+												Calories Burned
+											</p>
+											<p>:</p>
+											<p>{meal.caloriesConsumed}</p>
+										</div>
+									</div>
+									<div className="actions">
+										<button className="record-delete">
+											Delete
+										</button>
+									</div>
+								</div>
+							</Fragment>
+						))}
+				</div>
 			</div>
 		</div>
 	);

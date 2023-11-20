@@ -30,6 +30,11 @@ const WeightTracking = lazy(() =>
 		return { default: module.WeightTracking };
 	})
 );
+const Dashboard = lazy(() =>
+	import("./pages/index").then((module) => {
+		return { default: module.Dashboard };
+	})
+);
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -38,7 +43,7 @@ const router = createBrowserRouter(
 				<Route path="" element={<Home />} />
 				<Route path="user-profile" element={<UserProfile />} />
 				<Route path="daily-goals" element={<DailyGoals />} />
-				<Route path="weight-tracking" element={<WeightTracking />} />
+				<Route path="dashboard" element={<Dashboard />} />
 			</Route>
 			<Route path="signup" element={<SignUp />} />
 			<Route path="login" element={<Login />} />

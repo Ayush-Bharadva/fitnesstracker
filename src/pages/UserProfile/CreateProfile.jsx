@@ -3,15 +3,13 @@ import { createUserProfileService } from "../../services/services";
 import "./UserProfile.scss";
 import "../../components/Common/common.scss";
 import { useDropzone } from "react-dropzone";
-import {
-	getCookie,
-	isUserLoggedIn,
-	setProfileStatus,
-} from "../../services/helper";
+import { isUserLoggedIn, setProfileStatus } from "../../services/helper";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function CreateProfile({ setUserProfileInfo, setIsProfileCreated }) {
+	// const [isProfileExists, setIsProfileExists] = useState(false);
+
 	const [userInfo, setUserInfo] = useState({
 		profilePhoto: null,
 		fullName: "",
@@ -83,9 +81,6 @@ function CreateProfile({ setUserProfileInfo, setIsProfileCreated }) {
 	return (
 		<>
 			<div className="create-user-profile">
-				{/* <div className="exercise-poster">
-				<img src={exercise} alt="" />
-			</div> */}
 				<div className="profile-form-container">
 					<h2 className="form-title">Create Profile</h2>
 					<form

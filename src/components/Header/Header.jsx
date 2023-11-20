@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import ProfileMenu from "../Common/ProfileMenu";
 import { isUserLoggedIn } from "../../services/helper";
@@ -15,23 +15,35 @@ function Header() {
 				</h1>
 				<ul className="nav-items">
 					<li className="nav-item">
-						<NavLink className="link" to="/">
+						<NavLink
+							className="link"
+							activeClassName="active"
+							to="/">
 							Home
 						</NavLink>
 					</li>
 					<li className="nav-item">
-						<NavLink className="link" to="user-profile">
+						<NavLink
+							className="link"
+							activeClassName="active"
+							to="user-profile">
 							User Profile
 						</NavLink>
 					</li>
 					<li className="nav-item">
-						<NavLink className="link" to="/daily-goals">
+						<NavLink
+							className="link"
+							activeClassName="active"
+							to="/daily-goals">
 							Daily Goals
 						</NavLink>
 					</li>
 					<li className="nav-item">
-						<NavLink className="link" to="/weight-tracking">
-							Weight Tracking
+						<NavLink
+							className="link"
+							activeClassName="active"
+							to="/dashboard">
+							Dashboard
 						</NavLink>
 					</li>
 				</ul>

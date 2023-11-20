@@ -1,10 +1,12 @@
 import axios from "axios";
 import { getCookie } from "./helper";
-const baseApiUrl = "http://192.168.1.169:8081";
+const baseApiUrl = "https://fitnesstracker-k5h0.onrender.com";
 const userApiUrl = `${baseApiUrl}/user`;
 const userProfileApiUrl = `${userApiUrl}/profile`;
 const userExerciseApiUrl = `${userApiUrl}/exercise`;
 const userMealApiUrl = `${userApiUrl}/meal`;
+
+const url = "https://fitnesstracker-k5h0.onrender.com/login";
 
 // create axios instance with common headers
 const userId = getCookie("userId");
@@ -36,6 +38,7 @@ createApiInstance.interceptors.request.use((config) => {
 // 		headers: { ...headers, Authorization: userId },
 // 	});
 // };
+
 // SignUp User
 export async function userSignUpService(userCredentials) {
 	try {
@@ -63,17 +66,6 @@ export async function userLogInService(userCredentials) {
 		return error.response.data;
 	}
 }
-
-// LogOut User
-// export async function userLogOutService() {
-// 	try {
-// 		const response = await axios.get(`${userApiUrl}/logout`);
-// 		return response;
-// 	} catch (error) {
-// 		console.log("logout error :", error);
-// 		return error.response.data;
-// 	}
-// }
 
 /******************profile services**************************/
 // CreateProfile
@@ -119,7 +111,7 @@ export async function updateUserProfileService(userInfo) {
 }
 
 // to get all details from date
-export async function getDetailsFromDate(currentDate) {
+export async function getDetailsFromDateService(currentDate) {
 	try {
 		const response = await createApiInstance.get(
 			`${userApiUrl}/alldetails`,
@@ -164,10 +156,15 @@ export async function updateExerciseServise(exerciseInfo) {
 }
 
 // delete exercise
-export async function daleteExerciseService() {
+export async function deleteExerciseService(type) {
 	try {
 		const response = await createApiInstance.delete(
-			`${userExerciseApiUrl}`
+			`${userExerciseApiUrl}`,
+			{
+				params: {
+					exercisetype: type,
+				},
+			}
 		);
 		return response;
 	} catch (error) {
@@ -200,12 +197,40 @@ export async function updateMealService(mealInfo) {
 }
 
 // delete meal service
-export async function deleteMealService() {
+export async function deleteMealService(type) {
 	try {
-		const response = createApiInstance.delete(`${userMealApiUrl}`);
+		const response = createApiInstance.delete(`${userMealApiUrl}`, {
+			params: { mealtype: type },
+		});
 		return response;
 	} catch (error) {
 		console.log("delete meal error :", error);
 		return error.response.data;
+	}
+}
+
+/***************************get-yearly-data**************************/
+
+export async function getYearlyWeightDetailService(date) {
+	try {
+		const response = createApiInstance.get(
+			`${userApiUrl}/yearly-weight-details`,
+			{ params: date }
+		);
+		return response;
+	} catch (error) {
+		console.log("get yearly weight data error :", error);
+	}
+}
+
+export async function getYearlyCaloriesDetailService(date) {
+	try {
+		const response = createApiInstance.get(
+			`${userApiUrl}/yearly-caloriesburned-details`,
+			{ params: date }
+		);
+		return response;
+	} catch (error) {
+		console.log("get yearly calorie data error :", error);
 	}
 }

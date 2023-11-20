@@ -1,83 +1,69 @@
 $black: #0f0f0f;
 $mid-blue: #364560;
-$light-teal: #00b69e;
+$light-teal: #478f85;
 $mid-teal: #0da08d;
 $red: #cc274c;
 $light-red: #df2c53;
+$card-bg-1: #e3effd;
+$card-bg-2: #e1fcf5;
 
-.record-container {
-	padding: 1rem;
-	width: 100%;
-	border-radius: 10px;
-	display: flex;
-	align-items: flex-start;
-	justify-content: space-between;
-	margin: 1rem 0;
-}
-
-.exercise-card-bg {
-	background-color: rgb(245, 241, 237);
-}
-
-.meal-card-bg {
-	background-color: rgb(246, 233, 219);
+* {
+	box-sizing: border-box;
 }
 
 .record-card {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
 	padding: 1rem;
 	border-radius: 7px;
-	display: flex;
 	width: 100%;
-	align-items: center;
-	justify-content: space-between;
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px 0px;
 
-	.records {
-		width: 100%;
+	.exercise-record-container {
+		flex: 1 0 45%;
 
-		.record-info {
-			display: flex;
-			align-self: flex-start;
-			margin: 1rem 0;
-			padding: 1rem 0.5rem;
-			border-radius: 7px;
-			width: 100%;
-		}
+		.record-container {
+			.exercise-record-card {
+				width: 100%;
+				.record-title {
+					font-weight: bold;
+					font-size: 2rem;
+					margin-bottom: 1.5rem;
+				}
 
-		// style:1
-		.record {
-			background-color: #444;
-			padding: 1rem;
-			display: flex;
-			align-items: center;
-			width: 100%;
-			border-radius: 7px;
-			gap: 0.5rem;
-			width: 100%;
-
-			p {
-				font-weight: bold;
-				color: #fff;
-			}
-
-			.activity-type {
-				height: 100%;
-				align-self: flex-start;
-			}
-
-			.activity-info {
-				display: flex;
-				flex-direction: column;
-				align-items: flex-start;
-				justify-content: space-between;
-
-				.activity-data {
-					width: 100%;
+				.record-info {
+					// padding: 1rem;
+					margin-top: 2.5rem;
 					display: flex;
-					justify-content: space-between;
+					justify-content: flex-start;
+					gap: 1.5rem;
+
+					p {
+						background-color: #fff;
+						padding: 0.5rem 2.2rem;
+						display: inline;
+						border-radius: 41px;
+						font-size: 1.5rem;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						gap: 10px;
+						// font-weight: bold;
+						img {
+							height: 20px;
+							width: 20px;
+							object-fit: cover;
+						}
+					}
 				}
 			}
 		}
+	}
+
+	.meal-record-container {
+		flex: 1 0 45%;
 	}
 
 	.activity-data {
@@ -88,35 +74,42 @@ $light-red: #df2c53;
 		display: inline;
 	}
 
-	.actions {
-		align-self: flex-start;
-		justify-self: flex-end;
-
-		.record-edit,
-		.record-delete {
-			padding: 0.4rem 0.8rem;
-			margin: 0.2rem;
-			border: none;
-			border-radius: 5px;
-			color: #fff;
-			font-weight: bold;
-			cursor: pointer;
-		}
-
-		.record-edit {
-			background-color: $light-teal;
-		}
-
-		.record-edit:hover {
-			background-color: $mid-teal;
-		}
-
-		.record-delete {
-			background-color: $red;
-		}
-
-		.record-delete:hover {
-			background-color: $light-red;
-		}
+	.record-delete {
+		background-color: #fff;
+		border-radius: 25%;
+		padding: 0.25rem;
+		font-size: 2rem;
+		color: $red;
+		cursor: pointer;
 	}
+}
+
+.record-container {
+	padding: 1rem;
+	width: 100%;
+	border-radius: 10px;
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	margin: 1rem 0;
+
+	.record-info {
+	}
+}
+
+.exercise-card-bg {
+	background-color: $card-bg-1;
+}
+
+.meal-card-bg {
+	background-color: $card-bg-2;
+}
+
+// icons stylings
+.clock-icon {
+	color: $mid-teal;
+}
+
+.fire-icon {
+	color: #f16923;
 }

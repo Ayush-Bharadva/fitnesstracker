@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-import ExerciseOfDay from "./ExerciseOfDay";
-import MealOfDay from "./MealOfDay";
-import { FiChevronRight } from "react-icons/fi";
 import "../../App.scss";
 import "../../global.scss";
 import {
@@ -80,14 +77,17 @@ const data = {
 	datasets: [
 		{
 			label: "Weight",
-			data: generateRandomData(),
+			data: [150, 175, 120, 95, 200, 219, 179, 196, 111, 300, 223, 153],
 			borderColor: "rgb(255, 99, 132)",
 			backgroundColor: "rgba(255, 99, 132, 0.5)",
 			yAxisID: "y",
 		},
 		{
 			label: "Calories",
-			data: generateRandomData(),
+			data: [
+				1000, 1500, 1020, 905, 600, 1900, 1079, 1096, 1011, 1600, 1006,
+				850,
+			],
 			borderColor: "rgb(53, 162, 235)",
 			backgroundColor: "rgba(253, 162, 235, 0.5)",
 			yAxisID: "y1",
@@ -95,22 +95,30 @@ const data = {
 	],
 };
 
+const handleDateChange = (e) => {
+	console.log(e.target.value);
+};
+
 function Home() {
 	return (
 		<>
-			<div className="homepage flex">
-				<div className="sidebar">
-					<div className="sidebar-container">
-						<h2>Select Date</h2>
-						<input type="date" name="" id="date" />
-					</div>
+			<div className="home-section">
+				<div className="graph-container">
+					<Line className="graph" options={options} data={data} />
 				</div>
-				<div className="right-sidebar flex-column">
-					<div className="graph">
-						<Line options={options} data={data} />
-					</div>
+				<div className="select-date-section">
+					<h2>Select Date</h2>
+					<input
+						type="date"
+						name="name"
+						id="date"
+						onChange={handleDateChange}
+					/>
+				</div>
+
+				{/* <div className="">
 					<div className="records flex">
-						{/* <div className="exercise-records flex-column gap-1">
+						<div className="exercise-records flex-column gap-1">
 							<p className="title text-left">
 								Exercise performed
 							</p>
@@ -121,9 +129,9 @@ function Home() {
 							<p className="title text-left">Meals Taken</p>
 							<MealOfDay />
 							<MealOfDay />
-						</div> */}
+						</div>
 					</div>
-				</div>
+				</div> */}
 			</div>
 		</>
 	);

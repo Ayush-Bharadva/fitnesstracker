@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Card from "../../components/Common/Card";
 import "./UserProfile.scss";
 import "../../global.scss";
 
 function ViewProfile({ userProfileInfo }) {
-	console.log("userProfileInfo :", userProfileInfo);
 	const [inputDisabled, setInputDisabled] = useState(true);
 	const [editedUserInfo, setEditedUserInfo] = useState({
 		...userProfileInfo,
@@ -27,8 +25,6 @@ function ViewProfile({ userProfileInfo }) {
 	useEffect(() => {
 		isProfileEditable ? setInputDisabled(false) : setInputDisabled(true);
 	}, [isProfileEditable]);
-
-	console.log("editedUserInfo :", editedUserInfo);
 
 	return (
 		<>

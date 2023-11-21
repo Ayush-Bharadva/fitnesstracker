@@ -1,11 +1,8 @@
 $black: #0f0f0f;
 $mid-blue: #364560;
-$light-teal: #478f85;
-$mid-teal: #0da08d;
+$light-blue: #d4e4ff;
+$mid-teal: #0a8070;
 $red: #cc274c;
-$light-red: #df2c53;
-$card-bg-1: #e3effd;
-$card-bg-2: #e1fcf5;
 
 * {
 	box-sizing: border-box;
@@ -13,31 +10,42 @@ $card-bg-2: #e1fcf5;
 
 .record-card {
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
-	gap: 1rem;
+	gap: 1.5rem;
 	padding: 1rem;
-	border-radius: 7px;
+	flex-wrap: wrap;
 	width: 100%;
-	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px 0px;
 
-	.exercise-record-container {
+	.exercise-record-container,
+	.meal-record-container {
+		align-self: flex-start;
 		flex: 1 0 45%;
+		max-width: 620px;
 
 		.record-container {
-			.exercise-record-card {
+			padding: 1rem;
+			border-radius: 30px;
+			display: flex;
+			margin: 1rem 0;
+			transition: all 0.2s ease;
+
+			.exercise-record-card,
+			.meal-record-card {
 				width: 100%;
+				padding: 1.5rem 0 1rem 1.5rem;
+
 				.record-title {
 					font-weight: bold;
 					font-size: 2rem;
 					margin-bottom: 1.5rem;
+					color: $light-blue;
 				}
 
 				.record-info {
-					// padding: 1rem;
 					margin-top: 2.5rem;
 					display: flex;
-					justify-content: flex-start;
+					justify-content: space-evenly;
 					gap: 1.5rem;
 
 					p {
@@ -45,12 +53,11 @@ $card-bg-2: #e1fcf5;
 						padding: 0.5rem 2.2rem;
 						display: inline;
 						border-radius: 41px;
-						font-size: 1.5rem;
+						font-size: 1.2rem;
 						display: flex;
 						justify-content: center;
 						align-items: center;
 						gap: 10px;
-						// font-weight: bold;
 						img {
 							height: 20px;
 							width: 20px;
@@ -60,21 +67,14 @@ $card-bg-2: #e1fcf5;
 				}
 			}
 		}
+
+		.record-container:hover {
+			scale: 1.01;
+			box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+		}
 	}
 
-	.meal-record-container {
-		flex: 1 0 45%;
-	}
-
-	.activity-data {
-		margin-left: 0.5rem;
-	}
-
-	p {
-		display: inline;
-	}
-
-	.record-delete {
+	.delete-record {
 		background-color: #fff;
 		border-radius: 25%;
 		padding: 0.25rem;
@@ -84,32 +84,31 @@ $card-bg-2: #e1fcf5;
 	}
 }
 
-.record-container {
-	padding: 1rem;
-	width: 100%;
-	border-radius: 10px;
-	display: flex;
-	align-items: flex-start;
-	justify-content: space-between;
-	margin: 1rem 0;
-
-	.record-info {
-	}
-}
-
 .exercise-card-bg {
-	background-color: $card-bg-1;
+	background: linear-gradient(
+		to right,
+		rgba(50, 123, 207, 1) 0%,
+		rgb(165, 186, 211) 100%
+	);
 }
 
 .meal-card-bg {
-	background-color: $card-bg-2;
+	background: linear-gradient(
+		to right,
+		rgba(64, 226, 184, 1) 0%,
+		rgba(178, 223, 212, 1) 100%
+	);
+}
+
+.meal-record-title {
+	color: $mid-teal;
+	font-weight: bold;
+	font-size: 2rem;
+	margin-bottom: 1.5rem;
 }
 
 // icons stylings
 .clock-icon {
 	color: $mid-teal;
-}
-
-.fire-icon {
-	color: #f16923;
+	font-size: 20px;
 }

@@ -1,0 +1,80 @@
+$black: #0f0f0f;
+$light-teal: #00b69e;
+
+#dashboard-section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	width: 100%;
+	padding: 2rem 0;
+	gap: 1rem;
+	background-color: #eee;
+
+	.graph-container {
+		align-self: center;
+		max-width: 1200px;
+		width: fit-content;
+		padding: 1rem;
+		height: 100%;
+		align-self: center;
+		border-radius: 7px;
+		background-color: #fff;
+
+		.graph {
+			height: 100%;
+			width: 100%;
+		}
+	}
+
+	.select-date-section {
+		background-color: #fff;
+		border-radius: 7px;
+		padding: 1rem;
+		width: 20%;
+	}
+}
+
+.record-tile {
+	border-radius: 7px;
+	p {
+		background-color: $light-teal;
+		padding: 1rem;
+		text-align: left;
+		color: white;
+		border-radius: 7px;
+		margin: 1.5rem 0;
+		font-weight: bold;
+	}
+}
+
+.exercise-records,
+.meal-records {
+	padding: 1.5rem;
+	width: 45%;
+	flex-wrap: wrap;
+}
+
+.title {
+	text-align: center;
+	font-size: 1.25rem;
+	font-weight: bold;
+	padding: 0.5rem;
+}
+
+@media only screen and (max-width: 768px) {
+	.exercise-records,
+	.meal-records {
+		width: 100%;
+		gap: 0;
+	}
+}
+
+//# 320px — 480px: Mobile devices
+//# 481px — 768px: iPads, Tablets
+//# 769px — 1024px: Small screens, laptops
+//# 1025px — 1200px: Desktops, large screens
+//# 1201px and more —  Extra large screens, TV
+
+/******************************************************************************************************/

@@ -7,7 +7,7 @@ import {
 	updateMealService,
 } from "../../services/services";
 import { ToastContainer, toast } from "react-toastify";
-import "./DailyGoals.scss";
+import "./AddActivityForm.scss";
 import "react-toastify/dist/ReactToastify.css";
 
 const initialValue = {
@@ -18,8 +18,6 @@ const initialValue = {
 };
 
 function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
-	// console.log(allDetails);
-
 	const [activityInfo, setActivityInfo] = useState({
 		type: "",
 		duration: "",
@@ -27,7 +25,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 		calories: "",
 	});
 
-	const formType = isExercise ? "exercise" : "meal";
+	const formType = isExercise ? "Exercise" : "Meal";
 
 	const [buttonText, setButtonText] = useState("Add");
 
@@ -39,7 +37,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 
 	let options = [];
 	if (isExercise)
-		options = ["Walking", "Running", "Weight_lifting", "Gym", "Yoga"];
+		options = ["Walking", "Running", "Weight Lifting", "Gym", "Yoga"];
 	else options = ["Breakfast", "Lunch", "Dinner", "Snacks"];
 
 	const updateActivity = async () => {
@@ -153,7 +151,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		if (isUserLoggedIn() && getProfileStatus()) {
+		if (isUserLoggedIn() /* && getProfileStatus() */) {
 			buttonText === "Add" ? addActivity() : updateActivity();
 		} else {
 			showToast(
@@ -197,105 +195,99 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 
 	return (
 		<>
-			<div className="log-activity-form">
-				<form action="" onSubmit={handleSubmit}>
-					<h2>Log {formType}</h2>
-					<div className="field">
-						<label htmlFor="activity">
-							{isExercise ? "Exercise" : "Meal"} Type
-						</label>
-						<select
-							name="type"
-							id="activity"
-							value={activityInfo["type"]}
-							onChange={(e) =>
-								handleInputChange("type", e.target.value)
-							}
-							required>
-							<option value="">
-								Select {isExercise ? "Exercise" : "Meal"} type
+			<h2 className="form-heading">Log {formType}</h2>
+			<form action="" onSubmit={handleSubmit}>
+				<div className="field">
+					<label htmlFor="activity">
+						{isExercise ? "Exercise" : "Meal"} Type
+					</label>
+					<select
+						name="type"
+						id="activity"
+						value={activityInfo["type"]}
+						onChange={(e) =>
+							handleInputChange("type", e.target.value)
+						}
+						required>
+						<option value="">
+							Select {isExercise ? "Exercise" : "Meal"} type
+						</option>
+						{options.map((data, index) => (
+							<option key={index} value={data}>
+								{data}
 							</option>
-							{options.map((data, index) => (
-								<option key={index} value={data}>
-									{data}
-								</option>
-							))}
-						</select>
-					</div>
-					<div className="field">
-						{isExercise ? (
-							<>
-								<label htmlFor="duration">Duration</label>
-								<input
-									type="number"
-									id="duration"
-									name="duration"
-									value={activityInfo["duration"]}
-									onChange={(e) =>
-										handleInputChange(
-											"duration",
-											Number(e.target.value)
-										)
-									}
-									placeholder="exercise duration (in min)"
-									required
-								/>
-							</>
-						) : (
-							<>
-								<label htmlFor="ingredients">Ingredients</label>
-								<input
-									type="text"
-									id="ingredients"
-									name="ingredients"
-									value={activityInfo["ingredients"]}
-									onChange={(e) =>
-										handleInputChange(
-											"ingredients",
-											e.target.value
-										)
-									}
-									placeholder="meal ingredients"
-									required
-								/>
-							</>
-						)}
-					</div>
-					<div className="field">
-						<label htmlFor="calories">
-							Calories {isExercise ? "burned" : "consumed"}
-						</label>
-						<input
-							type="number"
-							id="calories"
-							name="calories"
-							value={activityInfo["calories"]}
-							onChange={(e) =>
-								handleInputChange(
-									"calories",
-									Number(e.target.value)
-								)
-							}
-							placeholder={
-								isExercise
-									? "enter calories burned (approx)"
-									: "enter calories consumed (approx)"
-							}
-							required
-						/>
-					</div>
-					<div className="field">
-						<button
-							className="btn"
-							type="submit"
-							onClick={handleSubmit}>
-							{isExercise
-								? `${buttonText} exercise`
-								: `${buttonText} meal`}
-						</button>
-					</div>
-				</form>
-			</div>
+						))}
+					</select>
+				</div>
+				<div className="field">
+					{isExercise ? (
+						<>
+							<label htmlFor="duration">Duration</label>
+							<input
+								type="number"
+								id="duration"
+								name="duration"
+								value={activityInfo["duration"]}
+								onChange={(e) =>
+									handleInputChange(
+										"duration",
+										Number(e.target.value)
+									)
+								}
+								placeholder="Exercise duration (in min)"
+								required
+							/>
+						</>
+					) : (
+						<>
+							<label htmlFor="ingredients">Ingredients</label>
+							<input
+								type="text"
+								id="ingredients"
+								name="ingredients"
+								value={activityInfo["ingredients"]}
+								onChange={(e) =>
+									handleInputChange(
+										"ingredients",
+										e.target.value
+									)
+								}
+								placeholder="Meal ingredients"
+								required
+							/>
+						</>
+					)}
+				</div>
+				<div className="field">
+					<label htmlFor="calories">
+						Calories {isExercise ? "burned" : "consumed"}
+					</label>
+					<input
+						type="number"
+						id="calories"
+						name="calories"
+						value={activityInfo["calories"]}
+						onChange={(e) =>
+							handleInputChange(
+								"calories",
+								Number(e.target.value)
+							)
+						}
+						placeholder={
+							isExercise
+								? "Enter calories burned (approx)"
+								: "Enter calories consumed (approx)"
+						}
+						required
+					/>
+				</div>
+
+				<button className="btn" type="submit" onClick={handleSubmit}>
+					{isExercise
+						? `${buttonText} Exercise`
+						: `${buttonText} Meal`}
+				</button>
+			</form>
 			<ToastContainer />
 		</>
 	);

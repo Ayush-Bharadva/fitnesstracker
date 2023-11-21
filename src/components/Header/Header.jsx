@@ -1,9 +1,13 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import ProfileMenu from "../Common/ProfileMenu";
 import { isUserLoggedIn } from "../../services/helper";
+import "./Header.scss";
 
 function Header() {
+	const location = useLocation();
+	const pathName = location.pathname;
+
 	return (
 		<header className="header">
 			<nav className="navbar">
@@ -16,7 +20,7 @@ function Header() {
 				<ul className="nav-items">
 					<li className="nav-item">
 						<NavLink
-							className="link"
+							className={`link`}
 							activeClassName="active"
 							to="/">
 							Home

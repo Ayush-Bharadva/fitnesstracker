@@ -1,0 +1,23 @@
+// Theme variables:
+$black: #0f0f0f;
+$dark-blue: #232d3f;
+$mid-blue: #176b87;
+$light-blue: #3f5071;
+$dark-green: #005b41;
+$teal: #008170;
+$mid-teal: #00b69e;
+$light-teal: #64ccc5;
+
+.footer {
+	// position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: 1rem 0;
+	background-color: $dark-blue;
+	color: $light-teal;
+	z-index: 1000;
+	.footer-content {
+		text-align: center;
+	}
+}

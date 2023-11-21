@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "../Common/Card";
 import poster from "../../assets/images/signup_poster.jpg";
@@ -101,7 +101,8 @@ function SignUp() {
 		} else if (response.status === 200) {
 			setCookie("userId", response.data.userId);
 			console.log("userId :", response.data.userId);
-			navigate("/");
+			// navigate("/");
+			navigate("/daily-goals");
 			console.log("signup successful");
 		}
 	};

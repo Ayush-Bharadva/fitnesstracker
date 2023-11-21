@@ -5,12 +5,12 @@ import {
 	deleteMealService,
 } from "../../services/services";
 import { ToastContainer, toast } from "react-toastify";
-import { Modal, Button } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { MdDelete } from "react-icons/md";
 import { FaRegClock } from "react-icons/fa6";
-import { ImFire } from "react-icons/im";
 import fireIcon from "../../assets/icons/fire-icon-image.png";
+import Ingredient from "../../assets/icons/Ingredient.png";
+import calories from "../../assets/icons/calories.png";
 
 function RecordCard({ allDetails, setAllDetails }) {
 	const { exerciseDetails, mealDetails } = {
@@ -80,18 +80,20 @@ function RecordCard({ allDetails, setAllDetails }) {
 						<Fragment key={index}>
 							<div className="record-container exercise-card-bg">
 								<div className="exercise-record-card">
-									<div className="">
+									<div>
 										<p className="record-title">
-											{exercise.exerciseType || ""}
+											{exercise.exerciseType ===
+											"Weight_lifting"
+												? "Weight Lifting"
+												: exercise.exerciseType || ""}
 										</p>
 									</div>
 									<div className="record-info">
-										<p className="">
+										<p>
 											<FaRegClock className="clock-icon" />{" "}
 											<span>{exercise.duration} Min</span>
 										</p>
-										<p className="">
-											{/* <ImFire className="fire-icon" /> */}
+										<p>
 											<img src={fireIcon} alt="" />
 											<span>
 												{exercise.caloriesBurned} Cal
@@ -100,7 +102,7 @@ function RecordCard({ allDetails, setAllDetails }) {
 									</div>
 								</div>
 								<MdDelete
-									className="record-delete"
+									className="delete-record"
 									onClick={() =>
 										handleDeleteActivity(
 											exercise.exerciseType,
@@ -118,51 +120,34 @@ function RecordCard({ allDetails, setAllDetails }) {
 							<Fragment key={index}>
 								<div className="record-container meal-card-bg">
 									<div className="meal-record-card">
-										<div className="record-info">
-											<p className="record-type font-bold">
-												MealType
-											</p>
-											<p>:</p>
-											<p className="record-data">
+										<div>
+											<p className="meal-record-title">
 												{meal.mealType}
 											</p>
 										</div>
 										<div className="record-info">
-											<p className="font-bold">
-												Duration
+											<p>
+												{" "}
+												<img src={Ingredient} alt="" />
+												<span>{meal.ingredients}</span>
 											</p>
-											<p>:</p>
-											<p>{meal.ingredients}</p>
-										</div>
-										<div className="record-info">
-											<p className="font-bold">
-												Calories Burned
+											<p>
+												<img src={calories} alt="" />
+												<span>
+													{meal.caloriesConsumed} Cal
+												</span>
 											</p>
-											<p>:</p>
-											<p>{meal.caloriesConsumed}</p>
 										</div>
 									</div>
-									{/* <div className="actions"> */}
 									<MdDelete
-										className="record-delete"
+										className="delete-record"
 										onClick={() =>
 											handleDeleteActivity(
-												exercise.exerciseType,
+												meal.mealType,
 												true
 											)
 										}
 									/>
-									{/* <button
-												className="record-delete"
-												onClick={() =>
-													handleDeleteActivity(
-														meal.mealType,
-														false
-													)
-												}>
-												Delete
-											</button> */}
-									{/* </div> */}
 								</div>
 							</Fragment>
 						))}
@@ -172,34 +157,6 @@ function RecordCard({ allDetails, setAllDetails }) {
 		</>
 	);
 }
-
-export const DeleteConfirmation = ({
-	showModal,
-	hideModal,
-	confirmModal,
-	id,
-	type,
-	message,
-}) => {
-	return (
-		<Modal show={showModal} onHide={hideModal}>
-			<Modal.Header closeButton>
-				<Modal.Title>Delete Confirmation</Modal.Title>
-			</Modal.Header>
-			<Modal.Body>
-				<div className="alert alert-danger">{message}</div>
-			</Modal.Body>
-			<Modal.Footer>
-				<Button variant="default" onClick={hideModal}>
-					Cancel
-				</Button>
-				<Button variant="danger" onClick={() => confirmModal(type, id)}>
-					Delete
-				</Button>
-			</Modal.Footer>
-		</Modal>
-	);
-};
 
 /*
 	allDetails = {

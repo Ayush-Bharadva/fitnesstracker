@@ -28,7 +28,8 @@ function Login() {
 		console.log(response);
 		if (response.status === 200) {
 			setCookie("userId", response.data.userId);
-			navigate("/");
+			// navigate("/");
+			navigate("/daily-goals");
 		}
 	};
 

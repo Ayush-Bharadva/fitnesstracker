@@ -223,14 +223,53 @@ export async function getYearlyWeightDetailService(date) {
 	}
 }
 
-export async function getYearlyCaloriesDetailService(date) {
+export async function getYearlyCaloriesDetailService(year) {
 	try {
 		const response = createApiInstance.get(
 			`${userApiUrl}/yearly-caloriesburned-details`,
-			{ params: date }
+			{
+				params: {
+					date: year,
+				},
+			}
 		);
 		return response;
 	} catch (error) {
 		console.log("get yearly calorie data error :", error);
+	}
+}
+
+/****************************weight-service*****************************/
+export async function addWeightService(weightInfo) {
+	try {
+		const response = createApiInstance.post(`${userApiUrl}/weight`, {
+			dailyWeight: weightInfo,
+		});
+		return response;
+	} catch (error) {
+		console.log("add weight error :", error);
+		return error.response;
+	}
+}
+
+export async function editWeightService(weightInfo) {
+	try {
+		const response = createApiInstance.put(`${userApiUrl}/weight`, {
+			dailyWeight: weightInfo,
+		});
+		return response;
+	} catch (error) {
+		console.log("edit weight error :", error);
+		return error.response;
+	}
+}
+
+export async function deleteWeightService() {
+	try {
+		const response = createApiInstance.delete(`${userApiUrl}/weight`);
+		return response;
+	} catch (error) {
+		console.log("delete weight error :", error);
+		return error.response;
 	}
 }

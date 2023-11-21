@@ -24,7 +24,7 @@ function UserProfile() {
 				)}
 			</div>
 			<section id="user-profile-manager">
-				<UserProfileManager />
+				{/* <UserProfileManager /> */}
 			</section>
 		</>
 	);

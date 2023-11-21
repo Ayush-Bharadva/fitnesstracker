@@ -1,0 +1,90 @@
+// Theme variables:
+$black: #0f0f0f;
+$dark-blue: #232d3f;
+$mid-blue: #176b87;
+$light-blue: #3f5071;
+$dark-green: #005b41;
+$teal: #008170;
+$mid-teal: #00b69e;
+$light-teal: #64ccc5;
+
+.header {
+	background-color: $dark-blue;
+	color: white;
+	// position: sticky;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 1000;
+
+	.navbar {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		padding: 0.5rem 3rem;
+		margin: 0 auto;
+
+		.logo {
+			font-size: 2rem;
+			cursor: pointer;
+			margin: 0.5rem;
+			.logo-text {
+				color: white;
+				text-decoration: none;
+			}
+		}
+
+		.nav-items {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 7px;
+		}
+
+		.nav-item {
+			list-style-type: none;
+			cursor: pointer;
+		}
+
+		.link {
+			color: white;
+			padding: 0.3rem 0.6rem;
+			text-decoration: none;
+			transition: all 0.2s ease;
+		}
+		.link:hover {
+			color: $light-teal;
+			text-decoration: underline;
+		}
+		.active {
+			color: $light-teal;
+		}
+	}
+}
+
+.buttons {
+	button {
+		padding: 0.6rem 1.2rem;
+		margin: 0.5rem;
+		font-size: 1rem;
+		font-weight: bold;
+		color: white;
+		background-color: $teal;
+		border: none;
+		border-radius: 7px;
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+	.signup {
+		background-color: #ddd;
+		color: $dark-green;
+	}
+	.login:hover {
+		background-color: #029f8a;
+	}
+	.signup:hover {
+		background-color: #fff;
+	}
+}

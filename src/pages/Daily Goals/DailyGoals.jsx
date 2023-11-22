@@ -11,56 +11,53 @@ import AddActivityForm from "./AddActivityForm";
 import { toast } from "react-toastify";
 
 function DailyGoals() {
-	const [allDetails, setAllDetails] = useState(null);
+	const [allDetails, setAllDetails] = useState({});
+	const { weightDetails } = allDetails;
+
 	const [weightInfo, setWeightInfo] = useState("");
-	console.log(weightInfo);
-	const [inputDisabled, setInputDisabled] = useState(
-		weightInfo ? true : false
-	);
-	console.log("inputDisabled :", inputDisabled);
+	const [buttonType, setButtonType] = useState("Save");
 
 	const showToast = (type, message) => {
 		toast[type](message, { position: toast.POSITION.TOP_RIGHT });
 	};
 
-	const handleWeightInfo = async (type) => {
-		console.log("weightInfo :", weightInfo);
-		setInputDisabled(type === "edit" ? false : true);
+	const handleWeightInfo = async () => {
+		console.log(weightInfo);
+		setButtonType("Edit");
 
-		let response;
-
-		if (weightInfo === "") {
-			response = await addWeightService(parseInt(weightInfo));
-		} else {
-			response = await editWeightService(parseInt(weightInfo));
-		}
-
-		if (response.status === 200) {
-			showToast(
-				"success",
-				type === "add" ? "Weight logged!" : "Weight Updated!"
-			);
-			setInputDisabled(true);
+		try {
+			let response = !weightDetails?.dailyWeight
+				? await addWeightService(Number(weightInfo))
+				: await editWeightService(Number(weightInfo));
+			console.log(response);
+			if (response.status === 200) {
+				setAllDetails((prev) => ({
+					...prev,
+					weightDetails: { dailyWeight: weightInfo },
+				}));
+			}
+		} catch (error) {
+			console.error("error updating weight :", error);
+			showToast("error", "An error occurred while updating weight");
 		}
 	};
-
-	const weightActionBtn = weightInfo ? (
-		<button
-			className="weight-action-btn"
-			onClick={() => handleWeightInfo("edit")}>
-			Edit
-		</button>
-	) : (
-		<button
-			className="weight-action-btn"
-			onClick={() => handleWeightInfo("save")}>
-			Save
-		</button>
-	);
 
 	const handleWeightChange = (e) => {
-		setWeightInfo(e.target.value);
+		setWeightInfo(Number(e.target.value));
 	};
+
+	const weightActionButton =
+		buttonType === "Edit" ? (
+			<button
+				className="weight-action-btn"
+				onClick={() => setButtonType("Save")}>
+				Edit
+			</button>
+		) : (
+			<button className="weight-action-btn" onClick={handleWeightInfo}>
+				Save
+			</button>
+		);
 
 	useEffect(() => {
 		const fetchAllRecords = async () => {
@@ -78,7 +75,10 @@ function DailyGoals() {
 				if (response.status === 200) {
 					const allData = { ...response.data };
 					setAllDetails(allData);
-					setWeightInfo(allData.weightDetails.dailyWeight || "");
+					if (allData.weightDetails.dailyWeight) {
+						setWeightInfo(allData.weightDetails.dailyWeight);
+						setButtonType("Edit");
+					}
 				}
 			} catch (error) {
 				console.log("error fetching all records :", error);
@@ -108,16 +108,16 @@ function DailyGoals() {
 			<section id="weight-tracking-section">
 				<h3>Today's Weight</h3>
 				<div className="weight-tracker-container">
-					<p className="weight">Weight</p>
+					<p className="weight">Weight (Kgs)</p>
 					<div className="actions">
 						<input
 							type="text"
 							value={weightInfo}
 							onChange={handleWeightChange}
-							disabled={inputDisabled}
+							disabled={buttonType === "Edit" ? true : false}
 							placeholder="Today's Weight (Kgs)"
 						/>
-						{weightActionBtn}
+						{weightActionButton}
 					</div>
 				</div>
 			</section>

@@ -4,20 +4,21 @@ import {
 	Chart as ChartJS,
 	CategoryScale,
 	LinearScale,
-	PointElement,
-	LineElement,
+	BarElement,
 	Title,
 	Tooltip,
 	Legend,
 } from "chart.js";
-import { Line } from "react-chartjs-2";
-import { getYearlyCaloriesDetailService } from "../../services/services";
+import { Bar } from "react-chartjs-2";
+import {
+	getYearlyCaloriesDetailService,
+	getYearlyWeightDetailService,
+} from "../../services/services";
 
 ChartJS.register(
 	CategoryScale,
 	LinearScale,
-	PointElement,
-	LineElement,
+	BarElement,
 	Title,
 	Tooltip,
 	Legend
@@ -25,30 +26,9 @@ ChartJS.register(
 
 const options = {
 	responsive: true,
-	interaction: {
-		mode: "index",
-		intersect: false,
-	},
-	stacked: false,
 	plugins: {
-		title: {
-			display: true,
-			text: "Chart.js Line Chart - Multi Axis",
-		},
-	},
-	scales: {
-		y: {
-			type: "linear",
-			display: true,
-			position: "left",
-		},
-		y1: {
-			type: "linear",
-			display: true,
-			position: "right",
-			grid: {
-				drawOnChartArea: false,
-			},
+		legend: {
+			position: "top",
 		},
 	},
 };
@@ -68,69 +48,115 @@ const labels = [
 	"Dec",
 ];
 
-const generateRandomData = () => {
-	return labels.map(() => Math.floor(Math.random() * 2000 - 1000));
-};
+function NoDataFound({ year }) {
+	return <h2>No Data Found For Year : {year}</h2>;
+}
 
 function Dashboard() {
-	// useEffect(() => {
-	// }, []);
-
 	const [yearlyCalorieDetails, setYearlyCalorieDetails] = useState(null);
+	const [yearlyWeightDetails, setYearlyWeightDetails] = useState(null);
 
-	const data = {
+	const date = new Date();
+	const currentYear = date.getFullYear().toString();
+	const [selectedYear, setSelectedYear] = useState(currentYear);
+
+	useEffect(() => {
+		const date = new Date();
+		const currentYear = date.getFullYear().toString();
+
+		const fetchYearlyDetails = async (currentYear) => {
+			const annualCalresponse = await getYearlyCaloriesDetailService(
+				currentYear
+			);
+			if (annualCalresponse.status === 200) {
+				setYearlyCalorieDetails([...annualCalresponse.data]);
+			}
+
+			const annualWeightresponse = await getYearlyWeightDetailService(
+				currentYear
+			);
+			if (annualWeightresponse.status === 200) {
+				setYearlyWeightDetails([...annualWeightresponse.data]);
+			}
+		};
+		fetchYearlyDetails(currentYear);
+	}, []);
+
+	const yearlyWeightData = {
 		labels,
 		datasets: [
 			{
 				label: "Weight",
-				data: [
-					150, 175, 120, 95, 200, 219, 179, 196, 111, 300, 223, 153,
-				],
-				borderColor: "rgb(255, 99, 132)",
-				backgroundColor: "rgba(255, 99, 132, 0.5)",
-				yAxisID: "y",
+				data: yearlyWeightDetails?.map(
+					(data) => data.averageMonthlyWeight,
+					[]
+				),
+				backgroundColor: "rgba(45, 83, 51, 0.5)",
 			},
+		],
+	};
+	const yearlyCalorieData = {
+		labels,
+		datasets: [
 			{
 				label: "Calories",
 				data: yearlyCalorieDetails?.map(
 					(data) => data.averageMonthlyCaloriesBurned,
 					[]
 				),
-				borderColor: "rgb(53, 162, 235)",
-				backgroundColor: "rgba(253, 162, 235, 0.5)",
-				yAxisID: "y1",
+				backgroundColor: "rgba(53, 162, 235, 0.5)",
 			},
 		],
 	};
 
-	const fetchCalorieDetails = async (year) => {
-		const response = await getYearlyCaloriesDetailService(year);
+	const fetchYearlyDetails = async (currentYear) => {
+		const annualCalresponse = await getYearlyCaloriesDetailService(
+			currentYear
+		);
+		if (annualCalresponse.status === 200) {
+			setYearlyCalorieDetails([...annualCalresponse.data]);
+		}
 
-		if (response.status === 200) {
-			setYearlyCalorieDetails([...response.data]);
+		const annualWeightresponse = await getYearlyWeightDetailService(
+			currentYear
+		);
+		if (annualWeightresponse.status === 200) {
+			setYearlyWeightDetails([...annualWeightresponse.data]);
 		}
 	};
 
 	const handleDateChange = async (e) => {
 		const selectedYear = Number(e.target.value.substring(0, 4));
-
-		fetchCalorieDetails(selectedYear);
+		setSelectedYear(selectedYear);
+		fetchYearlyDetails(selectedYear);
 	};
 
 	return (
 		<section id="dashboard-section">
-			<div className="graph-container">
-				<Line className="graph" options={options} data={data} />
-				{/* <Line className="graph" options={options} data={data} /> */}
-			</div>
+			<h2>Annual Data Tracking (Year : {selectedYear}) </h2>
 			<div className="select-date-section">
-				<h2>Select Date</h2>
 				<input
 					type="date"
 					name="name"
 					id="date"
 					onChange={handleDateChange}
 				/>
+			</div>
+			<div className="graph-container">
+				<div className="graph-wrapper">
+					<Bar
+						className="graph"
+						options={options}
+						data={yearlyWeightData}
+					/>
+				</div>
+				<div className="graph-wrapper">
+					<Bar
+						className="graph"
+						options={options}
+						data={yearlyCalorieData}
+					/>
+				</div>
 			</div>
 		</section>
 	);

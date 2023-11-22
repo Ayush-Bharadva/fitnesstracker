@@ -211,12 +211,18 @@ export async function deleteMealService(type) {
 
 /***************************get-yearly-data**************************/
 
-export async function getYearlyWeightDetailService(date) {
+export async function getYearlyWeightDetailService(year) {
 	try {
+		console.log("weight api");
 		const response = createApiInstance.get(
 			`${userApiUrl}/yearly-weight-details`,
-			{ params: date }
+			{
+				params: {
+					date: year,
+				},
+			}
 		);
+		console.log("response :", response);
 		return response;
 	} catch (error) {
 		console.log("get yearly weight data error :", error);

@@ -1,26 +1,40 @@
 $black: #0f0f0f;
 $light-teal: #00b69e;
+$red: rgb(211, 88, 88);
 
 #dashboard-section {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	justify-content: center;
-	height: 100%;
-	width: 100%;
-	padding: 2rem 0;
+	padding: 1.5rem;
 	gap: 1rem;
 	background-color: #eee;
+	border-radius: 7px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	h2 {
+		text-align: left;
+		color: $red;
+	}
 
 	.graph-container {
-		align-self: center;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1.5rem;
 		max-width: 1200px;
-		width: fit-content;
+		width: 2400px;
 		padding: 1rem;
-		height: 100%;
-		align-self: center;
-		border-radius: 7px;
-		background-color: #fff;
+		border: 2px solid blue;
+
+		.graph-wrapper {
+			border-radius: 7px;
+			background-color: #fff;
+			flex: 1 0;
+			height: fit-content;
+		}
 
 		.graph {
 			height: 100%;
@@ -29,9 +43,10 @@ $light-teal: #00b69e;
 	}
 
 	.select-date-section {
+		align-self: flex-end;
 		background-color: #fff;
 		border-radius: 7px;
-		padding: 1rem;
+		padding: 0.75rem;
 		width: 20%;
 	}
 }

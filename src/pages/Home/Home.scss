@@ -6,6 +6,10 @@ $light-teal: #00b69e;
 }
 
 /* banner */
+#home-container {
+	height: 100%;
+	overflow-y: scroll;
+}
 
 #banner-section {
 	position: relative;
@@ -68,28 +72,6 @@ $light-teal: #00b69e;
 }
 
 /****************************************************************************/
-.exercise-records,
-.meal-records {
-	padding: 1.5rem;
-	width: 45%;
-	flex-wrap: wrap;
-}
-
-.title {
-	text-align: center;
-	font-size: 1.25rem;
-	font-weight: bold;
-	padding: 0.5rem;
-}
-
-@media only screen and (max-width: 768px) {
-	.exercise-records,
-	.meal-records {
-		width: 100%;
-		gap: 0;
-	}
-}
-
 //# 320px — 480px: Mobile devices
 //# 481px — 768px: iPads, Tablets
 //# 769px — 1024px: Small screens, laptops

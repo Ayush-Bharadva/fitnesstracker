@@ -25,11 +25,6 @@ const DailyGoals = lazy(() =>
 		return { default: module.DailyGoals };
 	})
 );
-const WeightTracking = lazy(() =>
-	import("./pages/index").then((module) => {
-		return { default: module.WeightTracking };
-	})
-);
 const Dashboard = lazy(() =>
 	import("./pages/index").then((module) => {
 		return { default: module.Dashboard };

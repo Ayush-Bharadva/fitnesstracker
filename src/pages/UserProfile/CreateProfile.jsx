@@ -71,7 +71,6 @@ function CreateProfile({ setUserProfileInfo, setIsProfileCreated }) {
 
 	useEffect(() => {
 		handleInputChange("profilePhoto", imageUrl);
-		console.log(userInfo);
 	}, [imageUrl]);
 
 	const { acceptedFiles, getRootProps, getInputProps } = useDropzone({

@@ -37,7 +37,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 
 	let options = [];
 	if (isExercise)
-		options = ["Walking", "Running", "Weight Lifting", "Gym", "Yoga"];
+		options = ["Walking", "Running", "Weight_lifting", "Gym", "Yoga"];
 	else options = ["Breakfast", "Lunch", "Dinner", "Snacks"];
 
 	const updateActivity = async () => {

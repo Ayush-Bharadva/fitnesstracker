@@ -35,6 +35,7 @@ function DailyGoals() {
 					...prev,
 					weightDetails: { dailyWeight: weightInfo },
 				}));
+				showToast("success", "Weight Updated!");
 			}
 		} catch (error) {
 			console.error("error updating weight :", error);
@@ -108,7 +109,7 @@ function DailyGoals() {
 			<section id="weight-tracking-section">
 				<h3>Today's Weight</h3>
 				<div className="weight-tracker-container">
-					<p className="weight">Weight (Kgs)</p>
+					<h3 className="weight">Weight (Kgs)</h3>
 					<div className="actions">
 						<input
 							type="text"
@@ -121,7 +122,6 @@ function DailyGoals() {
 					</div>
 				</div>
 			</section>
-
 			<RecordCard allDetails={allDetails} setAllDetails={setAllDetails} />
 		</div>
 	);

@@ -15,7 +15,6 @@ export function setCookie(cookieName, cookieValue) {
 
 export function isUserLoggedIn() {
 	const userId = getCookie("userId");
-	console.log("checking user status :", !!userId);
 	return !!userId;
 }
 

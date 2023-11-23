@@ -12,7 +12,7 @@ import fireIcon from "../../assets/icons/fire-icon-image.png";
 import Ingredient from "../../assets/icons/Ingredient.png";
 import calories from "../../assets/icons/calories.png";
 
-function RecordCard({ allDetails, setAllDetails }) {
+function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 	const { exerciseDetails, mealDetails } = {
 		...allDetails,
 	};
@@ -101,15 +101,17 @@ function RecordCard({ allDetails, setAllDetails }) {
 										</p>
 									</div>
 								</div>
-								<MdDelete
-									className="delete-record"
-									onClick={() =>
-										handleDeleteActivity(
-											exercise.exerciseType,
-											true
-										)
-									}
-								/>
+								{!isReadonly && (
+									<MdDelete
+										className="delete-record"
+										onClick={() =>
+											handleDeleteActivity(
+												exercise.exerciseType,
+												true
+											)
+										}
+									/>
+								)}
 							</div>
 						</Fragment>
 					))}
@@ -139,15 +141,17 @@ function RecordCard({ allDetails, setAllDetails }) {
 											</p>
 										</div>
 									</div>
-									<MdDelete
-										className="delete-record"
-										onClick={() =>
-											handleDeleteActivity(
-												meal.mealType,
-												true
-											)
-										}
-									/>
+									{!isReadonly && (
+										<MdDelete
+											className="delete-record"
+											onClick={() =>
+												handleDeleteActivity(
+													meal.mealType,
+													true
+												)
+											}
+										/>
+									)}
 								</div>
 							</Fragment>
 						))}

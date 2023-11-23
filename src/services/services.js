@@ -211,31 +211,29 @@ export async function deleteMealService(type) {
 
 /***************************get-yearly-data**************************/
 
-export async function getYearlyWeightDetailService(year) {
+export async function getYearlyWeightDetailService(date) {
 	try {
-		console.log("weight api");
 		const response = createApiInstance.get(
 			`${userApiUrl}/yearly-weight-details`,
 			{
 				params: {
-					date: year,
+					date: date,
 				},
 			}
 		);
-		console.log("response :", response);
 		return response;
 	} catch (error) {
 		console.log("get yearly weight data error :", error);
 	}
 }
 
-export async function getYearlyCaloriesDetailService(year) {
+export async function getYearlyCaloriesDetailService(date) {
 	try {
 		const response = createApiInstance.get(
 			`${userApiUrl}/yearly-caloriesburned-details`,
 			{
 				params: {
-					date: year,
+					date: date,
 				},
 			}
 		);

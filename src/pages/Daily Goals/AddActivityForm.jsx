@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getProfileStatus, isUserLoggedIn } from "../../services/helper";
+import { getProfileStatus, isUserLoggedIn } from "../../utils/helper";
 import {
 	addExerciseService,
 	addMealService,

@@ -27,6 +27,10 @@ $teal: #008170;
 $mid-teal: #00b69e;
 $light-teal: #64ccc5;
 
+::-webkit-scrollbar {
+	height: 8px;
+	width: 8px;
+}
 // Homepage
 // .main {
 // 	background-color: transparent;

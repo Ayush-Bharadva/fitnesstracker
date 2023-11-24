@@ -4,7 +4,7 @@ import Card from "../Common/Card";
 import poster from "../../assets/images/signup_poster.jpg";
 import "../styles/General.scss";
 import { userSignUpService } from "../../services/services";
-import { setCookie } from "../../services/helper";
+import { setCookie } from "../../utils/helper";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

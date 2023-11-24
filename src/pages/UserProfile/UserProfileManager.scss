@@ -3,97 +3,81 @@ $mid-blue: #364560;
 $light-teal: #478f85;
 $mid-teal: #0da08d;
 $red: #cc274c;
-$light-red: #df2c53;
+$light-red: #a82945;
 
-#user-profile-manager {
-	border: 2px solid black;
-	padding: 1rem;
-	display: flex;
-	justify-content: center;
-	align-items: flex-start;
-	gap: 2rem;
+#create-profile-section {
+	width: 100%;
+	height: 100%;
 
-	.profile-container {
-		flex: 1 0 25%;
-		background-color: #ddd;
-		display: flex;
-		flex-direction: column;
-		// gap: 1rem;
-		justify-content: center;
-		// align-items: center;
+	.profile-form-container {
+		height: 100%;
 		padding: 1rem;
-		height: fit-content;
-		border-radius: 7px;
-
-		h2 {
-			text-align: left;
-			margin-bottom: 1rem;
-			color: $mid-teal;
-		}
-
-		.image-container {
-			width: 100px;
-			height: 100px;
-			border-radius: 50%;
-			overflow: hidden;
-			margin: 2rem 0;
-			align-self: center;
-		}
-
-		.edit-image-btn {
-			width: 100%;
-			padding: 0.3rem;
-			border-radius: 5px;
-			border: none;
-			font-size: 1rem;
-		}
-
-		.edit-image-btn:hover {
-			background-color: #364560;
-			color: #fff;
-		}
 	}
 
-	.info-container {
-		width: 75%;
-		height: fit-content;
+	.user-profile-form {
+		display: flex;
+		padding: 1rem 0;
+		gap: 1rem;
+		height: 90%;
 
-		.form-container {
-			padding: 1rem;
-			background-color: #ddd;
-			color: #333;
+		.form-left {
+			flex: 1 0 25%;
+			border-right: 2px solid grey;
+			padding-right: 1rem;
+			height: 100%;
+			// background: #ddd;
+
+			.image-dropzone {
+				justify-content: center;
+				align-items: center;
+				border-radius: 7px;
+				border: 2px dashed skyblue;
+				height: 50%;
+				padding: 1rem;
+				margin: 0 auto;
+
+				p {
+					font-weight: bold;
+					width: 100%;
+					text-align: center;
+					padding: 1rem;
+					color: $red;
+				}
+			}
+
+			.image-container {
+				gap: 1rem;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+
+				.profile-img {
+					height: 150px;
+					width: 150px;
+					border-radius: 50%;
+					overflow: hidden;
+					img {
+						height: 100%;
+						width: 100%;
+						object-fit: cover;
+					}
+					.preview-text {
+						color: #fff;
+					}
+				}
+			}
+		}
+
+		.form-right {
+			flex: 1 0 70%;
+			background: #ddd;
+			padding: 0.5rem;
+			overflow-y: auto;
 			border-radius: 7px;
 
-			h2 {
-				margin-bottom: 2rem;
-				color: $mid-teal;
+			.profile-form-field {
+				margin-bottom: 1rem;
 			}
-
-			.field-container {
-				margin-bottom: 1.5rem;
-
-				label {
-					font-weight: bold;
-					margin-left: 0.25rem;
-				}
-				input {
-					font-size: 1rem;
-				}
-			}
-		}
-
-		.update-profile-button {
-			width: 100%;
-			padding: 0.3rem;
-			border-radius: 5px;
-			border: none;
-			font-size: 1rem;
-			transition: all 0.2s ease;
-		}
-
-		.update-profile-button:hover {
-			background-color: #364560;
-			color: #fff;
 		}
 	}
 }
@@ -102,4 +86,50 @@ img {
 	height: 100%;
 	width: 100%;
 	object-fit: cover;
+}
+
+.form-title {
+	padding: 1rem 0;
+	color: $red;
+}
+
+.save-profile-btn,
+.edit-profile-btn {
+	background-color: $red;
+	color: #fff;
+	padding: 0.3rem 0.6rem;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.edit-profile-btn {
+	background-color: gray;
+}
+
+input:not([type="radio"]),
+select {
+	border: none;
+	outline: none;
+	padding: 0.5rem 0.5rem;
+	width: 100%;
+	background-color: #eee;
+	border-radius: 7px;
+	margin-top: 0.3rem;
+}
+
+.remove-img-btn {
+	padding: 0.2rem 0.4rem;
+	background-color: $light-teal;
+	color: #fff;
+	align-self: flex-end;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+::-webkit-scrollbar {
+	height: 8px;
+	width: 8px;
 }

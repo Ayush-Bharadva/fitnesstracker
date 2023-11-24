@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCookie } from "./helper";
+import { getCookie } from "../utils/helper";
 const baseApiUrl = "https://fitnesstracker-k5h0.onrender.com";
 const userApiUrl = `${baseApiUrl}/user`;
 const userProfileApiUrl = `${userApiUrl}/profile`;
@@ -24,20 +24,6 @@ createApiInstance.interceptors.request.use((config) => {
 	config.headers.Authorization = userId;
 	return config;
 });
-
-// createApiInstance.interceptors.response.use((config) => {
-// 	const userId = getCookie("userId");
-// 	config.headers.Authorization = userId;
-// 	return config;
-// });
-
-// const post = async (url, body) => {
-// 	const userId = getCookie("userId");
-
-// 	return await createApiInstance.post(url, body, {
-// 		headers: { ...headers, Authorization: userId },
-// 	});
-// };
 
 // SignUp User
 export async function userSignUpService(userCredentials) {
@@ -75,7 +61,7 @@ export async function createUserProfileService(userInfo) {
 			`${userProfileApiUrl}`,
 			userInfo
 		);
-		console.log(userId);
+		// console.log(userId);
 		return response;
 	} catch (error) {
 		console.log("create user profile error :", error);
@@ -86,9 +72,7 @@ export async function createUserProfileService(userInfo) {
 // ShowUserProfile
 export async function showUserProfileService() {
 	try {
-		const response = await createApiInstance.get(
-			`${userProfileApiUrl}/show`
-		);
+		const response = await createApiInstance.get(`${userProfileApiUrl}`);
 		return response;
 	} catch (error) {
 		console.log("show user profile error :", error);
@@ -109,6 +93,8 @@ export async function updateUserProfileService(userInfo) {
 		return error.response.data;
 	}
 }
+
+/************************************************************************************/
 
 // to get all details from date
 export async function getDetailsFromDateService(currentDate) {
@@ -277,3 +263,17 @@ export async function deleteWeightService() {
 		return error.response;
 	}
 }
+
+// createApiInstance.interceptors.response.use((config) => {
+// 	const userId = getCookie("userId");
+// 	config.headers.Authorization = userId;
+// 	return config;
+// });
+
+// const post = async (url, body) => {
+// 	const userId = getCookie("userId");
+
+// 	return await createApiInstance.post(url, body, {
+// 		headers: { ...headers, Authorization: userId },
+// 	});
+// };

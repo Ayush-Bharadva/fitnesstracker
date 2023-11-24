@@ -3,13 +3,11 @@ import { createUserProfileService } from "../../services/services";
 import "./UserProfile.scss";
 import "../../components/Common/common.scss";
 import { useDropzone } from "react-dropzone";
-import { isUserLoggedIn, setProfileStatus } from "../../services/helper";
+import { isUserLoggedIn, setProfileStatus } from "../../utils/helper";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function CreateProfile({ setUserProfileInfo, setIsProfileCreated }) {
-	// const [isProfileExists, setIsProfileExists] = useState(false);
-
+function CreateProfile({ setUserProfileInfo }) {
 	const [userInfo, setUserInfo] = useState({
 		profilePhoto: null,
 		fullName: "",

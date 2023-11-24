@@ -79,9 +79,9 @@ function Dashboard() {
 				]);
 
 				if (recordsResponse.status === 200) {
-					console.log({ ...recordsResponse.data });
+					// console.log({ ...recordsResponse.data });
 					setAllRecordsByDate({ ...recordsResponse.data });
-					selectedDate(formatedDate);
+					setSelectedDate(formatedDate);
 				}
 			} catch (error) {
 				console.log("fetch data error :", error);
@@ -171,7 +171,6 @@ function Dashboard() {
 							name="name"
 							id="date"
 							value={selectedDate}
-							defaultValue={selectedDate}
 							onChange={handleDateChange}
 						/>
 					</div>

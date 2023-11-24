@@ -3,7 +3,7 @@ import { VscAccount } from "react-icons/vsc";
 import { CiUser, CiSettings, CiLogout } from "react-icons/ci";
 import "./common.scss";
 import { useNavigate } from "react-router-dom";
-import { setCookie } from "../../services/helper";
+import { setCookie } from "../../utils/helper";
 
 function ProfileMenu() {
 	const navigate = useNavigate();

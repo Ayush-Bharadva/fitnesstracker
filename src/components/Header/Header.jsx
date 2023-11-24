@@ -1,13 +1,14 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import ProfileMenu from "../Common/ProfileMenu";
-import { isUserLoggedIn } from "../../services/helper";
+import { isUserLoggedIn } from "../../utils/helper";
 import "./Header.scss";
 
 function Header() {
 	const location = useLocation();
 	const pathName = location.pathname;
 
+	console.log(pathName);
 	return (
 		<header className="header">
 			<nav className="navbar">
@@ -20,32 +21,36 @@ function Header() {
 				<ul className="nav-items">
 					<li className="nav-item">
 						<NavLink
-							className={`link`}
-							activeClassName="active"
+							className={`link ${
+								pathName === "/" ? "active" : ""
+							}`}
 							to="/">
 							Home
 						</NavLink>
 					</li>
 					<li className="nav-item">
 						<NavLink
-							className="link"
-							activeClassName="active"
+							className={`link ${
+								pathName === "/user-profile" ? "active" : ""
+							}`}
 							to="user-profile">
 							User Profile
 						</NavLink>
 					</li>
 					<li className="nav-item">
 						<NavLink
-							className="link"
-							activeClassName="active"
+							className={`link ${
+								pathName === "/daily-goals" ? "active" : ""
+							}`}
 							to="/daily-goals">
 							Daily Goals
 						</NavLink>
 					</li>
 					<li className="nav-item">
 						<NavLink
-							className="link"
-							activeClassName="active"
+							className={`link ${
+								pathName === "/dashboard" ? "active" : ""
+							}`}
 							to="/dashboard">
 							Dashboard
 						</NavLink>

@@ -54,7 +54,7 @@ export async function userLogInService(userCredentials) {
 }
 
 /******************profile services**************************/
-// CreateProfile
+// CreateUserProfile
 export async function createUserProfileService(userInfo) {
 	try {
 		const response = await createApiInstance.put(

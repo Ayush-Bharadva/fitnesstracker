@@ -10,8 +10,6 @@ $light-teal: #00b69e;
 * {
 	box-sizing: border-box;
 }
-
-.login-card,
 .signup-card {
 	padding: 1rem;
 	h2 {
@@ -28,9 +26,10 @@ $light-teal: #00b69e;
 		border: none;
 		border-radius: 7px;
 		outline: none;
+		background-color: #ddd;
 	}
 
-	.btn {
+	.signup-btn {
 		padding: 0.5rem 1rem;
 		margin-top: 1rem;
 		font-size: 1rem;
@@ -54,12 +53,23 @@ $light-teal: #00b69e;
 	}
 }
 
-.signup-poster,
-.login-poster {
+// user profile button/icon styling
+
+.signup-poster {
 	img {
 		border-radius: 7px;
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
 	}
+}
+
+.error-message {
+	color: red;
+}
+
+.loader {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }

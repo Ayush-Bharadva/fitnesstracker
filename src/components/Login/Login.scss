@@ -1,3 +1,7 @@
+* {
+	box-sizing: border-box;
+}
+
 // Theme variables:
 $black: #0f0f0f;
 $dark-blue: #232d3f;
@@ -7,12 +11,7 @@ $dark-green: #005b41;
 $teal: #008170;
 $light-teal: #00b69e;
 
-* {
-	box-sizing: border-box;
-}
-
-.login-card,
-.signup-card {
+.login-card {
 	padding: 1rem;
 	h2 {
 		font-size: 2rem;
@@ -54,7 +53,8 @@ $light-teal: #00b69e;
 	}
 }
 
-.signup-poster,
+// user profile button/icon styling
+
 .login-poster {
 	img {
 		border-radius: 7px;

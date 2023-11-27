@@ -18,6 +18,12 @@ export function isUserLoggedIn() {
 	return !!userId;
 }
 
+export function handleLogout() {
+	setCookie("userId", "");
+	localStorage.removeItem("profileExists");
+	// navigate("/");
+}
+
 export function setProfileStatus(value) {
 	localStorage.setItem("profileExists", value);
 }
@@ -27,53 +33,34 @@ export function getProfileStatus() {
 	return !!profileStatus;
 }
 
-// function to validate password
-// const [error, setError] = useState({
-// 	fullname: "",
-// 	email: "",
-// 	password: "",
-// 	"confirm-password": "",
-// });
+export const isPasswordValid = (password) => {
+	let passwordError = "";
 
-// export const isPasswordValid = (password) => {
-// 	if (password.length <= 5) {
-// 		setError((prevError) => ({
-// 			...prevError,
-// 			password: "password lenght should more than 5",
-// 		}));
-// 		return false;
-// 	}
+	if (password.length <= 5) {
+		passwordError = " Password length should be > 5 ";
+		return passwordError;
+	}
 
-// 	// special character checking
-// 	const specialCharacterPattern = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\|/]/;
-// 	if (!specialCharacterPattern.test(password)) {
-// 		setError((prevError) => ({
-// 			...prevError,
-// 			password: "password must contain atleast one special character",
-// 		}));
-// 		return false;
-// 	}
+	// special character checking
+	const specialCharacterPattern = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\|/]/;
+	if (!specialCharacterPattern.test(password)) {
+		passwordError = "Password must contain special characters";
+		return passwordError;
+	}
 
-// 	// digit checking checking
-// 	const digitPattern = /\d/;
-// 	if (!digitPattern.test(password)) {
-// 		setError((prevError) => ({
-// 			...prevError,
-// 			password: "password must contain atleast one digit",
-// 		}));
-// 		return false;
-// 	}
+	// digit checking checking
+	const digitPattern = /\d/;
+	if (!digitPattern.test(password)) {
+		passwordError = "Password must contain atleast one digit";
+		return passwordError;
+	}
 
-// 	// alphabets checking
-// 	const alphabetPattern = /[a-zA-Z]/;
-// 	if (!alphabetPattern.test(password)) {
-// 		setError((prevError) => ({
-// 			...prevError,
-// 			password: "password must contain alphabets",
-// 		}));
-// 		return false;
-// 	}
+	// alphabets checking
+	const alphabetPattern = /[a-zA-Z]/;
+	if (!alphabetPattern.test(password)) {
+		passwordError = "Password must contain atleast one alphabet";
+		return passwordError;
+	}
 
-// 	setError((prevError) => ({ ...prevError, password: "" }));
-// 	return true;
-// };
+	return true;
+};

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import Card from "../Common/Card";
-import "../styles/General.scss";
+// import "../styles/General.scss";
 import poster from "../../assets/images/signup_poster.jpg";
 import { useNavigate } from "react-router-dom";
 import { userLogInService } from "../../services/services";
 import { setCookie } from "../../utils/helper";
+import "./Login.scss";
 
 function Login() {
 	const navigate = useNavigate();

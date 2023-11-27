@@ -1,22 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { VscAccount } from "react-icons/vsc";
-import { CiUser, CiSettings, CiLogout } from "react-icons/ci";
-import "./common.scss";
+import { CiUser, CiLogout } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { setCookie } from "../../utils/helper";
+import "./ProfileMenu.scss";
 
-function ProfileMenu() {
+function ProfileMenu(props) {
 	const navigate = useNavigate();
 
 	const profileOptions = [
-		{
-			text: "view profile",
-			icon: <CiUser />,
-		},
-		{
-			text: "settings",
-			icon: <CiSettings />,
-		},
 		{
 			text: "logout",
 			icon: <CiLogout />,
@@ -25,7 +17,7 @@ function ProfileMenu() {
 
 	const [openProfile, setOpenProfile] = useState(false);
 
-	const handleClick = async (text) => {
+	const handleClick = (text) => {
 		if (text === "view profile") {
 			navigate("/user-profile");
 		}
@@ -38,8 +30,14 @@ function ProfileMenu() {
 	};
 
 	return (
-		<div className="profile" onClick={() => setOpenProfile(!openProfile)}>
-			<VscAccount className="profile-icon" />
+		<div
+			className={"profile " + props.className}
+			onClick={() => setOpenProfile(!openProfile)}>
+			{props.className === "mobile-menu" ? (
+				<button>Btn</button>
+			) : (
+				<VscAccount className="profile-icon" />
+			)}
 			{openProfile && (
 				<ul>
 					{profileOptions.map((option) => (

@@ -9,14 +9,13 @@ $mid-teal: #00b69e;
 $light-teal: #64ccc5;
 
 .footer {
-	// position: fixed;
 	bottom: 0;
 	left: 0;
 	right: 0;
-	padding: 1rem 0;
+	padding: 0.75rem 0;
 	background-color: $dark-blue;
 	color: $light-teal;
-	z-index: 1000;
+	// z-index: 1000;
 	.footer-content {
 		text-align: center;
 	}

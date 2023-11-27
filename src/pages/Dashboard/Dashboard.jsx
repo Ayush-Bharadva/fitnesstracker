@@ -17,6 +17,7 @@ import {
 } from "../../services/services";
 import RecordCard from "../../components/Common/RecordCard";
 import noDataFound from "../../assets/icons/noDataFound.jpg";
+import { useNavigate } from "react-router-dom";
 
 ChartJS.register(
 	CategoryScale,
@@ -52,6 +53,8 @@ const labels = [
 ];
 
 function Dashboard() {
+	const navigate = useNavigate();
+
 	const [yearlyCalorieDetails, setYearlyCalorieDetails] = useState(null);
 	const [yearlyWeightDetails, setYearlyWeightDetails] = useState(null);
 	const [allRecordsByDate, setAllRecordsByDate] = useState({});
@@ -78,10 +81,16 @@ function Dashboard() {
 					fetchYearlyDetails(formatedDate),
 				]);
 
+				console.log(recordsResponse);
+
 				if (recordsResponse.status === 200) {
 					// console.log({ ...recordsResponse.data });
 					setAllRecordsByDate({ ...recordsResponse.data });
 					setSelectedDate(formatedDate);
+				}
+
+				if (recordsResponse.status === 498) {
+					navigate("/login");
 				}
 			} catch (error) {
 				console.log("fetch data error :", error);

@@ -50,7 +50,7 @@ $red: #cc274c;
 					gap: 1.5rem;
 
 					p {
-						background-color: #fff;
+						background-color: rgba($color: #fff, $alpha: 0.5);
 						padding: 0.5rem 2.2rem;
 						display: inline;
 						border-radius: 41px;
@@ -73,6 +73,14 @@ $red: #cc274c;
 			scale: 1.01;
 			box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 		}
+	}
+
+	.exercise-record-container {
+		animation: slideInFromLeft 1s normal ease-in-out;
+	}
+
+	.meal-record-container {
+		animation: slideInFromRight 1s reverse ease-in-out;
 	}
 
 	.delete-record {
@@ -113,4 +121,23 @@ $red: #cc274c;
 .clock-icon {
 	color: $mid-teal;
 	font-size: 20px;
+}
+
+// Animations
+@keyframes slideInfromLeft {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translate(0);
+	}
+}
+
+@keyframes slideInfromRight {
+	0% {
+		transform: translateX(100%);
+	}
+	100% {
+		transform: translate(0);
+	}
 }

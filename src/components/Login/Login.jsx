@@ -1,22 +1,28 @@
 import React, { useState } from "react";
-import Card from "../Common/Card";
+// import Card from "../Common/Card";
 // import "../styles/General.scss";
 import poster from "../../assets/images/signup_poster.jpg";
 import { useNavigate } from "react-router-dom";
 import { userLogInService } from "../../services/services";
 import { setCookie } from "../../utils/helper";
-import "./Login.scss";
+// import "./Login.scss";
 
 function Login() {
 	const navigate = useNavigate();
 
-	const [userCredentials, setuserCredentials] = useState({
+	const [formData, setFormData] = useState({
 		email: "",
 		password: "",
 	});
+	const [inputError, setInputError] = useState({
+		fullnameError: "",
+		emailError: "",
+		passwordError: "",
+		confirmPasswordError: "",
+	});
 
 	const handleInputChange = (input, value) => {
-		setuserCredentials((prevInput) => {
+		setFormData((prevInput) => {
 			return { ...prevInput, [input]: value };
 		});
 	};
@@ -24,7 +30,7 @@ function Login() {
 	const handleLoginSubmit = async (e) => {
 		e.preventDefault();
 
-		const response = await userLogInService(userCredentials);
+		const response = await userLogInService(formData);
 		console.log(response.status);
 		console.log(response);
 		if (response.status === 200) {
@@ -35,48 +41,44 @@ function Login() {
 	};
 
 	return (
-		<div className="container">
-			<Card>
-				<div className="login-poster">
-					<img src={poster} alt="" />
-				</div>
-				<div className="login-card">
-					<h2>LogIn</h2>
-					<form
-						action=""
-						className="login-form"
-						onSubmit={handleLoginSubmit}>
-						<input
-							type="email"
-							id="email"
-							value={userCredentials["email"]}
-							onChange={(e) =>
-								handleInputChange("email", e.target.value)
-							}
-							placeholder="email"
-						/>
-						<input
-							type="password"
-							id="password"
-							value={userCredentials["password"]}
-							onChange={(e) =>
-								handleInputChange("password", e.target.value)
-							}
-							placeholder="password"
-							autoComplete="on"
-						/>
-						<button type="submit" className="btn">
-							LogIn
-						</button>
-					</form>
-					<p>
-						Don't have an account ?{" "}
-						<span onClick={() => navigate("/signup")}>
-							Register
-						</span>
-					</p>
-				</div>
-			</Card>
+		<div className="login-container">
+			<div className="login-form-container">
+				<h2>Welcome Back!</h2>
+				<form
+					action=""
+					className="login-form"
+					onSubmit={handleLoginSubmit}>
+					<input
+						type="email"
+						id="email"
+						value={formData["email"]}
+						onChange={(e) =>
+							handleInputChange("email", e.target.value)
+						}
+						placeholder="email"
+					/>
+					<input
+						type="password"
+						id="password"
+						value={formData["password"]}
+						onChange={(e) =>
+							handleInputChange("password", e.target.value)
+						}
+						placeholder="password"
+						autoComplete="on"
+					/>
+					<button type="submit" className="login-btn">
+						LogIn
+					</button>
+				</form>
+				<p>
+					Don't have an account ?{" "}
+					<span onClick={() => navigate("/signup")}>Register</span>
+				</p>
+			</div>
+			<div className="login-poster">
+				<img src={poster} alt="login-poster" />
+			</div>
 		</div>
 	);
 }

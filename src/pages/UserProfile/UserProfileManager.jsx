@@ -45,6 +45,8 @@ function UserProfileManager() {
 					setInputDisabled(true);
 					const profiledata = { ...fetchProfileResponse.data };
 					setUserInfo(profiledata);
+				} else if (fetchProfileResponse.code === 498) {
+					showToastMessage("error", "Please Login First");
 				} else {
 					showToastMessage("error", "Something went wrong!!");
 				}
@@ -74,7 +76,7 @@ function UserProfileManager() {
 
 		if (!isUserLoggedIn()) {
 			console.log("Please Login/SignUp First");
-			navigate("/login");
+			navigate("/auth");
 			return;
 		}
 

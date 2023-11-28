@@ -7,14 +7,19 @@ $teal: #008170;
 $light-teal: #00b69e;
 $mid-teal: #00b69e;
 
-.daily-goals-container {
+.daily-goals-section {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
+	width: 100%;
 	padding: 1rem;
 	overflow-y: scroll;
 	background-color: #444;
 	background-image: linear-gradient(to bottom, #ccd0e2, #b8b8bd);
+}
+
+.dg-activity-heading {
+	color: #3f5071;
 }
 
 .form-container {
@@ -22,46 +27,73 @@ $mid-teal: #00b69e;
 	max-width: 620px;
 }
 
-#weight-tracking-section {
-	padding: 1rem;
-	width: fit-content;
-	align-self: center;
-	max-width: 1250px;
-
-	h3 {
-		margin-bottom: 0.75rem;
-		color: #358a7e;
-	}
-
-	.weight-tracker-container {
-		background-color: #ddd;
+#track-activity-section {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	#weight-tracking-section,
+	#water-tracking-section {
+		flex: 1 0 45%;
 		padding: 1rem;
-		border-radius: 15px;
-		align-self: flex-start;
+		height: 100%;
+		width: fit-content;
+		align-self: center;
+		min-width: 355px;
+		max-width: 645px;
+		margin-bottom: 3rem;
 
 		h3 {
-			font-weight: 600;
-			color: #6483c2;
-			margin-bottom: 0.5rem;
+			margin-bottom: 0.75rem;
+			color: #358a7e;
 		}
 
-		.actions {
-			display: flex;
-			align-items: center;
-			justify-content: center;
+		.weight-tracker-container,
+		.water-tracker-container {
+			background-color: #ddd;
+			padding: 1rem;
+			border-radius: 15px;
+			align-self: flex-start;
 
-			.weight-action-btn {
-				padding: 0.5rem;
-				background-color: #aabfe9;
-				border: none;
-				border-radius: 7px;
-				margin-top: 0.3rem;
-				transition: all 0.2s ease;
+			h3 {
+				font-weight: 600;
+				color: #6483c2;
+				margin-bottom: 0.5rem;
 			}
 
-			.weight-action-btn:hover {
-				background-color: #c0d2f5;
+			.actions {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				.weight-action-btn,
+				.water-action-btn {
+					padding: 0.5rem;
+					background-color: #aabfe9;
+					border: none;
+					border-radius: 7px;
+					margin-top: 0.3rem;
+					transition: all 0.2s ease;
+				}
+				.weight-action-btn:hover {
+					background-color: #c0d2f5;
+				}
+
+				.water-action-btn {
+					background-color: $teal;
+					color: #fff;
+				}
+				.water-action-btn:hover {
+					background-color: $mid-teal;
+				}
 			}
 		}
 	}
 }
+
+// @media screen and (min-width: 820px) {
+// 	#track-activity-section,
+// 	.records-container {
+// 		flex-direction: column;
+// 	}
+// }

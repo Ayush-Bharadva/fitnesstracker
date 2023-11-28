@@ -23,7 +23,8 @@ function Header() {
 		<header className="navbar">
 			<h1 className="logo">
 				<NavLink className="logo-text" to="/">
-					FT
+					<span>Fit</span>
+					<span style={{ color: "#06ccb2" }}>Tracker</span>
 				</NavLink>
 			</h1>
 			{isUserLoggedIn() ? (
@@ -74,14 +75,13 @@ function Header() {
 							</NavLink>
 						</li>
 						{isUserLoggedIn() && (
-							<li className="nav-item logout-btn">
-								<button
-									className="mobile-logout-btn"
-									onClick={handleLogout}>
-									{" "}
-									Logout{" "}
-								</button>
-							</li>
+							// <li className="nav-item logout-btn">
+							<button
+								className="mobile-logout-btn"
+								onClick={handleLogout}>
+								{" "}
+								Logout{" "}
+							</button>
 						)}
 					</ul>
 					<GiHamburgerMenu
@@ -92,12 +92,12 @@ function Header() {
 				</>
 			) : (
 				<div className="buttons">
-					<NavLink to="login">
+					<NavLink to="auth">
 						<button className="login">LogIn</button>
 					</NavLink>
-					<NavLink to="signup">
+					{/* <NavLink to="auth">
 						<button className="signup">SignUp</button>
-					</NavLink>
+					</NavLink> */}
 				</div>
 			)}
 		</header>

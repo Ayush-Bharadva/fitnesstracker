@@ -4,10 +4,6 @@ $light-blue: #d4e4ff;
 $mid-teal: #0a8070;
 $red: #cc274c;
 
-* {
-	box-sizing: border-box;
-}
-
 .record-card {
 	display: flex;
 	justify-content: center;
@@ -33,6 +29,7 @@ $red: #cc274c;
 			.exercise-record-card,
 			.meal-record-card {
 				width: 100%;
+				// max-height: 154px;
 				padding: 1.5rem 0 1rem 1.5rem;
 
 				.record-title {

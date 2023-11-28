@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import "./AuthForm.scss";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import poster from "../../assets/images/signup_poster.jpg";
-import { userSignUpService } from "../../services/services";
+import { userLogInService, userSignUpService } from "../../services/services";
 import { isPasswordValid, setCookie } from "../../utils/helper";
-import "./SignUp.scss";
 import Loader from "../Common/Loader";
+import poster from "../../assets/images/signup_poster.jpg";
+import BgGraphics from "../../assets/images/BgGraphics.png";
 
-function SignUp() {
-	// console.log(isLoginForm);
+function AuthForm() {
 	const navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
-
+	const [isLoginForm, setIsLoginForm] = useState(true);
 	const [formData, setFormData] = useState({
 		fullname: "",
 		email: "",
@@ -33,7 +33,7 @@ function SignUp() {
 	const handleChange = (input, value) => {
 		setFormData((prevData) => ({ ...prevData, [input]: value }));
 
-		// Error checking
+		/* Error checking */
 
 		// check fullname
 		if (input === "fullname") {
@@ -44,6 +44,9 @@ function SignUp() {
 						? "Fullname length should be greater than 4"
 						: "",
 			}));
+			if (!value) {
+				setInputError({ ...inputError, fullnameError: "" });
+			}
 		}
 
 		// check email
@@ -71,28 +74,28 @@ function SignUp() {
 			const alphabetPattern = /[a-zA-Z]/;
 
 			if (value.length <= 5) {
-				setInputError((prev) => ({
-					...prev,
-					passwordError: "Password length should be > 5",
+				setInputError((prevErrors) => ({
+					...prevErrors,
+					passwordError: "Password length should be greater than 5",
 				}));
 			} else if (!specialCharacterPattern.test(value)) {
-				setInputError((prev) => ({
-					...prev,
+				setInputError((prevErrors) => ({
+					...prevErrors,
 					passwordError: "Password must contain special characters",
 				}));
 			} else if (!digitPattern.test(value)) {
-				setInputError((prev) => ({
-					...prev,
+				setInputError((prevErrors) => ({
+					...prevErrors,
 					passwordError: "Password must contain atleast one digit",
 				}));
 			} else if (!alphabetPattern.test(value)) {
-				setInputError((prev) => ({
-					...prev,
+				setInputError((prevErrors) => ({
+					...prevErrors,
 					passwordError: "Password must contain atleast one alphabet",
 				}));
 			} else {
-				setInputError((prev) => ({
-					...prev,
+				setInputError((prevErrors) => ({
+					...prevErrors,
 					passwordError: "",
 				}));
 			}
@@ -107,10 +110,17 @@ function SignUp() {
 			setInputError((prevErrors) => ({
 				...prevErrors,
 				confirmPasswordError:
-					formData.password !== formData.confirmPassword
+					formData.password !== value
 						? "Password and Confirm-Password must be same"
 						: "",
 			}));
+
+			if (!value) {
+				setInputError((prevErrors) => ({
+					...prevErrors,
+					confirmPasswordError: "",
+				}));
+			}
 		}
 	};
 
@@ -139,37 +149,35 @@ function SignUp() {
 			formData["password"] === formData["confirmPassword"]
 		);
 
-		return (
-			isValidEmail &&
-			isValidPassword &&
-			formData["password"] === formData["confirmPassword"]
-		);
+		return !isLoginForm
+			? isValidEmail &&
+					isValidPassword &&
+					formData["password"] === formData["confirmPassword"]
+			: isValidEmail && isValidPassword;
 	};
 
-	const handleSignUp = async () => {
+	const handleAuthSubmit = async () => {
 		const { fullname, email, password } = formData;
 
 		setLoading(true);
 
-		const response = await userSignUpService({
-			fullname: fullname,
-			email: email,
-			password: password,
-		});
+		const response = isLoginForm
+			? await userLogInService({
+					email: email,
+					password: password,
+			  })
+			: await userSignUpService({
+					fullname: fullname,
+					email: email,
+					password: password,
+			  });
 
 		setLoading(false);
 
 		console.log(response);
 
 		if (response.code === 409) {
-			setFormData((prevError) => ({
-				...prevError,
-				errors: {
-					...prevError.errors,
-					email: "Email registed already..",
-				},
-			}));
-			showToast("error", "Email already registed..");
+			showToast("error", "Email Already registed..");
 		} else if (response.status === 200) {
 			setCookie("userId", response.data.userId);
 			navigate("/");
@@ -181,7 +189,7 @@ function SignUp() {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (isValidCredentials()) {
-			handleSignUp();
+			handleAuthSubmit();
 		} else {
 			console.log("credentials are not proper");
 		}
@@ -192,23 +200,43 @@ function SignUp() {
 			{loading ? (
 				<Loader color="#37455f" height="64px" width="64px" />
 			) : (
-				<div className="signup-container">
-					<div className="signup-form-container">
-						<h2>Create Account</h2>
+				<div className="auth-container">
+					<div className="auth-form-container">
+						<h1>
+							{isLoginForm ? "Welcome Back!" : "Create Account"}
+						</h1>
 						<form
 							action=""
-							className="signup-form"
+							className="auth-form"
 							onSubmit={handleSubmit}>
-							<input
-								type="text"
-								id="fullname"
-								value={formData["fullname"]}
-								onChange={(e) =>
-									handleChange("fullname", e.target.value)
-								}
-								placeholder="fullname"
-								required
-							/>
+							{!isLoginForm && (
+								<>
+									<label
+										htmlFor="fullname"
+										className="auth-label">
+										Fullname
+									</label>
+									<input
+										type="text"
+										id="fullname"
+										value={formData["fullname"]}
+										onChange={(e) =>
+											handleChange(
+												"fullname",
+												e.target.value
+											)
+										}
+										placeholder="fullname"
+										required
+									/>
+									<div className="error-message">
+										{inputError.fullnameError}
+									</div>
+								</>
+							)}
+							<label htmlFor="email" className="auth-label">
+								Email
+							</label>
 							<input
 								type="email"
 								id="email"
@@ -222,7 +250,9 @@ function SignUp() {
 							<div className="error-message">
 								{inputError.emailError}
 							</div>
-
+							<label htmlFor="password" className="auth-label">
+								Password
+							</label>
 							<input
 								type="password"
 								id="password"
@@ -237,37 +267,47 @@ function SignUp() {
 							<div className="error-message">
 								{inputError.passwordError}
 							</div>
-							<input
-								type="password"
-								id="confirm-password"
-								value={formData["confirmPassword"]}
-								onChange={(e) =>
-									handleChange(
-										"confirmPassword",
-										e.target.value
-									)
-								}
-								placeholder="confirm-password"
-								autoComplete="on"
-								required
-							/>
-							<div className="error-message">
-								{inputError.confirmPasswordError}
-							</div>
-							<button type="submit" className="signup-btn">
-								Sign Up
+							{!isLoginForm && (
+								<>
+									<label
+										htmlFor="confirm-password"
+										className="auth-label">
+										Confirm Password
+									</label>
+									<input
+										type="password"
+										id="confirm-password"
+										value={formData["confirmPassword"]}
+										onChange={(e) =>
+											handleChange(
+												"confirmPassword",
+												e.target.value
+											)
+										}
+										placeholder="confirm-password"
+										autoComplete="on"
+										required
+									/>
+									<div className="error-message">
+										{inputError.confirmPasswordError}
+									</div>
+								</>
+							)}
+							<button type="submit" className="auth-submit-btn">
+								{isLoginForm ? "Log In" : "Sign Up"}
 							</button>
 						</form>
 						<p>
-							Already have an account ?{" "}
-							<span onClick={() => navigate("/login")}>
-								Log In
+							{isLoginForm ? "Don't" : "Already"} have an account
+							?{" "}
+							<span onClick={() => setIsLoginForm((p) => !p)}>
+								{isLoginForm ? "Register" : "LogIn"}
 							</span>
 						</p>
 					</div>
-					<div className="signup-poster">
-						<img src={poster} alt="signup-poster" />
-					</div>
+					{/* <div className="auth-poster">
+						<img src={BgGraphics} alt="auth-poster" />
+					</div> */}
 				</div>
 			)}
 
@@ -276,4 +316,4 @@ function SignUp() {
 	);
 }
 
-export default SignUp;
+export default AuthForm;

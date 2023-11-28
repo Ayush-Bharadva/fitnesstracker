@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import "./RecordCard.scss";
 import {
 	deleteExerciseService,
@@ -11,8 +11,9 @@ import { FaRegClock } from "react-icons/fa6";
 import fireIcon from "../../assets/icons/fire-icon-image.png";
 import Ingredient from "../../assets/icons/Ingredient.png";
 import calories from "../../assets/icons/calories.png";
+import Loader from "./Loader";
 
-function RecordCard({ allDetails, setAllDetails, isReadonly }) {
+function RecordCard({ allDetails, setAllDetails, isReadonly, loading }) {
 	const { exerciseDetails, mealDetails } = {
 		...allDetails,
 	};
@@ -35,12 +36,14 @@ function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 		}).then(async (result) => {
 			if (result.isConfirmed) {
 				try {
+					// setLoading(true);
 					let response;
 					if (isExercise) {
 						response = await deleteExerciseService(type);
 					} else {
 						response = await deleteMealService(type);
 					}
+					// setLoading(false);
 
 					if (response.status === 200) {
 						showToast("success", "Activity deleted successfully");
@@ -62,7 +65,7 @@ function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 						setAllDetails({ ...allDetails, ...updatedDetails });
 					}
 				} catch (error) {
-					console.error("Error deleting activity:", error);
+					// console.error("Error deleting activity:", error);
 					showToast(
 						"error",
 						"Error deleting activity. Please try again."
@@ -74,69 +77,36 @@ function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 
 	return (
 		<>
-			<div className="record-card">
-				<div className="exercise-record-container">
-					{exerciseDetails?.map((exercise, index) => (
-						<Fragment key={index}>
-							<div className="record-container exercise-card-bg">
-								<div className="exercise-record-card">
-									<div>
-										<p className="record-title">
-											{exercise.exerciseType ===
-											"Weight_lifting"
-												? "Weight Lifting"
-												: exercise.exerciseType || ""}
-										</p>
-									</div>
-									<div className="record-info">
-										<p>
-											<FaRegClock className="clock-icon" />{" "}
-											<span>{exercise.duration} Min</span>
-										</p>
-										<p>
-											<img src={fireIcon} alt="" />
-											<span>
-												{exercise.caloriesBurned} Cal
-											</span>
-										</p>
-									</div>
-								</div>
-								{!isReadonly && (
-									<MdDelete
-										className="delete-record"
-										onClick={() =>
-											handleDeleteActivity(
-												exercise.exerciseType,
-												true
-											)
-										}
-									/>
-								)}
-							</div>
-						</Fragment>
-					))}
-				</div>
-				<div className="meal-record-container">
-					{mealDetails?.length > 0 &&
-						mealDetails.map((meal, index) => (
+			{loading ? (
+				<Loader color="#37455f" height="64px" width="64px" />
+			) : (
+				<div className="record-card">
+					<div className="exercise-record-container">
+						{exerciseDetails?.map((exercise, index) => (
 							<Fragment key={index}>
-								<div className="record-container meal-card-bg">
-									<div className="meal-record-card">
+								<div className="record-container exercise-card-bg">
+									<div className="exercise-record-card">
 										<div>
-											<p className="meal-record-title">
-												{meal.mealType}
+											<p className="record-title">
+												{exercise.exerciseType ===
+												"Weight_lifting"
+													? "Weight Lifting"
+													: exercise.exerciseType ||
+													  ""}
 											</p>
 										</div>
 										<div className="record-info">
 											<p>
-												{" "}
-												<img src={Ingredient} alt="" />
-												<span>{meal.ingredients}</span>
+												<FaRegClock className="clock-icon" />{" "}
+												<span>
+													{exercise.duration} Min
+												</span>
 											</p>
 											<p>
-												<img src={calories} alt="" />
+												<img src={fireIcon} alt="" />
 												<span>
-													{meal.caloriesConsumed} Cal
+													{exercise.caloriesBurned}{" "}
+													Cal
 												</span>
 											</p>
 										</div>
@@ -146,7 +116,7 @@ function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 											className="delete-record"
 											onClick={() =>
 												handleDeleteActivity(
-													meal.mealType,
+													exercise.exerciseType,
 													true
 												)
 											}
@@ -155,8 +125,59 @@ function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 								</div>
 							</Fragment>
 						))}
+					</div>
+					<div className="meal-record-container">
+						{mealDetails?.length > 0 &&
+							mealDetails.map((meal, index) => (
+								<Fragment key={index}>
+									<div className="record-container meal-card-bg">
+										<div className="meal-record-card">
+											<div>
+												<p className="meal-record-title">
+													{meal.mealType}
+												</p>
+											</div>
+											<div className="record-info">
+												<p>
+													{" "}
+													<img
+														src={Ingredient}
+														alt=""
+													/>
+													<span>
+														{meal.ingredients}
+													</span>
+												</p>
+												<p>
+													<img
+														src={calories}
+														alt=""
+													/>
+													<span>
+														{meal.caloriesConsumed}{" "}
+														Cal
+													</span>
+												</p>
+											</div>
+										</div>
+										{!isReadonly && (
+											<MdDelete
+												className="delete-record"
+												onClick={() =>
+													handleDeleteActivity(
+														meal.mealType,
+														true
+													)
+												}
+											/>
+										)}
+									</div>
+								</Fragment>
+							))}
+					</div>
 				</div>
-			</div>
+			)}
+
 			<ToastContainer />
 		</>
 	);

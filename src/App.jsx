@@ -7,8 +7,8 @@ import {
 } from "react-router-dom";
 import "./App.scss";
 import Layout from "./Layout";
-import SignUp from "./components/SignUp/SignUp";
-import Login from "./components/Login/Login";
+import AuthForm from "./components/AuthForm/AuthForm";
+import Loader from "./components/Common/Loader";
 
 const Home = lazy(() =>
 	import("./pages/index").then((module) => {
@@ -40,15 +40,16 @@ const router = createBrowserRouter(
 				<Route path="daily-goals" element={<DailyGoals />} />
 				<Route path="dashboard" element={<Dashboard />} />
 			</Route>
-			<Route path="signup" element={<SignUp />} />
-			<Route path="login" element={<Login />} />
+			<Route path="auth" element={<AuthForm />} />
+			{/* <Route path="signup" element={<SignUp />} /> */}
+			{/* <Route path="login" element={<Login />} /> */}
 		</>
 	)
 );
 
 function App() {
 	return (
-		<Suspense fallback={<h1>Loading...</h1>}>
+		<Suspense fallback={<Loader />}>
 			<RouterProvider router={router} />
 		</Suspense>
 	);

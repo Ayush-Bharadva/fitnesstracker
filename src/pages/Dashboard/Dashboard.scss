@@ -9,10 +9,10 @@ $red: rgb(211, 88, 88);
 	flex-direction: column;
 	overflow-y: scroll;
 	width: 100%;
-	max-width: 1260px;
+	// max-width: 1260px;
 	margin: 0 auto;
 
-	h2 {
+	.year-title {
 		text-align: left;
 		color: $red;
 		align-self: flex-start;
@@ -29,6 +29,7 @@ $red: rgb(211, 88, 88);
 		background-color: #eee;
 		border-radius: 7px;
 		width: 100%;
+		margin-bottom: 2rem;
 
 		.graph-container {
 			display: flex;
@@ -38,13 +39,9 @@ $red: rgb(211, 88, 88);
 			width: 100%;
 			padding: 1rem 0;
 
-			.graph-wrapper {
-				flex: 1 0 45%;
-				width: fit-content;
-				min-width: 336px;
-			}
-
 			.graph {
+				min-width: 336px;
+				flex: 1 0 45%;
 				border-radius: 7px;
 				background-color: #fff;
 				object-fit: cover;
@@ -64,6 +61,11 @@ $red: rgb(211, 88, 88);
 	}
 
 	#record-section {
+		.day-title {
+			text-align: left;
+			color: $red;
+			align-self: flex-start;
+		}
 		text-align: center;
 		color: black;
 
@@ -74,6 +76,10 @@ $red: rgb(211, 88, 88);
 			padding: 1rem;
 		}
 	}
+}
+
+#dashboard-section:hover {
+	overflow-y: scroll;
 }
 
 img {

@@ -34,33 +34,40 @@ export function getProfileStatus() {
 }
 
 export const isPasswordValid = (password) => {
-	let passwordError = "";
+	// let passwordError = "";
 
 	if (password.length <= 5) {
-		passwordError = " Password length should be > 5 ";
-		return passwordError;
+		// passwordError = " Password length should be > 5 ";
+		return false;
 	}
 
 	// special character checking
 	const specialCharacterPattern = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\|/]/;
 	if (!specialCharacterPattern.test(password)) {
-		passwordError = "Password must contain special characters";
-		return passwordError;
+		// passwordError = "Password must contain special characters";
+		return false;
 	}
 
 	// digit checking checking
 	const digitPattern = /\d/;
 	if (!digitPattern.test(password)) {
-		passwordError = "Password must contain atleast one digit";
-		return passwordError;
+		// passwordError = "Password must contain atleast one digit";
+		return false;
 	}
 
 	// alphabets checking
 	const alphabetPattern = /[a-zA-Z]/;
 	if (!alphabetPattern.test(password)) {
-		passwordError = "Password must contain atleast one alphabet";
-		return passwordError;
+		// passwordError = "Password must contain atleast one alphabet";
+		return false;
 	}
 
 	return true;
+
+	// return (
+	// 	password.length <= 5 ||
+	// 	!specialCharacterPattern.test(password) ||
+	// 	!digitPattern.test(password) ||
+	// 	!alphabetPattern.test(password)
+	// );
 };

@@ -24,12 +24,11 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 		ingredients: "",
 		calories: "",
 	});
-
 	const formType = isExercise ? "Exercise" : "Meal";
-
 	const [buttonText, setButtonText] = useState("Add");
+	const [loading, setLoading] = useState(false);
 
-	const showToast = (type = "success", message) => {
+	const showToast = (type, message) => {
 		toast[type](message, {
 			position: toast.POSITION.TOP_RIGHT,
 		});
@@ -43,6 +42,8 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 	const updateActivity = async () => {
 		const { type, duration, ingredients, calories } = activityInfo;
 
+		setLoading(true);
+
 		let response = isExercise
 			? await updateExerciseServise({
 					exerciseType: type,
@@ -55,8 +56,10 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 					caloriesConsumed: calories,
 			  });
 
+		setLoading(false);
+
 		if (response.status === 200) {
-			const temp = isExercise
+			const previousActivity = isExercise
 				? allDetails.exerciseDetails.find(
 						(exercise) => exercise.exerciseType === type
 				  )
@@ -66,7 +69,8 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 				? {
 						exerciseDetails: allDetails.exerciseDetails.map(
 							(exercise) =>
-								exercise.exerciseType === temp.exerciseType
+								exercise.exerciseType ===
+								previousActivity.exerciseType
 									? {
 											...exercise,
 											duration: duration,
@@ -77,7 +81,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 				  }
 				: {
 						mealDetails: allDetails.mealDetails.map((meal) =>
-							meal.mealType === temp.mealType
+							meal.mealType === previousActivity.mealType
 								? {
 										...meal,
 										ingredients: ingredients,
@@ -93,9 +97,17 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 			});
 
 			showToast("success", "activity updated successfully");
+		} else if (response.code === 400) {
+			showToast(
+				"error",
+				"Fields cannot be empty or zero while updating Activity!"
+			);
+		} else {
+			showToast("error", "some error occured while Updating Activity!");
 		}
 
 		setActivityInfo(initialValue);
+		setButtonText("Add");
 	};
 
 	const addActivity = async () => {
@@ -143,10 +155,18 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 			}
 		} else if (response.status === 409) {
 			showToast("error", "exercise added already..");
-			console.log("exercise added already..");
+			// console.log("exercise added already..");
+		} else if (response.code === 400) {
+			showToast(
+				"error",
+				"Fields cannot be empty or zero while Adding Activity!"
+			);
+		} else {
+			showToast("error", "some error occured while Adding Activity!");
 		}
 
 		setActivityInfo(initialValue);
+		setButtonText("Add");
 	};
 
 	const handleSubmit = (e) => {

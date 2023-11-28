@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { VscAccount } from "react-icons/vsc";
-import { CiUser, CiLogout } from "react-icons/ci";
+import { CiLogout } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { setCookie } from "../../utils/helper";
 import "./ProfileMenu.scss";

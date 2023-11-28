@@ -10,7 +10,7 @@ function Home() {
 
 	const handleStartButton = () => {
 		if (!isUserLoggedIn()) {
-			navigate("/login");
+			navigate("/auth");
 		} else {
 			navigate("/daily-goals");
 		}

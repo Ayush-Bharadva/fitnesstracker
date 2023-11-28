@@ -28,9 +28,14 @@ $mid-teal: #00b69e;
 $light-teal: #64ccc5;
 
 ::-webkit-scrollbar {
-	width: 7px;
-	height: 7px;
+	width: 5px;
+	height: 5px;
+	// display: none;
 }
+// ::-webkit-scrollbar:hover {
+// 	width: 7px;
+// 	height: 7px;
+// }
 ::-webkit-scrollbar-thumb {
 	background-color: #9aa9c7;
 }

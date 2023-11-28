@@ -18,6 +18,7 @@ import {
 import RecordCard from "../../components/Common/RecordCard";
 import noDataFound from "../../assets/icons/noDataFound.jpg";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../components/Common/Loader";
 
 ChartJS.register(
 	CategoryScale,
@@ -58,6 +59,7 @@ function Dashboard() {
 	const [yearlyCalorieDetails, setYearlyCalorieDetails] = useState(null);
 	const [yearlyWeightDetails, setYearlyWeightDetails] = useState(null);
 	const [allRecordsByDate, setAllRecordsByDate] = useState({});
+	const [loading, setLoading] = useState(false);
 
 	const date = new Date();
 	const currentYear = date.getFullYear().toString();
@@ -76,10 +78,12 @@ function Dashboard() {
 
 		const fetchData = async () => {
 			try {
+				setLoading(true);
 				const [recordsResponse] = await Promise.all([
 					getDetailsFromDateService({ date: formatedDate }),
 					fetchYearlyDetails(formatedDate),
 				]);
+				setLoading(false);
 
 				console.log(recordsResponse);
 
@@ -87,10 +91,10 @@ function Dashboard() {
 					// console.log({ ...recordsResponse.data });
 					setAllRecordsByDate({ ...recordsResponse.data });
 					setSelectedDate(formatedDate);
-				}
-
-				if (recordsResponse.status === 498) {
-					navigate("/login");
+				} else if (recordsResponse.status === 498) {
+					navigate("/auth");
+				} else {
+					console.log("Something went wrong!");
 				}
 			} catch (error) {
 				console.log("fetch data error :", error);
@@ -129,9 +133,11 @@ function Dashboard() {
 
 	const fetchAllRecords = async (formatedDate) => {
 		try {
+			setLoading(true);
 			const response = await getDetailsFromDateService({
 				date: formatedDate,
 			});
+			setLoading(false);
 			if (response.status === 200) {
 				// console.log(response.data);
 				setAllRecordsByDate({ ...response.data });
@@ -142,7 +148,10 @@ function Dashboard() {
 	};
 
 	const fetchYearlyDetails = async (date) => {
+		setLoading(true);
 		const annualCalresponse = await getYearlyCaloriesDetailService(date);
+		setLoading(false);
+
 		if (annualCalresponse.status === 200) {
 			setYearlyCalorieDetails([...annualCalresponse.data]);
 		}
@@ -168,30 +177,30 @@ function Dashboard() {
 
 	return (
 		<>
-			<section id="dashboard-section">
-				<h2>
-					Annual Data Tracking (Year : {selectedDate?.substring(0, 4)}
-					)
-				</h2>
-				<section id="graph-section">
-					<div className="select-date-section">
-						<input
-							type="date"
-							name="name"
-							id="date"
-							value={selectedDate}
-							onChange={handleDateChange}
-						/>
-					</div>
-					<div className="graph-container">
-						<div className="graph-wrapper">
+			{loading ? (
+				<Loader />
+			) : (
+				<section id="dashboard-section">
+					<h2 className="year-title">
+						Annual Data Tracking (Year :{" "}
+						{selectedDate?.substring(0, 4)})
+					</h2>
+					<div id="graph-section">
+						<div className="select-date-section">
+							<input
+								type="date"
+								name="name"
+								id="date"
+								value={selectedDate}
+								onChange={handleDateChange}
+							/>
+						</div>
+						<div className="graph-container">
 							<Bar
 								className="graph"
 								options={options}
 								data={yearlyWeightData}
 							/>
-						</div>
-						<div className="graph-wrapper">
 							<Bar
 								className="graph"
 								options={options}
@@ -199,22 +208,27 @@ function Dashboard() {
 							/>
 						</div>
 					</div>
+					<div id="record-section">
+						{allRecordsByDate.exerciseDetails &&
+						allRecordsByDate.mealDetails ? (
+							<>
+								<h2 className="day-title">
+									Activity Records (Date : {selectedDate})
+								</h2>
+								<RecordCard
+									allDetails={allRecordsByDate}
+									isReadonly={true}
+								/>
+							</>
+						) : (
+							<div className="no-data">
+								<img src={noDataFound} alt="No Data" />
+								<h1>No Activity For Selected Date</h1>
+							</div>
+						)}
+					</div>
 				</section>
-				<section id="record-section">
-					{allRecordsByDate.exerciseDetails &&
-					allRecordsByDate.mealDetails ? (
-						<RecordCard
-							allDetails={allRecordsByDate}
-							isReadonly={true}
-						/>
-					) : (
-						<div className="no-data">
-							<img src={noDataFound} alt="No Data" />
-							<h1>No Activity For Selected Date</h1>
-						</div>
-					)}
-				</section>
-			</section>
+			)}
 		</>
 	);
 }

@@ -6,8 +6,6 @@ const userProfileApiUrl = `${userApiUrl}/profile`;
 const userExerciseApiUrl = `${userApiUrl}/exercise`;
 const userMealApiUrl = `${userApiUrl}/meal`;
 
-const url = "https://fitnesstracker-k5h0.onrender.com/login";
-
 // create axios instance with common headers
 const userId = getCookie("userId");
 const headers = {
@@ -264,16 +262,37 @@ export async function deleteWeightService() {
 	}
 }
 
-// createApiInstance.interceptors.response.use((config) => {
-// 	const userId = getCookie("userId");
-// 	config.headers.Authorization = userId;
-// 	return config;
-// });
+/*******************************water-service*******************************/
+export async function addWaterService(waterInfo) {
+	try {
+		const response = createApiInstance.post(`${userApiUrl}/water`, {
+			waterIntake: waterInfo,
+		});
+		return response;
+	} catch (error) {
+		console.log("add weight error :", error);
+		return error.response;
+	}
+}
 
-// const post = async (url, body) => {
-// 	const userId = getCookie("userId");
+export async function editWaterService(waterInfo) {
+	try {
+		const response = createApiInstance.put(`${userApiUrl}/water`, {
+			waterIntake: waterInfo,
+		});
+		return response;
+	} catch (error) {
+		console.log("edit weight error :", error);
+		return error.response;
+	}
+}
 
-// 	return await createApiInstance.post(url, body, {
-// 		headers: { ...headers, Authorization: userId },
-// 	});
-// };
+export async function deleteWaterService() {
+	try {
+		const response = createApiInstance.delete(`${userApiUrl}/water`);
+		return response;
+	} catch (error) {
+		console.log("delete weight error :", error);
+		return error.response;
+	}
+}

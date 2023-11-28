@@ -1,75 +1,83 @@
-// Theme variables:
-$black: #0f0f0f;
-$dark-blue: #232d3f;
-$mid-blue: #364560;
-$light-blue: #3f5071;
-$dark-green: #005b41;
+// color variables:
 $teal: #008170;
-$light-teal: #00b69e;
+$heading-color: #112a46;
+$text-color: rgb(12, 71, 137);
 
-* {
-	box-sizing: border-box;
-}
-.signup-card {
-	padding: 1rem;
-	h2 {
-		font-size: 2rem;
-		padding: 2rem 0;
-		color: $light-teal;
-	}
+.signup-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	height: 100vh;
+	width: 100vw;
+	overflow-y: scroll;
 
-	input {
-		display: block;
-		margin: 1rem auto;
-		font-size: 1.5rem;
-		padding: 0.5rem 1rem;
-		border: none;
-		border-radius: 7px;
-		outline: none;
-		background-color: #ddd;
-	}
-
-	.signup-btn {
-		padding: 0.5rem 1rem;
-		margin-top: 1rem;
-		font-size: 1rem;
-		background-color: $teal;
-		color: white;
-		width: 100%;
-		border: none;
-		border-radius: 7px;
-		cursor: pointer;
-	}
-
-	p {
-		color: $light-teal;
+	.signup-form-container {
+		background: linear-gradient(
+			45deg,
+			hsla(133, 50%, 79%, 1) 0%,
+			hsla(234, 36%, 55%, 1) 100%
+		);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		flex: 1 0 50%;
 		padding: 1rem;
-		text-align: center;
-		span {
-			font-weight: bold;
+		height: 100%;
+		h2 {
+			font-size: 2rem;
+			padding: 2rem 0;
+			color: $heading-color;
+		}
+
+		input {
+			display: block;
+			margin: 1rem auto;
+			font-size: 1.5rem;
+			padding: 0.5rem 1rem;
+			border: none;
+			border-radius: 7px;
+			outline: none;
+			background-color: #ddd;
+		}
+
+		.signup-btn {
+			padding: 0.5rem 1rem;
+			margin-top: 1rem;
+			font-size: 1rem;
+			background-color: $teal;
+			color: white;
+			width: 100%;
+			border: none;
+			border-radius: 7px;
 			cursor: pointer;
-			text-decoration: underline;
+		}
+
+		p {
+			color: $text-color;
+			padding: 1rem;
+			text-align: center;
+			span {
+				font-weight: bold;
+				cursor: pointer;
+				text-decoration: underline;
+			}
 		}
 	}
-}
 
-// user profile button/icon styling
-
-.signup-poster {
-	img {
-		border-radius: 7px;
-		width: 100%;
+	.signup-poster {
+		flex: 1 0 50%;
 		height: 100%;
-		object-fit: cover;
+		img {
+			border-radius: 7px;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
 	}
 }
 
 .error-message {
 	color: red;
-}
-
-.loader {
-	display: flex;
-	justify-content: center;
-	align-items: center;
 }

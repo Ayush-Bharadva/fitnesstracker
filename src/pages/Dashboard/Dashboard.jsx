@@ -209,7 +209,7 @@ function Dashboard() {
 						</div>
 					</div>
 					<div id="record-section">
-						{allRecordsByDate.exerciseDetails &&
+						{allRecordsByDate.exerciseDetails ||
 						allRecordsByDate.mealDetails ? (
 							<>
 								<h2 className="day-title">

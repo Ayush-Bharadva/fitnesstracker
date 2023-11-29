@@ -3,13 +3,12 @@ $light-teal: #00b69e;
 $red: rgb(211, 88, 88);
 
 #dashboard-section {
-	height: 100%;
+	height: calc(100vh - 111px);
+	width: 100%;
 	padding: 1rem;
 	display: flex;
 	flex-direction: column;
 	overflow-y: scroll;
-	width: 100%;
-	// max-width: 1260px;
 	margin: 0 auto;
 
 	.year-title {
@@ -24,7 +23,7 @@ $red: rgb(211, 88, 88);
 		flex-direction: column;
 		justify-content: flex-start;
 		align-items: center;
-		padding: 1rem;
+		padding: 0.5rem;
 		gap: 1rem;
 		background-color: #eee;
 		border-radius: 7px;
@@ -122,10 +121,3 @@ img {
 		gap: 0;
 	}
 }
-
-//# 320px — 480px: Mobile devices
-//# 481px — 768px: iPads, Tablets
-//# 769px — 1024px: Small screens, laptops
-//# 1025px — 1200px: Desktops, large screens
-//# 1201px and more —  Extra large screens, TV
-/******************************************************************************************************/

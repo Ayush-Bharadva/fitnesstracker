@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&family=Ubuntu:wght@300;400;500;700&display=swap");
-
 * {
 	padding: 0;
 	margin: 0;
@@ -12,9 +10,6 @@ body {
 	margin: 0;
 	padding: 0;
 	font-family: Arial, Helvetica, sans-serif;
-}
-#root {
-	height: 100%;
 }
 
 // Theme variables:
@@ -30,12 +25,7 @@ $light-teal: #64ccc5;
 ::-webkit-scrollbar {
 	width: 5px;
 	height: 5px;
-	// display: none;
 }
-// ::-webkit-scrollbar:hover {
-// 	width: 7px;
-// 	height: 7px;
-// }
 ::-webkit-scrollbar-thumb {
 	background-color: #9aa9c7;
 }
@@ -43,16 +33,6 @@ $light-teal: #64ccc5;
 	background-color: #7d88a0;
 }
 ::-webkit-scrollbar-track {
-	background: #e1e1e1;
+	background: #ccc;
+	display: none;
 }
-
-/*
-Media Query Breakpoints : 
-small	640px	@media (min-width: 640px) { ... }
-medium	768px	@media (min-width: 768px) { ... }
-large	1024px	@media (min-width: 1024px) { ... }
-extra large	1280px	@media (min-width: 1280px) { ... }
-ultra wide	1536px	@media (min-width: 1536px) { ... }
-*/
-
-/***********************************************************************************/

@@ -1,15 +1,16 @@
-import "./Header.scss";
 import React, { useEffect, useState, useRef } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import ProfileMenu from "../Common/ProfileMenu";
-import { handleLogout, isUserLoggedIn } from "../../utils/helper";
+import { isUserLoggedIn, setCookie } from "../../utils/helper";
 import { GiHamburgerMenu } from "react-icons/gi";
+import "./Header.scss";
 
 function Header() {
 	const location = useLocation();
 	const pathName = location.pathname;
 	const [burgerMenu, setBurgerMenu] = useState(false);
 	const navItemsRef = useRef(null);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (burgerMenu) {
@@ -18,6 +19,12 @@ function Header() {
 			navItemsRef.current?.classList.add("display-none");
 		}
 	}, [burgerMenu]);
+
+	const handleLogout = () => {
+		setCookie("userId", "");
+		setBurgerMenu(false);
+		navigate("/");
+	};
 
 	return (
 		<header className="navbar">
@@ -75,7 +82,6 @@ function Header() {
 							</NavLink>
 						</li>
 						{isUserLoggedIn() && (
-							// <li className="nav-item logout-btn">
 							<button
 								className="mobile-logout-btn"
 								onClick={handleLogout}>

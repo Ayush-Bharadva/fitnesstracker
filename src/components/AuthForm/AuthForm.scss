@@ -1,7 +1,7 @@
 // color variables:
 $teal: #008170;
 $heading-color: #112a46;
-$text-color: rgb(12, 71, 137);
+$text-color: rgb(9, 57, 110);
 
 * {
 	margin: 0;
@@ -19,12 +19,13 @@ $text-color: rgb(12, 71, 137);
 	overflow-y: scroll;
 
 	.auth-form-container {
-		background-image: url("../../assets/images/BgGraphics.png");
 		background: linear-gradient(
-			45deg,
-			hsla(133, 50%, 79%, 1) 0%,
-			hsla(234, 36%, 55%, 1) 100%
-		);
+				45deg,
+				hsla(234, 36%, 55%, 1) 0%,
+				hsla(234, 36%, 55%, 0) 100%
+			),
+			url("../../assets/images/BgGraphics.png") top right/auto 100%
+				no-repeat;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -37,11 +38,12 @@ $text-color: rgb(12, 71, 137);
 			font-size: 2.2rem;
 			padding: 2rem 0;
 			color: $heading-color;
+			text-shadow: 1px 1px 3px #4242af;
 		}
 
 		.auth-form {
 			label {
-				margin: 0.5rem 0 !important;
+				margin: 0.5rem 0;
 				color: #112a46;
 				font-weight: bold;
 			}
@@ -72,8 +74,9 @@ $text-color: rgb(12, 71, 137);
 
 		p {
 			color: $text-color;
-			padding: 1rem;
+			padding: 1rem 0;
 			text-align: center;
+			font-size: 18px;
 			span {
 				font-weight: bold;
 				cursor: pointer;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import { ToastContainer, toast } from "react-toastify";
-import { isUserLoggedIn, setProfileStatus } from "../../utils/helper";
+import { isUserLoggedIn } from "../../utils/helper";
 import {
 	createUserProfileService,
 	showUserProfileService,
@@ -45,11 +45,14 @@ function UserProfileManager() {
 					setInputDisabled(true);
 					const profiledata = { ...fetchProfileResponse.data };
 					setUserInfo(profiledata);
-				} else if (fetchProfileResponse.code === 498) {
-					showToastMessage("error", "Please Login First");
-				} else {
-					showToastMessage("error", "Something went wrong!!");
 				}
+				// else if (fetchProfileResponse.code === 498) {
+				// 	// navigate("/");
+				// 	showToastMessage("error", "Please Login First");
+				// }
+				// else {
+				// 	showToastMessage("error", "Something went wrong!!");
+				// }
 			} catch (error) {
 				console.log("fetch user profile error :", error);
 				showToastMessage(
@@ -86,8 +89,6 @@ function UserProfileManager() {
 			const response = await createUserProfileService(userInfo);
 			setLoading(false);
 			if (response.status === 200) {
-				// setUserProfileInfo(userInfo);
-				setProfileStatus(true);
 				setInputDisabled(true);
 				showToastMessage("success", "Profile Updated..");
 			}
@@ -147,7 +148,7 @@ function UserProfileManager() {
 					<Loader color="#37455f" height="64px" width="64px" />
 				) : (
 					<div className="profile-form-container">
-						<h2 className="form-title">Create Profile</h2>
+						<h2 className="form-title">Profile</h2>
 						<form action="" className="user-profile-form">
 							<div className="form-left">
 								{userInfo.profilePhoto ? (
@@ -196,7 +197,7 @@ function UserProfileManager() {
 														{...getInputProps()}
 													/>
 													{userInfo?.profilePhoto ? (
-														<>
+														<div className="profile-part">
 															<button
 																className="remove-img-btn"
 																onClick={
@@ -215,7 +216,7 @@ function UserProfileManager() {
 															<p className="preview-text">
 																profile preview
 															</p>
-														</>
+														</div>
 													) : (
 														<p>
 															Drag 'n' drop
@@ -370,7 +371,6 @@ function UserProfileManager() {
 										required
 									/>
 								</div>
-
 								<div className="profile-form-field">
 									<label
 										htmlFor="weight"
@@ -393,7 +393,6 @@ function UserProfileManager() {
 										required
 									/>
 								</div>
-
 								<div className="profile-form-field">
 									<label
 										htmlFor="healthGoal"

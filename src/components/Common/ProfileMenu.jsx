@@ -17,16 +17,9 @@ function ProfileMenu(props) {
 
 	const [openProfile, setOpenProfile] = useState(false);
 
-	const handleClick = (text) => {
-		if (text === "view profile") {
-			navigate("/user-profile");
-		}
-
-		if (text === "logout") {
-			setCookie("userId", "");
-			localStorage.removeItem("profileExists");
-			navigate("/");
-		}
+	const handleClick = () => {
+		setCookie("userId", "");
+		navigate("/");
 	};
 
 	return (
@@ -41,9 +34,7 @@ function ProfileMenu(props) {
 			{openProfile && (
 				<ul>
 					{profileOptions.map((option) => (
-						<li
-							key={option.text}
-							onClick={() => handleClick(option.text)}>
+						<li key={option.text} onClick={handleClick}>
 							{option.icon} {option.text}
 						</li>
 					))}

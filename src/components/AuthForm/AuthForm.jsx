@@ -4,10 +4,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { userLogInService, userSignUpService } from "../../services/services";
-import { isPasswordValid, setCookie } from "../../utils/helper";
+import { setCookie, validatePassword } from "../../utils/helper";
 import Loader from "../Common/Loader";
-import poster from "../../assets/images/signup_poster.jpg";
-import BgGraphics from "../../assets/images/BgGraphics.png";
 
 function AuthForm() {
 	const navigate = useNavigate();
@@ -33,166 +31,105 @@ function AuthForm() {
 	const handleChange = (input, value) => {
 		setFormData((prevData) => ({ ...prevData, [input]: value }));
 
-		/* Error checking */
+		// Error checking
+		switch (input) {
+			case "fullname":
+				setInputError((prevErrors) => ({
+					...prevErrors,
+					fullnameError:
+						value.length < 5
+							? "Fullname length should be greater than 4"
+							: "",
+				}));
+				break;
+			case "email":
+				const emailPattern =
+					/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+				setInputError((prevErrors) => ({
+					...prevErrors,
+					emailError: !emailPattern.test(value)
+						? "Invalid email"
+						: "",
+				}));
+				break;
+			case "password":
+				setInputError((prevErrors) => ({
+					...prevErrors,
+					passwordError: validatePassword(value),
+				}));
+				break;
+			case "confirmPassword":
+				setInputError((prevErrors) => ({
+					...prevErrors,
+					confirmPasswordError:
+						formData.password !== value
+							? "Password and Confirm-Password must be the same"
+							: "",
+				}));
+				break;
+			default:
+				break;
+		}
 
-		// check fullname
-		if (input === "fullname") {
+		if (!value) {
 			setInputError((prevErrors) => ({
 				...prevErrors,
-				fullnameError:
-					value.length < 5
-						? "Fullname length should be greater than 4"
-						: "",
+				[`${input}Error`]: "",
 			}));
-			if (!value) {
-				setInputError({ ...inputError, fullnameError: "" });
-			}
-		}
-
-		// check email
-		if (input === "email") {
-			// console.log("email check");
-			const emailPattern =
-				/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
-			setInputError(
-				!emailPattern.test(value)
-					? { ...inputError, emailError: "Invalid email" }
-					: { ...inputError, emailError: "" }
-			);
-
-			if (!value) {
-				setInputError({ ...inputError, emailError: "" });
-			}
-		}
-
-		// check password
-		if (input === "password") {
-			// console.log(input, value);
-			const specialCharacterPattern = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\|/]/;
-			const digitPattern = /\d/;
-			const alphabetPattern = /[a-zA-Z]/;
-
-			if (value.length <= 5) {
-				setInputError((prevErrors) => ({
-					...prevErrors,
-					passwordError: "Password length should be greater than 5",
-				}));
-			} else if (!specialCharacterPattern.test(value)) {
-				setInputError((prevErrors) => ({
-					...prevErrors,
-					passwordError: "Password must contain special characters",
-				}));
-			} else if (!digitPattern.test(value)) {
-				setInputError((prevErrors) => ({
-					...prevErrors,
-					passwordError: "Password must contain atleast one digit",
-				}));
-			} else if (!alphabetPattern.test(value)) {
-				setInputError((prevErrors) => ({
-					...prevErrors,
-					passwordError: "Password must contain atleast one alphabet",
-				}));
-			} else {
-				setInputError((prevErrors) => ({
-					...prevErrors,
-					passwordError: "",
-				}));
-			}
-
-			if (!value) {
-				setInputError({ ...inputError, passwordError: "" });
-			}
-		}
-
-		// check confirm-password
-		if (input === "confirmPassword") {
-			setInputError((prevErrors) => ({
-				...prevErrors,
-				confirmPasswordError:
-					formData.password !== value
-						? "Password and Confirm-Password must be same"
-						: "",
-			}));
-
-			if (!value) {
-				setInputError((prevErrors) => ({
-					...prevErrors,
-					confirmPasswordError: "",
-				}));
-			}
 		}
 	};
 
-	// function to check validity of password and email
-	const isValidCredentials = () => {
-		const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+	const handleSubmit = async (e) => {
+		e.preventDefault();
 
-		let isValidEmail = emailPattern.test(formData.email);
-		let isValidPassword = isPasswordValid(formData.password);
-
-		if (!isValidEmail) {
-			// console.log("Invalid Email");
-			showToast("error", "Enter valid Email");
-			return;
-		}
-
-		if (!isValidPassword) {
-			// console.log("Invalid Password");
-			showToast("error", "Enter Valid Password");
-			return;
-		}
-
-		console.log(
-			isValidEmail,
-			isValidPassword,
-			formData["password"] === formData["confirmPassword"]
-		);
-
-		return !isLoginForm
-			? isValidEmail &&
-					isValidPassword &&
-					formData["password"] === formData["confirmPassword"]
-			: isValidEmail && isValidPassword;
-	};
-
-	const handleAuthSubmit = async () => {
 		const { fullname, email, password } = formData;
 
-		setLoading(true);
-
-		const response = isLoginForm
-			? await userLogInService({
-					email: email,
-					password: password,
-			  })
-			: await userSignUpService({
-					fullname: fullname,
-					email: email,
-					password: password,
-			  });
-
-		setLoading(false);
-
-		console.log(response);
-
-		if (response.code === 409) {
-			showToast("error", "Email Already registed..");
-		} else if (response.status === 200) {
-			setCookie("userId", response.data.userId);
-			navigate("/");
-		} else {
-			showToast("error", "Sign up failed. Please try again.");
+		if (!isLoginForm && formData.password !== formData.confirmPassword) {
+			showToast(
+				"error",
+				"Password and Confirm-Password must be the same"
+			);
+			return;
 		}
-	};
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		if (isValidCredentials()) {
-			handleAuthSubmit();
-		} else {
-			console.log("credentials are not proper");
+		const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+		if (!emailPattern.test(email) || validatePassword(password)) {
+			showToast("error", "Enter Valid Credentials");
+			return;
 		}
+
+		try {
+			setLoading(true);
+
+			const response = isLoginForm
+				? await userLogInService({ email, password })
+				: await userSignUpService({ fullname, email, password });
+
+			setLoading(false);
+
+			if (response.status === 200) {
+				setCookie("userId", response.data.userId);
+				navigate("/");
+			}
+			console.log("AUthForm.jsx :", error);
+		} catch (error) {
+			showToast("AUthForm.jsx error", error.response);
+		}
+
+		// if (response.status === 409) {
+		// 	showToast("error", "Email Already registed..");
+		// } else if (response.status === 401) {
+		// 	showToast("error", response.message);
+		// } else if (response.status === 200) {
+		// 	setCookie("userId", response.data.userId);
+		// 	navigate("/");
+		// } else if (response.status === 500) {
+		// 	showToast("error", response.message);
+		// } else if (response.status === 404) {
+		// 	showToast("error", response.message);
+		// } else {
+		// 	showToast("error", "Sign up failed. Please try again.");
+		// }
 	};
 
 	return (
@@ -305,12 +242,8 @@ function AuthForm() {
 							</span>
 						</p>
 					</div>
-					{/* <div className="auth-poster">
-						<img src={BgGraphics} alt="auth-poster" />
-					</div> */}
 				</div>
 			)}
-
 			<ToastContainer />
 		</>
 	);

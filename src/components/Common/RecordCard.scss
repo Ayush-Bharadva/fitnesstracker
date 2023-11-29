@@ -72,14 +72,6 @@ $red: #cc274c;
 		}
 	}
 
-	.exercise-record-container {
-		animation: slideInFromLeft 1s normal ease-in-out;
-	}
-
-	.meal-record-container {
-		animation: slideInFromRight 1s reverse ease-in-out;
-	}
-
 	.delete-record {
 		background-color: #fff;
 		border-radius: 25%;
@@ -120,21 +112,23 @@ $red: #cc274c;
 	font-size: 20px;
 }
 
-// Animations
-@keyframes slideInfromLeft {
-	0% {
-		transform: translateX(-100%);
-	}
-	100% {
-		transform: translate(0);
-	}
+.dg-activity-info,
+.dg-activity-heading {
+	color: #3f5071;
+	font-size: 2rem;
+	text-decoration: underline;
+	text-shadow: 1px 1px 3px #4242af;
 }
 
-@keyframes slideInfromRight {
-	0% {
-		transform: translateX(100%);
-	}
-	100% {
-		transform: translate(0);
+.no-activity-heading {
+	color: #3f7154;
+	font-size: 2rem;
+	text-decoration: underline;
+	text-shadow: 1px 1px 3px #217c5e;
+}
+
+@media screen and (max-width: 480px) {
+	.record-card .exercise-record-container .record-container {
+		padding: 0.5rem;
 	}
 }

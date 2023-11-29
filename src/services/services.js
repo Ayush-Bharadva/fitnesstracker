@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getCookie } from "../utils/helper";
+import { toast } from "react-toastify";
 const baseApiUrl = "https://fitnesstracker-k5h0.onrender.com";
 const userApiUrl = `${baseApiUrl}/user`;
 const userProfileApiUrl = `${userApiUrl}/profile`;
@@ -9,7 +10,7 @@ const userMealApiUrl = `${userApiUrl}/meal`;
 // create axios instance with common headers
 const userId = getCookie("userId");
 const headers = {
-	Authorization: userId,
+	// Authorization: userId,
 	"Content-Type": "application/json",
 };
 const createApiInstance = axios.create({
@@ -19,28 +20,51 @@ const createApiInstance = axios.create({
 
 createApiInstance.interceptors.request.use((config) => {
 	const userId = getCookie("userId");
-	config.headers.Authorization = userId;
+	if (!userId) {
+		config.headers.Authorization = userId;
+	}
 	return config;
 });
+createApiInstance.interceptors.response.use(
+	(response) => response,
+	(error) => {
+		console.log(error);
+		toast.error(`${error.response.data.message}`);
+		// if (error.response.status === 409) {
+		// 	console.log("Intr res : 409 duplicate data..");
+		// } else if (error.response.status === 498) {
+		// 	// window.location.href("auth");
+		// 	console.log("Intr res : 498 UserId not passed");
+		// } else if (error.response.status === 400) {
+		// 	console.log("Intr res : 401 data not passed");
+		// }
+		return Promise.reject(error);
+	}
+);
 
 // SignUp User
 export async function userSignUpService(userCredentials) {
 	try {
-		const response = await axios.post(
+		const response = await createApiInstance.post(
 			`${baseApiUrl}/signup`,
 			userCredentials
 		);
 		return response;
 	} catch (error) {
+		// if (error.response.status === 401) {
+		// 	console.log("401 Error occured! Wrong Email || Password..");
+		// } else if (error.response.status === 500) {
+		// 	console.log("500 Error occured! Internal server error..");
+		// }
 		console.log("signup error :", error);
-		return error.response.data;
+		return error;
 	}
 }
 
 // LogIn User
 export async function userLogInService(userCredentials) {
 	try {
-		const response = await axios.post(
+		const response = await createApiInstance.post(
 			`${baseApiUrl}/login`,
 			userCredentials
 		);

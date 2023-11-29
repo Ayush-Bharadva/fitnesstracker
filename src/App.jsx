@@ -41,8 +41,6 @@ const router = createBrowserRouter(
 				<Route path="dashboard" element={<Dashboard />} />
 			</Route>
 			<Route path="auth" element={<AuthForm />} />
-			{/* <Route path="signup" element={<SignUp />} /> */}
-			{/* <Route path="login" element={<Login />} /> */}
 		</>
 	)
 );

@@ -2,7 +2,7 @@ import React from "react";
 import "./Home.scss";
 import "../../global.scss";
 import video from "../../assets/hero_assets/gym-video.mp4";
-import { getProfileStatus, isUserLoggedIn } from "../../utils/helper";
+import { isUserLoggedIn } from "../../utils/helper";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
@@ -26,7 +26,7 @@ function Home() {
 						muted
 						loop
 						id="bg-video"></video>
-					<div className="video-overlay header-text">
+					<div className="video-overlay">
 						<div className="caption">
 							<h5>WORK HARDER, GET STRONGER</h5>
 							<h2>
@@ -40,10 +40,6 @@ function Home() {
 						</div>
 					</div>
 				</section>
-
-				{/* <section id="info-section"></section>
-				<section id="quote-section"></section>
-				<section id="services-section"></section> */}
 			</div>
 		</>
 	);

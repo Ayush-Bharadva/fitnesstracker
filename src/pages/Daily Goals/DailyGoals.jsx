@@ -9,7 +9,7 @@ import {
 } from "../../services/services";
 import RecordCard from "../../components/Common/RecordCard";
 import "react-toastify/dist/ReactToastify.css";
-import AddActivityForm from "./AddActivityForm";
+import AddActivityForm from "../../components/Common/AddActivityForm";
 import { toast } from "react-toastify";
 import Loader from "../../components/Common/Loader";
 
@@ -22,6 +22,7 @@ function DailyGoals() {
 
 	const [waterInfo, setWaterInfo] = useState("");
 	const [waterButtonType, setWaterButtonType] = useState("Save");
+
 	const [loading, setLoading] = useState(false);
 
 	const showToast = (type, message) => {
@@ -29,12 +30,11 @@ function DailyGoals() {
 	};
 
 	const handleWeightInfo = async () => {
-		// console.log(weightInfo);
 		setWeightButtonType("Edit");
 
 		try {
 			setLoading(true);
-			let response = !weightDetails?.dailyWeight
+			const response = !weightDetails?.dailyWeight
 				? await addWeightService(Number(weightInfo))
 				: await editWeightService(Number(weightInfo));
 			setLoading(false);
@@ -45,6 +45,8 @@ function DailyGoals() {
 					weightDetails: { dailyWeight: weightInfo },
 				}));
 				showToast("success", "Weight Updated!");
+			} else if (response.code === 500) {
+				showToast("error", response.message);
 			}
 		} catch (error) {
 			console.error("error updating weight :", error);
@@ -74,7 +76,7 @@ function DailyGoals() {
 	};
 
 	const handleWeightChange = ({ target }) => {
-		setWeightInfo(Number(target.value));
+		setWeightInfo(target.value);
 	};
 
 	const handleWaterChange = ({ target }) => {
@@ -131,6 +133,8 @@ function DailyGoals() {
 						setWaterInfo(allData.waterDetails.waterIntake);
 						setWaterButtonType("Edit");
 					}
+				} else if (response.code === 500) {
+					showToast("error", response.message);
 				}
 			} catch (error) {
 				console.log("error fetching all records :", error);
@@ -179,7 +183,7 @@ function DailyGoals() {
 				<div id="water-tracking-section">
 					<h3>Water Drunk Today</h3>
 					<div className="water-tracker-container">
-						<h3>Water (Ltrs)</h3>
+						<h3>Water Intake (Ltrs)</h3>
 						<div className="actions">
 							<input
 								type="text"
@@ -200,9 +204,12 @@ function DailyGoals() {
 				<Loader />
 			) : (
 				<div className="records-container">
-					<h1 className="dg-activity-heading">
-						Today's Logged Activities :{" "}
-					</h1>
+					{!allDetails && (
+						<p className="dg-activity-info">
+							{" "}
+							Add some Activities to Display Here!!
+						</p>
+					)}
 					<RecordCard
 						allDetails={allDetails}
 						setAllDetails={setAllDetails}

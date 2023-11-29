@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getProfileStatus, isUserLoggedIn } from "../../utils/helper";
+import { isUserLoggedIn } from "../../utils/helper";
 import {
 	addExerciseService,
 	addMealService,
@@ -26,7 +26,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 	});
 	const formType = isExercise ? "Exercise" : "Meal";
 	const [buttonText, setButtonText] = useState("Add");
-	const [loading, setLoading] = useState(false);
+	// const [loading, setLoading] = useState(false);
 
 	const showToast = (type, message) => {
 		toast[type](message, {
@@ -42,7 +42,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 	const updateActivity = async () => {
 		const { type, duration, ingredients, calories } = activityInfo;
 
-		setLoading(true);
+		// setLoading(true);
 
 		let response = isExercise
 			? await updateExerciseServise({
@@ -56,7 +56,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 					caloriesConsumed: calories,
 			  });
 
-		setLoading(false);
+		// setLoading(false);
 
 		if (response.status === 200) {
 			const previousActivity = isExercise
@@ -102,10 +102,11 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 				"error",
 				"Fields cannot be empty or zero while updating Activity!"
 			);
+		} else if (response.code === 500) {
+			showToast("error", response.message);
 		} else {
 			showToast("error", "some error occured while Updating Activity!");
 		}
-
 		setActivityInfo(initialValue);
 		setButtonText("Add");
 	};
@@ -155,7 +156,6 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 			}
 		} else if (response.status === 409) {
 			showToast("error", "exercise added already..");
-			// console.log("exercise added already..");
 		} else if (response.code === 400) {
 			showToast(
 				"error",
@@ -171,7 +171,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		if (isUserLoggedIn() /* && getProfileStatus() */) {
+		if (isUserLoggedIn()) {
 			buttonText === "Add" ? addActivity() : updateActivity();
 		} else {
 			showToast(

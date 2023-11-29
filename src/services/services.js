@@ -8,9 +8,7 @@ const userExerciseApiUrl = `${userApiUrl}/exercise`;
 const userMealApiUrl = `${userApiUrl}/meal`;
 
 // create axios instance with common headers
-const userId = getCookie("userId");
 const headers = {
-	// Authorization: userId,
 	"Content-Type": "application/json",
 };
 const createApiInstance = axios.create({
@@ -20,7 +18,7 @@ const createApiInstance = axios.create({
 
 createApiInstance.interceptors.request.use((config) => {
 	const userId = getCookie("userId");
-	if (!userId) {
+	if (userId) {
 		config.headers.Authorization = userId;
 	}
 	return config;

@@ -1,9 +1,7 @@
 $black: #0f0f0f;
 $light-teal: #00b69e;
 
-/* banner */
 #home-container {
-	height: 100vh;
 	height: calc(100vh - 111px);
 	width: 100vw;
 	background-color: #0f0f0f;
@@ -26,7 +24,6 @@ $light-teal: #00b69e;
 		background-color: rgba(35, 45, 57, 0.8);
 		top: 0;
 		left: 0;
-		// bottom: 7px;
 		width: 100%;
 		height: 100%;
 		padding: 1rem;
@@ -70,25 +67,23 @@ $light-teal: #00b69e;
 	}
 }
 
+@media screen and (max-width: 1200px) {
+	#banner-section .video-overlay .caption h2 {
+		font-size: 74px;
+	}
+}
+@media screen and (max-width: 1024px) {
+	#banner-section .video-overlay .caption h2 {
+		font-size: 54px;
+	}
+}
 @media screen and (max-width: 768px) {
 	#banner-section .video-overlay .caption h2 {
-		// margin: 30px 0 25px 0;
-		font-size: 60px;
-		// font-weight: 800;
+		font-size: 34px;
 	}
 }
 @media screen and (max-width: 480px) {
 	#banner-section .video-overlay .caption h2 {
-		// margin: 30px 0 25px 0;
-		font-size: 38px;
-		// font-weight: 800;
+		font-size: 28px;
 	}
 }
-
-/****************************************************************************/
-//# 320px — 480px: Mobile devices
-//# 481px — 768px: iPads, Tablets
-//# 769px — 1024px: Small screens, laptops
-//# 1025px — 1200px: Desktops, large screens
-//# 1201px and more —  Extra large screens, TV
-/******************************************************************************************************/

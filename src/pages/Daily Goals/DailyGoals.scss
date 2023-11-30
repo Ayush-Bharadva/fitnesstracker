@@ -26,7 +26,7 @@ $mid-teal: #00b69e;
 #track-activity-section {
 	display: flex;
 	justify-content: center;
-	align-items: flex-start;
+	align-items: center;
 	flex-wrap: wrap;
 	padding: 1rem;
 	margin-bottom: 1rem;
@@ -36,7 +36,6 @@ $mid-teal: #00b69e;
 		flex: 1 0 45%;
 		padding: 1rem;
 		height: fit-content;
-		width: fit-content;
 		align-self: center;
 		min-width: 355px;
 		max-width: 645px;
@@ -52,6 +51,7 @@ $mid-teal: #00b69e;
 			padding: 1rem;
 			border-radius: 15px;
 			align-self: flex-start;
+			width: 100%;
 
 			h3 {
 				font-weight: 600;
@@ -61,11 +61,24 @@ $mid-teal: #00b69e;
 
 			.actions {
 				display: flex;
-				align-items: center;
+				// flex-direction: column;
+				align-items: flex-start;
 				justify-content: center;
+
+				input {
+					border: none;
+					font-size: 1rem;
+					outline: none;
+					padding: 0.5rem 0.5rem;
+					width: 100%;
+					background-color: #eee;
+					border-radius: 7px;
+					margin-top: 0.3rem;
+				}
 
 				.weight-action-btn,
 				.water-action-btn {
+					width: 50%;
 					padding: 0.5rem;
 					background-color: #aabfe9;
 					border: none;
@@ -84,6 +97,18 @@ $mid-teal: #00b69e;
 				.water-action-btn:hover {
 					background-color: $mid-teal;
 				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 480px) {
+	#track-activity-section {
+		#weight-tracking-section,
+		#water-tracking-section {
+			.weight-tracker-container,
+			.water-tracker-container {
+				width: 100%;
 			}
 		}
 	}

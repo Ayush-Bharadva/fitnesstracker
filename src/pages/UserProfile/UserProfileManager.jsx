@@ -43,18 +43,9 @@ function UserProfileManager() {
 
 				if (fetchProfileResponse.status === 200) {
 					setInputDisabled(true);
-					const profiledata = { ...fetchProfileResponse.data };
-					setUserInfo(profiledata);
+					setUserInfo({ ...fetchProfileResponse.data });
 				}
-				// else if (fetchProfileResponse.code === 498) {
-				// 	// navigate("/");
-				// 	showToastMessage("error", "Please Login First");
-				// }
-				// else {
-				// 	showToastMessage("error", "Something went wrong!!");
-				// }
 			} catch (error) {
-				console.log("fetch user profile error :", error);
 				showToastMessage(
 					"error",
 					"An error occured while fetching user profile"
@@ -78,13 +69,11 @@ function UserProfileManager() {
 		}
 
 		if (!isUserLoggedIn()) {
-			console.log("Please Login/SignUp First");
 			navigate("/auth");
 			return;
 		}
 
 		try {
-			console.log("currently logged in user");
 			setLoading(true);
 			const response = await createUserProfileService(userInfo);
 			setLoading(false);
@@ -96,7 +85,6 @@ function UserProfileManager() {
 				showToastMessage("info", "Profile has already been created!");
 			}
 		} catch (error) {
-			console.log("Create user profile error :", error);
 			showToastMessage(
 				"error",
 				"An error occured while updating user profile"
@@ -111,7 +99,7 @@ function UserProfileManager() {
 		e.stopPropagation();
 	};
 
-	const handleDrop = async (acceptedFiles) => {
+	const handleImageDrop = async (acceptedFiles) => {
 		const data = new FormData();
 		data.append("file", acceptedFiles[0]);
 
@@ -187,7 +175,7 @@ function UserProfileManager() {
 										</div>
 									</div>
 								) : (
-									<Dropzone onDrop={handleDrop}>
+									<Dropzone onDrop={handleImageDrop}>
 										{({ getRootProps, getInputProps }) => (
 											<section>
 												<div

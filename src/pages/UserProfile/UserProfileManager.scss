@@ -99,6 +99,17 @@ $light-red: #a82945;
 					opacity: 0.7;
 				}
 
+				input:not([type="radio"]),
+				select {
+					border: none;
+					outline: none;
+					padding: 0.5rem 0.5rem;
+					width: 100%;
+					background-color: #eee;
+					border-radius: 7px;
+					margin-top: 0.3rem;
+				}
+
 				.radio-option {
 					background-color: #eee;
 					margin-top: 9px;
@@ -137,17 +148,6 @@ img {
 
 .edit-profile-btn {
 	background-color: gray;
-}
-
-input:not([type="radio"]),
-select {
-	border: none;
-	outline: none;
-	padding: 0.5rem 0.5rem;
-	width: 100%;
-	background-color: #eee;
-	border-radius: 7px;
-	margin-top: 0.3rem;
 }
 
 .remove-img-btn {

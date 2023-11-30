@@ -29,6 +29,41 @@ function DailyGoals() {
 		toast[type](message, { position: toast.POSITION.TOP_RIGHT });
 	};
 
+	useEffect(() => {
+		const fetchAllRecords = async () => {
+			try {
+				const date = new Date();
+				const year = date.getFullYear().toString();
+				const month = (date.getMonth() + 1).toString().padStart(2, "0");
+				const day = date.getDate().toString().padStart(2, "0");
+				const formatedDate = `${year}-${month}-${day}`;
+				setLoading(true);
+				const response = await getDetailsFromDateService({
+					date: formatedDate,
+				});
+				setLoading(false);
+				if (response.status === 200) {
+					const allData = { ...response.data };
+					setAllDetails(allData);
+					if (allData.weightDetails?.dailyWeight) {
+						setWeightInfo(allData.weightDetails?.dailyWeight);
+						setWeightButtonType("Edit");
+					}
+					if (allData.waterDetails?.waterIntake) {
+						setWaterInfo(allData.waterDetails?.waterIntake);
+						setWaterButtonType("Edit");
+					}
+				} else if (response.code === 500) {
+					showToast("error", response.message);
+				}
+			} catch (error) {
+				setLoading(false);
+				showToast("error", "error fetching records!!");
+			}
+		};
+		fetchAllRecords();
+	}, []);
+
 	const handleWeightInfo = async () => {
 		setWeightButtonType("Edit");
 
@@ -38,7 +73,6 @@ function DailyGoals() {
 				? await addWeightService(Number(weightInfo))
 				: await editWeightService(Number(weightInfo));
 			setLoading(false);
-			// console.log(response);
 			if (response.status === 200) {
 				setAllDetails((prevDetails) => ({
 					...prevDetails,
@@ -70,17 +104,18 @@ function DailyGoals() {
 				showToast("success", "water Updated!!");
 			}
 		} catch (error) {
+			setLoading(false);
 			console.error("error updating water track :", error);
 			showToast("error", "An error occurred while updating water data");
 		}
 	};
 
-	const handleWeightChange = ({ target }) => {
-		setWeightInfo(target.value);
+	const handleWeightChange = ({ target: { value } }) => {
+		setWeightInfo(value);
 	};
 
-	const handleWaterChange = ({ target }) => {
-		setWaterInfo(target.value);
+	const handleWaterChange = ({ target: { value } }) => {
+		setWaterInfo(value);
 	};
 
 	const weightActionButton =
@@ -108,40 +143,6 @@ function DailyGoals() {
 				Save
 			</button>
 		);
-
-	useEffect(() => {
-		const fetchAllRecords = async () => {
-			try {
-				const date = new Date();
-				const year = date.getFullYear().toString();
-				const month = (date.getMonth() + 1).toString().padStart(2, "0");
-				const day = date.getDate().toString().padStart(2, "0");
-				const formatedDate = `${year}-${month}-${day}`;
-				setLoading(true);
-				const response = await getDetailsFromDateService({
-					date: formatedDate,
-				});
-				setLoading(false);
-				if (response.status === 200) {
-					const allData = { ...response.data };
-					setAllDetails(allData);
-					if (allData.weightDetails?.dailyWeight) {
-						setWeightInfo(allData.weightDetails.dailyWeight);
-						setWeightButtonType("Edit");
-					}
-					if (allData.waterDetails?.waterIntake) {
-						setWaterInfo(allData.waterDetails.waterIntake);
-						setWaterButtonType("Edit");
-					}
-				} else if (response.code === 500) {
-					showToast("error", response.message);
-				}
-			} catch (error) {
-				console.log("error fetching all records :", error);
-			}
-		};
-		fetchAllRecords();
-	}, []);
 
 	return (
 		<main className="daily-goals-section">
@@ -203,19 +204,10 @@ function DailyGoals() {
 			{loading ? (
 				<Loader />
 			) : (
-				<div className="records-container">
-					{!allDetails && (
-						<p className="dg-activity-info">
-							{" "}
-							Add some Activities to Display Here!!
-						</p>
-					)}
-					<RecordCard
-						allDetails={allDetails}
-						setAllDetails={setAllDetails}
-						loading={loading}
-					/>
-				</div>
+				<RecordCard
+					allDetails={allDetails}
+					setAllDetails={setAllDetails}
+				/>
 			)}
 		</main>
 	);

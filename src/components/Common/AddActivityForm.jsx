@@ -26,7 +26,6 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 	});
 	const formType = isExercise ? "Exercise" : "Meal";
 	const [buttonText, setButtonText] = useState("Add");
-	// const [loading, setLoading] = useState(false);
 
 	const showToast = (type, message) => {
 		toast[type](message, {
@@ -36,17 +35,16 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 
 	let options = [];
 	if (isExercise)
-		options = ["Walking", "Running", "Weight_lifting", "Gym", "Yoga"];
+		options = ["Walking", "Running", "Weight Lifting", "Gym", "Yoga"];
 	else options = ["Breakfast", "Lunch", "Dinner", "Snacks"];
 
 	const updateActivity = async () => {
 		const { type, duration, ingredients, calories } = activityInfo;
 
-		// setLoading(true);
-
 		let response = isExercise
 			? await updateExerciseServise({
-					exerciseType: type,
+					exerciseType:
+						type === "Weight Lifting" ? "Weight_lifting" : type,
 					duration: duration,
 					caloriesBurned: calories,
 			  })
@@ -55,8 +53,6 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 					ingredients: ingredients,
 					caloriesConsumed: calories,
 			  });
-
-		// setLoading(false);
 
 		if (response.status === 200) {
 			const previousActivity = isExercise
@@ -97,18 +93,11 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 			});
 
 			showToast("success", "activity updated successfully");
-		} else if (response.code === 400) {
-			showToast(
-				"error",
-				"Fields cannot be empty or zero while updating Activity!"
-			);
-		} else if (response.code === 500) {
-			showToast("error", response.message);
+			setActivityInfo(initialValue);
+			setButtonText("Add");
 		} else {
 			showToast("error", "some error occured while Updating Activity!");
 		}
-		setActivityInfo(initialValue);
-		setButtonText("Add");
 	};
 
 	const addActivity = async () => {
@@ -116,7 +105,8 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 
 		let response = isExercise
 			? await addExerciseService({
-					exerciseType: type,
+					exerciseType:
+						type === "Weight Lifting" ? "Weight_lifting" : type,
 					duration: duration,
 					caloriesBurned: calories,
 			  })
@@ -128,7 +118,6 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 
 		if (response.status === 200) {
 			if (isExercise) {
-				showToast("success", "exercise added successfully");
 				setAllDetails({
 					...allDetails,
 					exerciseDetails: [
@@ -140,8 +129,8 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 						},
 					],
 				});
+				showToast("success", "exercise added successfully");
 			} else {
-				showToast("success", "meal added successfully");
 				setAllDetails({
 					...allDetails,
 					mealDetails: [
@@ -153,10 +142,13 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 						},
 					],
 				});
+				showToast("success", "meal added successfully");
 			}
+			setActivityInfo(initialValue);
+			setButtonText("Add");
 		} else if (response.status === 409) {
-			showToast("error", "exercise added already..");
-		} else if (response.code === 400) {
+			showToast("error", "Activity added already..");
+		} else if (response.status === 400) {
 			showToast(
 				"error",
 				"Fields cannot be empty or zero while Adding Activity!"
@@ -164,9 +156,6 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 		} else {
 			showToast("error", "some error occured while Adding Activity!");
 		}
-
-		setActivityInfo(initialValue);
-		setButtonText("Add");
 	};
 
 	const handleSubmit = (e) => {

@@ -101,9 +101,6 @@ function Header() {
 					<NavLink to="auth">
 						<button className="login">LogIn</button>
 					</NavLink>
-					{/* <NavLink to="auth">
-						<button className="signup">SignUp</button>
-					</NavLink> */}
 				</div>
 			)}
 		</header>

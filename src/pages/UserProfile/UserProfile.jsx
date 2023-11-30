@@ -1,7 +1,6 @@
 import React from "react";
 import UserProfileManager from "./UserProfileManager";
 import "./UserProfile.scss";
-import "../../global.scss";
 
 function UserProfile() {
 	return (

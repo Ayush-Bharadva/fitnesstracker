@@ -26,16 +26,11 @@ createApiInstance.interceptors.request.use((config) => {
 createApiInstance.interceptors.response.use(
 	(response) => response,
 	(error) => {
-		console.log(error);
-		toast.error(`${error.response.data.message}`);
-		// if (error.response.status === 409) {
-		// 	console.log("Intr res : 409 duplicate data..");
-		// } else if (error.response.status === 498) {
-		// 	// window.location.href("auth");
-		// 	console.log("Intr res : 498 UserId not passed");
-		// } else if (error.response.status === 400) {
-		// 	console.log("Intr res : 401 data not passed");
-		// }
+		if (error.response.status === 409) {
+			toast.error(`Email Already Registered!!`);
+		} else if (error.response.status === 500) {
+			toast.error("Internal Server Error!!");
+		}
 		return Promise.reject(error);
 	}
 );
@@ -49,12 +44,6 @@ export async function userSignUpService(userCredentials) {
 		);
 		return response;
 	} catch (error) {
-		// if (error.response.status === 401) {
-		// 	console.log("401 Error occured! Wrong Email || Password..");
-		// } else if (error.response.status === 500) {
-		// 	console.log("500 Error occured! Internal server error..");
-		// }
-		console.log("signup error :", error);
 		return error;
 	}
 }
@@ -68,7 +57,6 @@ export async function userLogInService(userCredentials) {
 		);
 		return response;
 	} catch (error) {
-		console.log("logIn error :", error);
 		return error.response.data;
 	}
 }
@@ -81,10 +69,8 @@ export async function createUserProfileService(userInfo) {
 			`${userProfileApiUrl}`,
 			userInfo
 		);
-		// console.log(userId);
 		return response;
 	} catch (error) {
-		console.log("create user profile error :", error);
 		return error.response.data;
 	}
 }
@@ -95,8 +81,7 @@ export async function showUserProfileService() {
 		const response = await createApiInstance.get(`${userProfileApiUrl}`);
 		return response;
 	} catch (error) {
-		console.log("show user profile error :", error);
-		return error.response.data;
+		return error.response?.data;
 	}
 }
 
@@ -109,7 +94,6 @@ export async function updateUserProfileService(userInfo) {
 		);
 		return response;
 	} catch (error) {
-		console.log("update user profile error :", error);
 		return error.response.data;
 	}
 }
@@ -127,7 +111,6 @@ export async function getDetailsFromDateService(currentDate) {
 		);
 		return response;
 	} catch (error) {
-		console.log("get all details error :", error);
 		return error.response;
 	}
 }
@@ -142,7 +125,6 @@ export async function addExerciseService(exerciseInfo) {
 		);
 		return response;
 	} catch (error) {
-		console.log("add exercise error :", error);
 		return error.response.data;
 	}
 }
@@ -156,7 +138,6 @@ export async function updateExerciseServise(exerciseInfo) {
 		);
 		return response;
 	} catch (error) {
-		console.log("update exercise error :", error);
 		return error.response.data;
 	}
 }
@@ -174,7 +155,6 @@ export async function deleteExerciseService(type) {
 		);
 		return response;
 	} catch (error) {
-		console.log("delete exercise error :", error);
 		return error.response.data;
 	}
 }
@@ -186,7 +166,6 @@ export async function addMealService(mealInfo) {
 		const response = createApiInstance.post(`${userMealApiUrl}`, mealInfo);
 		return response;
 	} catch (error) {
-		console.log("add meal error :", error);
 		return error.response.data;
 	}
 }
@@ -197,7 +176,6 @@ export async function updateMealService(mealInfo) {
 		const response = createApiInstance.put(`${userMealApiUrl}`, mealInfo);
 		return response;
 	} catch (error) {
-		console.log("update meal error :", error);
 		return error.response.data;
 	}
 }
@@ -210,7 +188,6 @@ export async function deleteMealService(type) {
 		});
 		return response;
 	} catch (error) {
-		console.log("delete meal error :", error);
 		return error.response.data;
 	}
 }
@@ -229,7 +206,7 @@ export async function getYearlyWeightDetailService(date) {
 		);
 		return response;
 	} catch (error) {
-		console.log("get yearly weight data error :", error);
+		return error.response;
 	}
 }
 
@@ -245,7 +222,7 @@ export async function getYearlyCaloriesDetailService(date) {
 		);
 		return response;
 	} catch (error) {
-		console.log("get yearly calorie data error :", error);
+		return error.response;
 	}
 }
 
@@ -257,7 +234,6 @@ export async function addWeightService(weightInfo) {
 		});
 		return response;
 	} catch (error) {
-		console.log("add weight error :", error);
 		return error.response;
 	}
 }
@@ -269,7 +245,6 @@ export async function editWeightService(weightInfo) {
 		});
 		return response;
 	} catch (error) {
-		console.log("edit weight error :", error);
 		return error.response;
 	}
 }
@@ -279,7 +254,6 @@ export async function deleteWeightService() {
 		const response = createApiInstance.delete(`${userApiUrl}/weight`);
 		return response;
 	} catch (error) {
-		console.log("delete weight error :", error);
 		return error.response;
 	}
 }
@@ -292,7 +266,6 @@ export async function addWaterService(waterInfo) {
 		});
 		return response;
 	} catch (error) {
-		console.log("add weight error :", error);
 		return error.response;
 	}
 }
@@ -304,7 +277,6 @@ export async function editWaterService(waterInfo) {
 		});
 		return response;
 	} catch (error) {
-		console.log("edit weight error :", error);
 		return error.response;
 	}
 }
@@ -314,7 +286,6 @@ export async function deleteWaterService() {
 		const response = createApiInstance.delete(`${userApiUrl}/water`);
 		return response;
 	} catch (error) {
-		console.log("delete weight error :", error);
 		return error.response;
 	}
 }

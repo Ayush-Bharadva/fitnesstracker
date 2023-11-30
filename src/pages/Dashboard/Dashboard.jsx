@@ -19,6 +19,7 @@ import RecordCard from "../../components/Common/RecordCard";
 import noDataFound from "../../assets/icons/noDataFound.jpg";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Common/Loader";
+import { ToastContainer, toast } from "react-toastify";
 
 ChartJS.register(
 	CategoryScale,
@@ -61,43 +62,39 @@ function Dashboard() {
 	const [allRecordsByDate, setAllRecordsByDate] = useState({});
 	const [loading, setLoading] = useState(false);
 
-	const date = new Date();
-	const currentYear = date.getFullYear().toString();
-	const month = (date.getMonth() + 1).toString().padStart(2, "0");
-	const currentDate = date.getDate().toString().padStart(2, "0");
-	const formatedDate = `${currentYear}-${month}-${currentDate}`;
-
-	const [selectedDate, setSelectedDate] = useState(formatedDate);
-
-	useEffect(() => {
+	const formatCurrentDate = () => {
 		const date = new Date();
 		const currentYear = date.getFullYear().toString();
 		const month = (date.getMonth() + 1).toString().padStart(2, "0");
 		const currentDate = date.getDate().toString().padStart(2, "0");
-		const formatedDate = `${currentYear}-${month}-${currentDate}`;
+		return `${currentYear}-${month}-${currentDate}`;
+	};
 
+	const [selectedDate, setSelectedDate] = useState(formatCurrentDate());
+
+	const showToast = (type, message) => {
+		toast[type](message, { position: toast.POSITION.TOP_RIGHT });
+	};
+
+	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				setLoading(true);
 				const [recordsResponse] = await Promise.all([
-					getDetailsFromDateService({ date: formatedDate }),
-					fetchYearlyDetails(formatedDate),
+					getDetailsFromDateService({ date: selectedDate }),
+					fetchYearlyDetails(selectedDate),
 				]);
 				setLoading(false);
-
-				console.log(recordsResponse);
-
 				if (recordsResponse.status === 200) {
-					// console.log({ ...recordsResponse.data });
 					setAllRecordsByDate({ ...recordsResponse.data });
-					setSelectedDate(formatedDate);
+					setSelectedDate(selectedDate);
 				} else if (recordsResponse.status === 498) {
 					navigate("/auth");
 				} else {
-					console.log("Something went wrong!");
+					showToast("error", "Something went wrong!");
 				}
 			} catch (error) {
-				console.log("fetch data error :", error);
+				showToast("error", "fetch data error!!");
 			}
 		};
 
@@ -109,10 +106,10 @@ function Dashboard() {
 		datasets: [
 			{
 				label: "Weight",
-				data: yearlyWeightDetails?.map(
-					(data) => data.averageMonthlyWeight,
-					[]
-				),
+				data:
+					yearlyWeightDetails?.map(
+						({ averageMonthlyWeight }) => averageMonthlyWeight
+					) || [],
 				backgroundColor: "rgba(45, 83, 51, 0.75)",
 			},
 		],
@@ -122,10 +119,11 @@ function Dashboard() {
 		datasets: [
 			{
 				label: "Calories",
-				data: yearlyCalorieDetails?.map(
-					(data) => data.averageMonthlyCaloriesBurned,
-					[]
-				),
+				data:
+					yearlyCalorieDetails?.map(
+						({ averageMonthlyCaloriesBurned }) =>
+							averageMonthlyCaloriesBurned
+					) || [],
 				backgroundColor: "rgba(53, 162, 235, 0.75)",
 			},
 		],
@@ -139,11 +137,10 @@ function Dashboard() {
 			});
 			setLoading(false);
 			if (response.status === 200) {
-				// console.log(response.data);
 				setAllRecordsByDate({ ...response.data });
 			}
 		} catch (error) {
-			console.log("error fetching records :", error);
+			showToast("error", "Error fetching records!!");
 		}
 	};
 
@@ -164,10 +161,6 @@ function Dashboard() {
 
 	const handleDateChange = async ({ target }) => {
 		setSelectedDate(target.value);
-		console.log(
-			"yearChanged :",
-			selectedDate?.substring(0, 4) !== target.value.substring(0, 4)
-		);
 
 		if (selectedDate.substring(0, 4) !== target.value.substring(0, 4)) {
 			fetchYearlyDetails(target.value);

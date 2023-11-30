@@ -24,7 +24,7 @@ function AuthForm() {
 		confirmPasswordError: "",
 	});
 
-	const showToast = (type, message = "temp") => {
+	const showToast = (type, message) => {
 		toast[type](message, { position: toast.POSITION.TOP_RIGHT });
 	};
 
@@ -100,36 +100,18 @@ function AuthForm() {
 
 		try {
 			setLoading(true);
-
 			const response = isLoginForm
 				? await userLogInService({ email, password })
 				: await userSignUpService({ fullname, email, password });
-
 			setLoading(false);
 
 			if (response.status === 200) {
 				setCookie("userId", response.data.userId);
 				navigate("/");
 			}
-			console.log("AUthForm.jsx :", error);
 		} catch (error) {
-			showToast("AUthForm.jsx error", error.response);
+			showToast("error", error.response.data.message);
 		}
-
-		// if (response.status === 409) {
-		// 	showToast("error", "Email Already registed..");
-		// } else if (response.status === 401) {
-		// 	showToast("error", response.message);
-		// } else if (response.status === 200) {
-		// 	setCookie("userId", response.data.userId);
-		// 	navigate("/");
-		// } else if (response.status === 500) {
-		// 	showToast("error", response.message);
-		// } else if (response.status === 404) {
-		// 	showToast("error", response.message);
-		// } else {
-		// 	showToast("error", "Sign up failed. Please try again.");
-		// }
 	};
 
 	return (

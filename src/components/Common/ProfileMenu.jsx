@@ -7,6 +7,7 @@ import "./ProfileMenu.scss";
 
 function ProfileMenu(props) {
 	const navigate = useNavigate();
+	const [openProfile, setOpenProfile] = useState(false);
 
 	const profileOptions = [
 		{
@@ -14,8 +15,6 @@ function ProfileMenu(props) {
 			icon: <CiLogout />,
 		},
 	];
-
-	const [openProfile, setOpenProfile] = useState(false);
 
 	const handleClick = () => {
 		setCookie("userId", "");
@@ -26,11 +25,11 @@ function ProfileMenu(props) {
 		<div
 			className={"profile " + props.className}
 			onClick={() => setOpenProfile(!openProfile)}>
-			{props.className === "mobile-menu" ? (
+			{/* {props.className === "mobile-menu" ? (
 				<button>Btn</button>
-			) : (
-				<VscAccount className="profile-icon" />
-			)}
+			) : ( */}
+			<VscAccount className="profile-icon" />
+			{/* )} */}
 			{openProfile && (
 				<ul>
 					{profileOptions.map((option) => (

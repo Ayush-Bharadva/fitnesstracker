@@ -26,12 +26,17 @@ createApiInstance.interceptors.request.use((config) => {
 createApiInstance.interceptors.response.use(
 	(response) => response,
 	(error) => {
-		if (error.response.status === 409) {
-			toast.error(`Email Already Registered!!`);
+		if (error.response.status === 401) {
+			toast.error(error.response.data.message);
+		} else if (error.response.status === 400) {
+			toast.error("Inconsistent data!!");
+		} else if (error.response.status === 498) {
+			toast.error("Unauthorised User !!");
 		} else if (error.response.status === 500) {
 			toast.error("Internal Server Error!!");
+		} else {
+			toast.error(error.response.data.message);
 		}
-		return Promise.reject(error);
 	}
 );
 

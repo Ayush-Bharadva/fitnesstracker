@@ -1,14 +1,6 @@
 // Theme variables:
-$black: #0f0f0f;
-$light-blue: #3f5071;
-$sky-blue: #87ceeb;
-$dark-green: #005b41;
-$teal: #008170;
-$light-teal: #00b69e;
-$mid-teal: #00b69e;
-
 .daily-goals-section {
-	height: calc(100vh - 112px);
+	height: calc(100vh - 111px);
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -31,8 +23,7 @@ $mid-teal: #00b69e;
 	padding: 1rem;
 	margin-bottom: 1rem;
 
-	#weight-tracking-section,
-	#water-tracking-section {
+	#tracking-section {
 		flex: 1 0 45%;
 		padding: 1rem;
 		height: fit-content;
@@ -45,15 +36,14 @@ $mid-teal: #00b69e;
 			color: #358a7e;
 		}
 
-		.weight-tracker-container,
-		.water-tracker-container {
+		.tracker-container {
 			background-color: #ddd;
 			padding: 1rem;
 			border-radius: 15px;
 			align-self: flex-start;
 			width: 100%;
 
-			h3 {
+			.title {
 				font-weight: 600;
 				color: #6483c2;
 				margin-bottom: 0.5rem;
@@ -61,7 +51,6 @@ $mid-teal: #00b69e;
 
 			.actions {
 				display: flex;
-				// flex-direction: column;
 				align-items: flex-start;
 				justify-content: center;
 
@@ -76,8 +65,7 @@ $mid-teal: #00b69e;
 					margin-top: 0.3rem;
 				}
 
-				.weight-action-btn,
-				.water-action-btn {
+				.action-btn {
 					width: 50%;
 					padding: 0.5rem;
 					background-color: #aabfe9;
@@ -86,16 +74,8 @@ $mid-teal: #00b69e;
 					margin-top: 0.3rem;
 					transition: all 0.2s ease;
 				}
-				.weight-action-btn:hover {
+				.action-btn:hover {
 					background-color: #c0d2f5;
-				}
-
-				.water-action-btn {
-					background-color: $teal;
-					color: #fff;
-				}
-				.water-action-btn:hover {
-					background-color: $mid-teal;
 				}
 			}
 		}

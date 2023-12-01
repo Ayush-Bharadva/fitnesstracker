@@ -167,7 +167,6 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 				"error",
 				"Make sure you have logged in OR created profile"
 			);
-			console.log("Make sure you have logged in OR created profile");
 		}
 	};
 

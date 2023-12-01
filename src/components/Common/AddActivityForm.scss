@@ -1,8 +1,4 @@
 // Theme variables:
-$black: #0f0f0f;
-$light-blue: #3f5071;
-$sky-blue: #87ceeb;
-$dark-green: #005b41;
 $teal: #008170;
 $light-teal: #00b69e;
 $mid-teal: #00b69e;
@@ -35,12 +31,12 @@ $mid-teal: #00b69e;
 		.field {
 			text-align: left;
 			margin-bottom: 2rem;
-		}
-
-		label {
-			padding: 0 0.5rem;
-			font-weight: bold;
-			color: $teal;
+			label {
+				padding: 0 0.5rem;
+				font-weight: bold;
+				color: $teal;
+				margin-bottom: 4px;
+			}
 		}
 
 		input,
@@ -52,6 +48,7 @@ $mid-teal: #00b69e;
 			border: none;
 			border-radius: 5px;
 			padding: 0.5rem 1rem;
+			margin-top: 5px;
 		}
 
 		button {

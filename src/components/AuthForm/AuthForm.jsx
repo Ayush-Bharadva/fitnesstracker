@@ -116,10 +116,10 @@ function AuthForm() {
 
 	return (
 		<>
-			{loading ? (
-				<Loader color="#37455f" height="64px" width="64px" />
-			) : (
-				<div className="auth-container">
+			<div className="auth-container">
+				{loading ? (
+					<Loader />
+				) : (
 					<div className="auth-form-container">
 						<h1>
 							{isLoginForm ? "Welcome Back!" : "Create Account"}
@@ -224,8 +224,8 @@ function AuthForm() {
 							</span>
 						</p>
 					</div>
-				</div>
-			)}
+				)}
+			</div>
 			<ToastContainer />
 		</>
 	);

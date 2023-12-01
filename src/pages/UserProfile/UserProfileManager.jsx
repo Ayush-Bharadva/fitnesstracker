@@ -28,7 +28,7 @@ function UserProfileManager() {
 	const [loading, setLoading] = useState(false);
 	const [avatarLoading, setAvatarLoading] = useState(false);
 
-	const showToastMessage = (type, message) => {
+	const showToast = (type, message) => {
 		toast[type](message, {
 			position: toast.POSITION.TOP_RIGHT,
 		});
@@ -46,7 +46,8 @@ function UserProfileManager() {
 					setUserInfo({ ...fetchProfileResponse.data });
 				}
 			} catch (error) {
-				showToastMessage(
+				setLoading(false);
+				showToast(
 					"error",
 					"An error occured while fetching user profile"
 				);
@@ -79,16 +80,13 @@ function UserProfileManager() {
 			setLoading(false);
 			if (response.status === 200) {
 				setInputDisabled(true);
-				showToastMessage("success", "Profile Updated..");
-			}
-			if (response.status === 409) {
-				showToastMessage("info", "Profile has already been created!");
+				showToast("success", "Profile Updated..");
 			}
 		} catch (error) {
-			showToastMessage(
-				"error",
-				"An error occured while updating user profile"
-			);
+			if (error.response.data.status === 409) {
+				showToast("info", "Profile has already been created!");
+			}
+			showToast("error", "An error occured while updating user profile");
 		}
 	};
 
@@ -125,7 +123,7 @@ function UserProfileManager() {
 				profilePhoto: response.data.link,
 			}));
 		} catch (error) {
-			console.error("image url generate error :", error);
+			showToast("error", "Error loading Image!!");
 		}
 	};
 
@@ -157,7 +155,7 @@ function UserProfileManager() {
 												<div className="profile-img">
 													<img
 														src={
-															userInfo.profilePhoto
+															userInfo?.profilePhoto
 														}
 														alt="profile"
 													/>
@@ -180,7 +178,7 @@ function UserProfileManager() {
 											<section>
 												<div
 													{...getRootProps()}
-													className="image-dropzone image-container">
+													className="image-dropzone">
 													<input
 														{...getInputProps()}
 													/>

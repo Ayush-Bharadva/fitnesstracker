@@ -2,14 +2,14 @@ import React from "react";
 import ReactLoading from "react-loading";
 import "./Loader.scss";
 
-function Loader({ type, color, height, width }) {
+function Loader() {
 	return (
 		<div className="loader-container">
 			<ReactLoading
-				type={type || "spin"}
-				color={color || "#37455f"}
-				height={height || "64px"}
-				width={width || "64px"}
+				type="spin"
+				color="#37455f"
+				height="64px"
+				width="64px"
 				className="loader"
 			/>
 		</div>

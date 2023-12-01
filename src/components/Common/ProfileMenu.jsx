@@ -25,11 +25,7 @@ function ProfileMenu(props) {
 		<div
 			className={"profile " + props.className}
 			onClick={() => setOpenProfile(!openProfile)}>
-			{/* {props.className === "mobile-menu" ? (
-				<button>Btn</button>
-			) : ( */}
 			<VscAccount className="profile-icon" />
-			{/* )} */}
 			{openProfile && (
 				<ul>
 					{profileOptions.map((option) => (

@@ -1,18 +1,14 @@
-$black: #0f0f0f;
-$mid-blue: #37455f;
 $light-teal: #478f85;
-$mid-teal: #0da08d;
 $red: #cc274c;
-$light-red: #a82945;
 
 #create-profile-section {
 	width: 100%;
 	height: 100%;
 
 	.profile-form-container {
-		// height: 100%;
-		padding: 1rem;
 		width: 100%;
+		height: 100%;
+		padding: 1rem;
 	}
 
 	.user-profile-form {
@@ -21,9 +17,11 @@ $light-red: #a82945;
 		padding: 1rem 0;
 		gap: 1rem;
 		width: 100%;
-		height: 90%;
+		height: 100%;
 
 		.form-left {
+			height: 100%;
+			align-self: flex-start;
 			flex: 1 0 25%;
 
 			.image-dropzone {
@@ -90,6 +88,8 @@ $light-red: #a82945;
 			background: rgba($color: #ddd, $alpha: 0.75);
 			padding: 0.5rem;
 			border-radius: 7px;
+			height: calc(100% - 54px);
+			overflow-y: scroll;
 
 			.profile-form-field {
 				margin-bottom: 1rem;
@@ -158,4 +158,32 @@ img {
 	border: none;
 	border-radius: 10px;
 	cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+	#create-profile-section {
+		.profile-form-container {
+			width: 100%;
+			height: 100%;
+			overflow-y: scroll;
+			.user-profile-form {
+				flex-direction: column;
+				justify-content: flex-start;
+				width: 100%;
+				height: calc(100% - 60px);
+
+				.form-left {
+					width: 100%;
+					height: 40%;
+					height: 131px;
+					flex: 1 0;
+					.image-dropzone {
+						display: block;
+						height: 100%;
+						width: 100% !important;
+					}
+				}
+			}
+		}
+	}
 }

@@ -26,6 +26,7 @@ function WeightAndWaterTracker({ heading, title, value, setAllDetails, type }) {
 		try {
 			const response = await apiCall(Number(inputValue));
 			if (response.status === 200) {
+				setIsInputDisabled(true);
 				setAllDetails((prevDetails) =>
 					type === "weight"
 						? {
@@ -40,11 +41,11 @@ function WeightAndWaterTracker({ heading, title, value, setAllDetails, type }) {
 				showToast("success", "Data Saved Successfully..");
 			}
 		} catch (error) {
-			showToast("error", "An Error Occured while Updating Data!!");
+			// showToast("error", "An Error Occured while Updating Data!!");
 		}
 	};
 
-	const handleSubmit = async () => {
+	const handleSubmit = () => {
 		const addApiCall =
 			type === "weight" ? addWeightService : addWaterService;
 		const editApiCall =
@@ -70,7 +71,6 @@ function WeightAndWaterTracker({ heading, title, value, setAllDetails, type }) {
 						<button
 							className="action-btn"
 							onClick={() => {
-								setIsInputDisabled(true);
 								handleSubmit();
 							}}>
 							Save

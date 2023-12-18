@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
-import { ToastContainer, toast } from "react-toastify";
-import { isUserLoggedIn } from "../../utils/helper";
+import { ToastContainer } from "react-toastify";
+import { isUserLoggedIn, showToast } from "../../utils/helper";
 import {
 	createUserProfileService,
+	getImageUrlService,
 	showUserProfileService,
 } from "../../services/services";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Common/Loader";
 import "./UserProfileManager.scss";
@@ -14,7 +14,7 @@ import "./UserProfileManager.scss";
 function UserProfileManager() {
 	const navigate = useNavigate();
 
-	const [userInfo, setUserInfo] = useState({
+	const [userDetails, setUserDetails] = useState({
 		profilePhoto: null,
 		fullName: "",
 		email: "",
@@ -25,25 +25,19 @@ function UserProfileManager() {
 		healthGoal: "",
 	});
 	const [inputDisabled, setInputDisabled] = useState(false);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 	const [avatarLoading, setAvatarLoading] = useState(false);
-
-	const showToast = (type, message) => {
-		toast[type](message, {
-			position: toast.POSITION.TOP_RIGHT,
-		});
-	};
+	const userLoggedIn = isUserLoggedIn();
 
 	useEffect(() => {
 		const fetchProfile = async () => {
 			try {
-				setLoading(true);
 				const fetchProfileResponse = await showUserProfileService();
 				setLoading(false);
 
 				if (fetchProfileResponse.status === 200) {
 					setInputDisabled(true);
-					setUserInfo({ ...fetchProfileResponse.data });
+					setUserDetails({ ...fetchProfileResponse.data });
 				}
 			} catch (error) {
 				setLoading(false);
@@ -58,7 +52,7 @@ function UserProfileManager() {
 	}, []);
 
 	const handleInputChange = (input, value) => {
-		setUserInfo((prevUserInfo) => ({ ...prevUserInfo, [input]: value }));
+		setUserDetails((prevUserInfo) => ({ ...prevUserInfo, [input]: value }));
 	};
 
 	const handleSubmit = async (e, type) => {
@@ -69,14 +63,13 @@ function UserProfileManager() {
 			return;
 		}
 
-		if (!isUserLoggedIn()) {
+		if (!userLoggedIn) {
 			navigate("/auth");
 			return;
 		}
 
 		try {
-			setLoading(true);
-			const response = await createUserProfileService(userInfo);
+			const response = await createUserProfileService(userDetails);
 			setLoading(false);
 			if (response.status === 200) {
 				setInputDisabled(true);
@@ -93,38 +86,19 @@ function UserProfileManager() {
 	const handleRemoveImage = (e) => {
 		e.preventDefault();
 		setInputDisabled(false);
-		setUserInfo((prevUserInfo) => ({ ...prevUserInfo, profilePhoto: "" }));
+		setUserDetails((prevUserInfo) => ({
+			...prevUserInfo,
+			profilePhoto: "",
+		}));
 		e.stopPropagation();
 	};
 
 	const handleImageDrop = async (acceptedFiles) => {
-		const data = new FormData();
-		data.append("file", acceptedFiles[0]);
-
-		const options = {
-			method: "POST",
-			url: "https://upload-image-and-return-url-by-thichthicodeteam.p.rapidapi.com/api/upload-image",
-			headers: {
-				Accept: "*/*",
-				"X-RapidAPI-Key":
-					"7b9cb3e4bdmsh673fe14fd2c1338p1ac175jsnaa23464a349f",
-				"X-RapidAPI-Host":
-					"upload-image-and-return-url-by-thichthicodeteam.p.rapidapi.com",
-			},
-			data: data,
-		};
-
-		try {
-			setAvatarLoading(true);
-			const response = await axios.request(options);
-			setAvatarLoading(false);
-			setUserInfo((prevUserInfo) => ({
-				...prevUserInfo,
-				profilePhoto: response.data.link,
-			}));
-		} catch (error) {
-			showToast("error", "Error loading Image!!");
-		}
+		const imageUrl = await getImageUrlService(acceptedFiles);
+		setUserDetails((prevUserInfo) => ({
+			...prevUserInfo,
+			profilePhoto: imageUrl,
+		}));
 	};
 
 	return (
@@ -137,38 +111,31 @@ function UserProfileManager() {
 						<h2 className="form-title">Profile</h2>
 						<form action="" className="user-profile-form">
 							<div className="form-left">
-								{userInfo.profilePhoto ? (
+								{userDetails.profilePhoto ? (
 									<div className="image-container">
-										{avatarLoading ? (
-											<Loader
-												color="#37455f"
-												height="32px"
-												width="32px"
-											/>
-										) : (
-											<>
-												<button
-													className="remove-img-btn"
-													onClick={handleRemoveImage}>
-													X
-												</button>
-												<div className="profile-img">
-													<img
-														src={
-															userInfo?.profilePhoto
-														}
-														alt="profile"
-													/>
-												</div>
-											</>
-										)}
+										<>
+											<button
+												className="remove-img-btn"
+												onClick={handleRemoveImage}
+											>
+												X
+											</button>
+											<div className="profile-img">
+												<img
+													src={
+														userDetails?.profilePhoto
+													}
+													alt="profile"
+												/>
+											</div>
+										</>
 
 										<div className="text-center">
 											<p className="fullname-preview preview">
-												{userInfo.fullName}
+												{userDetails.fullName}
 											</p>
 											<p className="email-preview preview">
-												{userInfo.email}
+												{userDetails.email}
 											</p>
 										</div>
 									</div>
@@ -178,23 +145,25 @@ function UserProfileManager() {
 											<section>
 												<div
 													{...getRootProps()}
-													className="image-dropzone">
+													className="image-dropzone"
+												>
 													<input
 														{...getInputProps()}
 													/>
-													{userInfo?.profilePhoto ? (
+													{userDetails?.profilePhoto ? (
 														<div className="profile-part">
 															<button
 																className="remove-img-btn"
 																onClick={
 																	handleRemoveImage
-																}>
+																}
+															>
 																remove image
 															</button>
 															<div className="profile-img">
 																<img
 																	src={
-																		userInfo.profilePhoto
+																		userDetails.profilePhoto
 																	}
 																	alt="profile"
 																/>
@@ -223,14 +192,15 @@ function UserProfileManager() {
 								<div className="profile-form-field">
 									<label
 										htmlFor="fullName"
-										className="display-block">
+										className="display-block"
+									>
 										Fullname
 									</label>
 									<input
 										type="text"
 										className="display-block"
 										id="fullName"
-										value={userInfo["fullName"]}
+										value={userDetails["fullName"]}
 										onChange={(e) =>
 											handleInputChange(
 												"fullName",
@@ -245,14 +215,15 @@ function UserProfileManager() {
 								<div className="profile-form-field">
 									<label
 										htmlFor="email"
-										className="display-block">
+										className="display-block"
+									>
 										Email
 									</label>
 									<input
 										type="text"
 										className="display-block"
 										id="email"
-										value={userInfo["email"]}
+										value={userDetails["email"]}
 										onChange={(e) =>
 											handleInputChange(
 												"email",
@@ -280,7 +251,8 @@ function UserProfileManager() {
 													)
 												}
 												checked={
-													userInfo.gender === "Male"
+													userDetails.gender ===
+													"Male"
 												}
 												disabled={inputDisabled}
 												required
@@ -300,7 +272,8 @@ function UserProfileManager() {
 													)
 												}
 												checked={
-													userInfo.gender === "Female"
+													userDetails.gender ===
+													"Female"
 												}
 												disabled={inputDisabled}
 												required
@@ -314,14 +287,15 @@ function UserProfileManager() {
 								<div className="profile-form-field">
 									<label
 										htmlFor="age"
-										className="display-block">
+										className="display-block"
+									>
 										Age
 									</label>
 									<input
 										type="number"
 										className="display-block"
 										id="age"
-										value={userInfo["age"]}
+										value={userDetails["age"]}
 										onChange={(e) =>
 											handleInputChange(
 												"age",
@@ -338,14 +312,15 @@ function UserProfileManager() {
 								<div className="profile-form-field">
 									<label
 										htmlFor="height"
-										className="display-block">
+										className="display-block"
+									>
 										Height
 									</label>
 									<input
 										type="text"
 										id="height"
 										className="display-block"
-										value={userInfo["height"]}
+										value={userDetails["height"]}
 										onChange={(e) =>
 											handleInputChange(
 												"height",
@@ -360,14 +335,15 @@ function UserProfileManager() {
 								<div className="profile-form-field">
 									<label
 										htmlFor="weight"
-										className="display-block">
+										className="display-block"
+									>
 										Weight
 									</label>
 									<input
 										type="text"
 										id="weight"
 										className="display-block"
-										value={userInfo["weight"]}
+										value={userDetails["weight"]}
 										onChange={(e) =>
 											handleInputChange(
 												"weight",
@@ -382,14 +358,15 @@ function UserProfileManager() {
 								<div className="profile-form-field">
 									<label
 										htmlFor="healthGoal"
-										className="display-block">
+										className="display-block"
+									>
 										Health Goal
 									</label>
 									<select
 										name=""
 										id="healthGoal"
 										className="display-block"
-										value={userInfo["healthGoal"]}
+										value={userDetails["healthGoal"]}
 										onChange={(e) =>
 											handleInputChange(
 												"healthGoal",
@@ -397,7 +374,8 @@ function UserProfileManager() {
 											)
 										}
 										disabled={inputDisabled}
-										required>
+										required
+									>
 										<option value="">
 											Select Health Goal
 										</option>
@@ -418,17 +396,15 @@ function UserProfileManager() {
 								{inputDisabled ? (
 									<button
 										className="edit-profile-btn"
-										onClick={(e) =>
-											handleSubmit(e, "edit")
-										}>
+										onClick={(e) => handleSubmit(e, "edit")}
+									>
 										Edit Profile
 									</button>
 								) : (
 									<button
 										className="save-profile-btn"
-										onClick={(e) =>
-											handleSubmit(e, "save")
-										}>
+										onClick={(e) => handleSubmit(e, "save")}
+									>
 										Save Profile
 									</button>
 								)}

@@ -4,7 +4,7 @@ import {
 	deleteExerciseService,
 	deleteMealService,
 } from "../../services/services";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import Swal from "sweetalert2";
 import { MdDelete } from "react-icons/md";
 import { FaRegClock } from "react-icons/fa6";
@@ -12,17 +12,10 @@ import fireIcon from "../../assets/icons/fire-icon-image.png";
 import Ingredient from "../../assets/icons/Ingredient.png";
 import calories from "../../assets/icons/calories.png";
 import "../../global.scss";
+import { showToast } from "../../utils/helper";
 
 function RecordCard({ allDetails, setAllDetails, isReadonly }) {
-	const { exerciseDetails, mealDetails } = {
-		...allDetails,
-	};
-
-	const showToast = (type, message) => {
-		toast[type](message, {
-			position: toast.POSITION.TOP_RIGHT,
-		});
-	};
+	const { exerciseDetails, mealDetails } = allDetails;
 
 	const handleDeleteActivity = async (type, isExercise) => {
 		Swal.fire({
@@ -86,7 +79,8 @@ function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 							{exerciseDetails?.map((exercise, index) => (
 								<div
 									key={index}
-									className="record-container exercise-card-bg">
+									className="record-container exercise-card-bg"
+								>
 									<div className="exercise-record-card">
 										<div>
 											<p className="record-title">
@@ -138,7 +132,8 @@ function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 							{mealDetails.map((meal, index) => (
 								<div
 									key={index}
-									className="record-container meal-card-bg">
+									className="record-container meal-card-bg"
+								>
 									<div className="meal-record-card">
 										<div>
 											<p className="meal-record-title">

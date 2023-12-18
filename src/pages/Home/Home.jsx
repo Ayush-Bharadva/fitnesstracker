@@ -7,9 +7,10 @@ import { useNavigate } from "react-router-dom";
 
 function Home() {
 	const navigate = useNavigate();
+	const userLoggedIn = isUserLoggedIn();
 
 	const handleStartButton = () => {
-		if (!isUserLoggedIn()) {
+		if (!userLoggedIn) {
 			navigate("/auth");
 		} else {
 			navigate("/daily-goals");

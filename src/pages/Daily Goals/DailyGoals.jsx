@@ -4,27 +4,18 @@ import { getDetailsFromDateService } from "../../services/services";
 import RecordCard from "../../components/Common/RecordCard";
 import "react-toastify/dist/ReactToastify.css";
 import AddActivityForm from "../../components/Common/AddActivityForm";
-import { toast } from "react-toastify";
 import Loader from "../../components/Common/Loader";
 import WeightAndWaterTracker from "./WeightAndWaterTracker";
+import { formattedDate, showToast } from "../../utils/helper";
 
 function DailyGoals() {
 	const [allDetails, setAllDetails] = useState({});
-	const [loading, setLoading] = useState(false);
-
-	const showToast = (type, message) => {
-		toast[type](message, { position: toast.POSITION.TOP_RIGHT });
-	};
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const fetchAllRecords = async () => {
 			try {
-				const date = new Date();
-				const year = date.getFullYear().toString();
-				const month = (date.getMonth() + 1).toString().padStart(2, "0");
-				const day = date.getDate().toString().padStart(2, "0");
-				const formatedDate = `${year}-${month}-${day}`;
-				setLoading(true);
+				const formatedDate = formattedDate();
 				const response = await getDetailsFromDateService({
 					date: formatedDate,
 				});

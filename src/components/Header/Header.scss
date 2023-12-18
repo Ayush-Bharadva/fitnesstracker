@@ -74,29 +74,17 @@ $light-teal: #64ccc5;
 	}
 }
 
-.buttons {
-	button {
-		padding: 0.6rem 1.2rem;
-		margin: 0.5rem;
-		font-size: 1rem;
-		font-weight: bold;
-		color: white;
-		background-color: $teal;
-		border: none;
-		border-radius: 7px;
-		cursor: pointer;
-		transition: all 0.2s ease;
-	}
-	.signup {
-		background-color: #ddd;
-		color: $dark-green;
-	}
-	.login:hover {
-		background-color: #029f8a;
-	}
-	.signup:hover {
-		background-color: #fff;
-	}
+.login {
+	all: unset;
+	padding: 0.5rem 1rem;
+	font-weight: bold;
+	background-color: $teal;
+	border-radius: 7px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+.login:hover {
+	background-color: #029f8a;
 }
 
 .mobile-logout-btn {

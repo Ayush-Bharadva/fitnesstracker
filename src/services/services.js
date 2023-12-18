@@ -26,19 +26,34 @@ createApiInstance.interceptors.request.use((config) => {
 createApiInstance.interceptors.response.use(
 	(response) => response,
 	(error) => {
-		if (error.response.status === 401) {
-			toast.error(error.response.data.message);
-		} else if (error.response.status === 400) {
-			toast.error("Inconsistent data!!");
-		} else if (error.response.status === 498) {
-			toast.error("Unauthorised User !!");
-		} else if (error.response.status === 500) {
-			toast.error("Internal Server Error!!");
-		} else {
-			toast.error(error.response.data.message);
-		}
+		toast.error(error.response.data.message);
 	}
 );
+
+// function to get image url on Image upload
+export async function getImageUrlService(acceptedFiles) {
+	const data = new FormData();
+	data.append("file", acceptedFiles[0]);
+
+	const options = {
+		method: "POST",
+		url: "https://upload-image-and-return-url-by-thichthicodeteam.p.rapidapi.com/api/upload-image",
+		headers: {
+			Accept: "*/*",
+			"X-RapidAPI-Key":
+				"7b9cb3e4bdmsh673fe14fd2c1338p1ac175jsnaa23464a349f",
+			"X-RapidAPI-Host":
+				"upload-image-and-return-url-by-thichthicodeteam.p.rapidapi.com",
+		},
+		data: data,
+	};
+	try {
+		const response = await axios.request(options);
+		return response.data.link;
+	} catch (error) {
+		showToast("error", "Error loading Image!!");
+	}
+}
 
 // SignUp User
 export async function userSignUpService(userCredentials) {
@@ -49,7 +64,7 @@ export async function userSignUpService(userCredentials) {
 		);
 		return response;
 	} catch (error) {
-		return error;
+		showToast("error", "Error loading Image!!");
 	}
 }
 

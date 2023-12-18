@@ -1,3 +1,4 @@
+import { ToastContainer, toast } from "react-toastify";
 export function getCookie(name) {
 	const allCookies = document.cookie.split(";");
 	for (const cookie of allCookies) {
@@ -17,6 +18,15 @@ export function isUserLoggedIn() {
 	const userId = getCookie("userId");
 	return !!userId;
 }
+
+export const formattedDate = () => {
+	const todayDate = new Date();
+	return todayDate.toJSON().split("T")[0];
+};
+
+export const showToast = (type, message) => {
+	toast[type](message, { position: toast.POSITION.TOP_RIGHT });
+};
 
 export const validatePassword = (value) => {
 	const specialCharacterPattern = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\|/]/;

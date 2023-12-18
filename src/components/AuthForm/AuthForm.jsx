@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { userLogInService, userSignUpService } from "../../services/services";
-import { setCookie, validatePassword } from "../../utils/helper";
+import { setCookie, showToast, validatePassword } from "../../utils/helper";
 import Loader from "../Common/Loader";
 
 function AuthForm() {
@@ -23,10 +23,6 @@ function AuthForm() {
 		passwordError: "",
 		confirmPasswordError: "",
 	});
-
-	const showToast = (type, message) => {
-		toast[type](message, { position: toast.POSITION.TOP_RIGHT });
-	};
 
 	const handleChange = (input, value) => {
 		setFormData((prevData) => ({ ...prevData, [input]: value }));
@@ -127,12 +123,14 @@ function AuthForm() {
 						<form
 							action=""
 							className="auth-form"
-							onSubmit={handleSubmit}>
+							onSubmit={handleSubmit}
+						>
 							{!isLoginForm && (
 								<>
 									<label
 										htmlFor="fullname"
-										className="auth-label">
+										className="auth-label"
+									>
 										Fullname
 									</label>
 									<input
@@ -190,7 +188,8 @@ function AuthForm() {
 								<>
 									<label
 										htmlFor="confirm-password"
-										className="auth-label">
+										className="auth-label"
+									>
 										Confirm Password
 									</label>
 									<input

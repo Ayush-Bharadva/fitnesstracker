@@ -8,16 +8,24 @@ import "./Header.scss";
 function Header() {
 	const location = useLocation();
 	const pathName = location.pathname;
-	const [burgerMenu, setBurgerMenu] = useState(false);
-	const navItemsRef = useRef(null);
 	const navigate = useNavigate();
 
+	const [burgerMenu, setBurgerMenu] = useState(false);
+	// console.log("burgerMenu :", burgerMenu);
+
+	const userLoggedIn = isUserLoggedIn();
+
+	const navItemsRef = useRef(null);
+
+	const isActive = (path) => (pathName === path ? "Active" : "");
+
 	useEffect(() => {
-		if (burgerMenu) {
-			navItemsRef.current?.classList.remove("display-none");
-		} else {
-			navItemsRef.current?.classList.add("display-none");
-		}
+		navItemsRef.current?.classList.toggle("display-none", !burgerMenu);
+		// if (burgerMenu) {
+		// 	navItemsRef.current?.classList.remove("display-none");
+		// } else {
+		// 	navItemsRef.current?.classList.add("display-none");
+		// }
 	}, [burgerMenu]);
 
 	const handleLogout = () => {
@@ -34,59 +42,56 @@ function Header() {
 					<span style={{ color: "#06ccb2" }}>Tracker</span>
 				</NavLink>
 			</h1>
-			{isUserLoggedIn() ? (
+			{userLoggedIn ? (
 				<>
 					<ul className="nav-items" ref={navItemsRef}>
 						<li
 							className="nav-item"
-							onClick={() => setBurgerMenu((p) => !p)}>
-							<NavLink
-								className={`link ${
-									pathName === "/" ? "active" : ""
-								}`}
-								to="/">
+							onClick={() => setBurgerMenu((p) => !p)}
+						>
+							<NavLink className={`link ${isActive("/")}`} to="/">
 								Home
 							</NavLink>
 						</li>
 						<li
 							className="nav-item"
-							onClick={() => setBurgerMenu((p) => !p)}>
+							onClick={() => setBurgerMenu((p) => !p)}
+						>
 							<NavLink
-								className={`link ${
-									pathName === "/user-profile" ? "active" : ""
-								}`}
-								to="user-profile">
+								className={`link ${isActive("/user-profile")}`}
+								to="user-profile"
+							>
 								User Profile
 							</NavLink>
 						</li>
 						<li
 							className="nav-item"
-							onClick={() => setBurgerMenu((p) => !p)}>
+							onClick={() => setBurgerMenu((p) => !p)}
+						>
 							<NavLink
-								className={`link ${
-									pathName === "/daily-goals" ? "active" : ""
-								}`}
-								to="/daily-goals">
+								className={`link ${isActive("/daily-goals")}`}
+								to="/daily-goals"
+							>
 								Daily Goals
 							</NavLink>
 						</li>
 						<li
 							className="nav-item"
-							onClick={() => setBurgerMenu((p) => !p)}>
+							onClick={() => setBurgerMenu((p) => !p)}
+						>
 							<NavLink
-								className={`link ${
-									pathName === "/dashboard" ? "active" : ""
-								}`}
-								to="/dashboard">
+								className={`link ${isActive("/dashboard")}`}
+								to="/dashboard"
+							>
 								Dashboard
 							</NavLink>
 						</li>
-						{isUserLoggedIn() && (
+						{userLoggedIn && (
 							<button
 								className="mobile-logout-btn"
-								onClick={handleLogout}>
-								{" "}
-								Logout{" "}
+								onClick={handleLogout}
+							>
+								Logout
 							</button>
 						)}
 					</ul>
@@ -97,11 +102,9 @@ function Header() {
 					<ProfileMenu className="profile-menu" />
 				</>
 			) : (
-				<div className="buttons">
-					<NavLink to="auth">
-						<button className="login">LogIn</button>
-					</NavLink>
-				</div>
+				<NavLink to="auth" className="login">
+					LogIn
+				</NavLink>
 			)}
 		</header>
 	);

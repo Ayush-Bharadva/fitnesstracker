@@ -6,42 +6,38 @@ import {
 	editWeightService,
 } from "../../services/services";
 import "./DailyGoals.scss";
-import { toast } from "react-toastify";
+import { showToast } from "../../utils/helper";
 
 function WeightAndWaterTracker({ heading, title, value, setAllDetails, type }) {
+	const [inputValue, setInputValue] = useState(value);
+	const [inputDisabled, setInputDisabled] = useState(!!value);
+
 	useEffect(() => {
 		setInputValue(value);
+		setInputDisabled(!!value);
 	}, [value]);
-
-	const showToast = (type, message) => {
-		toast[type](message, { position: toast.POSITION.TOP_RIGHT });
-	};
-
-	const [inputValue, setInputValue] = useState(value);
-	const [isInputDisabled, setIsInputDisabled] = useState(
-		inputValue ? true : false
-	);
 
 	const handleApiCall = async (apiCall) => {
 		try {
 			const response = await apiCall(Number(inputValue));
 			if (response.status === 200) {
-				setIsInputDisabled(true);
-				setAllDetails((prevDetails) =>
-					type === "weight"
-						? {
-								...prevDetails,
-								weightDetails: { dailyWeight: inputValue },
-						  }
-						: {
-								...prevDetails,
-								waterDetails: { waterIntake: inputValue },
-						  }
-				);
+				setInputDisabled(true);
+
+				const detailsKey =
+					type === "weight" ? "weightDetails" : "waterDetails";
+
+				setAllDetails((prevDetails) => ({
+					...prevDetails,
+					[detailsKey]: {
+						[type === "weight" ? "dailyWeight" : "waterIntake"]:
+							inputValue,
+					},
+				}));
+
 				showToast("success", "Data Saved Successfully..");
 			}
 		} catch (error) {
-			// showToast("error", "An Error Occured while Updating Data!!");
+			showToast("error", "An Error Occured while Updating Data!!");
 		}
 	};
 
@@ -54,36 +50,36 @@ function WeightAndWaterTracker({ heading, title, value, setAllDetails, type }) {
 		handleApiCall(apiCall);
 	};
 
+	let dailyValue =
+		type === "weight" ? inputValue + " Kgs" : inputValue + " Ltrs";
+
 	return (
 		<div id="tracking-section">
 			<h3>{heading}</h3>
 			<div className="tracker-container">
 				<h3 className="title">{title}</h3>
 				<div className="actions">
-					<input
-						type="text"
-						value={inputValue}
-						onChange={(e) => setInputValue(e.target.value)}
-						disabled={isInputDisabled}
-						placeholder="Today's Weight (Kgs)"
-					/>
-					{!isInputDisabled ? (
-						<button
-							className="action-btn"
-							onClick={() => {
-								handleSubmit();
-							}}>
-							Save
-						</button>
+					{!inputDisabled ? (
+						<input
+							type="text"
+							value={inputValue}
+							onChange={(e) => setInputValue(e.target.value)}
+							disabled={inputDisabled}
+							placeholder={`Today's ${title}`}
+						/>
 					) : (
-						<button
-							className="action-btn"
-							onClick={() => {
-								setIsInputDisabled(false);
-							}}>
-							Edit
-						</button>
+						<p>{dailyValue}</p>
 					)}
+					<button
+						className="action-btn"
+						onClick={
+							inputDisabled
+								? () => setInputDisabled(false)
+								: handleSubmit
+						}
+					>
+						{inputDisabled ? "Edit" : "Save"}
+					</button>
 				</div>
 			</div>
 		</div>

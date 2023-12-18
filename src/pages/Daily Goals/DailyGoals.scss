@@ -62,7 +62,11 @@
 					width: 100%;
 					background-color: #eee;
 					border-radius: 7px;
-					margin-top: 0.3rem;
+				}
+
+				p {
+					padding: 0.5rem;
+					width: 100%;
 				}
 
 				.action-btn {
@@ -71,7 +75,6 @@
 					background-color: #aabfe9;
 					border: none;
 					border-radius: 7px;
-					margin-top: 0.3rem;
 					transition: all 0.2s ease;
 				}
 				.action-btn:hover {

@@ -19,7 +19,7 @@ import RecordCard from "../../components/Common/RecordCard";
 import noDataFound from "../../assets/icons/noDataFound.jpg";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Common/Loader";
-import { ToastContainer, toast } from "react-toastify";
+import { formattedDate, showToast } from "../../utils/helper";
 
 ChartJS.register(
 	CategoryScale,
@@ -60,21 +60,8 @@ function Dashboard() {
 	const [yearlyCalorieDetails, setYearlyCalorieDetails] = useState(null);
 	const [yearlyWeightDetails, setYearlyWeightDetails] = useState(null);
 	const [allRecordsByDate, setAllRecordsByDate] = useState({});
-	const [loading, setLoading] = useState(false);
-
-	const formatCurrentDate = () => {
-		const date = new Date();
-		const currentYear = date.getFullYear().toString();
-		const month = (date.getMonth() + 1).toString().padStart(2, "0");
-		const currentDate = date.getDate().toString().padStart(2, "0");
-		return `${currentYear}-${month}-${currentDate}`;
-	};
-
-	const [selectedDate, setSelectedDate] = useState(formatCurrentDate());
-
-	const showToast = (type, message) => {
-		toast[type](message, { position: toast.POSITION.TOP_RIGHT });
-	};
+	const [selectedDate, setSelectedDate] = useState(formattedDate());
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -131,7 +118,6 @@ function Dashboard() {
 
 	const fetchAllRecords = async (formatedDate) => {
 		try {
-			setLoading(true);
 			const response = await getDetailsFromDateService({
 				date: formatedDate,
 			});

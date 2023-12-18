@@ -11,7 +11,6 @@ function Header() {
 	const navigate = useNavigate();
 
 	const [burgerMenu, setBurgerMenu] = useState(false);
-	// console.log("burgerMenu :", burgerMenu);
 
 	const userLoggedIn = isUserLoggedIn();
 
@@ -21,11 +20,6 @@ function Header() {
 
 	useEffect(() => {
 		navItemsRef.current?.classList.toggle("display-none", !burgerMenu);
-		// if (burgerMenu) {
-		// 	navItemsRef.current?.classList.remove("display-none");
-		// } else {
-		// 	navItemsRef.current?.classList.add("display-none");
-		// }
 	}, [burgerMenu]);
 
 	const handleLogout = () => {

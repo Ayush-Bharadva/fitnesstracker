@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./AuthForm.scss";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { userLogInService, userSignUpService } from "../../services/services";
@@ -27,7 +27,6 @@ function AuthForm() {
 	const handleChange = (input, value) => {
 		setFormData((prevData) => ({ ...prevData, [input]: value }));
 
-		// Error checking
 		switch (input) {
 			case "fullname":
 				setInputError((prevErrors) => ({

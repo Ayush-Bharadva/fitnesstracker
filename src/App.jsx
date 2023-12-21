@@ -10,26 +10,15 @@ import Layout from "./Layout";
 import AuthForm from "./components/AuthForm/AuthForm";
 import Loader from "./components/Common/Loader";
 
-const Home = lazy(() =>
-	import("./pages/index").then((module) => {
-		return { default: module.Home };
-	})
-);
-const UserProfile = lazy(() =>
-	import("./pages/index").then((module) => {
-		return { default: module.UserProfile };
-	})
-);
-const DailyGoals = lazy(() =>
-	import("./pages/index").then((module) => {
-		return { default: module.DailyGoals };
-	})
-);
-const Dashboard = lazy(() =>
-	import("./pages/index").then((module) => {
-		return { default: module.Dashboard };
-	})
-);
+const dynamicImport = (path) =>
+	lazy(() =>
+		import("./pages/index").then((module) => ({ default: module[path] }))
+	);
+
+const Home = dynamicImport("Home");
+const UserProfile = dynamicImport("UserProfile");
+const DailyGoals = dynamicImport("DailyGoals");
+const Dashboard = dynamicImport("Dashboard");
 
 const router = createBrowserRouter(
 	createRoutesFromElements(

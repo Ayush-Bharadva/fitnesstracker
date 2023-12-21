@@ -43,6 +43,8 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 			: mealDetails?.find((meal) => meal.mealType === type);
 	};
 
+	const { type, duration, ingredients, calories } = activityDetails;
+
 	const updateActivityDetails = (type, duration, calories) => {
 		return isExercise
 			? updateExerciseServise({
@@ -87,8 +89,6 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 	};
 
 	const updateActivity = async () => {
-		const { type, duration, ingredients, calories } = activityDetails;
-
 		const response = await updateActivityDetails(type, duration, calories);
 
 		if (response.status === 200) {
@@ -133,8 +133,6 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 	};
 
 	const addActivity = async () => {
-		const { type, duration, ingredients, calories } = activityDetails;
-
 		let response = isExercise
 			? await addExerciseService({
 					exerciseType:
@@ -182,6 +180,13 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		const isValidInputs = isExercise
+			? duration > 0 && calories > 0
+			: ingredients && calories > 0;
+		if (!isValidInputs) {
+			showToast("error", "Please enter valid details");
+			return;
+		}
 		if (buttonText === "Add") {
 			addActivity();
 		} else {

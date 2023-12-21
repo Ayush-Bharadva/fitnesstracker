@@ -57,7 +57,7 @@ function WeightAndWaterTracker({ heading, title, value, setAllDetails, type }) {
 		<div id="tracking-section">
 			<h3>{heading}</h3>
 			<div className="tracker-container">
-				<h3 className="title">{title}</h3>
+				<h2 className="title">{title}</h2>
 				<div className="actions">
 					{!inputDisabled ? (
 						<input

@@ -1,18 +1,14 @@
 import React from "react";
-import "./RecordCard.scss";
 import {
 	deleteExerciseService,
 	deleteMealService,
 } from "../../services/services";
 import { ToastContainer } from "react-toastify";
 import Swal from "sweetalert2";
-import { MdDelete } from "react-icons/md";
-import { FaRegClock } from "react-icons/fa6";
-import fireIcon from "../../assets/icons/fire-icon-image.png";
-import Ingredient from "../../assets/icons/Ingredient.png";
-import calories from "../../assets/icons/calories.png";
 import "../../global.scss";
 import { showToast } from "../../utils/helper";
+import Record from "./Record";
+import "./RecordCard.scss";
 
 function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 	const { exerciseDetails, mealDetails } = allDetails;
@@ -29,27 +25,24 @@ function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 		}).then(async (result) => {
 			if (result.isConfirmed) {
 				try {
-					const response = isExercise
-						? await deleteExerciseService(type)
-						: await deleteMealService(type);
+					const service = isExercise
+						? deleteExerciseService
+						: deleteMealService;
+					const response = await service(type);
 
 					if (response.status === 200) {
-						showToast("success", "Activity deleted successfully");
-
-						const updatedDetails = isExercise
-							? {
-									exerciseDetails:
-										allDetails.exerciseDetails.filter(
-											(exercise) =>
-												exercise.exerciseType !== type
-										),
-							  }
-							: {
-									mealDetails: allDetails.mealDetails.filter(
-										(meal) => meal.mealType !== type
-									),
-							  };
-
+						const key = isExercise
+							? "exerciseDetails"
+							: "mealDetails";
+						const updatedDetails = {
+							[key]: allDetails[key].filter(
+								(item) =>
+									item[
+										isExercise ? "exerciseType" : "mealType"
+									] !== type
+							),
+						};
+						showToast("success", "Activity deleted!!");
 						setAllDetails({ ...allDetails, ...updatedDetails });
 					}
 				} catch (error) {
@@ -77,48 +70,13 @@ function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 								Exercise Performed
 							</h1>
 							{exerciseDetails?.map((exercise, index) => (
-								<div
-									key={index}
-									className="record-container exercise-card-bg"
-								>
-									<div className="exercise-record-card">
-										<div>
-											<p className="record-title">
-												{exercise.exerciseType ===
-												"Weight_lifting"
-													? "Weight Lifting"
-													: exercise.exerciseType ||
-													  ""}
-											</p>
-										</div>
-										<div className="record-info">
-											<p>
-												<FaRegClock className="clock-icon" />{" "}
-												<span>
-													{exercise.duration} Min
-												</span>
-											</p>
-											<p>
-												<img src={fireIcon} alt="" />
-												<span>
-													{exercise.caloriesBurned}{" "}
-													Cal
-												</span>
-											</p>
-										</div>
-									</div>
-									{!isReadonly && (
-										<MdDelete
-											className="delete-record"
-											onClick={() =>
-												handleDeleteActivity(
-													exercise.exerciseType,
-													true
-												)
-											}
-										/>
-									)}
-								</div>
+								<Record
+									data={exercise}
+									index={index}
+									isReadonly={isReadonly}
+									onDelete={handleDeleteActivity}
+									isExercise={true}
+								/>
 							))}
 						</>
 					)}
@@ -130,42 +88,13 @@ function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 								Meals Taken
 							</h1>
 							{mealDetails.map((meal, index) => (
-								<div
-									key={index}
-									className="record-container meal-card-bg"
-								>
-									<div className="meal-record-card">
-										<div>
-											<p className="meal-record-title">
-												{meal.mealType}
-											</p>
-										</div>
-										<div className="record-info">
-											<p>
-												{" "}
-												<img src={Ingredient} alt="" />
-												<span>{meal.ingredients}</span>
-											</p>
-											<p>
-												<img src={calories} alt="" />
-												<span>
-													{meal.caloriesConsumed} Cal
-												</span>
-											</p>
-										</div>
-									</div>
-									{!isReadonly && (
-										<MdDelete
-											className="delete-record"
-											onClick={() =>
-												handleDeleteActivity(
-													meal.mealType,
-													false
-												)
-											}
-										/>
-									)}
-								</div>
+								<Record
+									data={meal}
+									index={index}
+									isReadonly={isReadonly}
+									onDelete={handleDeleteActivity}
+									isExercise={false}
+								/>
 							))}
 						</>
 					)}

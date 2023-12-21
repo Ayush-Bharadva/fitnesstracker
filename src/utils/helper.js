@@ -1,4 +1,4 @@
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 export function getCookie(name) {
 	const allCookies = document.cookie.split(";");
 	for (const cookie of allCookies) {

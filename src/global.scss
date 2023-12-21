@@ -9,10 +9,6 @@ $teal: #008170;
 $light-teal: #00b69e;
 
 // global css classes
-.font-bold {
-	font-weight: bold;
-}
-
 .text-center {
 	text-align: center;
 }
@@ -46,64 +42,10 @@ $light-teal: #00b69e;
 	flex-direction: column;
 }
 
-.flex-between {
-	justify-content: space-between;
-}
-
-.flex-center-x {
-	justify-content: center;
-}
-
 .display-block {
 	display: block;
 }
 
-.overflow-auto {
-	overflow: auto;
-}
-
 .flex-wrap {
 	flex-wrap: wrap;
-}
-
-.flex-full-width {
-	flex: 1;
-}
-
-.rounded-border {
-	border-radius: 7px;
-}
-
-.gap-1 {
-	gap: 1rem;
-}
-
-.bg-grey {
-	background-color: #aaa;
-}
-.bg-light-grey {
-	background-color: #ccc;
-}
-.text-white {
-	color: #fff;
-}
-
-.padding-y-1 {
-	padding: 1rem;
-}
-
-.padding-x-1 {
-	padding: 1rem;
-}
-
-.margin-x-1 {
-	margin: 0 1rem;
-}
-
-.margin-y-1 {
-	margin: 1rem 0;
-}
-
-.margin-bottom-1 {
-	margin-bottom: 1rem;
 }

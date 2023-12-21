@@ -20,7 +20,7 @@ $mid-teal: #00b69e;
 	form {
 		border-radius: 16px;
 		padding: 1rem;
-		background-color: #ddd;
+		background-color: #31626e;
 		min-width: 360px;
 
 		h2 {
@@ -34,7 +34,7 @@ $mid-teal: #00b69e;
 			label {
 				padding: 0 0.5rem;
 				font-weight: bold;
-				color: $teal;
+				color: #fff;
 				margin-bottom: 4px;
 			}
 		}
@@ -62,7 +62,7 @@ $mid-teal: #00b69e;
 		}
 
 		button:hover {
-			background-color: $mid-teal;
+			background-color: #0bd7bc;
 		}
 	}
 
@@ -78,6 +78,7 @@ $mid-teal: #00b69e;
 		transition: all 0.2s ease;
 	}
 	.btn:hover {
-		background-color: $teal;
+		background-color: #4bd1bf;
+		cursor: pointer;
 	}
 }

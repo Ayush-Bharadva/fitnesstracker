@@ -23,6 +23,7 @@ $red: #cc274c;
 .profile-form-container {
 	height: 90%;
 	width: 80%;
+	max-width: 1080px;
 	padding: 1rem;
 }
 
@@ -164,6 +165,9 @@ img {
 
 .edit-profile-btn {
 	background-color: gray;
+}
+.edit-profile-btn:hover {
+	background-color: #43a4bd;
 }
 
 .remove-img-btn {

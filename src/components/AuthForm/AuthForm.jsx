@@ -7,22 +7,26 @@ import { userLogInService, userSignUpService } from "../../services/services";
 import { setCookie, showToast, validatePassword } from "../../utils/helper";
 import Loader from "../Common/Loader";
 
+const initialFormData = {
+	fullname: "",
+	email: "",
+	password: "",
+	confirmPassword: "",
+};
+
+const initialInputError = {
+	fullnameError: "",
+	emailError: "",
+	passwordError: "",
+	confirmPasswordError: "",
+};
+
 function AuthForm() {
 	const navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
 	const [isLoginForm, setIsLoginForm] = useState(true);
-	const [formData, setFormData] = useState({
-		fullname: "",
-		email: "",
-		password: "",
-		confirmPassword: "",
-	});
-	const [inputError, setInputError] = useState({
-		fullnameError: "",
-		emailError: "",
-		passwordError: "",
-		confirmPasswordError: "",
-	});
+	const [formData, setFormData] = useState(initialFormData);
+	const [inputError, setInputError] = useState(initialInputError);
 
 	const handleChange = (input, value) => {
 		setFormData((prevData) => ({ ...prevData, [input]: value }));
@@ -107,6 +111,12 @@ function AuthForm() {
 		} catch (error) {
 			showToast("error", error.response.data.message);
 		}
+	};
+
+	const handleFormChange = () => {
+		setIsLoginForm((prev) => !prev);
+		setFormData(initialFormData);
+		setInputError(initialInputError);
 	};
 
 	return (
@@ -217,7 +227,7 @@ function AuthForm() {
 						<p>
 							{isLoginForm ? "Don't" : "Already"} have an account
 							?{" "}
-							<span onClick={() => setIsLoginForm((p) => !p)}>
+							<span onClick={handleFormChange}>
 								{isLoginForm ? "Register" : "LogIn"}
 							</span>
 						</p>

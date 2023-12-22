@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import { ToastContainer } from "react-toastify";
-import { isUserLoggedIn, showToast } from "../../utils/helper";
+import { showToast } from "../../utils/helper";
 import {
 	createUserProfileService,
 	getImageUrlService,
@@ -25,7 +25,6 @@ function UserProfile() {
 	});
 	const [inputDisabled, setInputDisabled] = useState(false);
 	const [loading, setLoading] = useState(true);
-	const userLoggedIn = isUserLoggedIn();
 
 	useEffect(() => {
 		const fetchProfile = async () => {
@@ -61,11 +60,6 @@ function UserProfile() {
 			return;
 		}
 
-		if (!userLoggedIn) {
-			navigate("/auth");
-			return;
-		}
-
 		try {
 			const response = await createUserProfileService(userDetails);
 			setLoading(false);
@@ -74,9 +68,6 @@ function UserProfile() {
 				showToast("success", "Profile Updated..");
 			}
 		} catch (error) {
-			if (error.response.data.status === 409) {
-				showToast("info", "Profile has already been created!");
-			}
 			showToast("error", "An error occured while updating user profile");
 		}
 	};

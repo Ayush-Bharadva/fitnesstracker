@@ -12,7 +12,6 @@ import Loader from "../../components/Common/Loader";
 import "./UserProfile.scss";
 
 function UserProfile() {
-	const navigate = useNavigate();
 	const [userDetails, setUserDetails] = useState({
 		profilePhoto: null,
 		fullName: "",

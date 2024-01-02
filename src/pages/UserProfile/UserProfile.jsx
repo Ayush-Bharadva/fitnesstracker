@@ -7,36 +7,46 @@ import {
 	getImageUrlService,
 	showUserProfileService,
 } from "../../services/services";
-import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Common/Loader";
 import "./UserProfile.scss";
 
+const initialErrorValue = {
+	fullNameError: "",
+	emailError: "",
+	ageError: "",
+	heightError: "",
+	weightError: "",
+};
+
+const initialUserDetails = {
+	profilePhoto: null,
+	fullName: "",
+	email: "",
+	age: "",
+	gender: "",
+	height: "",
+	weight: "",
+	healthGoal: "",
+};
+
 function UserProfile() {
-	const [userDetails, setUserDetails] = useState({
-		profilePhoto: null,
-		fullName: "",
-		email: "",
-		age: "",
-		gender: "",
-		height: "",
-		weight: "",
-		healthGoal: "",
-	});
+	const [userDetails, setUserDetails] = useState(initialUserDetails);
+	const [inputError, setInputError] = useState(initialErrorValue);
 	const [inputDisabled, setInputDisabled] = useState(false);
-	const [loading, setLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		const fetchProfile = async () => {
 			try {
 				const fetchProfileResponse = await showUserProfileService();
-				setLoading(false);
+				setIsLoading(false);
 
 				if (fetchProfileResponse.status === 200) {
 					setInputDisabled(true);
 					setUserDetails({ ...fetchProfileResponse.data });
 				}
 			} catch (error) {
-				setLoading(false);
+				setIsLoading(false);
 				showToast(
 					"error",
 					"An error occured while fetching user profile"
@@ -47,8 +57,59 @@ function UserProfile() {
 		fetchProfile();
 	}, []);
 
-	const handleInputChange = (input, value) => {
-		setUserDetails((prevUserInfo) => ({ ...prevUserInfo, [input]: value }));
+	const handleTypeConversion = (type, value) => {
+		if (type === "age" || type === "height" || type === "weight") {
+			return +value;
+		}
+	};
+
+	const handleInputChange = (e) => {
+		const errorObj = {
+			fullNameError: "",
+			emailError: "",
+			ageError: "",
+			heightError: "",
+			weightError: "",
+		};
+		const { name, value } = e.target;
+
+		switch (name) {
+			case "fullName":
+				errorObj.fullNameError = !value
+					? "Please enter your fullname"
+					: "";
+				break;
+			case "email":
+				errorObj.emailError = !value ? "invalid Email" : "";
+				break;
+			case "age":
+				errorObj.ageError =
+					!value || value < 1 || value > 130
+						? "Please enter valid age (between 1 to 130) "
+						: "";
+				break;
+			case "height":
+				errorObj.heightError =
+					!value || value < 50 || value > 300
+						? "Height should be more than 50 cms or less than 300 cms"
+						: "";
+				break;
+			case "weight":
+				errorObj.weightError =
+					!value || value < 2 || value > 700
+						? "Weight should be more than 2 kgs and less than 700 kgs"
+						: "";
+				break;
+			default:
+				break;
+		}
+
+		setInputError((prevErrors) => ({ ...prevErrors, ...errorObj }));
+
+		setUserDetails((prevUserInfo) => ({
+			...prevUserInfo,
+			[name]: handleTypeConversion(name, value) || value,
+		}));
 	};
 
 	const handleSubmit = async (e, type) => {
@@ -58,16 +119,18 @@ function UserProfile() {
 			setInputDisabled(false);
 			return;
 		}
+		const { profilePhoto } = userDetails;
 
-		try {
-			const response = await createUserProfileService(userDetails);
-			setLoading(false);
-			if (response.status === 200) {
-				setInputDisabled(true);
-				showToast("success", "Profile Updated..");
-			}
-		} catch (error) {
-			showToast("error", "An error occured while updating user profile");
+		if (!profilePhoto) {
+			showToast("error", "Please upload your profile photo");
+			return;
+		}
+		const response = await createUserProfileService(userDetails);
+		if (response.status === 200) {
+			setIsLoading(false);
+			setInputDisabled(true);
+			setInputError(initialErrorValue);
+			showToast("success", "Profile Updated..");
 		}
 	};
 
@@ -89,10 +152,14 @@ function UserProfile() {
 		}));
 	};
 
+	const removeImageBtnStyles = {
+		display: inputDisabled ? "none" : "block",
+	};
+
 	return (
 		<>
 			<section id="user-profile-section">
-				{loading ? (
+				{isLoading ? (
 					<Loader color="#37455f" height="64px" width="64px" />
 				) : (
 					<div className="profile-form-container">
@@ -103,8 +170,8 @@ function UserProfile() {
 									<div className="image-container">
 										<button
 											className="remove-img-btn"
-											onClick={handleRemoveImage}
-										>
+											style={removeImageBtnStyles}
+											onClick={handleRemoveImage}>
 											X
 										</button>
 										<div className="profile-img">
@@ -128,8 +195,7 @@ function UserProfile() {
 											<section>
 												<div
 													{...getRootProps()}
-													className="image-dropzone"
-												>
+													className="image-dropzone">
 													<input
 														{...getInputProps()}
 													/>
@@ -146,52 +212,69 @@ function UserProfile() {
 							</div>
 
 							<div className="form-right">
-								<h3 className="form-title">Profile Details</h3>
+								<div className="title-wrapper">
+									<h3 className="form-title">
+										Profile Details
+									</h3>
+									<button
+										className={
+											inputDisabled
+												? "edit-profile-btn"
+												: "save-profile-btn"
+										}
+										onClick={(e) =>
+											handleSubmit(
+												e,
+												inputDisabled ? "edit" : "save"
+											)
+										}>
+										{inputDisabled
+											? "Edit Profile"
+											: "Save Profile"}
+									</button>
+								</div>
+
 								<div className="form-group">
 									<label
 										htmlFor="fullName"
-										className="display-block"
-									>
+										className="display-block">
 										Fullname
 									</label>
 									<input
 										type="text"
 										className="display-block"
 										id="fullName"
+										name="fullName"
 										value={userDetails["fullName"]}
-										onChange={(e) =>
-											handleInputChange(
-												"fullName",
-												e.target.value
-											)
-										}
+										onChange={handleInputChange}
 										placeholder="Fullname"
 										disabled={inputDisabled}
 										required
 									/>
+									<p className="profile-input-error">
+										{inputError.fullNameError}
+									</p>
 								</div>
 								<div className="form-group">
 									<label
 										htmlFor="email"
-										className="display-block"
-									>
+										className="display-block">
 										Email
 									</label>
 									<input
 										type="text"
 										className="display-block"
 										id="email"
+										name="email"
 										value={userDetails["email"]}
-										onChange={(e) =>
-											handleInputChange(
-												"email",
-												e.target.value
-											)
-										}
+										onChange={handleInputChange}
 										placeholder="Email"
 										disabled={inputDisabled}
 										required
 									/>
+									<p className="profile-input-error">
+										{inputError.emailError}
+									</p>
 								</div>
 								<div className="form-group">
 									<label htmlFor="gender">Gender</label>
@@ -202,20 +285,19 @@ function UserProfile() {
 												id="male"
 												name="gender"
 												value="Male"
-												onChange={(e) =>
-													handleInputChange(
-														"gender",
-														e.target.value
-													)
-												}
+												onChange={handleInputChange}
 												checked={
 													userDetails.gender ===
 													"Male"
 												}
 												disabled={inputDisabled}
 												required
-											/>{" "}
-											<label htmlFor="male">Male</label>
+											/>
+											<label
+												htmlFor="male"
+												style={{ margin: "4px" }}>
+												Male
+											</label>
 										</div>
 										<div>
 											<input
@@ -223,20 +305,17 @@ function UserProfile() {
 												id="female"
 												name="gender"
 												value="Female"
-												onChange={(e) =>
-													handleInputChange(
-														"gender",
-														e.target.value
-													)
-												}
+												onChange={handleInputChange}
 												checked={
 													userDetails.gender ===
 													"Female"
 												}
 												disabled={inputDisabled}
 												required
-											/>{" "}
-											<label htmlFor="female">
+											/>
+											<label
+												htmlFor="female"
+												style={{ margin: "4px" }}>
 												Female
 											</label>
 										</div>
@@ -245,95 +324,80 @@ function UserProfile() {
 								<div className="form-group">
 									<label
 										htmlFor="age"
-										className="display-block"
-									>
-										Age
+										className="display-block">
+										Age (Years)
 									</label>
 									<input
 										type="number"
 										className="display-block"
 										id="age"
+										name="age"
 										value={userDetails["age"]}
-										onChange={(e) =>
-											handleInputChange(
-												"age",
-												Number(e.target.value)
-											)
-										}
+										onChange={handleInputChange}
 										placeholder="age"
-										min="5"
-										max="100"
 										disabled={inputDisabled}
 										required
 									/>
+									<p className="profile-input-error">
+										{inputError.ageError}
+									</p>
 								</div>
 								<div className="form-group">
 									<label
 										htmlFor="height"
-										className="display-block"
-									>
-										Height
+										className="display-block">
+										Height (cms)
 									</label>
 									<input
 										type="text"
 										id="height"
+										name="height"
 										className="display-block"
 										value={userDetails["height"]}
-										onChange={(e) =>
-											handleInputChange(
-												"height",
-												Number(e.target.value)
-											)
-										}
+										onChange={handleInputChange}
 										placeholder="height (cm)"
 										disabled={inputDisabled}
 										required
 									/>
+									<p className="profile-input-error">
+										{inputError.heightError}
+									</p>
 								</div>
 								<div className="form-group">
 									<label
 										htmlFor="weight"
-										className="display-block"
-									>
-										Weight
+										className="display-block">
+										Weight (kgs)
 									</label>
 									<input
 										type="text"
 										id="weight"
 										className="display-block"
+										name="weight"
 										value={userDetails["weight"]}
-										onChange={(e) =>
-											handleInputChange(
-												"weight",
-												Number(e.target.value)
-											)
-										}
+										onChange={handleInputChange}
 										placeholder="weight (kg)"
 										disabled={inputDisabled}
 										required
 									/>
+									<p className="profile-input-error">
+										{inputError.weightError}
+									</p>
 								</div>
 								<div className="form-group">
 									<label
 										htmlFor="healthGoal"
-										className="display-block"
-									>
+										className="display-block">
 										Health Goal
 									</label>
 									<select
-										name=""
+										name="healthGoal"
 										id="healthGoal"
 										className="display-block"
 										value={userDetails["healthGoal"]}
-										onChange={(e) =>
-											handleInputChange(
-												"healthGoal",
-												e.target.value
-											)
-										}
+										onChange={handleInputChange}
 										disabled={inputDisabled}
-										required
-									>
+										required>
 										<option value="">
 											Select Health Goal
 										</option>
@@ -351,23 +415,6 @@ function UserProfile() {
 										</option>
 									</select>
 								</div>
-								<button
-									className={
-										inputDisabled
-											? "edit-profile-btn"
-											: "save-profile-btn"
-									}
-									onClick={(e) =>
-										handleSubmit(
-											e,
-											inputDisabled ? "edit" : "save"
-										)
-									}
-								>
-									{inputDisabled
-										? "Edit Profile"
-										: "Save Profile"}
-								</button>
 							</div>
 						</form>
 						<ToastContainer />

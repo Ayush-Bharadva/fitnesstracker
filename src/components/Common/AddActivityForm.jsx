@@ -34,8 +34,11 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 		[isExercise]
 	);
 
+	const handleType = (type) =>
+		type === "Weight Lifting" ? "Weight_lifting" : type;
+
 	const getActivityDetails = (type) => {
-		let activityType = type === "Weight Lifting" ? "Weight_lifting" : type;
+		let activityType = handleType(type);
 		return isExercise
 			? exerciseDetails?.find(
 					(exercise) => exercise.exerciseType === activityType
@@ -48,8 +51,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 	const updateActivityDetails = (type, duration, calories) => {
 		return isExercise
 			? updateExerciseServise({
-					exerciseType:
-						type === "Weight Lifting" ? "Weight_lifting" : type,
+					exerciseType: handleType(type),
 					duration,
 					caloriesBurned: calories,
 			  })
@@ -60,8 +62,10 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 			  });
 	};
 
-	const handleInputChange = (input, value) => {
-		if (input === "type") {
+	const handleInputChange = (e) => {
+		const { name, value } = e.target;
+
+		if (name === "type") {
 			const activityDetails = getActivityDetails(value);
 			setButtonText(!activityDetails ? "Add" : "Edit");
 
@@ -84,7 +88,10 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 				calories: caloriesBurned || caloriesConsumed,
 			});
 		} else {
-			setActivityDetails((prevInfo) => ({ ...prevInfo, [input]: value }));
+			setActivityDetails((prevInfo) => ({
+				...prevInfo,
+				[name]: name === ingredients ? value : +value,
+			}));
 		}
 	};
 
@@ -94,30 +101,31 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 		if (response.status === 200) {
 			const previousActivity = getActivityDetails(type);
 
-			const updatedDetails = isExercise
-				? {
-						exerciseDetails: exerciseDetails.map((exercise) =>
-							exercise.exerciseType ===
-							previousActivity.exerciseType
-								? {
-										...exercise,
-										duration,
-										caloriesBurned: calories,
-								  }
-								: exercise
-						),
-				  }
-				: {
-						mealDetails: mealDetails.map((meal) =>
-							meal.mealType === previousActivity.mealType
-								? {
-										...meal,
-										ingredients,
-										caloriesConsumed: calories,
-								  }
-								: meal
-						),
-				  };
+			const updatedExercise = isExercise && {
+				exerciseDetails: exerciseDetails.map((exercise) =>
+					exercise.exerciseType === previousActivity.exerciseType
+						? {
+								...exercise,
+								duration,
+								caloriesBurned: calories,
+						  }
+						: exercise
+				),
+			};
+
+			const updatedMeal = {
+				mealDetails: mealDetails.map((meal) =>
+					meal.mealType === previousActivity.mealType
+						? {
+								...meal,
+								ingredients,
+								caloriesConsumed: calories,
+						  }
+						: meal
+				),
+			};
+
+			const updatedDetails = isExercise ? updatedExercise : updatedMeal;
 
 			setAllDetails({
 				...allDetails,
@@ -135,8 +143,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 	const addActivity = async () => {
 		let response = isExercise
 			? await addExerciseService({
-					exerciseType:
-						type === "Weight Lifting" ? "Weight_lifting" : type,
+					exerciseType: handleType(type),
 					duration: duration,
 					caloriesBurned: calories,
 			  })
@@ -149,8 +156,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 		if (response.status === 200) {
 			const newActivity = isExercise
 				? {
-						exerciseType:
-							type === "Weight Lifting" ? "Weight_lifting" : type,
+						exerciseType: handleType(type),
 						duration,
 						caloriesBurned: calories,
 				  }
@@ -206,11 +212,8 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 						name="type"
 						id="activity"
 						value={activityDetails["type"]}
-						onChange={(e) =>
-							handleInputChange("type", e.target.value)
-						}
-						required
-					>
+						onChange={handleInputChange}
+						required>
 						<option value="">
 							Select {isExercise ? "Exercise" : "Meal"} type
 						</option>
@@ -230,12 +233,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 								id="duration"
 								name="duration"
 								value={activityDetails["duration"]}
-								onChange={(e) =>
-									handleInputChange(
-										"duration",
-										Number(e.target.value)
-									)
-								}
+								onChange={handleInputChange}
 								placeholder="Exercise duration (in min)"
 								required
 							/>
@@ -248,12 +246,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 								id="ingredients"
 								name="ingredients"
 								value={activityDetails["ingredients"]}
-								onChange={(e) =>
-									handleInputChange(
-										"ingredients",
-										e.target.value
-									)
-								}
+								onChange={handleInputChange}
 								placeholder="Meal ingredients"
 								required
 							/>
@@ -269,12 +262,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 						id="calories"
 						name="calories"
 						value={activityDetails["calories"]}
-						onChange={(e) =>
-							handleInputChange(
-								"calories",
-								Number(e.target.value)
-							)
-						}
+						onChange={handleInputChange}
 						placeholder={
 							isExercise
 								? "Enter calories burned (approx)"

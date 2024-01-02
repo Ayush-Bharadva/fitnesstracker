@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { userLogInService, userSignUpService } from "../../services/services";
 import { setCookie, showToast, validatePassword } from "../../utils/helper";
 import Loader from "../Common/Loader";
+import { emailPattern } from "../../constants/constants";
 
 const initialFormData = {
 	fullname: "",
@@ -23,57 +24,56 @@ const initialInputError = {
 
 function AuthForm() {
 	const navigate = useNavigate();
-	const [loading, setLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const [isLoginForm, setIsLoginForm] = useState(true);
 	const [formData, setFormData] = useState(initialFormData);
 	const [inputError, setInputError] = useState(initialInputError);
 
-	const handleChange = (input, value) => {
-		setFormData((prevData) => ({ ...prevData, [input]: value }));
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		const inputErrorObj = {
+			fullnameError: "",
+			emailError: "",
+			passwordError: "",
+			confirmPasswordError: "",
+		};
 
-		switch (input) {
+		setFormData((prevData) => ({ ...prevData, [name]: value }));
+
+		switch (name) {
 			case "fullname":
-				setInputError((prevErrors) => ({
-					...prevErrors,
-					fullnameError:
-						value.length < 5
-							? "Fullname length should be greater than 4"
-							: "",
-				}));
+				inputErrorObj.fullnameError =
+					value.length < 5
+						? "Fullname length should be greater than 4"
+						: "";
 				break;
 			case "email":
-				const emailPattern =
-					/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-				setInputError((prevErrors) => ({
-					...prevErrors,
-					emailError: !emailPattern.test(value)
-						? "Invalid email"
-						: "",
-				}));
+				inputErrorObj.emailError = !emailPattern.test(value)
+					? "Invalid email"
+					: "";
 				break;
 			case "password":
-				setInputError((prevErrors) => ({
-					...prevErrors,
-					passwordError: validatePassword(value),
-				}));
+				inputErrorObj.passwordError = validatePassword(value);
 				break;
 			case "confirmPassword":
-				setInputError((prevErrors) => ({
-					...prevErrors,
-					confirmPasswordError:
-						formData.password !== value
-							? "Password and Confirm-Password must be the same"
-							: "",
-				}));
+				inputErrorObj.confirmPasswordError =
+					formData.password !== value
+						? "Password and Confirm-Password must be the same"
+						: "";
 				break;
 			default:
 				break;
 		}
 
+		setInputError((prevErrors) => ({
+			...prevErrors,
+			...inputErrorObj,
+		}));
+
 		if (!value) {
 			setInputError((prevErrors) => ({
 				...prevErrors,
-				[`${input}Error`]: "",
+				[`${name}Error`]: "",
 			}));
 		}
 	};
@@ -91,18 +91,17 @@ function AuthForm() {
 			return;
 		}
 
-		const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 		if (!emailPattern.test(email) || validatePassword(password)) {
 			showToast("error", "Enter Valid Credentials");
 			return;
 		}
 
 		try {
-			setLoading(true);
+			setIsLoading(true);
 			const response = isLoginForm
 				? await userLogInService({ email, password })
 				: await userSignUpService({ fullname, email, password });
-			setLoading(false);
+			setIsLoading(false);
 
 			if (response.status === 200) {
 				setCookie("userId", response.data.userId);
@@ -122,7 +121,7 @@ function AuthForm() {
 	return (
 		<>
 			<div className="auth-container">
-				{loading ? (
+				{isLoading ? (
 					<Loader />
 				) : (
 					<div className="auth-form-container">
@@ -132,26 +131,20 @@ function AuthForm() {
 						<form
 							action=""
 							className="auth-form"
-							onSubmit={handleSubmit}
-						>
+							onSubmit={handleSubmit}>
 							{!isLoginForm && (
 								<>
 									<label
 										htmlFor="fullname"
-										className="auth-label"
-									>
+										className="auth-label">
 										Fullname
 									</label>
 									<input
 										type="text"
 										id="fullname"
+										name="fullname"
 										value={formData["fullname"]}
-										onChange={(e) =>
-											handleChange(
-												"fullname",
-												e.target.value
-											)
-										}
+										onChange={handleChange}
 										placeholder="fullname"
 										required
 									/>
@@ -166,10 +159,9 @@ function AuthForm() {
 							<input
 								type="email"
 								id="email"
+								name="email"
 								value={formData["email"]}
-								onChange={(e) =>
-									handleChange("email", e.target.value)
-								}
+								onChange={handleChange}
 								placeholder="email"
 								required
 							/>
@@ -182,10 +174,9 @@ function AuthForm() {
 							<input
 								type="password"
 								id="password"
+								name="password"
 								value={formData["password"]}
-								onChange={(e) =>
-									handleChange("password", e.target.value)
-								}
+								onChange={handleChange}
 								placeholder="password"
 								autoComplete="on"
 								required
@@ -197,20 +188,15 @@ function AuthForm() {
 								<>
 									<label
 										htmlFor="confirm-password"
-										className="auth-label"
-									>
+										className="auth-label">
 										Confirm Password
 									</label>
 									<input
 										type="password"
 										id="confirm-password"
+										name="confirmPassword"
 										value={formData["confirmPassword"]}
-										onChange={(e) =>
-											handleChange(
-												"confirmPassword",
-												e.target.value
-											)
-										}
+										onChange={handleChange}
 										placeholder="confirm-password"
 										autoComplete="on"
 										required
@@ -226,7 +212,7 @@ function AuthForm() {
 						</form>
 						<p>
 							{isLoginForm ? "Don't" : "Already"} have an account
-							?{" "}
+							?
 							<span onClick={handleFormChange}>
 								{isLoginForm ? "Register" : "LogIn"}
 							</span>

@@ -17,7 +17,6 @@ import {
 } from "../../services/services";
 import RecordCard from "../../components/Common/RecordCard";
 import noDataFound from "../../assets/icons/noDataFound.jpg";
-import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Common/Loader";
 import { formattedDate, showToast } from "../../utils/helper";
 
@@ -55,36 +54,30 @@ const labels = [
 ];
 
 function Dashboard() {
-	const navigate = useNavigate();
-
-	const [yearlyCalorieDetails, setYearlyCalorieDetails] = useState(null);
-	const [yearlyWeightDetails, setYearlyWeightDetails] = useState(null);
+	const [yearlyCalorieDetails, setYearlyCalorieDetails] = useState([]);
+	const [yearlyWeightDetails, setYearlyWeightDetails] = useState([]);
 	const [allRecordsByDate, setAllRecordsByDate] = useState({});
 	const [selectedDate, setSelectedDate] = useState(formattedDate());
-	const [loading, setLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				setLoading(true);
 				const [recordsResponse] = await Promise.all([
 					getDetailsFromDateService({ date: selectedDate }),
 					fetchYearlyDetails(selectedDate),
 				]);
-				setLoading(false);
+				setIsLoading(false);
 				if (recordsResponse.status === 200) {
 					setAllRecordsByDate({ ...recordsResponse.data });
 					setSelectedDate(selectedDate);
-				} else if (recordsResponse.status === 498) {
-					navigate("/auth");
 				} else {
 					showToast("error", "Something went wrong!");
 				}
 			} catch (error) {
-				showToast("error", "fetch data error!!");
+				showToast("error", "error fetching data!!");
 			}
 		};
-
 		fetchData();
 	}, []);
 
@@ -93,10 +86,7 @@ function Dashboard() {
 		datasets: [
 			{
 				label: "Weight",
-				data:
-					yearlyWeightDetails?.map(
-						({ averageMonthlyWeight }) => averageMonthlyWeight
-					) || [],
+				data: yearlyWeightDetails,
 				backgroundColor: "rgba(45, 83, 51, 0.75)",
 			},
 		],
@@ -106,11 +96,7 @@ function Dashboard() {
 		datasets: [
 			{
 				label: "Calories",
-				data:
-					yearlyCalorieDetails?.map(
-						({ averageMonthlyCaloriesBurned }) =>
-							averageMonthlyCaloriesBurned
-					) || [],
+				data: yearlyCalorieDetails,
 				backgroundColor: "rgba(53, 162, 235, 0.75)",
 			},
 		],
@@ -121,7 +107,7 @@ function Dashboard() {
 			const response = await getDetailsFromDateService({
 				date: formatedDate,
 			});
-			setLoading(false);
+			setIsLoading(false);
 			if (response.status === 200) {
 				setAllRecordsByDate({ ...response.data });
 			}
@@ -131,23 +117,29 @@ function Dashboard() {
 	};
 
 	const fetchYearlyDetails = async (date) => {
-		setLoading(true);
 		const annualCalresponse = await getYearlyCaloriesDetailService(date);
-		setLoading(false);
+		setIsLoading(false);
 
 		if (annualCalresponse.status === 200) {
-			setYearlyCalorieDetails([...annualCalresponse.data]);
+			setYearlyCalorieDetails([
+				...(annualCalresponse.data.map(
+					(data) => data.averageMonthlyCaloriesBurned
+				) || []),
+			]);
 		}
 
 		const annualWeightresponse = await getYearlyWeightDetailService(date);
 		if (annualWeightresponse.status === 200) {
-			setYearlyWeightDetails([...annualWeightresponse.data]);
+			setYearlyWeightDetails([
+				...(annualWeightresponse.data.map(
+					(data) => data.averageMonthlyWeight
+				) || []),
+			]);
 		}
 	};
 
 	const handleDateChange = async ({ target }) => {
 		setSelectedDate(target.value);
-
 		if (selectedDate.substring(0, 4) !== target.value.substring(0, 4)) {
 			fetchYearlyDetails(target.value);
 		}
@@ -156,7 +148,7 @@ function Dashboard() {
 
 	return (
 		<>
-			{loading ? (
+			{isLoading ? (
 				<Loader />
 			) : (
 				<section id="dashboard-section">

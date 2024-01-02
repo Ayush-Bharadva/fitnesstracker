@@ -10,7 +10,7 @@ import { formattedDate, showToast } from "../../utils/helper";
 
 function DailyGoals() {
 	const [allDetails, setAllDetails] = useState({});
-	const [loading, setLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		const fetchAllRecords = async () => {
@@ -19,7 +19,7 @@ function DailyGoals() {
 				const response = await getDetailsFromDateService({
 					date: formatedDate,
 				});
-				setLoading(false);
+				setIsLoading(false);
 				if (response.status === 200) {
 					const allData = { ...response.data };
 					setAllDetails(allData);
@@ -27,7 +27,7 @@ function DailyGoals() {
 					showToast("error", response.message);
 				}
 			} catch (error) {
-				setLoading(false);
+				setIsLoading(false);
 				showToast("error", "error fetching records!!");
 			}
 		};
@@ -68,7 +68,7 @@ function DailyGoals() {
 					setAllDetails={setAllDetails}
 				/>
 			</section>
-			{loading ? (
+			{isLoading ? (
 				<Loader />
 			) : (
 				<RecordCard

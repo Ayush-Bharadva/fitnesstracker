@@ -7,7 +7,7 @@
 	padding: 1rem;
 	overflow-y: scroll;
 	background-color: #444;
-	background-image: linear-gradient(to bottom, #ccd0e2, #b8b8bd);
+	background-image: linear-gradient(to bottom, #c3cae9, #adadbe);
 }
 
 .form-container {
@@ -52,6 +52,7 @@
 			.actions {
 				display: flex;
 				align-items: flex-start;
+				gap: 10px;
 				justify-content: center;
 
 				input {
@@ -75,6 +76,7 @@
 					background-color: #aabfe9;
 					border: none;
 					border-radius: 7px;
+					cursor: pointer;
 					transition: all 0.2s ease;
 				}
 				.action-btn:hover {

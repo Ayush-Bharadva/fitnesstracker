@@ -26,7 +26,21 @@ createApiInstance.interceptors.request.use((config) => {
 createApiInstance.interceptors.response.use(
 	(response) => response,
 	(error) => {
-		toast.error(error.response.data.message);
+		if (error.response.data.code === 498) {
+			toast.error("Invalid token");
+		} else if (error.response.data.code === 400) {
+			toast.error(
+				"This record contains inconsistent or out-of-range data"
+			);
+		} else if (error.response.data.code === 409) {
+			toast.error(
+				"This record contains duplicated data that conflicts with what is already in the database"
+			);
+		} else if (error.response.data.code === 500) {
+			toast.error("Internam server error");
+		} else {
+			toast.error(error.response.data.message);
+		}
 	}
 );
 

@@ -10,6 +10,7 @@ $red: rgb(211, 88, 88);
 	flex-direction: column;
 	overflow-y: scroll;
 	margin: 0 auto;
+	background-image: linear-gradient(to bottom, #c3cae9, #adadbe);
 
 	.year-title {
 		text-align: left;
@@ -39,7 +40,7 @@ $red: rgb(211, 88, 88);
 			padding: 1rem 0;
 
 			.graph {
-				min-width: 336px;
+				min-width: 305px;
 				flex: 1 0 45%;
 				border-radius: 7px;
 				background-color: #fff;

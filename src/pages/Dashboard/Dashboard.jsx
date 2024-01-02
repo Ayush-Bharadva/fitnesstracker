@@ -19,6 +19,7 @@ import RecordCard from "../../components/Common/RecordCard";
 import noDataFound from "../../assets/icons/noDataFound.jpg";
 import Loader from "../../components/Common/Loader";
 import { formattedDate, showToast } from "../../utils/helper";
+import { labels } from "../../constants/constants";
 
 ChartJS.register(
 	CategoryScale,
@@ -37,21 +38,6 @@ const options = {
 		},
 	},
 };
-
-const labels = [
-	"Jan",
-	"Feb",
-	"Mar",
-	"Apr",
-	"May",
-	"Jun",
-	"Jul",
-	"Aug",
-	"Sep",
-	"Oct",
-	"Nov",
-	"Dec",
-];
 
 function Dashboard() {
 	const [yearlyCalorieDetails, setYearlyCalorieDetails] = useState([]);

@@ -101,32 +101,32 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 		if (response.status === 200) {
 			const previousActivity = getActivityDetails(type);
 
-			const updatedExercise = isExercise && {
-				exerciseDetails: exerciseDetails.map((exercise) =>
-					exercise.exerciseType === previousActivity.exerciseType
-						? {
-								...exercise,
-								duration,
-								caloriesBurned: calories,
-						  }
-						: exercise
-				),
-			};
-
-			const updatedMeal = {
-				mealDetails: mealDetails.map((meal) =>
-					meal.mealType === previousActivity.mealType
-						? {
-								...meal,
-								ingredients,
-								caloriesConsumed: calories,
-						  }
-						: meal
-				),
-			};
-
-			const updatedDetails = isExercise ? updatedExercise : updatedMeal;
-
+			let updatedDetails;
+			if (isExercise) {
+				updatedDetails = {
+					exerciseDetails: exerciseDetails.map((exercise) =>
+						exercise.exerciseType === previousActivity.exerciseType
+							? {
+									...exercise,
+									duration,
+									caloriesBurned: calories,
+							  }
+							: exercise
+					),
+				};
+			} else {
+				updatedDetails = {
+					mealDetails: mealDetails.map((meal) =>
+						meal.mealType === previousActivity.mealType
+							? {
+									...meal,
+									ingredients,
+									caloriesConsumed: calories,
+							  }
+							: meal
+					),
+				};
+			}
 			setAllDetails({
 				...allDetails,
 				...updatedDetails,

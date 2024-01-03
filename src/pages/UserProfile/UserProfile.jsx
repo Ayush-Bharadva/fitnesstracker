@@ -29,6 +29,14 @@ const initialUserDetails = {
 	healthGoal: "",
 };
 
+const errorObj = {
+	fullNameError: "",
+	emailError: "",
+	ageError: "",
+	heightError: "",
+	weightError: "",
+};
+
 function UserProfile() {
 	const [userDetails, setUserDetails] = useState(initialUserDetails);
 	const [inputError, setInputError] = useState(initialErrorValue);
@@ -64,13 +72,6 @@ function UserProfile() {
 	};
 
 	const handleInputChange = (e) => {
-		const errorObj = {
-			fullNameError: "",
-			emailError: "",
-			ageError: "",
-			heightError: "",
-			weightError: "",
-		};
 		const { name, value } = e.target;
 
 		switch (name) {
@@ -102,6 +103,11 @@ function UserProfile() {
 				break;
 			default:
 				break;
+		}
+
+		if (!value) {
+			errorObj[`${name}Error`] = `${name} is required`;
+			return;
 		}
 
 		setInputError((prevErrors) => ({ ...prevErrors, ...errorObj }));

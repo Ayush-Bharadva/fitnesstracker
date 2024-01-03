@@ -22,6 +22,13 @@ const initialInputError = {
 	confirmPasswordError: "",
 };
 
+const inputErrorObj = {
+	fullnameError: "",
+	emailError: "",
+	passwordError: "",
+	confirmPasswordError: "",
+};
+
 function AuthForm() {
 	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(false);
@@ -31,14 +38,6 @@ function AuthForm() {
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		const inputErrorObj = {
-			fullnameError: "",
-			emailError: "",
-			passwordError: "",
-			confirmPasswordError: "",
-		};
-
-		setFormData((prevData) => ({ ...prevData, [name]: value }));
 
 		switch (name) {
 			case "fullname":
@@ -65,17 +64,16 @@ function AuthForm() {
 				break;
 		}
 
+		if (!value) {
+			inputErrorObj[`${name}Error`] = `${name} is required`;
+		}
+
 		setInputError((prevErrors) => ({
 			...prevErrors,
 			...inputErrorObj,
 		}));
 
-		if (!value) {
-			setInputError((prevErrors) => ({
-				...prevErrors,
-				[`${name}Error`]: "",
-			}));
-		}
+		setFormData((prevData) => ({ ...prevData, [name]: value }));
 	};
 
 	const handleSubmit = async (e) => {
@@ -115,7 +113,7 @@ function AuthForm() {
 	const handleFormChange = () => {
 		setIsLoginForm((prev) => !prev);
 		setFormData(initialFormData);
-		setInputError(initialInputError);
+		// setInputError(initialInputError);
 	};
 
 	return (
@@ -148,9 +146,11 @@ function AuthForm() {
 										placeholder="fullname"
 										required
 									/>
-									<div className="error-message">
-										{inputError.fullnameError}
-									</div>
+									{inputError.fullnameError && (
+										<div className="error-message">
+											{inputError.fullnameError}
+										</div>
+									)}
 								</>
 							)}
 							<label htmlFor="email" className="auth-label">

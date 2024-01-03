@@ -22,7 +22,7 @@ const initialInputError = {
 	confirmPasswordError: "",
 };
 
-const inputErrorObj = {
+let inputErrorObj = {
 	fullnameError: "",
 	emailError: "",
 	passwordError: "",
@@ -114,6 +114,7 @@ function AuthForm() {
 		setIsLoginForm((prev) => !prev);
 		setFormData(initialFormData);
 		setInputError(initialInputError);
+		inputErrorObj = { ...initialInputError };
 	};
 
 	return (

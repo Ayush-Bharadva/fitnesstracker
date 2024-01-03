@@ -113,7 +113,7 @@ function AuthForm() {
 	const handleFormChange = () => {
 		setIsLoginForm((prev) => !prev);
 		setFormData(initialFormData);
-		// setInputError(initialInputError);
+		setInputError(initialInputError);
 	};
 
 	return (

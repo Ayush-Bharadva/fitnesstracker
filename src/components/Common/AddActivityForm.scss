@@ -21,7 +21,7 @@ $mid-teal: #00b69e;
 		border-radius: 16px;
 		padding: 1rem;
 		background-color: #31626e;
-		min-width: 360px;
+		min-width: 340px;
 
 		h2 {
 			margin: 0.5rem 0 2.5rem 0;
@@ -80,5 +80,13 @@ $mid-teal: #00b69e;
 	.btn:hover {
 		background-color: #4bd1bf;
 		cursor: pointer;
+	}
+}
+
+@media screen and (max-width: 360px) {
+	#activity-form-section {
+		form {
+			min-width: 330px;
+		}
 	}
 }

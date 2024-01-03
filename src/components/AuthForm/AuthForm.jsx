@@ -52,7 +52,7 @@ function AuthForm() {
 			case "confirmPassword":
 				inputErrorObj.confirmPasswordError =
 					formData.password !== value
-						? "Password and Confirm-Password must be the same"
+						? "Password and Confirm-Password must be same"
 						: "";
 				break;
 			default:
@@ -77,10 +77,7 @@ function AuthForm() {
 		const { fullname, email, password } = formData;
 
 		if (!isLoginForm && formData.password !== formData.confirmPassword) {
-			showToast(
-				"error",
-				"Password and Confirm-Password must be the same"
-			);
+			showToast("error", "Password and Confirm-Password must be same");
 			return;
 		}
 

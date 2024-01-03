@@ -22,13 +22,6 @@ const initialInputError = {
 	confirmPasswordError: "",
 };
 
-let inputErrorObj = {
-	fullnameError: "",
-	emailError: "",
-	passwordError: "",
-	confirmPasswordError: "",
-};
-
 function AuthForm() {
 	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(false);
@@ -38,6 +31,8 @@ function AuthForm() {
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
+
+		const inputErrorObj = {};
 
 		switch (name) {
 			case "fullname":
@@ -114,7 +109,6 @@ function AuthForm() {
 		setIsLoginForm((prev) => !prev);
 		setFormData(initialFormData);
 		setInputError(initialInputError);
-		inputErrorObj = { ...initialInputError };
 	};
 
 	return (

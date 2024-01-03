@@ -42,6 +42,10 @@ function WeightAndWaterTracker({ heading, title, value, setAllDetails, type }) {
 	};
 
 	const handleSubmit = () => {
+		if (!inputValue) {
+			showToast("error", "Please Enter Valid Value!!");
+			return;
+		}
 		const addApiCall =
 			type === "weight" ? addWeightService : addWaterService;
 		const editApiCall =
@@ -76,8 +80,7 @@ function WeightAndWaterTracker({ heading, title, value, setAllDetails, type }) {
 							inputDisabled
 								? () => setInputDisabled(false)
 								: handleSubmit
-						}
-					>
+						}>
 						{inputDisabled ? "Edit" : "Save"}
 					</button>
 				</div>

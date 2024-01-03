@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import "./AuthForm.scss";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -28,6 +28,22 @@ function AuthForm() {
 	const [isLoginForm, setIsLoginForm] = useState(true);
 	const [formData, setFormData] = useState(initialFormData);
 	const [inputError, setInputError] = useState(initialInputError);
+
+	const formObject = useMemo(() => {
+		return isLoginForm
+			? {
+					title: "Welcome Back!",
+					buttonText: "Log In",
+					linkText: "Don't have an account?",
+					linkButtonText: "Register",
+			  }
+			: {
+					title: "Create Account",
+					buttonText: "Sign Up",
+					linkText: "Already have an account?",
+					linkButtonText: "Log In",
+			  };
+	}, [isLoginForm]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -115,9 +131,7 @@ function AuthForm() {
 					<Loader />
 				) : (
 					<div className="auth-form-container">
-						<h1>
-							{isLoginForm ? "Welcome Back!" : "Create Account"}
-						</h1>
+						<h1>{formObject.title}</h1>
 						<form
 							action=""
 							className="auth-form"
@@ -199,14 +213,13 @@ function AuthForm() {
 								</>
 							)}
 							<button type="submit" className="auth-submit-btn">
-								{isLoginForm ? "Log In" : "Sign Up"}
+								{formObject.buttonText}
 							</button>
 						</form>
 						<p>
-							{isLoginForm ? "Don't" : "Already"} have an account
-							?
+							{formObject.linkText}?
 							<span onClick={handleFormChange}>
-								{isLoginForm ? "Register" : "LogIn"}
+								{formObject.linkButtonText}
 							</span>
 						</p>
 					</div>

@@ -85,19 +85,19 @@ function UserProfile() {
 				break;
 			case "age":
 				errorObj.ageError =
-					!value || value < 1 || value > 130
+					!value || value < 1 || value >= 130
 						? "Please enter valid age (between 1 to 130) "
 						: "";
 				break;
 			case "height":
 				errorObj.heightError =
-					!value || value < 50 || value > 300
+					!value || value < 50 || value >= 300
 						? "Height should be more than 50 cms or less than 300 cms"
 						: "";
 				break;
 			case "weight":
 				errorObj.weightError =
-					!value || value < 2 || value > 700
+					!value || value < 2 || value >= 700
 						? "Weight should be more than 2 kgs and less than 700 kgs"
 						: "";
 				break;

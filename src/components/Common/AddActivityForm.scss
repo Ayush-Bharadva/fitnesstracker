@@ -30,7 +30,7 @@ $mid-teal: #00b69e;
 
 		.field {
 			text-align: left;
-			margin-bottom: 2rem;
+			margin-bottom: 0.75rem;
 			label {
 				padding: 0 0.5rem;
 				font-weight: bold;
@@ -66,8 +66,9 @@ $mid-teal: #00b69e;
 		}
 	}
 
-	.btn {
+	.activity-submit-btn {
 		padding: 0.5rem 1rem;
+		margin-top: 0.5rem;
 		font-size: 1rem;
 		width: 100%;
 		border-radius: 7px;
@@ -77,10 +78,15 @@ $mid-teal: #00b69e;
 		color: #fff;
 		transition: all 0.2s ease;
 	}
-	.btn:hover {
+	.activity-submit-btn:hover {
 		background-color: #4bd1bf;
 		cursor: pointer;
 	}
+}
+
+.activity-error-text {
+	color: #ff8253;
+	margin: 0.25rem;
 }
 
 @media screen and (max-width: 360px) {

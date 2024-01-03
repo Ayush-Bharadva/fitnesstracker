@@ -34,7 +34,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 	const formInfo = useMemo(() => {
 		if (isExercise) {
 			return {
-				type: "Exercise",
+				formType: "Exercise",
 				heading: "Log Exercise",
 				activityText: "Exercise Type",
 				optionText: "Select Exercise Type",
@@ -43,7 +43,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 			};
 		} else {
 			return {
-				type: "Meal",
+				formType: "Meal",
 				heading: "Log Meal",
 				activityText: "Meal Type",
 				optionText: "Select Meal Type",
@@ -52,6 +52,17 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 			};
 		}
 	}, [isExercise]);
+
+	const {
+		formType,
+		heading,
+		activityText,
+		optionText,
+		calorieText,
+		caloriePlaceholder,
+	} = formInfo;
+	const { durationError, ingredientsError, caloriesError } =
+		activityDetailsError;
 
 	const options = useMemo(
 		() =>
@@ -234,7 +245,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 			});
 			showToast(
 				"success",
-				`${formInfo.type.toLowerCase()} added successfully`
+				`${formType.toLowerCase()} added successfully`
 			);
 			setActivityDetails(initialValue);
 			setButtonText("Add");
@@ -245,9 +256,6 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-
-		const { durationError, ingredientsError, caloriesError } =
-			activityDetailsError;
 
 		if (durationError || ingredientsError || caloriesError) {
 			showToast("error", "Please enter valid details");
@@ -262,17 +270,17 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 
 	return (
 		<>
-			<h2 className="form-heading">{formInfo.heading}</h2>
+			<h2 className="form-heading">{heading}</h2>
 			<form action="" onSubmit={handleSubmit}>
 				<div className="field">
-					<label htmlFor="activity">{formInfo.activityText}</label>
+					<label htmlFor="activity">{activityText}</label>
 					<select
 						name="type"
 						id="activity"
 						value={activityDetails["type"]}
 						onChange={handleInputChange}
 						required>
-						<option value="">{formInfo.optionText}</option>
+						<option value="">{optionText}</option>
 						{options.map((data, index) => (
 							<option key={index} value={data}>
 								{data}
@@ -294,7 +302,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 								required
 							/>
 							<p className="activity-error-text">
-								{activityDetailsError.durationError}
+								{durationError}
 							</p>
 						</>
 					) : (
@@ -310,25 +318,23 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 								required
 							/>
 							<p className="activity-error-text">
-								{activityDetailsError.ingredientsError}
+								{ingredientsError}
 							</p>
 						</>
 					)}
 				</div>
 				<div className="field">
-					<label htmlFor="calories">{formInfo.calorieText}</label>
+					<label htmlFor="calories">{calorieText}</label>
 					<input
 						type="number"
 						id="calories"
 						name="calories"
 						value={activityDetails["calories"]}
 						onChange={handleInputChange}
-						placeholder={formInfo.caloriePlaceholder}
+						placeholder={caloriePlaceholder}
 						required
 					/>
-					<p className="activity-error-text">
-						{activityDetailsError.caloriesError}
-					</p>
+					<p className="activity-error-text">{caloriesError}</p>
 				</div>
 
 				<button

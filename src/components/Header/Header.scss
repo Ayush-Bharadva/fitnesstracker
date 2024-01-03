@@ -24,6 +24,7 @@ $light-teal: #64ccc5;
 		cursor: pointer;
 	}
 	.close-burger-btn {
+		display: none;
 		cursor: pointer;
 	}
 	.profile-menu {
@@ -109,6 +110,10 @@ $light-teal: #64ccc5;
 @media screen and (max-width: 768px) {
 	.navbar {
 		.burger-btn {
+			display: block;
+			font-size: 1.5rem;
+		}
+		.close-burger-btn {
 			display: block;
 			font-size: 1.5rem;
 		}

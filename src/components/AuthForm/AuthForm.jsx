@@ -5,8 +5,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { userLogInService, userSignUpService } from "../../services/services";
 import { setCookie, showToast, validatePassword } from "../../utils/helper";
-import Loader from "../Common/Loader";
 import { emailPattern } from "../../constants/constants";
+import { IoEyeOutline } from "react-icons/io5";
+import Loader from "../Common/Loader";
 
 const initialFormData = {
 	fullname: "",
@@ -26,6 +27,10 @@ function AuthForm() {
 	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(false);
 	const [isLoginForm, setIsLoginForm] = useState(true);
+	const [show, setShow] = useState({
+		password: false,
+		confirmPassword: false,
+	});
 	const [formData, setFormData] = useState(initialFormData);
 	const [inputError, setInputError] = useState(initialInputError);
 
@@ -34,16 +39,18 @@ function AuthForm() {
 			? {
 					title: "Welcome Back!",
 					buttonText: "Log In",
-					linkText: "Don't have an account?",
+					linkText: "Don't have an account? ",
 					linkButtonText: "Register",
 			  }
 			: {
 					title: "Create Account",
 					buttonText: "Sign Up",
-					linkText: "Already have an account?",
+					linkText: "Already have an account? ",
 					linkButtonText: "Log In",
 			  };
 	}, [isLoginForm]);
+
+	const { title, buttonText, linkText, linkButtonText } = formObject;
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -124,6 +131,12 @@ function AuthForm() {
 		setInputError(initialInputError);
 	};
 
+	const handleShowPassword = (type) => {
+		setShow((prev) => ({ ...prev, [type]: !prev[type] }));
+	};
+
+	const { password, confirmPassword } = show;
+
 	return (
 		<>
 			<div className="auth-container">
@@ -131,7 +144,7 @@ function AuthForm() {
 					<Loader />
 				) : (
 					<div className="auth-form-container">
-						<h1>{formObject.title}</h1>
+						<h1>{title}</h1>
 						<form
 							action=""
 							className="auth-form"
@@ -177,16 +190,24 @@ function AuthForm() {
 							<label htmlFor="password" className="auth-label">
 								Password
 							</label>
-							<input
-								type="password"
-								id="password"
-								name="password"
-								value={formData["password"]}
-								onChange={handleChange}
-								placeholder="password"
-								autoComplete="on"
-								required
-							/>
+							<div className="pass-field">
+								<input
+									type={password ? "text" : "password"}
+									id="password"
+									name="password"
+									value={formData["password"]}
+									onChange={handleChange}
+									placeholder="password"
+									autoComplete="on"
+									required
+								/>
+								<IoEyeOutline
+									className="eye-icon"
+									onClick={() =>
+										handleShowPassword("password")
+									}
+								/>
+							</div>
 							<div className="error-message">
 								{inputError.passwordError}
 							</div>
@@ -197,29 +218,43 @@ function AuthForm() {
 										className="auth-label">
 										Confirm Password
 									</label>
-									<input
-										type="password"
-										id="confirm-password"
-										name="confirmPassword"
-										value={formData["confirmPassword"]}
-										onChange={handleChange}
-										placeholder="confirm-password"
-										autoComplete="on"
-										required
-									/>
+									<div className="conf-pass-field">
+										<input
+											type={
+												confirmPassword
+													? "text"
+													: "password"
+											}
+											id="confirm-password"
+											name="confirmPassword"
+											value={formData["confirmPassword"]}
+											onChange={handleChange}
+											placeholder="confirm-password"
+											autoComplete="on"
+											required
+										/>
+										<IoEyeOutline
+											className="eye-icon"
+											onClick={() =>
+												handleShowPassword(
+													"confirmPassword"
+												)
+											}
+										/>
+									</div>
 									<div className="error-message">
 										{inputError.confirmPasswordError}
 									</div>
 								</>
 							)}
 							<button type="submit" className="auth-submit-btn">
-								{formObject.buttonText}
+								{buttonText}
 							</button>
 						</form>
 						<p>
-							{formObject.linkText}?
+							{linkText}
 							<span onClick={handleFormChange}>
-								{formObject.linkButtonText}
+								{linkButtonText}
 							</span>
 						</p>
 					</div>

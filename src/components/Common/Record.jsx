@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { MdDelete } from "react-icons/md";
 import { FaRegClock } from "react-icons/fa6";
 import Ingredient from "../../assets/icons/Ingredient.png";
@@ -6,13 +6,26 @@ import calories from "../../assets/icons/consumedCalorie.png";
 import fireIcon from "../../assets/icons/fire-icon-image.png";
 
 function Record({ index, data, isReadonly, onDelete, isExercise }) {
-	const recordType = isExercise ? "exercise" : "meal";
-	const recordBgClass = isExercise ? "exercise-card-bg" : "meal-card-bg";
-	const recordTitle = isExercise
-		? data.exerciseType === "Weight_lifting"
-			? "Weight Lifting"
-			: data.exerciseType
-		: data.mealType;
+	const recordObj = useMemo(() => {
+		if (isExercise) {
+			return {
+				recordType: "exercise",
+				recordBgClass: "exercise-card-bg",
+				recordTitle:
+					data.exerciseType === "Weight_lifting"
+						? "Weight Lifting"
+						: data.exerciseType,
+			};
+		} else {
+			return {
+				recordType: "meal",
+				recordBgClass: "meal-card-bg",
+				recordTitle: data.mealType,
+			};
+		}
+	}, [isExercise, data]);
+
+	const { recordType, recordBgClass, recordTitle } = recordObj;
 
 	return (
 		<div key={index} className={`record-container ${recordBgClass}`}>

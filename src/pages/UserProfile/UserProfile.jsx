@@ -9,6 +9,7 @@ import {
 } from "../../services/services";
 import Loader from "../../components/Common/Loader";
 import "./UserProfile.scss";
+import ReactLoading from "react-loading";
 
 const initialErrorValue = {
 	fullNameError: "",
@@ -29,19 +30,12 @@ const initialUserDetails = {
 	healthGoal: "",
 };
 
-const errorObj = {
-	fullNameError: "",
-	emailError: "",
-	ageError: "",
-	heightError: "",
-	weightError: "",
-};
-
 function UserProfile() {
 	const [userDetails, setUserDetails] = useState(initialUserDetails);
 	const [inputError, setInputError] = useState(initialErrorValue);
 	const [inputDisabled, setInputDisabled] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
+	const [isImageLoading, setIsImageLoading] = useState(false);
 
 	useEffect(() => {
 		const fetchProfile = async () => {
@@ -61,18 +55,18 @@ function UserProfile() {
 				);
 			}
 		};
-
 		fetchProfile();
 	}, []);
 
-	const handleTypeConversion = (type, value) => {
-		if (type === "age" || type === "height" || type === "weight") {
-			return +value;
-		}
-	};
-
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
+		const errorObj = {
+			fullNameError: "",
+			emailError: "",
+			ageError: "",
+			heightError: "",
+			weightError: "",
+		};
 
 		switch (name) {
 			case "fullName":
@@ -86,7 +80,7 @@ function UserProfile() {
 			case "age":
 				errorObj.ageError =
 					!value || value < 1 || value >= 130
-						? "Please enter valid age (between 1 to 130) "
+						? "Please enter valid age (between 1 to 130)"
 						: "";
 				break;
 			case "height":
@@ -107,15 +101,25 @@ function UserProfile() {
 
 		if (!value) {
 			errorObj[`${name}Error`] = `${name} is required`;
-			return;
 		}
 
 		setInputError((prevErrors) => ({ ...prevErrors, ...errorObj }));
 
-		setUserDetails((prevUserInfo) => ({
-			...prevUserInfo,
-			[name]: handleTypeConversion(name, value) || value,
-		}));
+		setUserDetails((prevUserInfo) => {
+			console.log(name, value);
+			return {
+				...prevUserInfo,
+				[name]:
+					(name === "age" ||
+						name === "height" ||
+						name === "weight") &&
+					name !== ""
+						? +value
+						: value,
+			};
+		});
+
+		// console.log(userDetails);
 	};
 
 	const handleSubmit = async (e, type) => {
@@ -151,11 +155,13 @@ function UserProfile() {
 	};
 
 	const handleImageDrop = async (acceptedFiles) => {
+		setIsImageLoading(true);
 		const imageUrl = await getImageUrlService(acceptedFiles);
 		setUserDetails((prevUserInfo) => ({
 			...prevUserInfo,
 			profilePhoto: imageUrl,
 		}));
+		setIsImageLoading(false);
 	};
 
 	const removeImageBtnStyles = {
@@ -172,7 +178,42 @@ function UserProfile() {
 						<h2 className="form-title">Profile</h2>
 						<form action="" className="user-profile-form">
 							<div className="form-left">
-								{userDetails.profilePhoto ? (
+								{!userDetails.profilePhoto ? (
+									isImageLoading ? (
+										<div>
+											<ReactLoading
+												className="image-loader"
+												type="spin"
+												color="#37455f"
+												height="32px"
+												width="32px"
+											/>
+										</div>
+									) : (
+										<Dropzone onDrop={handleImageDrop}>
+											{({
+												getRootProps,
+												getInputProps,
+											}) => (
+												<section>
+													<div
+														{...getRootProps()}
+														className="image-dropzone">
+														<input
+															{...getInputProps()}
+														/>
+														<p>
+															Drag 'n' drop
+															profile here, or
+															click to select
+															files
+														</p>
+													</div>
+												</section>
+											)}
+										</Dropzone>
+									)
+								) : (
 									<div className="image-container">
 										<button
 											className="remove-img-btn"
@@ -181,39 +222,21 @@ function UserProfile() {
 											X
 										</button>
 										<div className="profile-img">
-											<img
-												src={userDetails?.profilePhoto}
-												alt="profile"
-											/>
+											{userDetails.profilePhoto && (
+												<img
+													src={
+														userDetails?.profilePhoto
+													}
+													alt="profile"
+												/>
+											)}
 										</div>
 										<div className="text-center">
-											<p className="fullname-preview preview">
-												{userDetails.fullName}
-											</p>
-											<p className="email-preview preview">
-												{userDetails.email}
+											<p className="text-your-image">
+												Your Image
 											</p>
 										</div>
 									</div>
-								) : (
-									<Dropzone onDrop={handleImageDrop}>
-										{({ getRootProps, getInputProps }) => (
-											<section>
-												<div
-													{...getRootProps()}
-													className="image-dropzone">
-													<input
-														{...getInputProps()}
-													/>
-													<p>
-														Drag 'n' drop profile
-														here, or click to select
-														files
-													</p>
-												</div>
-											</section>
-										)}
-									</Dropzone>
 								)}
 							</div>
 

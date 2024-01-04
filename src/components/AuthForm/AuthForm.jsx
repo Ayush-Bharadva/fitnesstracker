@@ -100,15 +100,21 @@ function AuthForm() {
 
 		const { fullname, email, password, confirmPassword } = formData;
 
+		if (isLoginForm && validatePassword(password)) {
+			showToast("error", "Enter Valid Credentials");
+			return;
+		}
+
 		if (!isLoginForm && password !== confirmPassword) {
 			showToast("error", "Password and Confirm-Password must be same");
 			return;
 		}
 
 		if (
-			!emailPattern.test(email) ||
-			validatePassword(password) ||
-			fullname.length <= 4
+			!isLoginForm &&
+			(fullname.length <= 4 ||
+				!emailPattern.test(email) ||
+				validatePassword(password))
 		) {
 			showToast("error", "Enter Valid Credentials");
 			return;

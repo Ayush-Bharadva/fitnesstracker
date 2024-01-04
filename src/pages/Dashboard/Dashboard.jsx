@@ -16,7 +16,7 @@ import {
 	getYearlyWeightDetailService,
 } from "../../services/services";
 import RecordCard from "../../components/Common/RecordCard";
-import noDataFound from "../../assets/icons/noDataFound.jpg";
+import nullData from "../../assets/images/emptyData.jpg";
 import Loader from "../../components/Common/Loader";
 import { formattedDate, showToast } from "../../utils/helper";
 import { labels } from "../../constants/constants";
@@ -178,10 +178,12 @@ function Dashboard() {
 								/>
 							</>
 						) : (
-							<div className="no-data">
-								<img src={noDataFound} alt="No Data" />
-								<h1>No Activity For Selected Date</h1>
-							</div>
+							<>
+								<div className="no-data">
+									<img src={nullData} alt="No Data" />
+								</div>
+								<h1>No Activity For Selected Date!!</h1>
+							</>
 						)}
 					</div>
 				</section>

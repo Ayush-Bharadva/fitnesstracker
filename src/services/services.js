@@ -37,7 +37,7 @@ createApiInstance.interceptors.response.use(
 				"This record contains duplicated data that conflicts with what is already in the database"
 			);
 		} else if (error.response.data.code === 500) {
-			toast.error("Internam server error");
+			toast.error("Internal server error");
 		} else {
 			toast.error(error.response.data.message);
 		}

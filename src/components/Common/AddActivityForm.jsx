@@ -125,8 +125,6 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 			...prevErrors,
 			...inputErrorObj,
 		}));
-
-		console.log(!Object.values(inputErrorObj).some((error) => error));
 	};
 
 	const handleInputChange = (e) => {
@@ -157,7 +155,6 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 				calories: caloriesBurned || caloriesConsumed,
 			});
 		} else {
-			console.log(name, value);
 			setActivityDetails((prevInfo) => ({
 				...prevInfo,
 				[name]: name === "ingredients" ? value : Number(value),

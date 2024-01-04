@@ -125,7 +125,6 @@ function UserProfile() {
 			showToast("error", "Please upload your profile photo");
 			return;
 		}
-		console.log(Object.values(userDetails));
 
 		const userInputValues = Object.values(userDetails);
 		const isAllValidInputs = userInputValues.every((value) => {
@@ -136,7 +135,6 @@ function UserProfile() {
 			}
 		});
 
-		console.log(isAllValidInputs);
 		if (!isAllValidInputs) {
 			showToast("error", "Please fill all details properly");
 			return;

@@ -1,1 +1,1 @@
-"TEMP"
+"React Fitness Tracker"

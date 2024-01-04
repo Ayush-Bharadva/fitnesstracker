@@ -16,7 +16,7 @@ import {
 	getYearlyWeightDetailService,
 } from "../../services/services";
 import RecordCard from "../../components/Common/RecordCard";
-import nullData from "../../assets/images/emptyData.jpg";
+import nullData from "../../assets/images/emptydata.jpg";
 import Loader from "../../components/Common/Loader";
 import { formattedDate, showToast } from "../../utils/helper";
 import { labels } from "../../constants/constants";

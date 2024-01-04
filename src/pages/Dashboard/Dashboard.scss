@@ -74,22 +74,26 @@ $red: rgb(211, 88, 88);
 		color: black;
 
 		.no-data {
-			height: 50%;
-			width: 50%;
+			width: 30%;
+			border-radius: 15px;
+			overflow: hidden;
 			margin: 0 auto;
-			padding: 1rem;
+
+			img {
+				height: 100%;
+				width: 100%;
+				object-fit: contain;
+			}
+		}
+		h1 {
+			color: #04695c;
+			text-align: center;
 		}
 	}
 }
 
 #dashboard-section:hover {
 	overflow-y: scroll;
-}
-
-img {
-	height: 100%;
-	width: 100%;
-	object-fit: contain;
 }
 
 .record-tile {

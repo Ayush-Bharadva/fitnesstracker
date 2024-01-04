@@ -98,14 +98,18 @@ function AuthForm() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		const { fullname, email, password } = formData;
+		const { fullname, email, password, confirmPassword } = formData;
 
-		if (!isLoginForm && formData.password !== formData.confirmPassword) {
+		if (!isLoginForm && password !== confirmPassword) {
 			showToast("error", "Password and Confirm-Password must be same");
 			return;
 		}
 
-		if (!emailPattern.test(email) || validatePassword(password)) {
+		if (
+			!emailPattern.test(email) ||
+			validatePassword(password) ||
+			fullname.length <= 4
+		) {
 			showToast("error", "Enter Valid Credentials");
 			return;
 		}

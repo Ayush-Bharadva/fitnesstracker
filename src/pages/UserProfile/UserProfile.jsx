@@ -276,6 +276,7 @@ function UserProfile() {
 										className="display-block"
 										id="fullName"
 										name="fullName"
+										title={userDetails["fullName"]}
 										value={userDetails["fullName"]}
 										onChange={handleInputChange}
 										placeholder="Fullname"
@@ -297,6 +298,7 @@ function UserProfile() {
 										className="display-block"
 										id="email"
 										name="email"
+										title={userDetails["email"]}
 										value={userDetails["email"]}
 										onChange={handleInputChange}
 										placeholder="Email"
@@ -363,6 +365,7 @@ function UserProfile() {
 										className="display-block"
 										id="age"
 										name="age"
+										title={userDetails["age"]}
 										value={userDetails["age"]}
 										onChange={handleInputChange}
 										placeholder="age"
@@ -384,6 +387,7 @@ function UserProfile() {
 										id="height"
 										name="height"
 										className="display-block"
+										title={userDetails["height"]}
 										value={userDetails["height"]}
 										onChange={handleInputChange}
 										placeholder="height (cm)"
@@ -405,6 +409,7 @@ function UserProfile() {
 										id="weight"
 										className="display-block"
 										name="weight"
+										title={userDetails["weight"]}
 										value={userDetails["weight"]}
 										onChange={handleInputChange}
 										placeholder="weight (kg)"

@@ -60,19 +60,12 @@ function UserProfile() {
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
-		const errorObj = {
-			fullNameError: "",
-			emailError: "",
-			ageError: "",
-			heightError: "",
-			weightError: "",
-		};
+		const errorObj = {};
 
 		switch (name) {
 			case "fullName":
-				errorObj.fullNameError = !value
-					? "Please enter your fullname"
-					: "";
+				errorObj.fullNameError =
+					!value || !value.trim() ? "Please enter your fullname" : "";
 				break;
 			case "email":
 				errorObj.emailError = !value ? "invalid Email" : "";
@@ -100,13 +93,12 @@ function UserProfile() {
 		}
 
 		if (!value) {
-			errorObj[`${name}Error`] = `${name} is required`;
+			errorObj[`${name}Error`] = `${name.toLowerCase()} is required`;
 		}
 
 		setInputError((prevErrors) => ({ ...prevErrors, ...errorObj }));
 
 		setUserDetails((prevUserInfo) => {
-			console.log(name, value);
 			return {
 				...prevUserInfo,
 				[name]:
@@ -118,8 +110,6 @@ function UserProfile() {
 						: value,
 			};
 		});
-
-		// console.log(userDetails);
 	};
 
 	const handleSubmit = async (e, type) => {
@@ -135,6 +125,23 @@ function UserProfile() {
 			showToast("error", "Please upload your profile photo");
 			return;
 		}
+		console.log(Object.values(userDetails));
+
+		const userInputValues = Object.values(userDetails);
+		const isAllValidInputs = userInputValues.every((value) => {
+			if (typeof value === "string") {
+				return value.trim() !== "";
+			} else {
+				return !!value;
+			}
+		});
+
+		console.log(isAllValidInputs);
+		if (!isAllValidInputs) {
+			showToast("error", "Please fill all details properly");
+			return;
+		}
+
 		const response = await createUserProfileService(userDetails);
 		if (response.status === 200) {
 			setIsLoading(false);
@@ -195,21 +202,18 @@ function UserProfile() {
 												getRootProps,
 												getInputProps,
 											}) => (
-												<section>
-													<div
-														{...getRootProps()}
-														className="image-dropzone">
-														<input
-															{...getInputProps()}
-														/>
-														<p>
-															Drag 'n' drop
-															profile here, or
-															click to select
-															files
-														</p>
-													</div>
-												</section>
+												<div
+													{...getRootProps()}
+													className="image-dropzone">
+													<input
+														{...getInputProps()}
+													/>
+													<p className="drop-text">
+														Drag 'n' drop profile
+														here, or click to select
+														files
+													</p>
+												</div>
 											)}
 										</Dropzone>
 									)
@@ -231,11 +235,9 @@ function UserProfile() {
 												/>
 											)}
 										</div>
-										<div className="text-center">
-											<p className="text-your-image">
-												Your Image
-											</p>
-										</div>
+										<p className="text-center text-your-image">
+											Your Image
+										</p>
 									</div>
 								)}
 							</div>
@@ -357,7 +359,7 @@ function UserProfile() {
 										Age (Years)
 									</label>
 									<input
-										type="number"
+										type="text"
 										className="display-block"
 										id="age"
 										name="age"

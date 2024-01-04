@@ -5,8 +5,8 @@ import {
 	editWaterService,
 	editWeightService,
 } from "../../services/services";
-import "./DailyGoals.scss";
 import { showToast } from "../../utils/helper";
+import "./DailyGoals.scss";
 
 function WeightAndWaterTracker({ heading, title, value, setAllDetails, type }) {
 	const [inputValue, setInputValue] = useState(value);

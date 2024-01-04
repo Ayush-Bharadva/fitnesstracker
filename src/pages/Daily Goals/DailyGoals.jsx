@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./DailyGoals.scss";
 import { getDetailsFromDateService } from "../../services/services";
 import RecordCard from "../../components/Common/RecordCard";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,6 +6,7 @@ import AddActivityForm from "../../components/Common/AddActivityForm";
 import Loader from "../../components/Common/Loader";
 import WeightAndWaterTracker from "./WeightAndWaterTracker";
 import { formattedDate, showToast } from "../../utils/helper";
+import "./DailyGoals.scss";
 
 function DailyGoals() {
 	const [allDetails, setAllDetails] = useState({});

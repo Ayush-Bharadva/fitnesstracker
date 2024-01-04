@@ -122,14 +122,40 @@ $red: #cc274c;
 	text-shadow: 1px 1px 3px #217c5e;
 }
 
+// @media screen and (max-width: 320px) {
+// 	.record-card .exercise-record-container .record-container,
+// 	.record-card .meal-record-container .record-container {
+// 		max-width: 310px;
+// 		padding: 0.5rem;
+// 		.exercise-record-card,
+// 		.meal-record-card {
+// 			padding: 1rem 0.5rem;
+// 			// background: #000;
+// 		}
+// 	}
+// }
+
 @media screen and (max-width: 480px) {
-	.record-card .exercise-record-container .record-container,
-	.record-card .meal-record-container .record-container {
-		min-width: 340px;
-		padding: 0.5rem;
-		.exercise-record-card,
-		.meal-record-card {
-			padding: 1rem 0.5rem;
+	.record-card {
+		.exercise-record-container,
+		.meal-record-container {
+			flex: 1 0 100%;
+			.record-container {
+				padding: 0.75rem;
+				.exercise-record-card,
+				.meal-record-card {
+					padding: 1rem 0.5rem;
+				}
+			}
 		}
 	}
+	// .record-card .exercise-record-container .record-container,
+	// .record-card .meal-record-container .record-container {
+	// 	// max-width: 340px;
+	// 	padding: 0.5rem;
+	// 	.exercise-record-card,
+	// 	.meal-record-card {
+	// 		padding: 1rem 0.5rem;
+	// 	}
+	// }
 }

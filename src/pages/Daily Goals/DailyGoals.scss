@@ -88,12 +88,29 @@
 }
 
 @media screen and (max-width: 480px) {
+	.daily-goals-section {
+		padding: 0.5rem;
+	}
 	#track-activity-section {
-		#weight-tracking-section,
-		#water-tracking-section {
-			.weight-tracker-container,
-			.water-tracker-container {
-				width: 100%;
+		#tracking-section {
+			padding: 0.5rem 1rem;
+			.tracker-container {
+				min-width: 300px;
+				align-self: center;
+				margin: auto;
+			}
+		}
+	}
+}
+@media screen and (max-width: 360px) {
+	#track-activity-section {
+		#tracking-section {
+			padding: 0.5rem 2rem;
+			.tracker-container {
+				max-width: 300px;
+				padding: 0.5rem;
+				align-self: center;
+				margin: auto;
 			}
 		}
 	}

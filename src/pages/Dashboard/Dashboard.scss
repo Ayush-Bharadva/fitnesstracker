@@ -126,3 +126,17 @@ img {
 		gap: 0;
 	}
 }
+
+@media only screen and (max-width: 360px) {
+	#dashboard-section {
+		padding: 0.5rem;
+		#graph-section {
+			.graph-container {
+				.graph {
+					min-width: 100%;
+					flex: 1 0 100%;
+				}
+			}
+		}
+	}
+}

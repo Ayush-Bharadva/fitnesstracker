@@ -21,7 +21,7 @@ $red: #cc274c;
 }
 
 .profile-form-container {
-	height: 90%;
+	height: 93%;
 	width: 80%;
 	max-width: 1080px;
 	padding: 1rem;
@@ -29,7 +29,7 @@ $red: #cc274c;
 
 .user-profile-form {
 	display: flex;
-	padding: 1rem 0;
+	padding: 0.5rem 0;
 	gap: 1rem;
 	width: 100%;
 	height: 100%;
@@ -44,16 +44,16 @@ $red: #cc274c;
 		align-items: center;
 
 		.image-dropzone {
+			display: flex;
 			justify-content: center;
 			align-items: center;
 			border-radius: 7px;
 			border: 2px dashed #fff;
-			// height: 50%;
-
-			padding: 1rem;
+			width: 100%;
+			height: 100%;
 			margin: 0 auto;
 
-			p {
+			.drop-text {
 				font-weight: bold;
 				width: 100%;
 				text-align: center;
@@ -63,16 +63,15 @@ $red: #cc274c;
 		}
 
 		.image-container {
-			background-color: rgba($color: #ddd, $alpha: 0.75);
-			gap: 1rem;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			padding: 1rem;
+			justify-content: center;
+			justify-content: space-evenly;
+			padding: 0.75rem;
 			border-radius: 7px;
 			width: 100%;
-			min-width: 140px;
-			min-height: 180px;
+			height: 100%;
 
 			.profile-part {
 				position: relative;
@@ -116,7 +115,7 @@ $red: #cc274c;
 		background: rgba($color: #ddd, $alpha: 0.75);
 		padding: 0.5rem;
 		border-radius: 7px;
-		height: calc(100% - 50px);
+		height: calc(100% - 19px);
 		overflow-y: scroll;
 
 		.title-wrapper {
@@ -214,7 +213,7 @@ img {
 		padding: 0;
 
 		.form-title {
-			padding: 0.5rem 0;
+			padding: 0.25rem 0;
 		}
 
 		.user-profile-form {
@@ -222,33 +221,26 @@ img {
 			justify-content: flex-start;
 			width: 100%;
 			height: calc(100% - 43px);
-			padding: 0.5rem 0;
+			// padding: 0.5rem 0;
+			padding-bottom: 0.5rem;
+			gap: 0.5rem;
 
 			.form-left {
 				flex: 1 0;
-				// height: 30%;
 				.image-container {
-					height: 50%;
 					gap: 0.5rem;
-					padding: 0.5rem;
-
-					.profile-img {
-						height: 60px;
-						width: 60px;
-					}
+					padding: 0.5rem 0.5rem 0 0.5rem;
 				}
 
 				.image-dropzone {
-					display: block;
 					height: 100%;
-					width: 100% !important;
+					width: 100%;
 				}
 			}
 
 			.form-right {
 				width: 100%;
-				// height: 65%;
-				flex: 1 0 70%;
+				flex: 1 0 68%;
 				overflow-y: scroll;
 			}
 		}

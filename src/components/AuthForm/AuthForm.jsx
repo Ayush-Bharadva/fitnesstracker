@@ -7,6 +7,7 @@ import { userLogInService, userSignUpService } from "../../services/services";
 import { setCookie, showToast, validatePassword } from "../../utils/helper";
 import { emailPattern } from "../../constants/constants";
 import { IoEyeOutline } from "react-icons/io5";
+import { LuEyeOff } from "react-icons/lu";
 import Loader from "../Common/Loader";
 
 const initialFormData = {
@@ -28,8 +29,8 @@ function AuthForm() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isLoginForm, setIsLoginForm] = useState(true);
 	const [show, setShow] = useState({
-		password: false,
-		confirmPassword: false,
+		showPassword: false,
+		showConfirmPassword: false,
 	});
 	const [formData, setFormData] = useState(initialFormData);
 	const [inputError, setInputError] = useState(initialInputError);
@@ -135,7 +136,7 @@ function AuthForm() {
 		setShow((prev) => ({ ...prev, [type]: !prev[type] }));
 	};
 
-	const { password, confirmPassword } = show;
+	const { showPassword, showConfirmPassword } = show;
 
 	return (
 		<>
@@ -192,7 +193,7 @@ function AuthForm() {
 							</label>
 							<div className="pass-field">
 								<input
-									type={password ? "text" : "password"}
+									type={showPassword ? "text" : "password"}
 									id="password"
 									name="password"
 									value={formData["password"]}
@@ -201,12 +202,19 @@ function AuthForm() {
 									autoComplete="on"
 									required
 								/>
-								<IoEyeOutline
-									className="eye-icon"
-									onClick={() =>
-										handleShowPassword("password")
-									}
-								/>
+								{showPassword ? (
+									<IoEyeOutline
+										onClick={() =>
+											handleShowPassword("showPassword")
+										}
+									/>
+								) : (
+									<LuEyeOff
+										onClick={() =>
+											handleShowPassword("showPassword")
+										}
+									/>
+								)}
 							</div>
 							<div className="error-message">
 								{inputError.passwordError}
@@ -221,7 +229,7 @@ function AuthForm() {
 									<div className="conf-pass-field">
 										<input
 											type={
-												confirmPassword
+												showConfirmPassword
 													? "text"
 													: "password"
 											}
@@ -233,14 +241,23 @@ function AuthForm() {
 											autoComplete="on"
 											required
 										/>
-										<IoEyeOutline
-											className="eye-icon"
-											onClick={() =>
-												handleShowPassword(
-													"confirmPassword"
-												)
-											}
-										/>
+										{showConfirmPassword ? (
+											<IoEyeOutline
+												onClick={() =>
+													handleShowPassword(
+														"showConfirmPassword"
+													)
+												}
+											/>
+										) : (
+											<LuEyeOff
+												onClick={() =>
+													handleShowPassword(
+														"showConfirmPassword"
+													)
+												}
+											/>
+										)}
 									</div>
 									<div className="error-message">
 										{inputError.confirmPasswordError}

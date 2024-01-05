@@ -34,7 +34,6 @@ function AuthForm() {
 	});
 	const [formData, setFormData] = useState(initialFormData);
 	const [inputError, setInputError] = useState(initialInputError);
-	const [isButtonDisable, setIsButtonDisable] = useState(true);
 
 	const formObject = useMemo(() => {
 		return isLoginForm
@@ -55,6 +54,7 @@ function AuthForm() {
 	const { title, buttonText, linkText, linkButtonText } = formObject;
 	const { fullnameError, emailError, passwordError, confirmPasswordError } =
 		inputError;
+	const { fullname, email, password, confirmPassword } = formData;
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -90,35 +90,39 @@ function AuthForm() {
 			inputErrorObj[`${name}Error`] = `${name} is required`;
 		}
 
-		const {
-			fullnameError = "",
-			emailError = "",
-			passwordError = "",
-			confirmPasswordError = "",
-		} = inputErrorObj || {};
-
 		setInputError((prevErrors) => ({
 			...prevErrors,
 			...inputErrorObj,
 		}));
-
-		setIsButtonDisable(() => {
-			if (isLoginForm && !emailError.length && !passwordError.length) {
-				return false;
-			} else if (
-				!isLoginForm &&
-				!fullnameError.length &&
-				!emailError.length &&
-				!passwordError.length &&
-				!confirmPasswordError.length
-			) {
-				return false;
-			} else {
-				return true;
-			}
-		});
 		setFormData((prevData) => ({ ...prevData, [name]: value }));
 	};
+
+	const handleButtonDisable = useMemo(() => {
+		if (isLoginForm) {
+			return !email || emailError || !password || passwordError;
+		} else {
+			return (
+				!email ||
+				emailError ||
+				!password ||
+				passwordError ||
+				!fullname ||
+				fullnameError ||
+				!confirmPassword ||
+				confirmPasswordError
+			);
+		}
+	}, [
+		isLoginForm,
+		fullname,
+		email,
+		password,
+		confirmPassword,
+		fullnameError,
+		emailError,
+		passwordError,
+		confirmPasswordError,
+	]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -162,7 +166,7 @@ function AuthForm() {
 					}`}>
 					{isLoading && <Loader />}
 					<h1>{title}</h1>
-					<form className="auth-form" onSubmit={handleSubmit}>
+					<form className="auth-form">
 						{!isLoginForm && (
 							<>
 								<label
@@ -174,7 +178,7 @@ function AuthForm() {
 									type="text"
 									id="fullname"
 									name="fullname"
-									value={formData["fullname"]}
+									value={fullname}
 									onChange={handleChange}
 									placeholder="fullname"
 									required
@@ -192,7 +196,7 @@ function AuthForm() {
 							type="email"
 							id="email"
 							name="email"
-							value={formData["email"]}
+							value={email}
 							onChange={handleChange}
 							placeholder="email"
 							required
@@ -206,7 +210,7 @@ function AuthForm() {
 								type={showPassword ? "text" : "password"}
 								id="password"
 								name="password"
-								value={formData["password"]}
+								value={password}
 								onChange={handleChange}
 								placeholder="password"
 								autoComplete="on"
@@ -243,7 +247,7 @@ function AuthForm() {
 										}
 										id="confirm-password"
 										name="confirmPassword"
-										value={formData["confirmPassword"]}
+										value={confirmPassword}
 										onChange={handleChange}
 										placeholder="confirm-password"
 										autoComplete="on"
@@ -274,11 +278,14 @@ function AuthForm() {
 						)}
 						<button
 							type="submit"
+							onClick={handleSubmit}
 							className="auth-submit-btn"
 							style={{
-								cursor: isButtonDisable ? "no-drop" : "pointer",
+								cursor: !handleButtonDisable
+									? "pointer"
+									: "no-drop",
 							}}
-							disabled={isButtonDisable}>
+							disabled={handleButtonDisable}>
 							{buttonText}
 						</button>
 					</form>

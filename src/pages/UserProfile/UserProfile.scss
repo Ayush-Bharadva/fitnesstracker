@@ -8,7 +8,7 @@ $red: #cc274c;
 }
 
 #user-profile-section {
-	height: calc(100vh - 103px);
+	height: calc(100vh - 102.8px);
 	width: 100%;
 	display: flex;
 	justify-content: center;
@@ -237,6 +237,31 @@ img {
 				}
 			}
 
+			.form-right {
+				flex: 1 0 68%;
+				width: 100%;
+				height: calc(100% - 50px);
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.profile-form-container {
+		padding: 0.25rem;
+		height: 100%;
+
+		.user-profile-form {
+			height: calc(100% - 68px);
+
+			.form-left {
+				.image-container {
+					.profile-img {
+						height: 100px;
+						width: 100px;
+					}
+				}
+			}
 			.form-right {
 				flex: 1 0 68%;
 				width: 100%;

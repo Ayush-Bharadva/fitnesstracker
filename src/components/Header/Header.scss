@@ -127,7 +127,7 @@ $light-teal: #64ccc5;
 			position: absolute;
 			flex-direction: column;
 			justify-content: center;
-			height: calc(100vh - 110px);
+			height: calc(100vh - 102px);
 			top: 68px;
 			background-color: rgba($light-blue, $alpha: 1);
 			color: #fff;
@@ -162,10 +162,10 @@ $light-teal: #64ccc5;
 	}
 }
 
-@media screen and (max-width: 320px) {
-	.navbar {
-		.nav-items {
-			height: calc(100vh - 111px);
-		}
-	}
-}
+// @media screen and (max-width: 320px) {
+// 	.navbar {
+// 		.nav-items {
+// 			height: calc(100vh - 111px);
+// 		}
+// 	}
+// }

@@ -52,6 +52,9 @@ function AuthForm() {
 	}, [isLoginForm]);
 
 	const { title, buttonText, linkText, linkButtonText } = formObject;
+	const { fullnameError, emailError, passwordError, confirmPasswordError } =
+		inputError;
+	const { fullname, email, password, confirmPassword } = formData;
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -91,34 +94,40 @@ function AuthForm() {
 			...prevErrors,
 			...inputErrorObj,
 		}));
-
 		setFormData((prevData) => ({ ...prevData, [name]: value }));
 	};
+
+	const handleButtonDisable = useMemo(() => {
+		if (isLoginForm) {
+			return !email || emailError || !password || passwordError;
+		} else {
+			return (
+				!email ||
+				emailError ||
+				!password ||
+				passwordError ||
+				!fullname ||
+				fullnameError ||
+				!confirmPassword ||
+				confirmPasswordError
+			);
+		}
+	}, [
+		isLoginForm,
+		fullname,
+		email,
+		password,
+		confirmPassword,
+		fullnameError,
+		emailError,
+		passwordError,
+		confirmPasswordError,
+	]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		const { fullname, email, password, confirmPassword } = formData;
-
-		if (isLoginForm && validatePassword(password)) {
-			showToast("error", "Enter Valid Credentials");
-			return;
-		}
-
-		if (!isLoginForm && password !== confirmPassword) {
-			showToast("error", "Password and Confirm-Password must be same");
-			return;
-		}
-
-		if (
-			!isLoginForm &&
-			(fullname.length <= 4 ||
-				!emailPattern.test(email) ||
-				validatePassword(password))
-		) {
-			showToast("error", "Enter Valid Credentials");
-			return;
-		}
+		const { fullname, email, password } = formData;
 
 		try {
 			setIsLoading(true);
@@ -151,141 +160,140 @@ function AuthForm() {
 	return (
 		<>
 			<div className="auth-container">
-				{isLoading ? (
-					<Loader />
-				) : (
-					<div className="auth-form-container">
-						<h1>{title}</h1>
-						<form
-							action=""
-							className="auth-form"
-							onSubmit={handleSubmit}>
-							{!isLoginForm && (
-								<>
-									<label
-										htmlFor="fullname"
-										className="auth-label">
-										Fullname
-									</label>
-									<input
-										type="text"
-										id="fullname"
-										name="fullname"
-										value={formData["fullname"]}
-										onChange={handleChange}
-										placeholder="fullname"
-										required
-									/>
-									{inputError.fullnameError && (
-										<div className="error-message">
-											{inputError.fullnameError}
-										</div>
-									)}
-								</>
-							)}
-							<label htmlFor="email" className="auth-label">
-								Email
-							</label>
-							<input
-								type="email"
-								id="email"
-								name="email"
-								value={formData["email"]}
-								onChange={handleChange}
-								placeholder="email"
-								required
-							/>
-							<div className="error-message">
-								{inputError.emailError}
-							</div>
-							<label htmlFor="password" className="auth-label">
-								Password
-							</label>
-							<div className="pass-field">
+				<div
+					className={`auth-form-container ${
+						isLoading ? "m-opacity" : ""
+					}`}>
+					{isLoading && <Loader />}
+					<h1>{title}</h1>
+					<form className="auth-form">
+						{!isLoginForm && (
+							<>
+								<label
+									htmlFor="fullname"
+									className="auth-label">
+									Fullname
+								</label>
 								<input
-									type={showPassword ? "text" : "password"}
-									id="password"
-									name="password"
-									value={formData["password"]}
+									type="text"
+									id="fullname"
+									name="fullname"
+									value={fullname}
 									onChange={handleChange}
-									placeholder="password"
-									autoComplete="on"
+									placeholder="fullname"
 									required
 								/>
-								{showPassword ? (
-									<IoEyeOutline
-										onClick={() =>
-											handleShowPassword("showPassword")
-										}
-									/>
-								) : (
-									<LuEyeOff
-										onClick={() =>
-											handleShowPassword("showPassword")
-										}
-									/>
-								)}
-							</div>
-							<div className="error-message">
-								{inputError.passwordError}
-							</div>
-							{!isLoginForm && (
-								<>
-									<label
-										htmlFor="confirm-password"
-										className="auth-label">
-										Confirm Password
-									</label>
-									<div className="conf-pass-field">
-										<input
-											type={
-												showConfirmPassword
-													? "text"
-													: "password"
-											}
-											id="confirm-password"
-											name="confirmPassword"
-											value={formData["confirmPassword"]}
-											onChange={handleChange}
-											placeholder="confirm-password"
-											autoComplete="on"
-											required
-										/>
-										{showConfirmPassword ? (
-											<IoEyeOutline
-												onClick={() =>
-													handleShowPassword(
-														"showConfirmPassword"
-													)
-												}
-											/>
-										) : (
-											<LuEyeOff
-												onClick={() =>
-													handleShowPassword(
-														"showConfirmPassword"
-													)
-												}
-											/>
-										)}
-									</div>
-									<div className="error-message">
-										{inputError.confirmPasswordError}
-									</div>
-								</>
+
+								<div className="error-message">
+									{fullnameError}
+								</div>
+							</>
+						)}
+						<label htmlFor="email" className="auth-label">
+							Email
+						</label>
+						<input
+							type="email"
+							id="email"
+							name="email"
+							value={email}
+							onChange={handleChange}
+							placeholder="email"
+							required
+						/>
+						<div className="error-message">{emailError}</div>
+						<label htmlFor="password" className="auth-label">
+							Password
+						</label>
+						<div className="pass-field">
+							<input
+								type={showPassword ? "text" : "password"}
+								id="password"
+								name="password"
+								value={password}
+								onChange={handleChange}
+								placeholder="password"
+								autoComplete="on"
+								required
+							/>
+							{showPassword ? (
+								<IoEyeOutline
+									onClick={() =>
+										handleShowPassword("showPassword")
+									}
+								/>
+							) : (
+								<LuEyeOff
+									onClick={() =>
+										handleShowPassword("showPassword")
+									}
+								/>
 							)}
-							<button type="submit" className="auth-submit-btn">
-								{buttonText}
-							</button>
-						</form>
-						<p>
-							{linkText}
-							<span onClick={handleFormChange}>
-								{linkButtonText}
-							</span>
-						</p>
-					</div>
-				)}
+						</div>
+						<div className="error-message">{passwordError}</div>
+						{!isLoginForm && (
+							<>
+								<label
+									htmlFor="confirm-password"
+									className="auth-label">
+									Confirm Password
+								</label>
+								<div className="conf-pass-field">
+									<input
+										type={
+											showConfirmPassword
+												? "text"
+												: "password"
+										}
+										id="confirm-password"
+										name="confirmPassword"
+										value={confirmPassword}
+										onChange={handleChange}
+										placeholder="confirm-password"
+										autoComplete="on"
+										required
+									/>
+									{showConfirmPassword ? (
+										<IoEyeOutline
+											onClick={() =>
+												handleShowPassword(
+													"showConfirmPassword"
+												)
+											}
+										/>
+									) : (
+										<LuEyeOff
+											onClick={() =>
+												handleShowPassword(
+													"showConfirmPassword"
+												)
+											}
+										/>
+									)}
+								</div>
+								<div className="error-message">
+									{confirmPasswordError}
+								</div>
+							</>
+						)}
+						<button
+							type="submit"
+							onClick={handleSubmit}
+							className="auth-submit-btn"
+							style={{
+								cursor: !handleButtonDisable
+									? "pointer"
+									: "no-drop",
+							}}
+							disabled={handleButtonDisable}>
+							{buttonText}
+						</button>
+					</form>
+					<p>
+						{linkText}
+						<span onClick={handleFormChange}>{linkButtonText}</span>
+					</p>
+				</div>
 			</div>
 			<ToastContainer />
 		</>

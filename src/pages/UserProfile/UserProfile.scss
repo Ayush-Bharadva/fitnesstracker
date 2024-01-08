@@ -8,16 +8,12 @@ $red: #cc274c;
 }
 
 #user-profile-section {
-	height: calc(100vh - 102.8px);
+	height: calc(100vh - 103px);
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: linear-gradient(
-		45deg,
-		hsla(133, 50%, 79%, 1) 0%,
-		hsla(234, 36%, 55%, 1) 100%
-	);
+	background: linear-gradient(45deg, hsla(133, 50%, 79%, 1) 0%, hsla(234, 36%, 55%, 1) 100%);
 }
 
 .profile-form-container {
@@ -128,7 +124,6 @@ $red: #cc274c;
 			background: rgba($color: #ddd, $alpha: 0.75);
 			padding: 0.5rem;
 			border-radius: 7px;
-			// height: calc(100% - 50px);
 			overflow-y: scroll;
 
 			.title-wrapper {
@@ -208,6 +203,10 @@ img {
 }
 
 @media screen and (max-width: 768px) {
+	#user-profile-section {
+		height: calc(100vh - 103px);
+	}
+
 	.profile-form-container {
 		padding: 0.25rem;
 		height: 100%;
@@ -219,9 +218,7 @@ img {
 
 		.user-profile-form {
 			flex-direction: column;
-			// justify-content: flex-start;
-			// width: 100%;
-			height: calc(100% - 68px);
+			height: calc(100% - 36px);
 			gap: 0.5rem;
 
 			.form-left {
@@ -247,12 +244,15 @@ img {
 }
 
 @media screen and (max-width: 320px) {
+	#user-profile-section {
+		height: calc(100vh - 121px);
+	}
 	.profile-form-container {
 		padding: 0.25rem;
 		height: 100%;
 
 		.user-profile-form {
-			height: calc(100% - 68px);
+			height: calc(100% - 36px);
 
 			.form-left {
 				.image-container {

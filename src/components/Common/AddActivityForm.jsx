@@ -1,14 +1,11 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { PropTypes } from "prop-types";
 import { showToast } from "../../utils/helper";
-import {
-	addExerciseService,
-	addMealService,
-	updateExerciseServise,
-	updateMealService,
-} from "../../services/services";
+import { addExerciseService, addMealService, updateExerciseServise, updateMealService } from "../../services/services";
 import { ToastContainer } from "react-toastify";
 import "./AddActivityForm.scss";
 import "react-toastify/dist/ReactToastify.css";
+import Loader from "./Loader";
 
 const initialValue = {
 	type: "",
@@ -27,9 +24,9 @@ const initialError = {
 function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 	const { exerciseDetails, mealDetails } = allDetails || {};
 	const [activityDetails, setActivityDetails] = useState(initialValue);
-	const [activityDetailsError, setActivityDetailsError] =
-		useState(initialError);
+	const [activityDetailsError, setActivityDetailsError] = useState(initialError);
 	const [buttonText, setButtonText] = useState("Add");
+	const [isLoading, setIsLoading] = useState(false);
 
 	const formInfo = useMemo(() => {
 		if (isExercise) {
@@ -53,16 +50,8 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 		}
 	}, [isExercise]);
 
-	const {
-		formType,
-		heading,
-		activityText,
-		optionText,
-		calorieText,
-		caloriePlaceholder,
-	} = formInfo;
-	const { durationError, ingredientsError, caloriesError } =
-		activityDetailsError;
+	const { formType, heading, activityText, optionText, calorieText, caloriePlaceholder } = formInfo;
+	const { durationError, ingredientsError, caloriesError } = activityDetailsError;
 
 	const options = useMemo(
 		() =>
@@ -72,16 +61,13 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 		[isExercise]
 	);
 
-	const handleType = (type) =>
-		type === "Weight Lifting" ? "Weight_lifting" : type;
+	const handleType = type => (type === "Weight Lifting" ? "Weight_lifting" : type);
 
-	const getActivityDetails = (type) => {
+	const getActivityDetails = type => {
 		let activityType = handleType(type);
 		return isExercise
-			? exerciseDetails?.find(
-					(exercise) => exercise.exerciseType === activityType
-			  )
-			: mealDetails?.find((meal) => meal.mealType === type);
+			? exerciseDetails?.find(exercise => exercise.exerciseType === activityType)
+			: mealDetails?.find(meal => meal.mealType === type);
 	};
 
 	const { type, duration, ingredients, calories } = activityDetails;
@@ -106,28 +92,26 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 		switch (name) {
 			case "duration":
 				inputErrorObj.durationError =
-					value >= 1440 ? "Duration must be less than 1440 min" : "";
+					value >= 1440 || value <= 0 ? "Duration should be in range (1 to 1440) min" : "";
 				break;
 			case "calories":
 				inputErrorObj.caloriesError =
-					value >= 20000 ? "Calories must be less than 20000" : "";
+					value >= 20000 || value <= 0 ? "Calories should be in range (1 to 20000) cal" : "";
 				break;
 			case "ingredients":
-				inputErrorObj.ingredientsError = !value
-					? "Ingredients is required"
-					: "";
+				inputErrorObj.ingredientsError = !value ? "Ingredients is required" : "";
 				break;
 			default:
 				break;
 		}
 
-		setActivityDetailsError((prevErrors) => ({
+		setActivityDetailsError(prevErrors => ({
 			...prevErrors,
 			...inputErrorObj,
 		}));
 	};
 
-	const handleInputChange = (e) => {
+	const handleInputChange = e => {
 		const { name, value } = e.target;
 
 		validateInputs(name, value);
@@ -146,16 +130,13 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 			} = activityDetails || {};
 
 			setActivityDetails({
-				type:
-					exerciseType === "Weight_lifting"
-						? "Weight Lifting"
-						: exerciseType || mealType || value,
+				type: exerciseType === "Weight_lifting" ? "Weight Lifting" : exerciseType || mealType || value,
 				duration,
 				ingredients,
 				calories: caloriesBurned || caloriesConsumed,
 			});
 		} else {
-			setActivityDetails((prevInfo) => ({
+			setActivityDetails(prevInfo => ({
 				...prevInfo,
 				[name]: name === "ingredients" ? value : Number(value),
 			}));
@@ -163,15 +144,16 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 	};
 
 	const updateActivity = async () => {
+		setIsLoading(true);
 		const response = await updateActivityDetails(type, duration, calories);
-
+		setIsLoading(false);
 		if (response.status === 200) {
 			const previousActivity = getActivityDetails(type);
 
 			let updatedDetails;
 			if (isExercise) {
 				updatedDetails = {
-					exerciseDetails: exerciseDetails.map((exercise) =>
+					exerciseDetails: exerciseDetails.map(exercise =>
 						exercise.exerciseType === previousActivity.exerciseType
 							? {
 									...exercise,
@@ -183,7 +165,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 				};
 			} else {
 				updatedDetails = {
-					mealDetails: mealDetails.map((meal) =>
+					mealDetails: mealDetails.map(meal =>
 						meal.mealType === previousActivity.mealType
 							? {
 									...meal,
@@ -208,6 +190,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 	};
 
 	const addActivity = async () => {
+		setIsLoading(true);
 		let response = isExercise
 			? await addExerciseService({
 					exerciseType: handleType(type),
@@ -219,7 +202,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 					ingredients: ingredients,
 					caloriesConsumed: calories,
 			  });
-
+		setIsLoading(false);
 		if (response.status === 200) {
 			const newActivity = isExercise
 				? {
@@ -229,21 +212,13 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 				  }
 				: { mealType: type, ingredients, caloriesConsumed: calories };
 
-			const activityDetailsType = isExercise
-				? "exerciseDetails"
-				: "mealDetails";
+			const activityDetailsType = isExercise ? "exerciseDetails" : "mealDetails";
 
 			setAllDetails({
 				...allDetails,
-				[activityDetailsType]: [
-					...(allDetails[activityDetailsType] || []),
-					newActivity,
-				],
+				[activityDetailsType]: [...(allDetails[activityDetailsType] || []), newActivity],
 			});
-			showToast(
-				"success",
-				`${formType.toLowerCase()} added successfully`
-			);
+			showToast("success", `${formType.toLowerCase()} added successfully`);
 			setActivityDetails(initialValue);
 			setButtonText("Add");
 		} else {
@@ -251,7 +226,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 		}
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = e => {
 		e.preventDefault();
 
 		if (durationError || ingredientsError || caloriesError) {
@@ -268,7 +243,9 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 	return (
 		<>
 			<h2 className="form-heading">{heading}</h2>
-			<form action="" onSubmit={handleSubmit}>
+			<form
+				action=""
+				onSubmit={handleSubmit}>
 				<div className="field">
 					<label htmlFor="activity">{activityText}</label>
 					<select
@@ -279,7 +256,9 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 						required>
 						<option value="">{optionText}</option>
 						{options.map((data, index) => (
-							<option key={index} value={data}>
+							<option
+								key={index}
+								value={data}>
 								{data}
 							</option>
 						))}
@@ -298,9 +277,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 								placeholder="Exercise duration (in min)"
 								required
 							/>
-							<p className="activity-error-text">
-								{durationError}
-							</p>
+							<p className="activity-error-text">{durationError}</p>
 						</>
 					) : (
 						<>
@@ -314,9 +291,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 								placeholder="Meal ingredients"
 								required
 							/>
-							<p className="activity-error-text">
-								{ingredientsError}
-							</p>
+							<p className="activity-error-text">{ingredientsError}</p>
 						</>
 					)}
 				</div>
@@ -338,14 +313,19 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 					className="activity-submit-btn"
 					type="submit"
 					onClick={handleSubmit}>
-					{isExercise
-						? `${buttonText} Exercise`
-						: `${buttonText} Meal`}
+					{isExercise ? `${buttonText} Exercise` : `${buttonText} Meal`}
 				</button>
 			</form>
+			{isLoading && <Loader />}
 			<ToastContainer />
 		</>
 	);
 }
 
 export default AddActivityForm;
+
+AddActivityForm.propTypes = {
+	isExercise: PropTypes.bool,
+	allDetails: PropTypes.object,
+	setAllDetails: PropTypes.func,
+};

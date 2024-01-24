@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from "react";
-import {
-	addWaterService,
-	addWeightService,
-	editWaterService,
-	editWeightService,
-} from "../../services/services";
+import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { addWaterService, addWeightService, editWaterService, editWeightService } from "../../services/services";
 import { showToast } from "../../utils/helper";
-import "./DailyGoals.scss";
+import "./DailyLogs.scss";
 
 function WeightAndWaterTracker({ heading, title, value, setAllDetails, type }) {
 	const [inputValue, setInputValue] = useState(value);
@@ -17,20 +13,18 @@ function WeightAndWaterTracker({ heading, title, value, setAllDetails, type }) {
 		setInputDisabled(!!value);
 	}, [value]);
 
-	const handleApiCall = async (apiCall) => {
+	const handleApiCall = async apiCall => {
 		try {
 			const response = await apiCall(Number(inputValue));
 			if (response.status === 200) {
 				setInputDisabled(true);
 
-				const detailsKey =
-					type === "weight" ? "weightDetails" : "waterDetails";
+				const detailsKey = type === "weight" ? "weightDetails" : "waterDetails";
 
-				setAllDetails((prevDetails) => ({
+				setAllDetails(prevDetails => ({
 					...prevDetails,
 					[detailsKey]: {
-						[type === "weight" ? "dailyWeight" : "waterIntake"]:
-							inputValue,
+						[type === "weight" ? "dailyWeight" : "waterIntake"]: inputValue,
 					},
 				}));
 
@@ -46,16 +40,13 @@ function WeightAndWaterTracker({ heading, title, value, setAllDetails, type }) {
 			showToast("error", "Please Enter Valid Value!!");
 			return;
 		}
-		const addApiCall =
-			type === "weight" ? addWeightService : addWaterService;
-		const editApiCall =
-			type === "weight" ? editWeightService : editWaterService;
+		const addApiCall = type === "weight" ? addWeightService : addWaterService;
+		const editApiCall = type === "weight" ? editWeightService : editWaterService;
 		const apiCall = !value ? addApiCall : editApiCall;
 		handleApiCall(apiCall);
 	};
 
-	let dailyValue =
-		type === "weight" ? inputValue + " Kgs" : inputValue + " Ltrs";
+	let dailyValue = type === "weight" ? inputValue + " Kgs" : inputValue + " Ltrs";
 
 	return (
 		<div id="tracking-section">
@@ -67,7 +58,7 @@ function WeightAndWaterTracker({ heading, title, value, setAllDetails, type }) {
 						<input
 							type="text"
 							value={inputValue}
-							onChange={(e) => setInputValue(e.target.value)}
+							onChange={e => setInputValue(e.target.value)}
 							disabled={inputDisabled}
 							placeholder={`Today's ${title}`}
 						/>
@@ -76,11 +67,7 @@ function WeightAndWaterTracker({ heading, title, value, setAllDetails, type }) {
 					)}
 					<button
 						className="action-btn"
-						onClick={
-							inputDisabled
-								? () => setInputDisabled(false)
-								: handleSubmit
-						}>
+						onClick={inputDisabled ? () => setInputDisabled(false) : handleSubmit}>
 						{inputDisabled ? "Edit" : "Save"}
 					</button>
 				</div>
@@ -90,3 +77,11 @@ function WeightAndWaterTracker({ heading, title, value, setAllDetails, type }) {
 }
 
 export default WeightAndWaterTracker;
+
+WeightAndWaterTracker.propTypes = {
+	heading: PropTypes.string,
+	title: PropTypes.string,
+	value: PropTypes.number,
+	setAllDetails: PropTypes.func,
+	type: PropTypes.string,
+};

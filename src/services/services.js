@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCookie } from "../utils/helper";
+import { getCookie, showToast } from "../utils/helper";
 import { toast } from "react-toastify";
 const baseApiUrl = "https://fitnesstracker-k5h0.onrender.com";
 const userApiUrl = `${baseApiUrl}/user`;
@@ -7,7 +7,7 @@ const userProfileApiUrl = `${userApiUrl}/profile`;
 const userExerciseApiUrl = `${userApiUrl}/exercise`;
 const userMealApiUrl = `${userApiUrl}/meal`;
 
-// create axios instance with common headers
+// axios instance with common headers
 const headers = {
 	"Content-Type": "application/json",
 };
@@ -16,26 +16,23 @@ const createApiInstance = axios.create({
 	headers: headers,
 });
 
-createApiInstance.interceptors.request.use((config) => {
+createApiInstance.interceptors.request.use(config => {
 	const userId = getCookie("userId");
 	if (userId) {
 		config.headers.Authorization = userId;
 	}
 	return config;
 });
+
 createApiInstance.interceptors.response.use(
-	(response) => response,
-	(error) => {
+	response => response,
+	error => {
 		if (error.response.data.code === 498) {
 			toast.error("Invalid token");
 		} else if (error.response.data.code === 400) {
-			toast.error(
-				"This record contains inconsistent or out-of-range data"
-			);
+			toast.error("This record contains inconsistent or out-of-range data");
 		} else if (error.response.data.code === 409) {
-			toast.error(
-				"This record contains duplicated data that conflicts with what is already in the database"
-			);
+			toast.error("This record contains duplicated data that conflicts with what is already in the database");
 		} else if (error.response.data.code === 500) {
 			toast.error("Internal server error");
 		} else {
@@ -44,7 +41,7 @@ createApiInstance.interceptors.response.use(
 	}
 );
 
-// function to get image url on Image upload
+// get image url on Image upload
 export async function getImageUrlService(acceptedFiles) {
 	const data = new FormData();
 	data.append("file", acceptedFiles[0]);
@@ -54,10 +51,8 @@ export async function getImageUrlService(acceptedFiles) {
 		url: "https://upload-image-and-return-url-by-thichthicodeteam.p.rapidapi.com/api/upload-image",
 		headers: {
 			Accept: "*/*",
-			"X-RapidAPI-Key":
-				"7b9cb3e4bdmsh673fe14fd2c1338p1ac175jsnaa23464a349f",
-			"X-RapidAPI-Host":
-				"upload-image-and-return-url-by-thichthicodeteam.p.rapidapi.com",
+			"X-RapidAPI-Key": "7b9cb3e4bdmsh673fe14fd2c1338p1ac175jsnaa23464a349f",
+			"X-RapidAPI-Host": "upload-image-and-return-url-by-thichthicodeteam.p.rapidapi.com",
 		},
 		data: data,
 	};
@@ -72,10 +67,7 @@ export async function getImageUrlService(acceptedFiles) {
 // SignUp User
 export async function userSignUpService(userCredentials) {
 	try {
-		const response = await createApiInstance.post(
-			`${baseApiUrl}/signup`,
-			userCredentials
-		);
+		const response = await createApiInstance.post(`${baseApiUrl}/signup`, userCredentials);
 		return response;
 	} catch (error) {
 		showToast("error", "Error loading Image!!");
@@ -85,24 +77,17 @@ export async function userSignUpService(userCredentials) {
 // LogIn User
 export async function userLogInService(userCredentials) {
 	try {
-		const response = await createApiInstance.post(
-			`${baseApiUrl}/login`,
-			userCredentials
-		);
+		const response = await createApiInstance.post(`${baseApiUrl}/login`, userCredentials);
 		return response;
 	} catch (error) {
 		return error.response.data;
 	}
 }
 
-/******************profile services**************************/
 // CreateUserProfile
 export async function createUserProfileService(userInfo) {
 	try {
-		const response = await createApiInstance.put(
-			`${userProfileApiUrl}`,
-			userInfo
-		);
+		const response = await createApiInstance.put(`${userProfileApiUrl}`, userInfo);
 		return response;
 	} catch (error) {
 		return error.response.data;
@@ -110,7 +95,7 @@ export async function createUserProfileService(userInfo) {
 }
 
 // ShowUserProfile
-export async function showUserProfileService() {
+export async function fetchUserProfile() {
 	try {
 		const response = await createApiInstance.get(`${userProfileApiUrl}`);
 		return response;
@@ -122,41 +107,29 @@ export async function showUserProfileService() {
 // UpdateUserProfile
 export async function updateUserProfileService(userInfo) {
 	try {
-		const response = await createApiInstance.put(
-			`${userProfileApiUrl}/update`,
-			userInfo
-		);
+		const response = await createApiInstance.put(`${userProfileApiUrl}/update`, userInfo);
 		return response;
 	} catch (error) {
 		return error.response.data;
 	}
 }
 
-/************************************************************************************/
-
-// to get all details from date
+// get all details from date
 export async function getDetailsFromDateService(currentDate) {
 	try {
-		const response = await createApiInstance.get(
-			`${userApiUrl}/alldetails`,
-			{
-				params: currentDate,
-			}
-		);
+		const response = await createApiInstance.get(`${userApiUrl}/alldetails`, {
+			params: currentDate,
+		});
 		return response;
 	} catch (error) {
 		return error.response;
 	}
 }
 
-/**************************exercise services************************************/
 // add exercise
 export async function addExerciseService(exerciseInfo) {
 	try {
-		const response = await createApiInstance.post(
-			`${userExerciseApiUrl}`,
-			exerciseInfo
-		);
+		const response = await createApiInstance.post(`${userExerciseApiUrl}`, exerciseInfo);
 		return response;
 	} catch (error) {
 		return error.response.data;
@@ -166,10 +139,7 @@ export async function addExerciseService(exerciseInfo) {
 // update exercise
 export async function updateExerciseServise(exerciseInfo) {
 	try {
-		const response = await createApiInstance.put(
-			`${userExerciseApiUrl}`,
-			exerciseInfo
-		);
+		const response = await createApiInstance.put(`${userExerciseApiUrl}`, exerciseInfo);
 		return response;
 	} catch (error) {
 		return error.response.data;
@@ -179,22 +149,18 @@ export async function updateExerciseServise(exerciseInfo) {
 // delete exercise
 export async function deleteExerciseService(type) {
 	try {
-		const response = await createApiInstance.delete(
-			`${userExerciseApiUrl}`,
-			{
-				params: {
-					exercisetype: type,
-				},
-			}
-		);
+		const response = await createApiInstance.delete(`${userExerciseApiUrl}`, {
+			params: {
+				exercisetype: type,
+			},
+		});
 		return response;
 	} catch (error) {
 		return error.response.data;
 	}
 }
 
-/*****************meal services**************************/
-// add meal service
+// add meal
 export async function addMealService(mealInfo) {
 	try {
 		const response = createApiInstance.post(`${userMealApiUrl}`, mealInfo);
@@ -204,7 +170,7 @@ export async function addMealService(mealInfo) {
 	}
 }
 
-// update meal service
+// update meal
 export async function updateMealService(mealInfo) {
 	try {
 		const response = createApiInstance.put(`${userMealApiUrl}`, mealInfo);
@@ -214,7 +180,7 @@ export async function updateMealService(mealInfo) {
 	}
 }
 
-// delete meal service
+// delete meal
 export async function deleteMealService(type) {
 	try {
 		const response = createApiInstance.delete(`${userMealApiUrl}`, {
@@ -226,41 +192,35 @@ export async function deleteMealService(type) {
 	}
 }
 
-/***************************get-yearly-data**************************/
-
+// yearly weight data
 export async function getYearlyWeightDetailService(date) {
 	try {
-		const response = createApiInstance.get(
-			`${userApiUrl}/yearly-weight-details`,
-			{
-				params: {
-					date: date,
-				},
-			}
-		);
+		const response = createApiInstance.get(`${userApiUrl}/yearly-weight-details`, {
+			params: {
+				date: date,
+			},
+		});
 		return response;
 	} catch (error) {
 		return error.response;
 	}
 }
 
+// yearly calories data
 export async function getYearlyCaloriesDetailService(date) {
 	try {
-		const response = createApiInstance.get(
-			`${userApiUrl}/yearly-caloriesburned-details`,
-			{
-				params: {
-					date: date,
-				},
-			}
-		);
+		const response = createApiInstance.get(`${userApiUrl}/yearly-caloriesburned-details`, {
+			params: {
+				date: date,
+			},
+		});
 		return response;
 	} catch (error) {
 		return error.response;
 	}
 }
 
-/****************************weight-service*****************************/
+// add weight
 export async function addWeightService(weightInfo) {
 	try {
 		const response = createApiInstance.post(`${userApiUrl}/weight`, {
@@ -272,6 +232,7 @@ export async function addWeightService(weightInfo) {
 	}
 }
 
+// update weight
 export async function editWeightService(weightInfo) {
 	try {
 		const response = createApiInstance.put(`${userApiUrl}/weight`, {
@@ -283,6 +244,7 @@ export async function editWeightService(weightInfo) {
 	}
 }
 
+// delete weight
 export async function deleteWeightService() {
 	try {
 		const response = createApiInstance.delete(`${userApiUrl}/weight`);
@@ -292,7 +254,7 @@ export async function deleteWeightService() {
 	}
 }
 
-/*******************************water-service*******************************/
+// add water
 export async function addWaterService(waterInfo) {
 	try {
 		const response = createApiInstance.post(`${userApiUrl}/water`, {
@@ -304,6 +266,7 @@ export async function addWaterService(waterInfo) {
 	}
 }
 
+// update water
 export async function editWaterService(waterInfo) {
 	try {
 		const response = createApiInstance.put(`${userApiUrl}/water`, {
@@ -315,6 +278,7 @@ export async function editWaterService(waterInfo) {
 	}
 }
 
+// delete water
 export async function deleteWaterService() {
 	try {
 		const response = createApiInstance.delete(`${userApiUrl}/water`);

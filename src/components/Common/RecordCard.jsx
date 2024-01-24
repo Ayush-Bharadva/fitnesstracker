@@ -1,81 +1,69 @@
-import React from "react";
-import {
-	deleteExerciseService,
-	deleteMealService,
-} from "../../services/services";
+import PropTypes from "prop-types";
+import { deleteExerciseService, deleteMealService } from "../../services/services";
 import { ToastContainer } from "react-toastify";
-import Swal from "sweetalert2";
 import "../../global.scss";
 import { showToast } from "../../utils/helper";
 import Record from "./Record";
 import "./RecordCard.scss";
+import DeleteActivityModal from "./DeleteActivityModal";
+import { useState } from "react";
 
 function RecordCard({ allDetails, setAllDetails, isReadonly }) {
+	const [showModal, setShowModal] = useState(false);
+	const [selectedRecord, setSelectedRecord] = useState({});
+
 	const { exerciseDetails, mealDetails } = allDetails;
 
-	const handleDeleteActivity = async (type, isExercise) => {
-		Swal.fire({
-			title: "Are you sure?",
-			text: "You won't be able to revert this!",
-			icon: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#3085d6",
-			cancelButtonColor: "#d33",
-			confirmButtonText: "Yes, delete it!",
-		}).then(async (result) => {
-			if (result.isConfirmed) {
-				try {
-					const service = isExercise
-						? deleteExerciseService
-						: deleteMealService;
-					const response = await service(type);
+	const onConfirmDelete = async () => {
+		const { type, isExercise } = selectedRecord;
+		try {
+			const service = isExercise ? deleteExerciseService : deleteMealService;
+			const response = await service(type);
 
-					if (response.status === 200) {
-						const key = isExercise
-							? "exerciseDetails"
-							: "mealDetails";
-						const updatedDetails = {
-							[key]: allDetails[key].filter(
-								(item) =>
-									item[
-										isExercise ? "exerciseType" : "mealType"
-									] !== type
-							),
-						};
-						showToast("success", "Activity deleted!!");
-						setAllDetails({ ...allDetails, ...updatedDetails });
-					}
-				} catch (error) {
-					showToast(
-						"error",
-						"Error deleting activity. Please try again."
-					);
-				}
+			if (response.status === 200) {
+				const key = isExercise ? "exerciseDetails" : "mealDetails";
+				const updatedDetails = {
+					[key]: allDetails[key].filter(item => item[isExercise ? "exerciseType" : "mealType"] !== type),
+				};
+				showToast("success", "Activity deleted!!");
+				setAllDetails({ ...allDetails, ...updatedDetails });
 			}
-		});
+		} catch (error) {
+			showToast("error", "Error deleting activity. Please try again.");
+		} finally {
+			setShowModal(false);
+		}
 	};
+
+	const onDelete = (type, isExercise) => {
+		setShowModal(true);
+		setSelectedRecord({ type, isExercise });
+	};
+
+	const onCancel = () => {
+		setShowModal(false);
+	};
+
+	const isTrackingWorkout = !exerciseDetails?.length && !mealDetails?.length;
 
 	return (
 		<>
-			{!exerciseDetails?.length && !mealDetails?.length && (
-				<h1 className="no-activity-heading text-center">
-					Add some Activities to display Here!!
-				</h1>
+			{isTrackingWorkout && (
+				<h1 className="no-activity-heading text-center">Add some Activities to display Here!!</h1>
 			)}
 			<div className="record-card">
 				<div className="exercise-record-container">
 					{exerciseDetails?.length > 0 && (
 						<>
-							<h1 className="dg-activity-heading text-center">
-								Exercise Performed
-							</h1>
+							<h1 className="dg-activity-heading text-center">Exercise Performed</h1>
 							{exerciseDetails?.map((exercise, index) => (
 								<Record
+									key={index}
 									data={exercise}
 									index={index}
 									isReadonly={isReadonly}
-									onDelete={handleDeleteActivity}
-									isExercise={true}
+									onDelete={onDelete}
+									isExercise
 								/>
 							))}
 						</>
@@ -84,16 +72,14 @@ function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 				<div className="meal-record-container">
 					{mealDetails?.length > 0 && (
 						<>
-							<h1 className="dg-activity-heading text-center">
-								Meals Taken
-							</h1>
+							<h1 className="dg-activity-heading text-center">Meals Taken</h1>
 							{mealDetails.map((meal, index) => (
 								<Record
+									key={index}
 									data={meal}
 									index={index}
 									isReadonly={isReadonly}
-									onDelete={handleDeleteActivity}
-									isExercise={false}
+									onDelete={onDelete}
 								/>
 							))}
 						</>
@@ -101,8 +87,20 @@ function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 				</div>
 			</div>
 			<ToastContainer />
+			{showModal && (
+				<DeleteActivityModal
+					onConfirmDelete={onConfirmDelete}
+					onCancel={onCancel}
+				/>
+			)}
 		</>
 	);
 }
 
 export default RecordCard;
+
+RecordCard.propTypes = {
+	allDetails: PropTypes.object,
+	setAllDetails: PropTypes.func,
+	isReadonly: PropTypes.bool,
+};

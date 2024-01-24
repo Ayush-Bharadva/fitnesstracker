@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getDetailsFromDateService } from "../../services/services";
 import RecordCard from "../../components/Common/RecordCard";
 import "react-toastify/dist/ReactToastify.css";
 import AddActivityForm from "../../components/Common/AddActivityForm";
 import Loader from "../../components/Common/Loader";
 import WeightAndWaterTracker from "./WeightAndWaterTracker";
-import { formattedDate, showToast } from "../../utils/helper";
-import "./DailyGoals.scss";
+import { getTodaysDate, showToast } from "../../utils/helper";
+import "./DailyLogs.scss";
 
-function DailyGoals() {
-	const [allDetails, setAllDetails] = useState({});
+function DailyLogs() {
+	const [todaysDetails, setTodaysDetails] = useState({});
+	const [selectedDate, setSelectedDate] = useState(getTodaysDate());
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		const fetchAllRecords = async () => {
+		const fetchTodaysDetails = async () => {
 			try {
-				const formatedDate = formattedDate();
 				const response = await getDetailsFromDateService({
-					date: formatedDate,
+					date: selectedDate,
 				});
 				setIsLoading(false);
 				if (response.status === 200) {
 					const allData = { ...response.data };
-					setAllDetails(allData);
+					setTodaysDetails(allData);
 				} else if (response.status === 500) {
 					showToast("error", response.message);
 				}
@@ -31,24 +31,39 @@ function DailyGoals() {
 				showToast("error", "error fetching records!!");
 			}
 		};
-		fetchAllRecords();
-	}, []);
+		fetchTodaysDetails();
+	}, [selectedDate]);
+
+	const handleDateChange = async ({ target }) => {
+		setSelectedDate(target.value);
+	};
 
 	return (
-		<main className="daily-goals-section">
+		<main className="daily-logs-section">
 			<section id="activity-form-section">
+				<div className="date-wrapper">
+					<div className="dailylog-date-section">
+						<input
+							type="date"
+							name="name"
+							id="date"
+							value={selectedDate}
+							onChange={handleDateChange}
+						/>
+					</div>
+				</div>
 				<div className="form-container">
 					<AddActivityForm
 						isExercise={true}
-						allDetails={allDetails}
-						setAllDetails={setAllDetails}
+						allDetails={todaysDetails}
+						setAllDetails={setTodaysDetails}
 					/>
 				</div>
 				<div className="form-container">
 					<AddActivityForm
 						isExercise={false}
-						allDetails={allDetails}
-						setAllDetails={setAllDetails}
+						allDetails={todaysDetails}
+						setAllDetails={setTodaysDetails}
 					/>
 				</div>
 			</section>
@@ -57,27 +72,28 @@ function DailyGoals() {
 					heading={"Today's Weight"}
 					title={"Weight (Kgs)"}
 					type={"weight"}
-					value={allDetails?.weightDetails?.dailyWeight}
-					setAllDetails={setAllDetails}
+					value={todaysDetails?.weightDetails?.dailyWeight}
+					setAllDetails={setTodaysDetails}
 				/>
 				<WeightAndWaterTracker
 					heading={"Water Drunk Today"}
 					title={"Water Intake (Ltrs)"}
 					type={"water"}
-					value={allDetails?.waterDetails?.waterIntake}
-					setAllDetails={setAllDetails}
+					value={todaysDetails?.waterDetails?.waterIntake}
+					setAllDetails={setTodaysDetails}
 				/>
 			</section>
+
 			{isLoading ? (
 				<Loader />
 			) : (
 				<RecordCard
-					allDetails={allDetails}
-					setAllDetails={setAllDetails}
+					allDetails={todaysDetails}
+					setAllDetails={setTodaysDetails}
 				/>
 			)}
 		</main>
 	);
 }
 
-export default DailyGoals;
+export default DailyLogs;

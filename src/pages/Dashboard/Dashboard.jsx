@@ -1,14 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./Dashboard.scss";
-import {
-	Chart as ChartJS,
-	CategoryScale,
-	LinearScale,
-	BarElement,
-	Title,
-	Tooltip,
-	Legend,
-} from "chart.js";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import {
 	getDetailsFromDateService,
@@ -18,17 +10,10 @@ import {
 import RecordCard from "../../components/Common/RecordCard";
 import nullData from "../../assets/images/emptydata.jpg";
 import Loader from "../../components/Common/Loader";
-import { formattedDate, showToast } from "../../utils/helper";
+import { getTodaysDate, showToast } from "../../utils/helper";
 import { labels } from "../../constants/constants";
 
-ChartJS.register(
-	CategoryScale,
-	LinearScale,
-	BarElement,
-	Title,
-	Tooltip,
-	Legend
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const options = {
 	responsive: true,
@@ -43,7 +28,7 @@ function Dashboard() {
 	const [yearlyCalorieDetails, setYearlyCalorieDetails] = useState([]);
 	const [yearlyWeightDetails, setYearlyWeightDetails] = useState([]);
 	const [allRecordsByDate, setAllRecordsByDate] = useState({});
-	const [selectedDate, setSelectedDate] = useState(formattedDate());
+	const [selectedDate, setSelectedDate] = useState(getTodaysDate());
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
@@ -65,7 +50,7 @@ function Dashboard() {
 			}
 		};
 		fetchData();
-	}, []);
+	}, [selectedDate]);
 
 	const yearlyWeightData = {
 		labels,
@@ -88,7 +73,7 @@ function Dashboard() {
 		],
 	};
 
-	const fetchAllRecords = async (formatedDate) => {
+	const fetchRecordsfromDate = async formatedDate => {
 		try {
 			const response = await getDetailsFromDateService({
 				date: formatedDate,
@@ -102,25 +87,17 @@ function Dashboard() {
 		}
 	};
 
-	const fetchYearlyDetails = async (date) => {
+	const fetchYearlyDetails = async date => {
 		const annualCalresponse = await getYearlyCaloriesDetailService(date);
 		setIsLoading(false);
 
 		if (annualCalresponse.status === 200) {
-			setYearlyCalorieDetails([
-				...(annualCalresponse.data.map(
-					(data) => data.averageMonthlyCaloriesBurned
-				) || []),
-			]);
+			setYearlyCalorieDetails([...(annualCalresponse.data.map(data => data.averageMonthlyCaloriesBurned) || [])]);
 		}
 
 		const annualWeightresponse = await getYearlyWeightDetailService(date);
 		if (annualWeightresponse.status === 200) {
-			setYearlyWeightDetails([
-				...(annualWeightresponse.data.map(
-					(data) => data.averageMonthlyWeight
-				) || []),
-			]);
+			setYearlyWeightDetails([...(annualWeightresponse.data.map(data => data.averageMonthlyWeight) || [])]);
 		}
 	};
 
@@ -129,7 +106,7 @@ function Dashboard() {
 		if (selectedDate.substring(0, 4) !== target.value.substring(0, 4)) {
 			fetchYearlyDetails(target.value);
 		}
-		fetchAllRecords(target.value);
+		fetchRecordsfromDate(target.value);
 	};
 
 	return (
@@ -138,10 +115,7 @@ function Dashboard() {
 				<Loader />
 			) : (
 				<section id="dashboard-section">
-					<h2 className="year-title">
-						Annual Data Tracking (Year :{" "}
-						{selectedDate?.substring(0, 4)})
-					</h2>
+					<h2 className="year-title">Annual Data Tracking (Year : {selectedDate?.substring(0, 4)})</h2>
 					<div id="graph-section">
 						<div className="select-date-section">
 							<input
@@ -166,12 +140,9 @@ function Dashboard() {
 						</div>
 					</div>
 					<div id="record-section">
-						{allRecordsByDate.exerciseDetails ||
-						allRecordsByDate.mealDetails ? (
+						{allRecordsByDate.exerciseDetails || allRecordsByDate.mealDetails ? (
 							<>
-								<h2 className="day-title">
-									Activity Records (Date : {selectedDate})
-								</h2>
+								<h2 className="day-title">Activity Records (Date : {selectedDate})</h2>
 								<RecordCard
 									allDetails={allRecordsByDate}
 									isReadonly={true}
@@ -180,7 +151,10 @@ function Dashboard() {
 						) : (
 							<>
 								<div className="no-data">
-									<img src={nullData} alt="No Data" />
+									<img
+										src={nullData}
+										alt="No Data"
+									/>
 								</div>
 								<h1>No Activity For Selected Date!!</h1>
 							</>

@@ -19,7 +19,7 @@ export function isUserLoggedIn() {
 	return !!userId;
 }
 
-export const formattedDate = () => {
+export const getTodaysDate = () => {
 	const todayDate = new Date();
 	return todayDate.toJSON().split("T")[0];
 };
@@ -28,8 +28,8 @@ export const showToast = (type, message) => {
 	toast[type](message, { position: toast.POSITION.TOP_RIGHT });
 };
 
-export const validatePassword = (value) => {
-	const specialCharacterPattern = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\|/]/;
+export const validatePassword = value => {
+	const specialCharacterPattern = /[!@#$%^&*()_+{}[\]:;<>,.?~\\|/]/;
 	const digitPattern = /\d/;
 	const alphabetPattern = /[a-zA-Z]/;
 

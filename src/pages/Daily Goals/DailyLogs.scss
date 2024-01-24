@@ -1,5 +1,4 @@
-// Theme variables:
-.daily-goals-section {
+.daily-logs-section {
 	height: calc(100vh - 103px);
 	width: 100%;
 	display: flex;
@@ -88,8 +87,26 @@
 	}
 }
 
+.date-wrapper {
+	width: 100%;
+	max-width: 1250px;
+	display: flex;
+	margin: 0 auto;
+	justify-content: flex-end;
+	.dailylog-date-section {
+		align-self: flex-end;
+		background-color: #fff;
+		border-radius: 7px;
+		padding: 0.75rem;
+		max-width: 150px;
+		input {
+			border: none;
+		}
+	}
+}
+
 @media screen and (max-width: 480px) {
-	.daily-goals-section {
+	.daily-logs-section {
 		padding: 0.5rem;
 	}
 	#track-activity-section {

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import "./AuthForm.scss";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -6,9 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { userLogInService, userSignUpService } from "../../services/services";
 import { setCookie, showToast, validatePassword } from "../../utils/helper";
 import { emailPattern } from "../../constants/constants";
-import { IoEyeOutline } from "react-icons/io5";
-import { LuEyeOff } from "react-icons/lu";
 import Loader from "../Common/Loader";
+import PasswordInput from "./PasswordInput";
 
 const initialFormData = {
 	fullname: "",
@@ -28,10 +27,6 @@ function AuthForm() {
 	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(false);
 	const [isLoginForm, setIsLoginForm] = useState(true);
-	const [show, setShow] = useState({
-		showPassword: false,
-		showConfirmPassword: false,
-	});
 	const [formData, setFormData] = useState(initialFormData);
 	const [inputError, setInputError] = useState(initialInputError);
 
@@ -52,35 +47,27 @@ function AuthForm() {
 	}, [isLoginForm]);
 
 	const { title, buttonText, linkText, linkButtonText } = formObject;
-	const { fullnameError, emailError, passwordError, confirmPasswordError } =
-		inputError;
+	const { fullnameError, emailError, passwordError, confirmPasswordError } = inputError;
 	const { fullname, email, password, confirmPassword } = formData;
 
-	const handleChange = (e) => {
+	const handleChange = e => {
 		const { name, value } = e.target;
 
 		const inputErrorObj = {};
 
 		switch (name) {
 			case "fullname":
-				inputErrorObj.fullnameError =
-					value.length < 5
-						? "Fullname length should be greater than 4"
-						: "";
+				inputErrorObj.fullnameError = value.length < 5 ? "Fullname length should be greater than 4" : "";
 				break;
 			case "email":
-				inputErrorObj.emailError = !emailPattern.test(value)
-					? "Invalid email"
-					: "";
+				inputErrorObj.emailError = !emailPattern.test(value) ? "Invalid email" : "";
 				break;
 			case "password":
 				inputErrorObj.passwordError = validatePassword(value);
 				break;
 			case "confirmPassword":
 				inputErrorObj.confirmPasswordError =
-					formData.password !== value
-						? "Password and Confirm-Password must be same"
-						: "";
+					formData.password !== value ? "Password and Confirm-Password must be same" : "";
 				break;
 			default:
 				break;
@@ -90,11 +77,11 @@ function AuthForm() {
 			inputErrorObj[`${name}Error`] = `${name} is required`;
 		}
 
-		setInputError((prevErrors) => ({
+		setInputError(prevErrors => ({
 			...prevErrors,
 			...inputErrorObj,
 		}));
-		setFormData((prevData) => ({ ...prevData, [name]: value }));
+		setFormData(prevData => ({ ...prevData, [name]: value }));
 	};
 
 	const handleButtonDisable = useMemo(() => {
@@ -124,7 +111,7 @@ function AuthForm() {
 		confirmPasswordError,
 	]);
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = async e => {
 		e.preventDefault();
 
 		const { fullname, email, password } = formData;
@@ -146,24 +133,15 @@ function AuthForm() {
 	};
 
 	const handleFormChange = () => {
-		setIsLoginForm((prev) => !prev);
+		setIsLoginForm(prev => !prev);
 		setFormData(initialFormData);
 		setInputError(initialInputError);
 	};
 
-	const handleShowPassword = (type) => {
-		setShow((prev) => ({ ...prev, [type]: !prev[type] }));
-	};
-
-	const { showPassword, showConfirmPassword } = show;
-
 	return (
 		<>
 			<div className="auth-container">
-				<div
-					className={`auth-form-container ${
-						isLoading ? "m-opacity" : ""
-					}`}>
+				<div className={`auth-form-container ${isLoading ? "m-opacity" : ""}`}>
 					{isLoading && <Loader />}
 					<h1>{title}</h1>
 					<form className="auth-form">
@@ -184,12 +162,12 @@ function AuthForm() {
 									required
 								/>
 
-								<div className="error-message">
-									{fullnameError}
-								</div>
+								<div className="error-message">{fullnameError}</div>
 							</>
 						)}
-						<label htmlFor="email" className="auth-label">
+						<label
+							htmlFor="email"
+							className="auth-label">
 							Email
 						</label>
 						<input
@@ -202,88 +180,34 @@ function AuthForm() {
 							required
 						/>
 						<div className="error-message">{emailError}</div>
-						<label htmlFor="password" className="auth-label">
-							Password
-						</label>
-						<div className="pass-field">
-							<input
-								type={showPassword ? "text" : "password"}
-								id="password"
-								name="password"
-								value={password}
-								onChange={handleChange}
-								placeholder="password"
-								autoComplete="on"
-								required
-							/>
-							{showPassword ? (
-								<IoEyeOutline
-									onClick={() =>
-										handleShowPassword("showPassword")
-									}
-								/>
-							) : (
-								<LuEyeOff
-									onClick={() =>
-										handleShowPassword("showPassword")
-									}
-								/>
-							)}
-						</div>
-						<div className="error-message">{passwordError}</div>
+						<PasswordInput
+							htmlFor="password"
+							label="Password"
+							id="password"
+							name="password"
+							value={password}
+							onChange={handleChange}
+							placeholder="password"
+							passwordError={passwordError}
+						/>
 						{!isLoginForm && (
-							<>
-								<label
-									htmlFor="confirm-password"
-									className="auth-label">
-									Confirm Password
-								</label>
-								<div className="conf-pass-field">
-									<input
-										type={
-											showConfirmPassword
-												? "text"
-												: "password"
-										}
-										id="confirm-password"
-										name="confirmPassword"
-										value={confirmPassword}
-										onChange={handleChange}
-										placeholder="confirm-password"
-										autoComplete="on"
-										required
-									/>
-									{showConfirmPassword ? (
-										<IoEyeOutline
-											onClick={() =>
-												handleShowPassword(
-													"showConfirmPassword"
-												)
-											}
-										/>
-									) : (
-										<LuEyeOff
-											onClick={() =>
-												handleShowPassword(
-													"showConfirmPassword"
-												)
-											}
-										/>
-									)}
-								</div>
-								<div className="error-message">
-									{confirmPasswordError}
-								</div>
-							</>
+							<PasswordInput
+								htmlFor="confirm-password"
+								label="Confirm Password"
+								id="confirm-password"
+								name="confirmPassword"
+								value={confirmPassword}
+								onChange={handleChange}
+								placeholder="confirm password"
+								passwordError={confirmPasswordError}
+							/>
 						)}
 						<button
 							type="submit"
 							onClick={handleSubmit}
 							className="auth-submit-btn"
 							style={{
-								cursor: !handleButtonDisable
-									? "pointer"
-									: "no-drop",
+								cursor: !handleButtonDisable ? "pointer" : "no-drop",
 							}}
 							disabled={handleButtonDisable}>
 							{buttonText}

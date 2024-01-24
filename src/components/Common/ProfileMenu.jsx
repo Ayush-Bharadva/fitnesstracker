@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { PropTypes } from "prop-types";
 import { VscAccount } from "react-icons/vsc";
 import { CiLogout } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
@@ -28,8 +29,10 @@ function ProfileMenu(props) {
 			<VscAccount className="profile-icon" />
 			{openProfile && (
 				<ul>
-					{profileOptions.map((option) => (
-						<li key={option.text} onClick={handleClick}>
+					{profileOptions.map(option => (
+						<li
+							key={option.text}
+							onClick={handleClick}>
 							{option.icon} {option.text}
 						</li>
 					))}
@@ -40,3 +43,7 @@ function ProfileMenu(props) {
 }
 
 export default ProfileMenu;
+
+ProfileMenu.propTypes = {
+	className: PropTypes.string,
+};

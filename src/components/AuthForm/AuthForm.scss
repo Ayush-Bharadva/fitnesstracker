@@ -26,8 +26,7 @@ $text-color: rgb(9, 57, 110);
 	align-items: center;
 	height: 100vh;
 	width: 100vw;
-	background: linear-gradient(45deg, hsla(234, 36%, 55%, 1) 0%, hsla(234, 36%, 55%, 0) 100%),
-		url("../../assets/images/BgGraphics.png") top right/auto 100% no-repeat;
+	background: linear-gradient(45deg, hsla(234, 36%, 55%, 1) 0%, hsla(234, 36%, 55%, 0) 100%), url("../../assets/images/BgGraphics.png") top right/auto 100% no-repeat;
 
 	.auth-form-container {
 		display: flex;

@@ -55,21 +55,15 @@ function UserProfile() {
 	const validateInput = (name, value) => {
 		switch (name) {
 			case "fullName":
-				return !value.trim() || value.length < 4
-					? "Please enter correct fullname(must contains atleast 4 characters)"
-					: "";
+				return !value.trim() || value.length < 4 ? "Please enter correct fullname(must contains atleast 4 characters)" : "";
 			case "email":
 				return !value.trim() || !emailPattern.test(value) ? "invalid Email" : "";
 			case "age":
 				return !value || value < 1 || value >= 130 ? "Please enter valid age (between 1 to 130)" : "";
 			case "height":
-				return !value || value < 50 || value >= 300
-					? "Height should be more than 50 cms or less than 300 cms"
-					: "";
+				return !value || value < 50 || value >= 300 ? "Height should be more than 50 cms or less than 300 cms" : "";
 			case "weight":
-				return !value || value < 2 || value >= 700
-					? "Weight should be more than 2 kgs and less than 700 kgs"
-					: "";
+				return !value || value < 2 || value >= 700 ? "Weight should be more than 2 kgs and less than 700 kgs" : "";
 			default:
 				break;
 		}
@@ -177,9 +171,7 @@ function UserProfile() {
 												{...getRootProps()}
 												className="image-dropzone">
 												<input {...getInputProps()} />
-												<p className="drop-text">
-													Drag`&apos;`n drop profile here, or click to select files
-												</p>
+												<p className="drop-text">Drag &apos;n&apos; drop profile here, or click to select files</p>
 											</div>
 										)}
 									</Dropzone>

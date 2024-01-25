@@ -121,6 +121,7 @@ $red: #cc274c;
 		.form-right {
 			position: relative;
 			flex: 1 0 70%;
+			height: min-content;
 			background: rgba($color: #ddd, $alpha: 0.75);
 			padding: 0.5rem;
 			border-radius: 7px;

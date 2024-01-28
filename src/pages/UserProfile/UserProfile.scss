@@ -258,8 +258,6 @@ img {
 					height: calc(100% - 50px);
 
 					.form-elements-container {
-						// height: 100%;
-						// height: min-content;
 						.form-group {
 							margin: 1rem 0 0 0;
 						}
@@ -270,7 +268,6 @@ img {
 	}
 }
 
-// /*
 @media screen and (max-width: 320px) {
 	#user-profile-section {
 		height: calc(100vh - 121px);
@@ -285,10 +282,6 @@ img {
 				.form-left {
 					.image-container {
 						padding: 0.5rem 0.5rem 0 0.5rem;
-						// .profile-img {
-						// 	height: 100px;
-						// 	width: 100px;
-						// }
 					}
 				}
 				.form-right {
@@ -300,4 +293,3 @@ img {
 		}
 	}
 }
-// */

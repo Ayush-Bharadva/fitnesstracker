@@ -13,157 +13,166 @@ $red: #cc274c;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: linear-gradient(45deg, hsla(133, 50%, 79%, 1) 0%, hsla(234, 36%, 55%, 1) 100%);
-}
+	background: linear-gradient(
+		45deg,
+		hsla(133, 50%, 79%, 1) 0%,
+		hsla(234, 36%, 55%, 1) 100%
+	);
 
-.profile-form-container {
-	width: 80%;
-	height: 90%;
-	max-width: 1080px;
-	padding: 0.5rem;
+	.profile-form-container {
+		width: 80%;
+		height: 100%;
+		max-width: 1080px;
+		padding: 0.5rem;
 
-	.form-title {
-		color: $red;
-	}
-
-	.user-profile-form {
-		display: flex;
-		padding: 0.5rem 0;
-		gap: 1rem;
-		width: 100%;
-		height: calc(100% - 21px);
-
-		.form-left {
-			background-color: rgba($color: #ddd, $alpha: 0.75);
-			flex: 1 0 25%;
-			height: 200px;
-			border-radius: 7px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-
-			.image-dropzone {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				border-radius: 7px;
-				border: 2px dashed #fff;
-				width: 100%;
-				height: 100%;
-				margin: 0 auto;
-
-				.drop-text {
-					font-weight: bold;
-					width: 100%;
-					text-align: center;
-					padding: 1rem;
-					color: $red;
-				}
-			}
-
-			.image-container {
-				position: relative;
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-				justify-content: space-evenly;
-				padding: 0.75rem;
-				border-radius: 7px;
-				width: 100%;
-				height: 100%;
-
-				.remove-img-btn {
-					position: absolute;
-					top: 7px;
-					right: 7px;
-					padding: 0.2rem 0.4rem;
-					background-color: $light-teal;
-					color: #fff;
-					align-self: flex-end;
-					border: none;
-					border-radius: 10px;
-					cursor: pointer;
-				}
-
-				.profile-img {
-					background-color: transparent;
-					height: 120px;
-					width: 120px;
-					border-radius: 50%;
-					overflow: hidden;
-					position: relative;
-
-					img {
-						height: 100%;
-						width: 100%;
-						object-fit: cover;
-					}
-				}
-				.text-your-image {
-					font-weight: bold;
-					margin: 5px;
-				}
-
-				.preview {
-					color: #333;
-					margin-bottom: 10px;
-				}
-				.fullname-preview {
-					font-weight: bold;
-				}
-				.email-preview {
-					opacity: 0.65;
-				}
-			}
+		.form-title {
+			color: $red;
 		}
 
-		.form-right {
-			position: relative;
-			flex: 1 0 70%;
-			height: min-content;
-			background: rgba($color: #ddd, $alpha: 0.75);
-			padding: 0.5rem;
-			border-radius: 7px;
-			overflow-y: scroll;
+		.user-profile-form {
+			display: flex;
+			padding: 0.5rem 0;
+			gap: 1rem;
+			width: 100%;
+			height: calc(100% - 21px);
 
-			.title-wrapper {
-				padding: 0.25rem 0;
-				font-weight: bold;
-				border-bottom: 1px solid #333;
-				color: #cc274c;
+			.form-left {
+				background-color: rgba($color: #eee, $alpha: 1.5);
+				flex: 1 0 25%;
+				height: 200px;
+				border-radius: 7px;
 				display: flex;
+				justify-content: center;
 				align-items: center;
-				justify-content: space-between;
+
+				.image-dropzone {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					border-radius: 7px;
+					border: 2px dashed #fff;
+					width: 100%;
+					height: 100%;
+					margin: 0 auto;
+
+					.drop-text {
+						font-weight: bold;
+						width: 100%;
+						text-align: center;
+						padding: 1rem;
+						color: $red;
+					}
+				}
+
+				.image-container {
+					position: relative;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					justify-content: space-evenly;
+					padding: 0.75rem;
+					border-radius: 7px;
+					width: 100%;
+					height: 100%;
+
+					.remove-img-btn {
+						position: absolute;
+						top: 7px;
+						right: 7px;
+						padding: 0.2rem 0.4rem;
+						background-color: $light-teal;
+						color: #fff;
+						align-self: flex-end;
+						border: none;
+						border-radius: 10px;
+						cursor: pointer;
+					}
+
+					.profile-img {
+						background-color: transparent;
+						height: 120px;
+						width: 120px;
+						border-radius: 50%;
+						overflow: hidden;
+						position: relative;
+
+						img {
+							height: 100%;
+							width: 100%;
+							object-fit: cover;
+						}
+					}
+					.text-your-image {
+						font-weight: bold;
+						margin: 5px 0;
+					}
+
+					.preview {
+						color: #333;
+						margin-bottom: 10px;
+					}
+					.fullname-preview {
+						font-weight: bold;
+					}
+					.email-preview {
+						opacity: 0.65;
+					}
+				}
 			}
 
-			.form-group {
-				margin: 1rem 0;
+			.form-right {
+				position: relative;
+				flex: 1 0 70%;
+				// height: min-content;
+				padding: 0.5rem;
+				background: rgba($color: #eee, $alpha: 1);
+				border-radius: 7px;
+				overflow-y: scroll;
 
-				label {
+				.title-wrapper {
+					padding: 0.25rem 0;
 					font-weight: bold;
-					opacity: 0.7;
-				}
-
-				input:not([type="radio"]),
-				select {
-					border: none;
-					outline: none;
-					padding: 0.5rem 0.5rem;
-					width: 100%;
-					background-color: #eee;
-					border-radius: 7px;
-					margin-top: 0.3rem;
-				}
-
-				.radio-option {
-					background-color: #eee;
-					margin-top: 9px;
+					border-bottom: 1px solid #333;
+					color: #cc274c;
 					display: flex;
-					gap: 9px;
 					align-items: center;
-					padding: 0.5rem;
-					border-radius: 7px;
+					justify-content: space-between;
+				}
+
+				.form-elements-container {
+					height: 100%;
+					height: min-content;
+
+					.form-group {
+						margin: 1rem 0;
+
+						label {
+							font-weight: bold;
+							opacity: 0.7;
+						}
+
+						input:not([type="radio"]),
+						select {
+							border: none;
+							outline: none;
+							padding: 0.5rem 0.5rem;
+							width: 100%;
+							background-color: #ddd;
+							border-radius: 7px;
+							margin-top: 0.3rem;
+						}
+
+						.radio-option {
+							background-color: #ddd;
+							margin-top: 9px;
+							display: flex;
+							gap: 9px;
+							align-items: center;
+							padding: 0.5rem;
+							border-radius: 7px;
+						}
+					}
 				}
 			}
 		}
@@ -206,38 +215,54 @@ img {
 @media screen and (max-width: 768px) {
 	#user-profile-section {
 		height: calc(100vh - 103px);
-	}
 
-	.profile-form-container {
-		padding: 0.25rem;
-		height: 100%;
+		.profile-form-container {
+			padding: 0.25rem;
+			height: 100%;
 
-		.form-title {
-			padding: 0.25rem 0;
-		}
-
-		.user-profile-form {
-			flex-direction: column;
-			height: calc(100% - 36px);
-			gap: 0.5rem;
-
-			.form-left {
-				flex: 1 0 30%;
-				.image-container {
-					gap: 0.5rem;
-					padding: 0.5rem 0.5rem 0 0.5rem;
-				}
-
-				.image-dropzone {
-					height: 100%;
-					width: 100%;
-				}
+			.form-title {
+				padding: 0.25rem 0;
 			}
 
-			.form-right {
-				flex: 1 0 68%;
-				width: 100%;
-				height: calc(100% - 50px);
+			.user-profile-form {
+				flex-direction: column;
+				height: calc(100% - 36px);
+				gap: 0.5rem;
+
+				.form-left {
+					flex: 1 0 30%;
+					height: 100px;
+
+					.image-container {
+						gap: 0.5rem;
+						padding: 0.5rem 0.5rem;
+
+						.profile-img {
+							height: 90px !important;
+							width: 90px !important;
+						}
+						.text-your-image {
+							margin: 0 0 5px 0;
+						}
+					}
+
+					.image-dropzone {
+						height: 100%;
+						width: 100%;
+					}
+				}
+
+				.form-right {
+					flex: 1 0 68%;
+					width: 100%;
+					height: calc(100% - 50px);
+
+					.form-elements-container {
+						.form-group {
+							margin: 1rem 0 0 0;
+						}
+					}
+				}
 			}
 		}
 	}
@@ -246,26 +271,24 @@ img {
 @media screen and (max-width: 320px) {
 	#user-profile-section {
 		height: calc(100vh - 121px);
-	}
-	.profile-form-container {
-		padding: 0.25rem;
-		height: 100%;
 
-		.user-profile-form {
-			height: calc(100% - 36px);
+		.profile-form-container {
+			padding: 0.25rem;
+			height: 100%;
 
-			.form-left {
-				.image-container {
-					.profile-img {
-						height: 100px;
-						width: 100px;
+			.user-profile-form {
+				height: calc(100% - 36px);
+
+				.form-left {
+					.image-container {
+						padding: 0.5rem 0.5rem 0 0.5rem;
 					}
 				}
-			}
-			.form-right {
-				flex: 1 0 68%;
-				width: 100%;
-				height: calc(100% - 50px);
+				.form-right {
+					flex: 1 0 68%;
+					width: 100%;
+					height: calc(100% - 50px);
+				}
 			}
 		}
 	}

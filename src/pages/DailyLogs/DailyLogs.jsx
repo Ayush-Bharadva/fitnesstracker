@@ -17,7 +17,7 @@ function DailyLogs() {
 		const fetchTodaysDetails = async () => {
 			try {
 				const response = await getDetailsFromDateService({
-					date: selectedDate,
+					date: selectedDate
 				});
 				setIsLoading(false);
 				if (response.status === 200) {
@@ -90,6 +90,7 @@ function DailyLogs() {
 				<RecordCard
 					allDetails={todaysDetails}
 					setAllDetails={setTodaysDetails}
+					isReadonly
 				/>
 			)}
 		</main>

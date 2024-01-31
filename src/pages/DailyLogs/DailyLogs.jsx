@@ -38,6 +38,8 @@ function DailyLogs() {
 		setSelectedDate(target.value);
 	};
 
+	const isLogReadOnly = selectedDate === getTodaysDate() ? false : true;
+
 	return (
 		<main className="daily-logs-section">
 			<section id="activity-form-section">
@@ -90,7 +92,7 @@ function DailyLogs() {
 				<RecordCard
 					allDetails={todaysDetails}
 					setAllDetails={setTodaysDetails}
-					isReadonly
+					isReadonly={isLogReadOnly}
 				/>
 			)}
 		</main>

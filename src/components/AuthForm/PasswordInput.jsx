@@ -3,17 +3,7 @@ import { useState } from "react";
 import { IoEyeOutline } from "react-icons/io5";
 import { LuEyeOff } from "react-icons/lu";
 
-function PasswordInput({
-	htmlFor,
-	label,
-	id,
-	name,
-	value,
-	onChange,
-	placeholder,
-	passwordError,
-	confirmPasswordError,
-}) {
+function PasswordInput({ htmlFor, label, id, name, value, onChange, placeholder, passwordError, confirmPasswordError }) {
 	const [showPassword, setShowPassword] = useState(false);
 	return (
 		<>
@@ -33,11 +23,7 @@ function PasswordInput({
 					autoComplete="on"
 					required
 				/>
-				{showPassword ? (
-					<IoEyeOutline onClick={() => setShowPassword(prevState => !prevState)} />
-				) : (
-					<LuEyeOff onClick={() => setShowPassword(prevState => !prevState)} />
-				)}
+				{showPassword ? <IoEyeOutline onClick={() => setShowPassword(prevState => !prevState)} /> : <LuEyeOff onClick={() => setShowPassword(prevState => !prevState)} />}
 			</div>
 			{passwordError && <div className="error-message">{passwordError}</div>}
 			{confirmPasswordError && <div className="error-message">{confirmPasswordError}</div>}
@@ -53,10 +39,10 @@ PasswordInput.propTypes = {
 	type: PropTypes.string,
 	id: PropTypes.string,
 	name: PropTypes.string,
-	value: PropTypes.number,
+	value: PropTypes.string,
 	onChange: PropTypes.func,
 	placeholder: PropTypes.string,
 	autoComplete: PropTypes.string,
 	passwordError: PropTypes.string,
-	confirmPasswordError: PropTypes.string,
+	confirmPasswordError: PropTypes.string
 };

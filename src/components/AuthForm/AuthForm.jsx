@@ -8,19 +8,22 @@ import { setCookie, showToast, validatePassword } from "../../utils/helper";
 import { emailPattern } from "../../constants/constants";
 import Loader from "../Common/Loader";
 import PasswordInput from "./PasswordInput";
+// import VerifyEmailModal from "./VerifyEmailModal";
+// import Modal from "./Modal";
+import ForgotPasswordModal from "./ForgotPasswordModal";
 
 const initialFormData = {
 	fullname: "",
 	email: "",
 	password: "",
-	confirmPassword: "",
+	confirmPassword: ""
 };
 
 const initialInputError = {
 	fullnameError: "",
 	emailError: "",
 	passwordError: "",
-	confirmPasswordError: "",
+	confirmPasswordError: ""
 };
 
 function AuthForm() {
@@ -30,19 +33,21 @@ function AuthForm() {
 	const [formData, setFormData] = useState(initialFormData);
 	const [inputError, setInputError] = useState(initialInputError);
 
+	const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
+
 	const formObject = useMemo(() => {
 		return isLoginForm
 			? {
 					title: "Welcome Back!",
 					buttonText: "Log In",
 					linkText: "Don't have an account? ",
-					linkButtonText: "Register",
+					linkButtonText: "Register"
 			  }
 			: {
 					title: "Create Account",
 					buttonText: "Sign Up",
 					linkText: "Already have an account? ",
-					linkButtonText: "Log In",
+					linkButtonText: "Log In"
 			  };
 	}, [isLoginForm]);
 
@@ -66,8 +71,7 @@ function AuthForm() {
 				inputErrorObj.passwordError = validatePassword(value);
 				break;
 			case "confirmPassword":
-				inputErrorObj.confirmPasswordError =
-					formData.password !== value ? "Password and Confirm-Password must be same" : "";
+				inputErrorObj.confirmPasswordError = formData.password !== value ? "Password and Confirm-Password must be same" : "";
 				break;
 			default:
 				break;
@@ -79,7 +83,7 @@ function AuthForm() {
 
 		setInputError(prevErrors => ({
 			...prevErrors,
-			...inputErrorObj,
+			...inputErrorObj
 		}));
 		setFormData(prevData => ({ ...prevData, [name]: value }));
 	};
@@ -88,28 +92,9 @@ function AuthForm() {
 		if (isLoginForm) {
 			return !email || emailError || !password || passwordError;
 		} else {
-			return (
-				!email ||
-				emailError ||
-				!password ||
-				passwordError ||
-				!fullname ||
-				fullnameError ||
-				!confirmPassword ||
-				confirmPasswordError
-			);
+			return !email || emailError || !password || passwordError || !fullname || fullnameError || !confirmPassword || confirmPasswordError;
 		}
-	}, [
-		isLoginForm,
-		fullname,
-		email,
-		password,
-		confirmPassword,
-		fullnameError,
-		emailError,
-		passwordError,
-		confirmPasswordError,
-	]);
+	}, [isLoginForm, fullname, email, password, confirmPassword, fullnameError, emailError, passwordError, confirmPasswordError]);
 
 	const handleSubmit = async e => {
 		e.preventDefault();
@@ -118,9 +103,7 @@ function AuthForm() {
 
 		try {
 			setIsLoading(true);
-			const response = isLoginForm
-				? await userLogInService({ email, password })
-				: await userSignUpService({ fullname, email, password });
+			const response = isLoginForm ? await userLogInService({ email, password }) : await userSignUpService({ fullname, email, password });
 			setIsLoading(false);
 
 			if (response.status === 200) {
@@ -161,7 +144,6 @@ function AuthForm() {
 									placeholder="fullname"
 									required
 								/>
-
 								<div className="error-message">{fullnameError}</div>
 							</>
 						)}
@@ -190,6 +172,15 @@ function AuthForm() {
 							placeholder="password"
 							passwordError={passwordError}
 						/>
+
+						{isLoginForm && (
+							<p
+								className="forgot-password-text"
+								onClick={() => setShowForgotPasswordModal(true)}>
+								forgot password
+							</p>
+						)}
+
 						{!isLoginForm && (
 							<PasswordInput
 								htmlFor="confirm-password"
@@ -207,7 +198,7 @@ function AuthForm() {
 							onClick={handleSubmit}
 							className="auth-submit-btn"
 							style={{
-								cursor: !handleButtonDisable ? "pointer" : "no-drop",
+								cursor: !handleButtonDisable ? "pointer" : "no-drop"
 							}}
 							disabled={handleButtonDisable}>
 							{buttonText}
@@ -219,6 +210,8 @@ function AuthForm() {
 					</p>
 				</div>
 			</div>
+			{showForgotPasswordModal && <ForgotPasswordModal />}
+
 			<ToastContainer />
 		</>
 	);

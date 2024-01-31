@@ -90,6 +90,19 @@ $text-color: rgb(9, 57, 110);
 				border-radius: 7px;
 				cursor: pointer;
 			}
+
+			.forgot-password-text {
+				color: #eee;
+				text-decoration: underline;
+				text-align: left;
+				padding: 0.25rem 0;
+				display: inline-block;
+				cursor: pointer;
+
+				&:hover {
+					color: #ddd;
+				}
+			}
 		}
 
 		p {

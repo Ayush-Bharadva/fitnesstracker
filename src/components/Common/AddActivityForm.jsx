@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import { PropTypes } from "prop-types";
 import { showToast } from "../../utils/helper";
 import { addExerciseService, addMealService, updateExerciseServise, updateMealService } from "../../services/services";
-import { ToastContainer } from "react-toastify";
 import "./AddActivityForm.scss";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "./Loader";
@@ -11,14 +10,14 @@ const initialValue = {
 	type: "",
 	duration: "",
 	ingredients: "",
-	calories: "",
+	calories: ""
 };
 
 const initialError = {
 	typeError: "",
 	durationError: "",
 	ingredientsError: "",
-	caloriesError: "",
+	caloriesError: ""
 };
 
 function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
@@ -36,7 +35,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 				activityText: "Exercise Type",
 				optionText: "Select Exercise Type",
 				calorieText: "Calories Burned",
-				caloriePlaceholder: "Enter calories burned (approx)",
+				caloriePlaceholder: "Enter calories burned (approx)"
 			};
 		} else {
 			return {
@@ -45,7 +44,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 				activityText: "Meal Type",
 				optionText: "Select Meal Type",
 				calorieText: "Calories Consumed",
-				caloriePlaceholder: "Enter calories consumed (approx)",
+				caloriePlaceholder: "Enter calories consumed (approx)"
 			};
 		}
 	}, [isExercise]);
@@ -53,21 +52,13 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 	const { formType, heading, activityText, optionText, calorieText, caloriePlaceholder } = formInfo;
 	const { durationError, ingredientsError, caloriesError } = activityDetailsError;
 
-	const options = useMemo(
-		() =>
-			isExercise
-				? ["Walking", "Running", "Weight Lifting", "Gym", "Yoga"]
-				: ["Breakfast", "Lunch", "Dinner", "Snacks"],
-		[isExercise]
-	);
+	const options = useMemo(() => (isExercise ? ["Walking", "Running", "Weight Lifting", "Gym", "Yoga"] : ["Breakfast", "Lunch", "Dinner", "Snacks"]), [isExercise]);
 
 	const handleType = type => (type === "Weight Lifting" ? "Weight_lifting" : type);
 
 	const getActivityDetails = type => {
 		let activityType = handleType(type);
-		return isExercise
-			? exerciseDetails?.find(exercise => exercise.exerciseType === activityType)
-			: mealDetails?.find(meal => meal.mealType === type);
+		return isExercise ? exerciseDetails?.find(exercise => exercise.exerciseType === activityType) : mealDetails?.find(meal => meal.mealType === type);
 	};
 
 	const { type, duration, ingredients, calories } = activityDetails;
@@ -77,12 +68,12 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 			? updateExerciseServise({
 					exerciseType: handleType(type),
 					duration,
-					caloriesBurned: calories,
+					caloriesBurned: calories
 			  })
 			: updateMealService({
 					mealType: type,
 					ingredients: activityDetails.ingredients,
-					caloriesConsumed: calories,
+					caloriesConsumed: calories
 			  });
 	};
 
@@ -91,12 +82,10 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 
 		switch (name) {
 			case "duration":
-				inputErrorObj.durationError =
-					value >= 1440 || value <= 0 ? "Duration should be in range (1 to 1440) min" : "";
+				inputErrorObj.durationError = value >= 1440 || value <= 0 ? "Duration should be in range (1 to 1440) min" : "";
 				break;
 			case "calories":
-				inputErrorObj.caloriesError =
-					value >= 20000 || value <= 0 ? "Calories should be in range (1 to 20000) cal" : "";
+				inputErrorObj.caloriesError = value >= 20000 || value <= 0 ? "Calories should be in range (1 to 20000) cal" : "";
 				break;
 			case "ingredients":
 				inputErrorObj.ingredientsError = !value ? "Ingredients is required" : "";
@@ -107,7 +96,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 
 		setActivityDetailsError(prevErrors => ({
 			...prevErrors,
-			...inputErrorObj,
+			...inputErrorObj
 		}));
 	};
 
@@ -120,25 +109,18 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 			const activityDetails = getActivityDetails(value);
 			setButtonText(!activityDetails ? "Add" : "Edit");
 
-			const {
-				exerciseType = "",
-				duration = "",
-				caloriesBurned = "",
-				mealType = "",
-				ingredients = "",
-				caloriesConsumed = "",
-			} = activityDetails || {};
+			const { exerciseType = "", duration = "", caloriesBurned = "", mealType = "", ingredients = "", caloriesConsumed = "" } = activityDetails || {};
 
 			setActivityDetails({
 				type: exerciseType === "Weight_lifting" ? "Weight Lifting" : exerciseType || mealType || value,
 				duration,
 				ingredients,
-				calories: caloriesBurned || caloriesConsumed,
+				calories: caloriesBurned || caloriesConsumed
 			});
 		} else {
 			setActivityDetails(prevInfo => ({
 				...prevInfo,
-				[name]: name === "ingredients" ? value : Number(value),
+				[name]: name === "ingredients" ? value : Number(value)
 			}));
 		}
 	};
@@ -158,10 +140,10 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 							? {
 									...exercise,
 									duration,
-									caloriesBurned: calories,
+									caloriesBurned: calories
 							  }
 							: exercise
-					),
+					)
 				};
 			} else {
 				updatedDetails = {
@@ -170,15 +152,15 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 							? {
 									...meal,
 									ingredients,
-									caloriesConsumed: calories,
+									caloriesConsumed: calories
 							  }
 							: meal
-					),
+					)
 				};
 			}
 			setAllDetails({
 				...allDetails,
-				...updatedDetails,
+				...updatedDetails
 			});
 
 			showToast("success", "activity updated successfully");
@@ -195,12 +177,12 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 			? await addExerciseService({
 					exerciseType: handleType(type),
 					duration: duration,
-					caloriesBurned: calories,
+					caloriesBurned: calories
 			  })
 			: await addMealService({
 					mealType: type,
 					ingredients: ingredients,
-					caloriesConsumed: calories,
+					caloriesConsumed: calories
 			  });
 		setIsLoading(false);
 		if (response.status === 200) {
@@ -208,7 +190,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 				? {
 						exerciseType: handleType(type),
 						duration,
-						caloriesBurned: calories,
+						caloriesBurned: calories
 				  }
 				: { mealType: type, ingredients, caloriesConsumed: calories };
 
@@ -216,7 +198,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 
 			setAllDetails({
 				...allDetails,
-				[activityDetailsType]: [...(allDetails[activityDetailsType] || []), newActivity],
+				[activityDetailsType]: [...(allDetails[activityDetailsType] || []), newActivity]
 			});
 			showToast("success", `${formType.toLowerCase()} added successfully`);
 			setActivityDetails(initialValue);
@@ -317,7 +299,6 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 				</button>
 			</form>
 			{isLoading && <Loader />}
-			<ToastContainer />
 		</>
 	);
 }
@@ -327,5 +308,5 @@ export default AddActivityForm;
 AddActivityForm.propTypes = {
 	isExercise: PropTypes.bool,
 	allDetails: PropTypes.object,
-	setAllDetails: PropTypes.func,
+	setAllDetails: PropTypes.func
 };

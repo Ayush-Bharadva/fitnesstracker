@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { deleteExerciseService, deleteMealService } from "../../services/services";
-import { ToastContainer } from "react-toastify";
+// import { ToastContainer } from "react-toastify";
 import "../../global.scss";
 import { showToast } from "../../utils/helper";
 import Record from "./Record";
@@ -23,7 +23,7 @@ function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 			if (response.status === 200) {
 				const key = isExercise ? "exerciseDetails" : "mealDetails";
 				const updatedDetails = {
-					[key]: allDetails[key].filter(item => item[isExercise ? "exerciseType" : "mealType"] !== type),
+					[key]: allDetails[key].filter(item => item[isExercise ? "exerciseType" : "mealType"] !== type)
 				};
 				showToast("success", "Activity deleted!!");
 				setAllDetails({ ...allDetails, ...updatedDetails });
@@ -48,9 +48,7 @@ function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 
 	return (
 		<>
-			{isTrackingWorkout && (
-				<h1 className="no-activity-heading text-center">Add some Activities to display Here!!</h1>
-			)}
+			{isTrackingWorkout && <h1 className="no-activity-heading text-center">Add some Activities to display Here!!</h1>}
 			<div className="record-card">
 				<div className="exercise-record-container">
 					{exerciseDetails?.length > 0 && (
@@ -86,7 +84,7 @@ function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 					)}
 				</div>
 			</div>
-			<ToastContainer />
+			{/* <ToastContainer /> */}
 			{showModal && (
 				<DeleteActivityModal
 					onConfirmDelete={onConfirmDelete}
@@ -102,5 +100,5 @@ export default RecordCard;
 RecordCard.propTypes = {
 	allDetails: PropTypes.object,
 	setAllDetails: PropTypes.func,
-	isReadonly: PropTypes.bool,
+	isReadonly: PropTypes.bool
 };

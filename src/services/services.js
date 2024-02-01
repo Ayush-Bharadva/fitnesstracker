@@ -7,13 +7,17 @@ const userProfileApiUrl = `${userApiUrl}/profile`;
 const userExerciseApiUrl = `${userApiUrl}/exercise`;
 const userMealApiUrl = `${userApiUrl}/meal`;
 
+const forgotPasswordApi = "https://fitnesstracker-k5h0.onrender.com/forgot-password";
+const verifyOTPApi = "https://fitnesstracker-k5h0.onrender.com/verify-otp";
+const setNewPasswordApi = "https://fitnesstracker-k5h0.onrender.com/set-new-password";
+
 // axios instance with common headers
 const headers = {
-	"Content-Type": "application/json",
+	"Content-Type": "application/json"
 };
 const createApiInstance = axios.create({
 	baseURL: baseApiUrl,
-	headers: headers,
+	headers: headers
 });
 
 createApiInstance.interceptors.request.use(config => {
@@ -52,9 +56,9 @@ export async function getImageUrlService(acceptedFiles) {
 		headers: {
 			Accept: "*/*",
 			"X-RapidAPI-Key": "7b9cb3e4bdmsh673fe14fd2c1338p1ac175jsnaa23464a349f",
-			"X-RapidAPI-Host": "upload-image-and-return-url-by-thichthicodeteam.p.rapidapi.com",
+			"X-RapidAPI-Host": "upload-image-and-return-url-by-thichthicodeteam.p.rapidapi.com"
 		},
-		data: data,
+		data: data
 	};
 	try {
 		const response = await axios.request(options);
@@ -78,6 +82,36 @@ export async function userSignUpService(userCredentials) {
 export async function userLogInService(userCredentials) {
 	try {
 		const response = await createApiInstance.post(`${baseApiUrl}/login`, userCredentials);
+		return response;
+	} catch (error) {
+		return error.response.data;
+	}
+}
+
+// forgot password / verify email
+export async function verifyEmail(email) {
+	try {
+		const response = await axios.post(forgotPasswordApi, { email, eventType: "Forgot_password" });
+		return response;
+	} catch (error) {
+		return error.response.data;
+	}
+}
+
+// verify-otp
+export async function verifyOTP(email, otp) {
+	try {
+		const response = await axios.post(verifyOTPApi, { email, otp, eventType: "Forgot_password" });
+		return response;
+	} catch (error) {
+		return error.response.data;
+	}
+}
+
+// set new password
+export async function setNewPassword(email, newPassword, token) {
+	try {
+		const response = await axios.post(setNewPasswordApi, { email, newPassword, token, eventType: "Forgot_password" });
 		return response;
 	} catch (error) {
 		return error.response.data;
@@ -118,7 +152,7 @@ export async function updateUserProfileService(userInfo) {
 export async function getDetailsFromDateService(currentDate) {
 	try {
 		const response = await createApiInstance.get(`${userApiUrl}/alldetails`, {
-			params: currentDate,
+			params: currentDate
 		});
 		return response;
 	} catch (error) {
@@ -151,8 +185,8 @@ export async function deleteExerciseService(type) {
 	try {
 		const response = await createApiInstance.delete(`${userExerciseApiUrl}`, {
 			params: {
-				exercisetype: type,
-			},
+				exercisetype: type
+			}
 		});
 		return response;
 	} catch (error) {
@@ -184,7 +218,7 @@ export async function updateMealService(mealInfo) {
 export async function deleteMealService(type) {
 	try {
 		const response = createApiInstance.delete(`${userMealApiUrl}`, {
-			params: { mealtype: type },
+			params: { mealtype: type }
 		});
 		return response;
 	} catch (error) {
@@ -197,8 +231,8 @@ export async function getYearlyWeightDetailService(date) {
 	try {
 		const response = createApiInstance.get(`${userApiUrl}/yearly-weight-details`, {
 			params: {
-				date: date,
-			},
+				date: date
+			}
 		});
 		return response;
 	} catch (error) {
@@ -211,8 +245,8 @@ export async function getYearlyCaloriesDetailService(date) {
 	try {
 		const response = createApiInstance.get(`${userApiUrl}/yearly-caloriesburned-details`, {
 			params: {
-				date: date,
-			},
+				date: date
+			}
 		});
 		return response;
 	} catch (error) {
@@ -224,7 +258,7 @@ export async function getYearlyCaloriesDetailService(date) {
 export async function addWeightService(weightInfo) {
 	try {
 		const response = createApiInstance.post(`${userApiUrl}/weight`, {
-			dailyWeight: weightInfo,
+			dailyWeight: weightInfo
 		});
 		return response;
 	} catch (error) {
@@ -236,7 +270,7 @@ export async function addWeightService(weightInfo) {
 export async function editWeightService(weightInfo) {
 	try {
 		const response = createApiInstance.put(`${userApiUrl}/weight`, {
-			dailyWeight: weightInfo,
+			dailyWeight: weightInfo
 		});
 		return response;
 	} catch (error) {
@@ -258,7 +292,7 @@ export async function deleteWeightService() {
 export async function addWaterService(waterInfo) {
 	try {
 		const response = createApiInstance.post(`${userApiUrl}/water`, {
-			waterIntake: waterInfo,
+			waterIntake: waterInfo
 		});
 		return response;
 	} catch (error) {
@@ -270,7 +304,7 @@ export async function addWaterService(waterInfo) {
 export async function editWaterService(waterInfo) {
 	try {
 		const response = createApiInstance.put(`${userApiUrl}/water`, {
-			waterIntake: waterInfo,
+			waterIntake: waterInfo
 		});
 		return response;
 	} catch (error) {

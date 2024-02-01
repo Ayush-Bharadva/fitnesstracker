@@ -1,58 +1,43 @@
 import { PropTypes } from "prop-types";
 import "./modal.scss";
-import { CiMail } from "react-icons/ci";
+import { forwardRef, useImperativeHandle, useRef } from "react";
+import { createPortal } from "react-dom";
 
-function Modal({ children, closeModal, modalFor, title, subtitle, onSubmit }) {
-	const Input =
-		modalFor === "email" ? (
-			<>
-				<CiMail className="mail-icon" />
-				<input
-					type="email"
-					placeholder="Enter Email"
-				/>
-			</>
-		) : (
-			<input
-				type="number"
-				placeholder="Enter OTP"
-			/>
-		);
+const Modal = forwardRef(function Modal({ children }, ref) {
+	console.log(ref);
 
-	return (
-		<dialog className="modal">
+	const dialog = useRef();
+
+	useImperativeHandle(ref, () => {
+		return {
+			open() {
+				dialog.current.showModal();
+			}
+		};
+	});
+
+	return createPortal(
+		<dialog
+			ref={dialog}
+			className="modal">
+			<h1>dialog</h1>
 			<form method="dialog">
-				<button onClick={closeModal}>close</button>
+				<button>close</button>
 			</form>
-			<div className="verify-email-container">
-				<button
-					className="close-btn"
-					onClick={close}>
-					close
-				</button>
-				<h1>{title}</h1>
-				<p>{subtitle}</p>
-				<form action="">
-					<div>{Input}</div>
-					<button
-						type="submit"
-						onClick={onSubmit}>
-						Submit
-					</button>
-				</form>
-			</div>
 			{children}
-		</dialog>
+		</dialog>,
+		document.getElementById("forgot-password-modal")
 	);
-}
+});
 
 export default Modal;
 
 Modal.propTypes = {
 	children: PropTypes.node,
-	closeModal: PropTypes.func,
-	modalFor: PropTypes.string,
-	title: PropTypes.string,
-	subtitle: PropTypes.string,
-	onSubmit: PropTypes.func
+	onClose: PropTypes.func
+	// closeModal: PropTypes.func,
+	// modalFor: PropTypes.string,
+	// title: PropTypes.string,
+	// subtitle: PropTypes.string,
+	// onSubmit: PropTypes.func
 };

@@ -1,16 +1,19 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import "./AuthForm.scss";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { userLogInService, userSignUpService } from "../../services/services";
 import { setCookie, showToast, validatePassword } from "../../utils/helper";
 import { emailPattern } from "../../constants/constants";
 import Loader from "../Common/Loader";
 import PasswordInput from "./PasswordInput";
-// import VerifyEmailModal from "./VerifyEmailModal";
 // import Modal from "./Modal";
-import ForgotPasswordModal from "./ForgotPasswordModal";
+// import VerifyEmail from "./VerifyEmail";
+// import VerifyOTP from "./VerifyOTP";
+// import { CiMail } from "react-icons/ci";
+// import VerifyEmail from "./VerifyEmail";
+// import Modal from "./Modal";
+// import ForgotPasswordPage from "./ForgotPasswordPage";
 
 const initialFormData = {
 	fullname: "",
@@ -32,8 +35,6 @@ function AuthForm() {
 	const [isLoginForm, setIsLoginForm] = useState(true);
 	const [formData, setFormData] = useState(initialFormData);
 	const [inputError, setInputError] = useState(initialInputError);
-
-	const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
 
 	const formObject = useMemo(() => {
 		return isLoginForm
@@ -121,6 +122,48 @@ function AuthForm() {
 		setInputError(initialInputError);
 	};
 
+	// const modalRef = useRef();
+
+	const navToForgotPassWord = () => {
+		// if (modalRef.current) {
+		// 	modalRef.current.open();
+		// }
+		navigate("forgot-password");
+	};
+
+	//
+	// const [showEmailModal, setShowEmailModal] = useState(false);
+	// const [showOTPModal, setShowOTPModal] = useState(false);
+
+	// const onSubmitEmail = e => {
+	// 	e.preventDefault();
+	// 	// setShowEmailModal(false);
+	// 	setShowOTPModal(true);
+	// };
+
+	// const onVerifyOTP = e => {
+	// 	e.preventDefault();
+	// 	// setShowEmailModal(false);
+	// 	modalRef.current.close();
+	// 	return;
+	// 	// setShowOTPModal(false);
+	// };
+
+	// useEffect(() => {
+	// 	if (modalRef.current) {
+	// 		console.log("effect : modal current");
+	// 		modalRef.current.open();
+	// 	}
+	// }, [modalRef]);
+	//
+
+	// const closeModal = () => {
+	// 	if (modalRef.current) {
+	// 		modalRef.current.close();
+	// 		return;
+	// 	}
+	// };
+
 	return (
 		<>
 			<div className="auth-container">
@@ -176,7 +219,7 @@ function AuthForm() {
 						{isLoginForm && (
 							<p
 								className="forgot-password-text"
-								onClick={() => setShowForgotPasswordModal(true)}>
+								onClick={navToForgotPassWord}>
 								forgot password
 							</p>
 						)}
@@ -210,9 +253,38 @@ function AuthForm() {
 					</p>
 				</div>
 			</div>
-			{showForgotPasswordModal && <ForgotPasswordModal />}
-
-			<ToastContainer />
+			{/* <Modal ref={modalRef}>
+				<div className="verify-email-container">
+					<button
+						className="close-btn"
+						onClick={closeModal}>
+						close
+					</button>
+					<h1>Forgot Password / Verify Email</h1>
+					<p>Enter your email to receive an OTP for Verification</p>
+					<form action="">
+						<div>
+							<CiMail className="mail-icon" />
+							<input
+								type="email"
+								placeholder="Enter Email"
+							/>
+						</div>
+						<button
+							type="submit"
+							onClick={onSubmitEmail}>
+							Submit
+						</button>
+					</form>
+				</div>
+				{showOTPModal && (
+					<VerifyOTP
+						close={closeModal}
+					/>
+				)}
+			</Modal> */}
+			<Outlet />
+			{/* {showForgotPasswordModal && <ForgotPasswordPage />} */}
 		</>
 	);
 }

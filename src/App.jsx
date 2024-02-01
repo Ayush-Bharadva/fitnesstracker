@@ -5,6 +5,9 @@ import "./global.scss";
 import Layout from "./Layout";
 import AuthForm from "./components/AuthForm/AuthForm";
 import Loader from "./components/Common/Loader";
+import ForgotPasswordPage from "./components/AuthForm/ForgotPasswordPage";
+import { ToastContainer } from "react-toastify";
+// import { Switch } from "react-router-dom";
 
 const dynamicImport = path => lazy(() => import("./pages/index").then(module => ({ default: module[path] })));
 
@@ -36,10 +39,16 @@ const router = createBrowserRouter(
 					element={<Dashboard />}
 				/>
 			</Route>
+			{/* <Switch> */}
 			<Route
-				path="auth"
-				element={<AuthForm />}
-			/>
+				path="/auth"
+				element={<AuthForm />}>
+				<Route
+					path="forgot-password"
+					element={<ForgotPasswordPage />}
+				/>
+			</Route>
+			{/* </Switch> */}
 		</>
 	)
 );
@@ -48,6 +57,17 @@ function App() {
 	return (
 		<Suspense fallback={<Loader />}>
 			<RouterProvider router={router} />
+			<ToastContainer
+				position="top-right"
+				autoClose={1500}
+				hideProgressBar
+				newestOnTop
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover={false}
+			/>
 		</Suspense>
 	);
 }

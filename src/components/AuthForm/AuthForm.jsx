@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import "./AuthForm.scss";
 import "react-toastify/dist/ReactToastify.css";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -7,13 +7,6 @@ import { setCookie, showToast, validatePassword } from "../../utils/helper";
 import { emailPattern } from "../../constants/constants";
 import Loader from "../Common/Loader";
 import PasswordInput from "./PasswordInput";
-// import Modal from "./Modal";
-// import VerifyEmail from "./VerifyEmail";
-// import VerifyOTP from "./VerifyOTP";
-// import { CiMail } from "react-icons/ci";
-// import VerifyEmail from "./VerifyEmail";
-// import Modal from "./Modal";
-// import ForgotPasswordPage from "./ForgotPasswordPage";
 
 const initialFormData = {
 	fullname: "",
@@ -122,47 +115,9 @@ function AuthForm() {
 		setInputError(initialInputError);
 	};
 
-	// const modalRef = useRef();
-
 	const navToForgotPassWord = () => {
-		// if (modalRef.current) {
-		// 	modalRef.current.open();
-		// }
 		navigate("forgot-password");
 	};
-
-	//
-	// const [showEmailModal, setShowEmailModal] = useState(false);
-	// const [showOTPModal, setShowOTPModal] = useState(false);
-
-	// const onSubmitEmail = e => {
-	// 	e.preventDefault();
-	// 	// setShowEmailModal(false);
-	// 	setShowOTPModal(true);
-	// };
-
-	// const onVerifyOTP = e => {
-	// 	e.preventDefault();
-	// 	// setShowEmailModal(false);
-	// 	modalRef.current.close();
-	// 	return;
-	// 	// setShowOTPModal(false);
-	// };
-
-	// useEffect(() => {
-	// 	if (modalRef.current) {
-	// 		console.log("effect : modal current");
-	// 		modalRef.current.open();
-	// 	}
-	// }, [modalRef]);
-	//
-
-	// const closeModal = () => {
-	// 	if (modalRef.current) {
-	// 		modalRef.current.close();
-	// 		return;
-	// 	}
-	// };
 
 	return (
 		<>
@@ -253,38 +208,7 @@ function AuthForm() {
 					</p>
 				</div>
 			</div>
-			{/* <Modal ref={modalRef}>
-				<div className="verify-email-container">
-					<button
-						className="close-btn"
-						onClick={closeModal}>
-						close
-					</button>
-					<h1>Forgot Password / Verify Email</h1>
-					<p>Enter your email to receive an OTP for Verification</p>
-					<form action="">
-						<div>
-							<CiMail className="mail-icon" />
-							<input
-								type="email"
-								placeholder="Enter Email"
-							/>
-						</div>
-						<button
-							type="submit"
-							onClick={onSubmitEmail}>
-							Submit
-						</button>
-					</form>
-				</div>
-				{showOTPModal && (
-					<VerifyOTP
-						close={closeModal}
-					/>
-				)}
-			</Modal> */}
 			<Outlet />
-			{/* {showForgotPasswordModal && <ForgotPasswordPage />} */}
 		</>
 	);
 }

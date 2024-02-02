@@ -51,6 +51,7 @@ function DailyLogs() {
 							id="date"
 							value={selectedDate}
 							onChange={handleDateChange}
+							max={getTodaysDate()}
 						/>
 					</div>
 				</div>

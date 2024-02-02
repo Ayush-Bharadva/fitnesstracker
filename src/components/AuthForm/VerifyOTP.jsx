@@ -1,27 +1,30 @@
 import { PropTypes } from "prop-types";
+import { Timer } from "../Common/Timer";
 
-function VerifyOTP({ otpValue, onChangeOtp, onVerify }) {
+function VerifyOTP({ otpValue, onChangeOtp, onVerify, resendOtp }) {
 	return (
-		<div className="verify-otp-container">
-			{/* <button className="close-btn">close</button> */}
-			<h1>Confirm OTP</h1>
-			<p>Enter OTP here!</p>
-			<form action="">
-				<div>
-					<input
-						type="number"
-						value={otpValue}
-						onChange={onChangeOtp}
-						placeholder="Enter OTP"
-						maxLength="6"
-					/>
-				</div>
-				<button
-					type="submit"
-					onClick={onVerify}>
-					Verify
-				</button>
-			</form>
+		<div className="container">
+			<div className="otp-verification-container">
+				<h1 className="otp-verification-heading">Confirm OTP</h1>
+				<form action="">
+					<div>
+						<input
+							type="number"
+							name="otp"
+							value={otpValue}
+							onChange={onChangeOtp}
+							placeholder="Enter OTP"
+							maxLength="6"
+						/>
+					</div>
+					<button
+						type="submit"
+						onClick={onVerify}>
+						Confirm
+					</button>
+				</form>
+				<Timer resendOtp={resendOtp} />
+			</div>
 		</div>
 	);
 }
@@ -31,5 +34,6 @@ export default VerifyOTP;
 VerifyOTP.propTypes = {
 	otpValue: PropTypes.string,
 	onChangeOtp: PropTypes.func,
-	onVerify: PropTypes.func
+	onVerify: PropTypes.func,
+	resendOtp: PropTypes.func
 };

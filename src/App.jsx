@@ -40,14 +40,22 @@ const router = createBrowserRouter(
 				/>
 			</Route>
 			{/* <Switch> */}
-			<Route
+			{/* <Route
 				path="/auth"
 				element={<AuthForm />}>
 				<Route
 					path="forgot-password"
 					element={<ForgotPasswordPage />}
 				/>
-			</Route>
+			</Route> */}
+			<Route
+				path="/auth"
+				element={<AuthForm />}
+			/>
+			<Route
+				path="auth/forgot-password"
+				element={<ForgotPasswordPage />}
+			/>
 			{/* </Switch> */}
 		</>
 	)

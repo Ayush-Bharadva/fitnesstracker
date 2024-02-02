@@ -1,37 +1,33 @@
 import { PropTypes } from "prop-types";
-// import { useState } from "react";
-// import Modal from "./Modal";
 import { CiMail } from "react-icons/ci";
-// import { showToast } from "../../utils/helper";
-// import { emailPattern } from "../../constants/constants";
 
 function VerifyEmail({ emailValue, onChange, emailError, onEmailSubmit }) {
 	return (
-		// <Modal>
-		<div className="verify-email-container">
-			{/* <button className="close-btn">close</button> */}
-			<h1>Forgot Password !! </h1>
-			<h1> Verify Your Email</h1>
-			<p>Enter your email to receive an OTP for Verification</p>
-			<form
-				action=""
-				onSubmit={onEmailSubmit}>
-				<div>
-					<CiMail className="mail-icon" />
-					<input
-						id="email-verify"
-						name="email"
-						type="email"
-						value={emailValue}
-						onChange={onChange}
-						placeholder="Enter Email"
-					/>
-				</div>
-				<p className="email-error-text">{emailError}</p>
-				<button type="submit">Submit</button>
-			</form>
+		<div className="container">
+			<div className="email-verification-container">
+				<h1 className="text-center email-verification-heading">Forgot Password!! </h1>
+				<h2 className="text-center"> Verify Your Email</h2>
+				<p className="email-verification-subtitle">Enter your email and we&apos;ll send an otp to verify your email</p>
+				<form
+					action=""
+					onSubmit={onEmailSubmit}>
+					<div>
+						<CiMail className="mail-icon" />
+						<input
+							id="email-verify"
+							type="email"
+							name="email"
+							value={emailValue}
+							title={emailValue}
+							onChange={onChange}
+							placeholder="Enter Email"
+						/>
+					</div>
+					<p className="email-error-text">{emailError}</p>
+					<button type="submit">Verify</button>
+				</form>
+			</div>
 		</div>
-		// </Modal>
 	);
 }
 
@@ -42,6 +38,4 @@ VerifyEmail.propTypes = {
 	onChange: PropTypes.func,
 	emailError: PropTypes.string,
 	onEmailSubmit: PropTypes.func
-	// close: PropTypes.func,
-	// onSubmit: PropTypes.func
 };

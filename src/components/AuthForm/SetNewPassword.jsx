@@ -1,56 +1,43 @@
 import { PropTypes } from "prop-types";
 import PasswordInput from "./PasswordInput";
 
-function SetNewPassword({ passwordValue, confirmPasswordValue, onPasswordChange, onSetPassword }) {
+function SetNewPassword({ passwordValue, confirmPasswordValue, passwordError, confirmPasswordError, onPasswordChange, onSetPassword }) {
 	return (
-		<div className="set-new-password-container">
-			<h2>Set New Password!</h2>
-
-			<form action="">
-				<div className="form-group">
-					{/* <label htmlFor="new-password">New Password</label>
-					<input
-						id="new-password"
-						type="password"
-						placeholder="new password"
-					/> */}
-					<PasswordInput
-						htmlFor="new-password"
-						label="New Password"
-						id="new-password"
-						name="newPassword"
-						value={passwordValue}
-						onChange={onPasswordChange}
-						placeholder="new password"
-						passwordError=""
-						confirmPasswordError=""
-					/>
-				</div>
-				<div className="form-group">
-					{/* <label htmlFor="new-confirm-password">Confirm New Password</label>
-					<input
-						id="new-confirm-password"
-						type="password"
-						placeholder="confirm new password"
-					/> */}
-					<PasswordInput
-						htmlFor="new-confirm-password"
-						label="Confirm New Password"
-						id="new-confirm-password"
-						name="newConfirmPassword"
-						value={confirmPasswordValue}
-						onChange={onPasswordChange}
-						placeholder="confirm new password"
-						passwordError=""
-						confirmPasswordError=""
-					/>
-				</div>
-				<button
-					type="submit"
-					onClick={onSetPassword}>
-					Set Password
-				</button>
-			</form>
+		<div className="container">
+			<div className="password-updating-container">
+				<h2>Set New Password!</h2>
+				<form action="">
+					<div className="form-group">
+						<PasswordInput
+							htmlFor="new-password"
+							label="New Password"
+							id="new-password"
+							name="password"
+							value={passwordValue}
+							onChange={onPasswordChange}
+							placeholder="new password"
+							passwordError={passwordError}
+						/>
+					</div>
+					<div className="form-group">
+						<PasswordInput
+							htmlFor="new-confirm-password"
+							label="Confirm New Password"
+							id="new-confirm-password"
+							name="confirmPassword"
+							value={confirmPasswordValue}
+							onChange={onPasswordChange}
+							placeholder="confirm new password"
+							confirmPasswordError={confirmPasswordError}
+						/>
+					</div>
+					<button
+						type="submit"
+						onClick={onSetPassword}>
+						Set Password
+					</button>
+				</form>
+			</div>
 		</div>
 	);
 }
@@ -60,6 +47,8 @@ export default SetNewPassword;
 SetNewPassword.propTypes = {
 	passwordValue: PropTypes.string,
 	confirmPasswordValue: PropTypes.string,
+	passwordError: PropTypes.string,
+	confirmPasswordError: PropTypes.string,
 	onPasswordChange: PropTypes.func,
 	onSetPassword: PropTypes.func
 };

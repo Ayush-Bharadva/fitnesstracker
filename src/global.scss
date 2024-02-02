@@ -49,6 +49,19 @@ $light-teal: #00b69e;
 	flex-wrap: wrap;
 }
 
+.flex-row-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 5px;
+}
+
+.resend-otp-text {
+	color: lightgreen;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
 .loader-wrapper {
 	position: absolute;
 	height: 100vh;

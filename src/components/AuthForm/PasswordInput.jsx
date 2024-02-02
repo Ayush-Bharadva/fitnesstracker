@@ -12,7 +12,7 @@ function PasswordInput({ htmlFor, label, id, name, value, onChange, placeholder,
 				className="auth-label">
 				{label}
 			</label>
-			<div className="pass-field">
+			<div className="pass-field-group">
 				<input
 					type={showPassword ? "text" : "password"}
 					id={id}
@@ -23,7 +23,17 @@ function PasswordInput({ htmlFor, label, id, name, value, onChange, placeholder,
 					autoComplete="on"
 					required
 				/>
-				{showPassword ? <IoEyeOutline onClick={() => setShowPassword(prevState => !prevState)} /> : <LuEyeOff onClick={() => setShowPassword(prevState => !prevState)} />}
+				{showPassword ? (
+					<IoEyeOutline
+						className="eye-icon"
+						onClick={() => setShowPassword(prevState => !prevState)}
+					/>
+				) : (
+					<LuEyeOff
+						className="eye-icon"
+						onClick={() => setShowPassword(prevState => !prevState)}
+					/>
+				)}
 			</div>
 			{passwordError && <div className="error-message">{passwordError}</div>}
 			{confirmPasswordError && <div className="error-message">{confirmPasswordError}</div>}

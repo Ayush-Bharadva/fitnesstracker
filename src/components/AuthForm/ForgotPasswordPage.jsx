@@ -1,48 +1,90 @@
 import { useEffect, useState } from "react";
-import "./Modal.scss";
 import "./ForgotPasswordPage.scss";
 import VerifyEmail from "./VerifyEmail";
 import VerifyOTP from "./VerifyOTP";
-import { emailPattern } from "../../constants/constants";
-import { showToast } from "../../utils/helper";
 import SetNewPassword from "./SetNewPassword";
-import { setNewPassword, verifyEmail, verifyOTP } from "../../services/services";
 import ReactLoading from "react-loading";
 import { useNavigate } from "react-router-dom";
+import { emailPattern } from "../../constants/constants";
+import { showToast, validatePassword } from "../../utils/helper";
+import { setNewPassword, verifyEmail, verifyOTP } from "../../services/services";
 
 function ForgotPasswordPage() {
-	// handle forgot password here
-
 	const navigate = useNavigate();
 
 	const [forgotPasswordState, setForgotPasswordState] = useState({
-		isEmailVerified: false,
+		isEmailVerified: true,
 		isOTPVerified: false,
 		isNewPasswordSet: false,
 		isVerifying: false,
 		verificationToken: ""
 	});
-	const [emailState, setEmailState] = useState({
-		emailValue: "",
+
+	const [formData, setFormData] = useState({
+		email: "",
+		otp: "",
+		password: "",
+		confirmPassword: ""
+	});
+
+	const [errorState, setErrorState] = useState({
 		emailError: "",
-		isEmailExists: true
+		passwordError: "",
+		confirmPasswordError: ""
 	});
-	const [otpState, setOtpState] = useState({
-		otpValue: "",
-		otpError: "",
-		isValidOtp: false
-	});
-	const [passwordState, setPasswordState] = useState({
-		newPassword: "",
-		newConfirmPassword: ""
-	});
+
+	const [loaderText, setLoaderText] = useState("verifying");
+
+	const { emailError, passwordError, confirmPasswordError } = errorState;
+
+	const validateEmail = email => {
+		let error = "";
+		if (!email) {
+			error = "email is Required";
+		} else if (!emailPattern.test(email)) {
+			error = "Invalid email";
+		}
+		console.log("emaiil error :", error);
+		return error;
+	};
+
+	const validateNewPassword = password => {
+		let error = "";
+		if (!password) {
+			return "password is Required";
+		}
+		error = validatePassword(password);
+		return error;
+	};
+
+	const handleInputChange = ({ target: { name, value } }) => {
+		const errorObj = {};
+
+		switch (name) {
+			case "email":
+				errorObj.emailError = validateEmail(value);
+				break;
+
+			case "password":
+				errorObj.passwordError = validateNewPassword(value);
+				break;
+
+			case "confirmPassword":
+				errorObj.confirmPasswordError = password !== value ? "password and confirm password must be same" : "";
+				break;
+
+			default:
+				break;
+		}
+
+		setErrorState(prev => ({ ...prev, ...errorObj }));
+		setFormData(prevData => ({ ...prevData, [name]: value }));
+	};
+
+	const { email, otp, password, confirmPassword } = formData;
 
 	const { isEmailVerified, isOTPVerified, isNewPasswordSet, isVerifying, verificationToken } = forgotPasswordState;
 	console.log(isVerifying);
-	const { emailValue, emailError } = emailState;
-	const { otpValue } = otpState;
-	const { newPassword, newConfirmPassword } = passwordState;
-	console.log("verificationToken :", verificationToken);
 
 	useEffect(() => {
 		if (isNewPasswordSet) {
@@ -50,58 +92,47 @@ function ForgotPasswordPage() {
 		}
 	}, [isNewPasswordSet]);
 
-	const onEmailChange = ({ target: { value } }) => {
-		let emailError = !emailPattern.test(value) ? "Invalid email" : "";
+	const onVerifyEmail = async event => {
+		event.preventDefault();
 
-		if (!value) {
-			emailError = "email is required!";
-		}
-		setEmailState(prev => ({ ...prev, emailValue: value, emailError }));
-	};
+		try {
+			setForgotPasswordState(prev => ({ ...prev, isVerifying: true }));
+			const { status } = await verifyEmail(email);
+			console.log("isEmailFound :", status);
 
-	const onEmailSubmit = async e => {
-		// some process, check via api email exists in db or not
-		e.preventDefault();
-		if (emailValue.trim().length && emailPattern.test(emailValue)) {
-			try {
-				setForgotPasswordState(prev => ({ ...prev, isVerifying: true }));
-				const isEmailFound = await verifyEmail(emailValue);
-				console.log("isEmailFound :", isEmailFound, isEmailFound.status);
-
-				if (isEmailFound.status === 200) {
-					setForgotPasswordState(prev => ({ ...prev, isEmailVerified: true }));
-					showToast("success", "An OTP sent successfully to your Email..");
-				} else {
-					showToast("error", "Please provide valid email..");
-				}
-			} catch (error) {
-				console.error(error);
-			} finally {
-				setForgotPasswordState(prev => ({ ...prev, isVerifying: false }));
+			if (status === 200) {
+				setForgotPasswordState(prev => ({ ...prev, isEmailVerified: true }));
+				showToast("success", "An OTP sent successfully to your Email..");
+			} else {
+				showToast("error", "Could'nt find your email..");
 			}
+		} catch (error) {
+			console.error(error);
+		} finally {
+			setForgotPasswordState(prev => ({ ...prev, isVerifying: false }));
 		}
 	};
 
-	const onOtpChange = ({ target: { value } }) => {
-		setOtpState(prev => ({ ...prev, otpValue: value }));
-	};
+	const onVerifyOTP = async event => {
+		event.preventDefault();
 
-	const onVerifyOTP = async e => {
-		e.preventDefault();
+		if (!otp || otp.length < 6) {
+			showToast("error", "Please Enter Valid Otp!");
+			return;
+		}
 
 		try {
 			setForgotPasswordState(prev => ({ ...prev, isVerifying: true }));
 
-			const {
-				status,
-				data: { token }
-			} = await verifyOTP(emailValue, otpValue);
+			const response = await verifyOTP(email, otp);
+			console.log(response);
 
-			if (status === 200) {
-				console.log("your token :", token);
+			if (response.status === 200) {
+				console.log("here");
+				console.log("your token :", response.data.token);
 				showToast("success", "OTP verified successfully!");
-				setForgotPasswordState(prev => ({ ...prev, isOTPVerified: true, verificationToken: token }));
-			} else {
+				setForgotPasswordState(prev => ({ ...prev, isOTPVerified: true, verificationToken: response.data.token }));
+			} else if (response.code === 401) {
 				showToast("error", "Invalid OTP..");
 			}
 		} catch (error) {
@@ -111,19 +142,36 @@ function ForgotPasswordPage() {
 		}
 	};
 
-	const onPasswordChange = ({ target: { name, value } }) => {
-		setPasswordState(prev => ({ ...prev, [name]: value }));
+	const onResendOtp = async () => {
+		try {
+			// setLoaderText("sending otp");
+			// setForgotPasswordState(prev => ({ ...prev, isVerifying: true }));
+			const { status } = await verifyEmail(email);
+			console.log("isEmailFound :", status);
+
+			if (status === 200) {
+				setForgotPasswordState(prev => ({ ...prev, isEmailVerified: true }));
+				// showToast("success", "An OTP sent successfully to your Email..");
+			} else {
+				showToast("error", "Could'nt find your email..");
+			}
+		} catch (error) {
+			console.error(error);
+		} finally {
+			// setForgotPasswordState(prev => ({ ...prev, isVerifying: false }));
+		}
 	};
 
-	const onSetNewPasswordSubmit = async event => {
+	const onNewPasswordSubmit = async event => {
 		event.preventDefault();
 		try {
-			if (newPassword === newConfirmPassword) {
-				const response = await setNewPassword(emailValue, newPassword, verificationToken);
-				// console.log(response);
-				if (response.status === 200) {
+			if (password === confirmPassword) {
+				setLoaderText("Updating password");
+				setForgotPasswordState(prev => ({ ...prev, isVerifying: true }));
+				const { status } = await setNewPassword(email, password, verificationToken);
+				if (status === 200) {
 					showToast("success", "Password Changed Successfully..");
-					navigate("../");
+					navigate("auth");
 				}
 			} else {
 				showToast("error", "Password and Confirm Password doesnt match!!");
@@ -137,7 +185,7 @@ function ForgotPasswordPage() {
 
 	const loader = (
 		<div className="loader-wrapper">
-			<h1 className="text">Verifying</h1>{" "}
+			<h1 className="text">{loaderText}</h1>{" "}
 			<ReactLoading
 				type="balls"
 				color="#fff"
@@ -147,54 +195,33 @@ function ForgotPasswordPage() {
 	);
 
 	return (
-		<div className="forgot-password-page-container">
+		<div id="forgot-password-page-container">
 			<VerifyEmail
-				emailValue={emailValue}
-				onChange={onEmailChange}
+				emailValue={email}
+				onChange={handleInputChange}
 				emailError={emailError}
-				onEmailSubmit={onEmailSubmit}
+				onEmailSubmit={onVerifyEmail}
 			/>
 			{isEmailVerified && (
 				<VerifyOTP
-					otpValue={otpValue}
-					onChangeOtp={onOtpChange}
+					otpValue={otp}
+					onChangeOtp={handleInputChange}
 					onVerify={onVerifyOTP}
+					resendOtp={onResendOtp}
 				/>
 			)}
 			{isOTPVerified && (
 				<SetNewPassword
-					passwordValue={newPassword}
-					confirmPasswordValue={newConfirmPassword}
-					onPasswordChange={onPasswordChange}
-					onSetPassword={onSetNewPasswordSubmit}
+					passwordValue={password}
+					confirmPasswordValue={confirmPassword}
+					passwordError={passwordError}
+					confirmPasswordError={confirmPasswordError}
+					onPasswordChange={handleInputChange}
+					onSetPassword={onNewPasswordSubmit}
 				/>
 			)}
 			{isVerifying && loader}
-			{isEmailVerified && isOTPVerified && isVerifying && (
-				<div className="loader-wrapper">
-					<h1 className="text">Updating Password</h1>{" "}
-					<ReactLoading
-						type="balls"
-						color="#fff"
-						className="balls-loader"
-					/>
-				</div>
-			)}
 		</div>
-		// {/* <Modal ref={modalRef}>
-		// 	{showEmailModal && (
-		// 		<VerifyEmail
-		// 			close={() => setShowEmailModal(false)}
-		// 			onSubmit={onSubmitEmail}
-		// 		/>
-		// 	)}
-		// 	{showOTPModal && (
-		// 		<VerifyOTP
-		// 			close={() => setShowOTPModal(false)}
-		// 			onVerifyOTP={onVerifyOTP}
-		// 		/>
-		// 	)}
-		// </Modal> */}
 	);
 }
 

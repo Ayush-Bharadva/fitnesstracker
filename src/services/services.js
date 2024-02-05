@@ -7,8 +7,8 @@ const userProfileApiUrl = `${userApiUrl}/profile`;
 const userExerciseApiUrl = `${userApiUrl}/exercise`;
 const userMealApiUrl = `${userApiUrl}/meal`;
 
-const forgotPasswordApi = "https://fitnesstracker-k5h0.onrender.com/forgot-password";
-const verifyOTPApi = "https://fitnesstracker-k5h0.onrender.com/verify-otp";
+const forgotPasswordApi = "https://fitnesstracker-k5h0.onrender.com/otp/request";
+const verifyOTPApi = "https://fitnesstracker-k5h0.onrender.com/otp/verify";
 const setNewPasswordApi = "https://fitnesstracker-k5h0.onrender.com/set-new-password";
 
 // axios instance with common headers
@@ -91,7 +91,7 @@ export async function userLogInService(userCredentials) {
 // forgot password / verify email
 export async function verifyEmail(email) {
 	try {
-		const response = await axios.post(forgotPasswordApi, { email, eventType: "Forgot_password" });
+		const response = await axios.post(forgotPasswordApi, { email, eventType: "forgot_password" });
 		return response;
 	} catch (error) {
 		return error.response.data;
@@ -101,7 +101,7 @@ export async function verifyEmail(email) {
 // verify-otp
 export async function verifyOTP(email, otp) {
 	try {
-		const response = await axios.post(verifyOTPApi, { email, otp, eventType: "Forgot_password" });
+		const response = await axios.post(verifyOTPApi, { email, otp, eventType: "forgot_password" });
 		return response;
 	} catch (error) {
 		return error.response.data;
@@ -111,7 +111,7 @@ export async function verifyOTP(email, otp) {
 // set new password
 export async function setNewPassword(email, newPassword, token) {
 	try {
-		const response = await axios.post(setNewPasswordApi, { email, newPassword, token, eventType: "Forgot_password" });
+		const response = await axios.post(setNewPasswordApi, { email, newPassword, token, eventType: "forgot_password" });
 		return response;
 	} catch (error) {
 		return error.response.data;

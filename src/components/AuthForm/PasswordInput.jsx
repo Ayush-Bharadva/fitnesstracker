@@ -3,7 +3,7 @@ import { useState } from "react";
 import { IoEyeOutline } from "react-icons/io5";
 import { LuEyeOff } from "react-icons/lu";
 
-function PasswordInput({ htmlFor, label, id, name, value, onChange, placeholder, passwordError, confirmPasswordError }) {
+function PasswordInput({ htmlFor, label, id, name, value, onChange, placeholder }) {
 	const [showPassword, setShowPassword] = useState(false);
 	return (
 		<>
@@ -35,8 +35,6 @@ function PasswordInput({ htmlFor, label, id, name, value, onChange, placeholder,
 					/>
 				)}
 			</div>
-			{passwordError && <div className="error-message">{passwordError}</div>}
-			{confirmPasswordError && <div className="error-message">{confirmPasswordError}</div>}
 		</>
 	);
 }

@@ -184,7 +184,7 @@ function ForgotPasswordPage() {
 				const { status } = await setNewPassword(email, password, verificationToken);
 				if (status === 200) {
 					showToast("success", "Password Changed Successfully..");
-					navigate("auth");
+					navigate("/auth");
 				}
 			} else {
 				showToast("error", "Password and Confirm Password doesnt match!!");

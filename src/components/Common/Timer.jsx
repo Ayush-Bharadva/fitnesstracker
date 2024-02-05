@@ -3,13 +3,19 @@ import { PropTypes } from "prop-types";
 import { showToast } from "../../utils/helper";
 
 export function Timer({ resendOtp }) {
-	const [seconds, setSeconds] = useState(10); // 300 seconds
+	const [seconds, setSeconds] = useState(3); // 300 seconds
 	const resendBtn = useRef();
+
+	useEffect(() => {
+		if (resendBtn) {
+			resendBtn.current.disabled = true;
+		}
+	}, []);
 
 	const resetTimer = () => {
 		console.log("resetting");
 		resendOtp();
-		setSeconds(30);
+		setSeconds(10);
 		showToast("success", "OTP sent successfully..");
 	};
 
@@ -24,7 +30,7 @@ export function Timer({ resendOtp }) {
 		}
 
 		const timer = setInterval(() => {
-			setSeconds(seconds => seconds - 1);
+			setSeconds((seconds) => seconds - 1);
 		}, 1000);
 
 		return () => {
@@ -32,7 +38,7 @@ export function Timer({ resendOtp }) {
 		};
 	}, [seconds]);
 
-	const formatTimer = remainingSeconds => {
+	const formatTimer = (remainingSeconds) => {
 		const minutes = Math.floor(remainingSeconds / 60)
 			.toString()
 			.padStart(2, "0");
@@ -49,7 +55,7 @@ export function Timer({ resendOtp }) {
 				ref={resendBtn}
 				onClick={resetTimer}
 				className="resend-otp-btn"
-				disabled={true}>
+			>
 				Resend OTP
 			</button>
 		</div>
@@ -60,5 +66,5 @@ export default Timer;
 
 Timer.propTypes = {
 	resendOtp: PropTypes.func,
-	timerSeconds: PropTypes.number
+	timerSeconds: PropTypes.number,
 };

@@ -7,7 +7,11 @@ import ReactLoading from "react-loading";
 import { useNavigate } from "react-router-dom";
 import { emailPattern } from "../../constants/constants";
 import { showToast, validatePassword } from "../../utils/helper";
-import { setNewPassword, verifyEmail, verifyOTP } from "../../services/services";
+import {
+	setNewPassword,
+	verifyEmail,
+	verifyOTP,
+} from "../../services/services";
 
 function ForgotPasswordPage() {
 	const navigate = useNavigate();
@@ -17,27 +21,27 @@ function ForgotPasswordPage() {
 		isOTPVerified: false,
 		isNewPasswordSet: false,
 		isVerifying: false,
-		verificationToken: ""
+		verificationToken: "",
 	});
 
 	const [formData, setFormData] = useState({
 		email: "",
 		otp: "",
 		password: "",
-		confirmPassword: ""
+		confirmPassword: "",
 	});
 
 	const [errorState, setErrorState] = useState({
 		emailError: "",
 		passwordError: "",
-		confirmPasswordError: ""
+		confirmPasswordError: "",
 	});
 
 	const [loaderText, setLoaderText] = useState("verifying");
 
 	const { emailError, passwordError, confirmPasswordError } = errorState;
 
-	const validateEmail = email => {
+	const validateEmail = (email) => {
 		let error = "";
 		if (!email) {
 			error = "email is Required";
@@ -48,7 +52,7 @@ function ForgotPasswordPage() {
 		return error;
 	};
 
-	const validateNewPassword = password => {
+	const validateNewPassword = (password) => {
 		let error = "";
 		if (!password) {
 			return "password is Required";
@@ -70,20 +74,29 @@ function ForgotPasswordPage() {
 				break;
 
 			case "confirmPassword":
-				errorObj.confirmPasswordError = password !== value ? "password and confirm password must be same" : "";
+				errorObj.confirmPasswordError =
+					password !== value
+						? "password and confirm password must be same"
+						: "";
 				break;
 
 			default:
 				break;
 		}
 
-		setErrorState(prev => ({ ...prev, ...errorObj }));
-		setFormData(prevData => ({ ...prevData, [name]: value }));
+		setErrorState((prev) => ({ ...prev, ...errorObj }));
+		setFormData((prevData) => ({ ...prevData, [name]: value }));
 	};
 
 	const { email, otp, password, confirmPassword } = formData;
 
-	const { isEmailVerified, isOTPVerified, isNewPasswordSet, isVerifying, verificationToken } = forgotPasswordState;
+	const {
+		isEmailVerified,
+		isOTPVerified,
+		isNewPasswordSet,
+		isVerifying,
+		verificationToken,
+	} = forgotPasswordState;
 	console.log(isVerifying);
 
 	useEffect(() => {
@@ -92,28 +105,34 @@ function ForgotPasswordPage() {
 		}
 	}, [isNewPasswordSet]);
 
-	const onVerifyEmail = async event => {
+	const onVerifyEmail = async (event) => {
 		event.preventDefault();
 
 		try {
-			setForgotPasswordState(prev => ({ ...prev, isVerifying: true }));
+			setForgotPasswordState((prev) => ({ ...prev, isVerifying: true }));
 			const { status } = await verifyEmail(email);
 			console.log("isEmailFound :", status);
 
 			if (status === 200) {
-				setForgotPasswordState(prev => ({ ...prev, isEmailVerified: true }));
-				showToast("success", "An OTP sent successfully to your Email..");
+				setForgotPasswordState((prev) => ({
+					...prev,
+					isEmailVerified: true,
+				}));
+				showToast(
+					"success",
+					"An OTP sent successfully to your Email.."
+				);
 			} else {
 				showToast("error", "Could'nt find your email..");
 			}
 		} catch (error) {
 			console.error(error);
 		} finally {
-			setForgotPasswordState(prev => ({ ...prev, isVerifying: false }));
+			setForgotPasswordState((prev) => ({ ...prev, isVerifying: false }));
 		}
 	};
 
-	const onVerifyOTP = async event => {
+	const onVerifyOTP = async (event) => {
 		event.preventDefault();
 
 		if (!otp || otp.length < 6) {
@@ -122,7 +141,7 @@ function ForgotPasswordPage() {
 		}
 
 		try {
-			setForgotPasswordState(prev => ({ ...prev, isVerifying: true }));
+			setForgotPasswordState((prev) => ({ ...prev, isVerifying: true }));
 
 			const response = await verifyOTP(email, otp);
 			console.log(response);
@@ -131,14 +150,18 @@ function ForgotPasswordPage() {
 				console.log("here");
 				console.log("your token :", response.data.token);
 				showToast("success", "OTP verified successfully!");
-				setForgotPasswordState(prev => ({ ...prev, isOTPVerified: true, verificationToken: response.data.token }));
+				setForgotPasswordState((prev) => ({
+					...prev,
+					isOTPVerified: true,
+					verificationToken: response.data.token,
+				}));
 			} else if (response.code === 401) {
 				showToast("error", "Invalid OTP..");
 			}
 		} catch (error) {
 			console.error(error);
 		} finally {
-			setForgotPasswordState(prev => ({ ...prev, isVerifying: false }));
+			setForgotPasswordState((prev) => ({ ...prev, isVerifying: false }));
 		}
 	};
 
@@ -150,7 +173,10 @@ function ForgotPasswordPage() {
 			console.log("isEmailFound :", status);
 
 			if (status === 200) {
-				setForgotPasswordState(prev => ({ ...prev, isEmailVerified: true }));
+				setForgotPasswordState((prev) => ({
+					...prev,
+					isEmailVerified: true,
+				}));
 				// showToast("success", "An OTP sent successfully to your Email..");
 			} else {
 				showToast("error", "Could'nt find your email..");
@@ -162,35 +188,41 @@ function ForgotPasswordPage() {
 		}
 	};
 
-	const onNewPasswordSubmit = async event => {
+	const onNewPasswordSubmit = async (event) => {
 		event.preventDefault();
 		try {
 			if (password === confirmPassword) {
 				setLoaderText("Updating password");
-				setForgotPasswordState(prev => ({ ...prev, isVerifying: true }));
-				const { status } = await setNewPassword(email, password, verificationToken);
+				setForgotPasswordState((prev) => ({
+					...prev,
+					isVerifying: true,
+				}));
+				const { status } = await setNewPassword(
+					email,
+					password,
+					verificationToken
+				);
 				if (status === 200) {
 					showToast("success", "Password Changed Successfully..");
 					navigate("auth");
 				}
 			} else {
-				showToast("error", "Password and Confirm Password doesnt match!!");
+				showToast(
+					"error",
+					"Password and Confirm Password doesnt match!!"
+				);
 			}
 		} catch (error) {
 			console.error(error);
 		} finally {
-			setForgotPasswordState(prev => ({ ...prev, isVerifying: false }));
+			setForgotPasswordState((prev) => ({ ...prev, isVerifying: false }));
 		}
 	};
 
 	const loader = (
 		<div className="loader-wrapper">
 			<h1 className="text">{loaderText}</h1>{" "}
-			<ReactLoading
-				type="balls"
-				color="#fff"
-				className="balls-loader"
-			/>
+			<ReactLoading type="balls" color="#fff" className="balls-loader" />
 		</div>
 	);
 

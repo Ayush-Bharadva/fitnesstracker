@@ -5,12 +5,15 @@ function VerifyEmail({ emailValue, onChange, emailError, onEmailSubmit }) {
 	return (
 		<div className="container">
 			<div className="email-verification-container">
-				<h1 className="text-center email-verification-heading">Forgot Password!! </h1>
+				<h1 className="text-center email-verification-heading">
+					Forgot Password!!{" "}
+				</h1>
 				<h2 className="text-center"> Verify Your Email</h2>
-				<p className="email-verification-subtitle">Enter your email and we&apos;ll send an otp to verify your email</p>
-				<form
-					action=""
-					onSubmit={onEmailSubmit}>
+				<p className="email-verification-subtitle">
+					Enter your email and we&apos;ll send you an otp for email
+					verification
+				</p>
+				<form action="" onSubmit={onEmailSubmit}>
 					<div>
 						<CiMail className="mail-icon" />
 						<input
@@ -37,5 +40,5 @@ VerifyEmail.propTypes = {
 	emailValue: PropTypes.string,
 	onChange: PropTypes.func,
 	emailError: PropTypes.string,
-	onEmailSubmit: PropTypes.func
+	onEmailSubmit: PropTypes.func,
 };

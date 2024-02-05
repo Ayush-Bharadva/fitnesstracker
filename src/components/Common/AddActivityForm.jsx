@@ -54,7 +54,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 
 	const options = useMemo(() => (isExercise ? ["Walking", "Running", "Weight Lifting", "Gym", "Yoga"] : ["Breakfast", "Lunch", "Dinner", "Snacks"]), [isExercise]);
 
-	const handleType = type => (type === "Weight Lifting" ? "Weight_lifting" : type);
+	const handleType = type => (type === "weight lifting" ? "weight_lifting" : type);
 
 	const getActivityDetails = type => {
 		let activityType = handleType(type);
@@ -240,7 +240,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 						{options.map((data, index) => (
 							<option
 								key={index}
-								value={data}>
+								value={data.toLowerCase()}>
 								{data}
 							</option>
 						))}
@@ -249,7 +249,7 @@ function AddActivityForm({ isExercise, allDetails, setAllDetails }) {
 				<div className="field">
 					{isExercise ? (
 						<>
-							<label htmlFor="duration">Duration</label>
+							<label htmlFor="duration">Duration (min)</label>
 							<input
 								type="number"
 								id="duration"

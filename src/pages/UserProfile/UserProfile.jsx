@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
-// import { ToastContainer } from "react-toastify";
 import { showToast } from "../../utils/helper";
 import { createUserProfileService, getImageUrlService, fetchUserProfile } from "../../services/services";
 import Loader from "../../components/Common/Loader";
@@ -360,16 +359,15 @@ function UserProfile() {
 										disabled={inputDisabled}
 										required>
 										<option value="">Select Health Goal</option>
-										<option value="Weight_loss">Weight loss</option>
-										<option value="Weight_gain">Weight gain</option>
-										<option value="Muscle_building">Muscle building</option>
-										<option value="Maintain_body">Maintain body</option>
+										<option value="weight_loss">Weight loss</option>
+										<option value="weight_gain">Weight gain</option>
+										<option value="muscle_building">Muscle building</option>
+										<option value="maintain_body">Maintain body</option>
 									</select>
 								</div>
 							</div>
 						</div>
 					</form>
-					{/* <ToastContainer /> */}
 				</div>
 			)}
 		</section>

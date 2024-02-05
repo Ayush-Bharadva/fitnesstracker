@@ -38,54 +38,59 @@ function DailyLogs() {
 		setSelectedDate(target.value);
 	};
 
-	const isLogReadOnly = selectedDate === getTodaysDate() ? false : true;
+	const isCurrentDate = selectedDate === getTodaysDate() ? true : false;
 
 	return (
 		<main className="daily-logs-section">
-			<section id="activity-form-section">
-				<div className="date-wrapper">
-					<div className="dailylog-date-section">
-						<input
-							type="date"
-							name="name"
-							id="date"
-							value={selectedDate}
-							onChange={handleDateChange}
-							max={getTodaysDate()}
+			{isCurrentDate && (
+				<>
+					{" "}
+					<section id="activity-form-section">
+						<div className="date-wrapper">
+							<div className="dailylog-date-section">
+								<input
+									type="date"
+									name="name"
+									id="date"
+									value={selectedDate}
+									onChange={handleDateChange}
+									max={getTodaysDate()}
+								/>
+							</div>
+						</div>
+						<div className="form-container">
+							<AddActivityForm
+								isExercise={true}
+								allDetails={todaysDetails}
+								setAllDetails={setTodaysDetails}
+							/>
+						</div>
+						<div className="form-container">
+							<AddActivityForm
+								isExercise={false}
+								allDetails={todaysDetails}
+								setAllDetails={setTodaysDetails}
+							/>
+						</div>
+					</section>
+					<section id="track-activity-section">
+						<WeightAndWaterTracker
+							heading={"Today's Weight"}
+							title={"Weight (Kgs)"}
+							type={"weight"}
+							value={todaysDetails?.weightDetails?.dailyWeight}
+							setAllDetails={setTodaysDetails}
 						/>
-					</div>
-				</div>
-				<div className="form-container">
-					<AddActivityForm
-						isExercise={true}
-						allDetails={todaysDetails}
-						setAllDetails={setTodaysDetails}
-					/>
-				</div>
-				<div className="form-container">
-					<AddActivityForm
-						isExercise={false}
-						allDetails={todaysDetails}
-						setAllDetails={setTodaysDetails}
-					/>
-				</div>
-			</section>
-			<section id="track-activity-section">
-				<WeightAndWaterTracker
-					heading={"Today's Weight"}
-					title={"Weight (Kgs)"}
-					type={"weight"}
-					value={todaysDetails?.weightDetails?.dailyWeight}
-					setAllDetails={setTodaysDetails}
-				/>
-				<WeightAndWaterTracker
-					heading={"Water Drunk Today"}
-					title={"Water Intake (Ltrs)"}
-					type={"water"}
-					value={todaysDetails?.waterDetails?.waterIntake}
-					setAllDetails={setTodaysDetails}
-				/>
-			</section>
+						<WeightAndWaterTracker
+							heading={"Water Drunk Today"}
+							title={"Water Intake (Ltrs)"}
+							type={"water"}
+							value={todaysDetails?.waterDetails?.waterIntake}
+							setAllDetails={setTodaysDetails}
+						/>
+					</section>
+				</>
+			)}
 
 			{isLoading ? (
 				<Loader />
@@ -93,7 +98,7 @@ function DailyLogs() {
 				<RecordCard
 					allDetails={todaysDetails}
 					setAllDetails={setTodaysDetails}
-					isReadonly={isLogReadOnly}
+					isReadonly={!isCurrentDate}
 				/>
 			)}
 		</main>

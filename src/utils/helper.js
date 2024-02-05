@@ -28,6 +28,10 @@ export const showToast = (type, message) => {
 	toast[type](message, { position: toast.POSITION.TOP_RIGHT });
 };
 
+export const capitalizeFirstLetter = string => {
+	return string[0].toUpperCase() + string.substring(1);
+};
+
 export const validatePassword = value => {
 	const specialCharacterPattern = /[!@#$%^&*()_+{}[\]:;<>,.?~\\|/]/;
 	const digitPattern = /\d/;

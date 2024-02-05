@@ -6,6 +6,7 @@ import Ingredient from "../../assets/icons/Ingredient.png";
 import calories from "../../assets/icons/consumedCalorie.png";
 import fireIcon from "../../assets/icons/fire-icon-image.png";
 import "./RecordCard.scss";
+import { capitalizeFirstLetter } from "../../utils/helper";
 
 function Record({ index, data, isReadonly, onDelete, isExercise = false }) {
 	console.log(isExercise);
@@ -14,18 +15,20 @@ function Record({ index, data, isReadonly, onDelete, isExercise = false }) {
 			return {
 				recordType: "exercise",
 				recordBgClass: "exercise-card-bg",
-				recordTitle: data.exerciseType === "Weight_lifting" ? "Weight Lifting" : data.exerciseType,
+				recordTitle: data.exerciseType === "weight_lifting" ? "Weight Lifting" : data.exerciseType
 			};
 		} else {
 			return {
 				recordType: "meal",
 				recordBgClass: "meal-card-bg",
-				recordTitle: data.mealType,
+				recordTitle: data.mealType
 			};
 		}
 	}, [isExercise, data]);
 
 	const { recordType, recordBgClass, recordTitle } = recordObj;
+
+	const recTitle = capitalizeFirstLetter(recordTitle);
 
 	return (
 		<div
@@ -33,7 +36,7 @@ function Record({ index, data, isReadonly, onDelete, isExercise = false }) {
 			className={`record-container ${recordBgClass}`}>
 			<div className={`${recordType}-record-card`}>
 				<div>
-					<p className={`${recordType}-record-title`}>{recordTitle}</p>
+					<p className={`${recordType}-record-title`}>{recTitle}</p>
 				</div>
 				<div className="record-info">
 					<p>
@@ -71,7 +74,7 @@ Record.propTypes = {
 	data: PropTypes.object,
 	isReadonly: PropTypes.bool,
 	onDelete: PropTypes.func,
-	isExercise: PropTypes.bool,
+	isExercise: PropTypes.bool
 };
 
 export default Record;

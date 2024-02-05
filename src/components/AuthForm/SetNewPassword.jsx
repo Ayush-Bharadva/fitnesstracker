@@ -10,7 +10,6 @@ function SetNewPassword({ passwordValue, confirmPasswordValue, passwordError, co
 					action=""
 					onSubmit={onSetPassword}>
 					<PasswordInput
-						htmlFor="new-password"
 						label="New Password"
 						id="new-password"
 						name="password"
@@ -21,7 +20,6 @@ function SetNewPassword({ passwordValue, confirmPasswordValue, passwordError, co
 					{passwordError && <p className="error-message">{passwordError}</p>}
 
 					<PasswordInput
-						htmlFor="new-confirm-password"
 						label="Confirm New Password"
 						id="new-confirm-password"
 						name="confirmPassword"

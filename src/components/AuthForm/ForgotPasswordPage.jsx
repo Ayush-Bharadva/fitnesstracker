@@ -163,20 +163,25 @@ function ForgotPasswordPage() {
 
 	const onNewPasswordSubmit = async event => {
 		event.preventDefault();
+
+		if (passwordError || confirmPasswordError) {
+			showToast("error", "Invalid Password");
+			return;
+		} else if (password !== confirmPassword) {
+			showToast("error", "Password and confirm Password must match..");
+			return;
+		}
+
 		try {
-			if (password === confirmPassword) {
-				setLoaderText("Updating password");
-				setForgotPasswordState(prev => ({
-					...prev,
-					isVerifying: true
-				}));
-				const { status } = await setNewPassword(email, password, verificationToken);
-				if (status === 200) {
-					showToast("success", "Password Changed Successfully..");
-					navigate("/auth");
-				}
-			} else {
-				showToast("error", "Password and Confirm Password doesnt match!!");
+			setLoaderText("Updating password");
+			setForgotPasswordState(prev => ({
+				...prev,
+				isVerifying: true
+			}));
+			const { status } = await setNewPassword(email, password, verificationToken);
+			if (status === 200) {
+				showToast("success", "Password Changed Successfully..");
+				navigate("/auth");
 			}
 		} catch (error) {
 			throw new Error(error);

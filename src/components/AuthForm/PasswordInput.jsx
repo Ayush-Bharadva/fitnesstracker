@@ -3,12 +3,12 @@ import { useState } from "react";
 import { IoEyeOutline } from "react-icons/io5";
 import { LuEyeOff } from "react-icons/lu";
 
-function PasswordInput({ htmlFor, label, id, name, value, onChange, placeholder }) {
+function PasswordInput({ label, id, name, value, onChange, placeholder }) {
 	const [showPassword, setShowPassword] = useState(false);
 	return (
 		<>
 			<label
-				htmlFor={htmlFor}
+				htmlFor={id}
 				className="auth-label">
 				{label}
 			</label>
@@ -43,7 +43,6 @@ export default PasswordInput;
 
 PasswordInput.propTypes = {
 	label: PropTypes.string,
-	htmlFor: PropTypes.string,
 	type: PropTypes.string,
 	id: PropTypes.string,
 	name: PropTypes.string,

@@ -12,14 +12,14 @@ const initialFormData = {
 	fullname: "",
 	email: "",
 	password: "",
-	confirmPassword: "",
+	confirmPassword: ""
 };
 
 const initialInputError = {
 	fullnameError: "",
 	emailError: "",
 	passwordError: "",
-	confirmPasswordError: "",
+	confirmPasswordError: ""
 };
 
 function AuthForm() {
@@ -35,46 +35,37 @@ function AuthForm() {
 					title: "Welcome Back!",
 					buttonText: "Log In",
 					linkText: "Don't have an account? ",
-					linkButtonText: "Register",
+					linkButtonText: "Register"
 			  }
 			: {
 					title: "Create Account",
 					buttonText: "Sign Up",
 					linkText: "Already have an account? ",
-					linkButtonText: "Log In",
+					linkButtonText: "Log In"
 			  };
 	}, [isLoginForm]);
 
 	const { title, buttonText, linkText, linkButtonText } = formObject;
-	const { fullnameError, emailError, passwordError, confirmPasswordError } =
-		inputError;
+	const { fullnameError, emailError, passwordError, confirmPasswordError } = inputError;
 	const { fullname, email, password, confirmPassword } = formData;
 
-	const handleChange = (e) => {
+	const handleChange = e => {
 		const { name, value } = e.target;
 
 		const inputErrorObj = {};
 
 		switch (name) {
 			case "fullname":
-				inputErrorObj.fullnameError =
-					value.length < 5
-						? "Fullname length should be greater than 4"
-						: "";
+				inputErrorObj.fullnameError = value.length < 5 ? "Fullname length should be greater than 4" : "";
 				break;
 			case "email":
-				inputErrorObj.emailError = !emailPattern.test(value)
-					? "Invalid email"
-					: "";
+				inputErrorObj.emailError = !emailPattern.test(value) ? "Invalid email" : "";
 				break;
 			case "password":
 				inputErrorObj.passwordError = validatePassword(value);
 				break;
 			case "confirmPassword":
-				inputErrorObj.confirmPasswordError =
-					formData.password !== value
-						? "Password and Confirm-Password must be same"
-						: "";
+				inputErrorObj.confirmPasswordError = formData.password !== value ? "Password and Confirm-Password must be same" : "";
 				break;
 			default:
 				break;
@@ -84,50 +75,29 @@ function AuthForm() {
 			inputErrorObj[`${name}Error`] = `${name} is required`;
 		}
 
-		setInputError((prevErrors) => ({
+		setInputError(prevErrors => ({
 			...prevErrors,
-			...inputErrorObj,
+			...inputErrorObj
 		}));
-		setFormData((prevData) => ({ ...prevData, [name]: value }));
+		setFormData(prevData => ({ ...prevData, [name]: value }));
 	};
 
 	const handleButtonDisable = useMemo(() => {
 		if (isLoginForm) {
 			return !email || emailError || !password || passwordError;
 		} else {
-			return (
-				!email ||
-				emailError ||
-				!password ||
-				passwordError ||
-				!fullname ||
-				fullnameError ||
-				!confirmPassword ||
-				confirmPasswordError
-			);
+			return !email || emailError || !password || passwordError || !fullname || fullnameError || !confirmPassword || confirmPasswordError;
 		}
-	}, [
-		isLoginForm,
-		fullname,
-		email,
-		password,
-		confirmPassword,
-		fullnameError,
-		emailError,
-		passwordError,
-		confirmPasswordError,
-	]);
+	}, [isLoginForm, fullname, email, password, confirmPassword, fullnameError, emailError, passwordError, confirmPasswordError]);
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = async e => {
 		e.preventDefault();
 
 		const { fullname, email, password } = formData;
 
 		try {
 			setIsLoading(true);
-			const response = isLoginForm
-				? await userLogInService({ email, password })
-				: await userSignUpService({ fullname, email, password });
+			const response = isLoginForm ? await userLogInService({ email, password }) : await userSignUpService({ fullname, email, password });
 			setIsLoading(false);
 
 			if (response.status === 200) {
@@ -140,7 +110,7 @@ function AuthForm() {
 	};
 
 	const handleFormChange = () => {
-		setIsLoginForm((prev) => !prev);
+		setIsLoginForm(prev => !prev);
 		setFormData(initialFormData);
 		setInputError(initialInputError);
 	};
@@ -152,11 +122,7 @@ function AuthForm() {
 	return (
 		<>
 			<div className="auth-container">
-				<div
-					className={`auth-form-container ${
-						isLoading ? "m-opacity" : ""
-					}`}
-				>
+				<div className={`auth-form-container ${isLoading ? "m-opacity" : ""}`}>
 					{isLoading && <Loader />}
 					<h1>{title}</h1>
 					<form className="auth-form">
@@ -164,8 +130,7 @@ function AuthForm() {
 							<>
 								<label
 									htmlFor="fullname"
-									className="auth-label"
-								>
+									className="auth-label">
 									Fullname
 								</label>
 								<input
@@ -177,12 +142,12 @@ function AuthForm() {
 									placeholder="fullname"
 									required
 								/>
-								<div className="error-message">
-									{fullnameError}
-								</div>
+								<div className="error-message">{fullnameError}</div>
 							</>
 						)}
-						<label htmlFor="email" className="auth-label">
+						<label
+							htmlFor="email"
+							className="auth-label">
 							Email
 						</label>
 						<input
@@ -196,7 +161,6 @@ function AuthForm() {
 						/>
 						<div className="error-message">{emailError}</div>
 						<PasswordInput
-							htmlFor="password"
 							label="Password"
 							id="password"
 							name="password"
@@ -209,15 +173,13 @@ function AuthForm() {
 						{isLoginForm && (
 							<p
 								className="forgot-password-text"
-								onClick={navToForgotPassWord}
-							>
+								onClick={navToForgotPassWord}>
 								forgot password
 							</p>
 						)}
 
 						{!isLoginForm && (
 							<PasswordInput
-								htmlFor="confirm-password"
 								label="Confirm Password"
 								id="confirm-password"
 								name="confirmPassword"
@@ -232,12 +194,9 @@ function AuthForm() {
 							onClick={handleSubmit}
 							className="auth-submit-btn"
 							style={{
-								cursor: !handleButtonDisable
-									? "pointer"
-									: "no-drop",
+								cursor: !handleButtonDisable ? "pointer" : "no-drop"
 							}}
-							disabled={handleButtonDisable}
-						>
+							disabled={handleButtonDisable}>
 							{buttonText}
 						</button>
 					</form>

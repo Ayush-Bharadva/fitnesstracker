@@ -9,6 +9,7 @@ function VerifyOTP({ otpValue, onChangeOtp, onVerify, resendOtp }) {
 				<form action="">
 					<div>
 						<input
+							className="otp-verification-input"
 							type="number"
 							name="otp"
 							value={otpValue}

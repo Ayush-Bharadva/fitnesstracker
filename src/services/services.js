@@ -2,14 +2,16 @@ import axios from "axios";
 import { getCookie, showToast } from "../utils/helper";
 import { toast } from "react-toastify";
 const baseApiUrl = "https://fitnesstracker-k5h0.onrender.com";
+
 const userApiUrl = `${baseApiUrl}/user`;
 const userProfileApiUrl = `${userApiUrl}/profile`;
+
 const userExerciseApiUrl = `${userApiUrl}/exercise`;
 const userMealApiUrl = `${userApiUrl}/meal`;
 
-const forgotPasswordApi = "https://fitnesstracker-k5h0.onrender.com/otp/request";
-const verifyOTPApi = "https://fitnesstracker-k5h0.onrender.com/otp/verify";
-const setNewPasswordApi = "https://fitnesstracker-k5h0.onrender.com/set-new-password";
+const forgotPasswordApi = `${baseApiUrl}/otp/request`;
+const verifyOTPApi = `${baseApiUrl}/otp/verify`;
+const setNewPasswordApi = `${baseApiUrl}/set-new-password`;
 
 // axios instance with common headers
 const headers = {

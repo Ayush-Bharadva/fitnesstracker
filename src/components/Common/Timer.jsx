@@ -3,7 +3,7 @@ import { PropTypes } from "prop-types";
 import { showToast } from "../../utils/helper";
 
 export function Timer({ resendOtp }) {
-	const [seconds, setSeconds] = useState(30); // 300 seconds
+	const [seconds, setSeconds] = useState(30);
 	const resendBtn = useRef();
 
 	useEffect(() => {
@@ -11,13 +11,6 @@ export function Timer({ resendOtp }) {
 			resendBtn.current.disabled = true;
 		}
 	}, []);
-
-	const resetTimer = () => {
-		console.log("resetting");
-		resendOtp();
-		setSeconds(30);
-		showToast("success", "OTP sent successfully..");
-	};
 
 	useEffect(() => {
 		if (seconds <= 0) {
@@ -37,6 +30,12 @@ export function Timer({ resendOtp }) {
 			clearInterval(timer);
 		};
 	}, [seconds]);
+
+	const resetTimer = () => {
+		resendOtp();
+		setSeconds(30);
+		showToast("success", "OTP sent successfully..");
+	};
 
 	const formatTimer = remainingSeconds => {
 		const minutes = Math.floor(remainingSeconds / 60)

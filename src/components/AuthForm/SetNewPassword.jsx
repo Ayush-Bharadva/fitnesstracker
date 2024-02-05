@@ -6,7 +6,9 @@ function SetNewPassword({ passwordValue, confirmPasswordValue, passwordError, co
 		<div className="container">
 			<div className="password-updating-container">
 				<h2>Set New Password!</h2>
-				<form action="">
+				<form
+					action=""
+					onSubmit={onSetPassword}>
 					<PasswordInput
 						htmlFor="new-password"
 						label="New Password"

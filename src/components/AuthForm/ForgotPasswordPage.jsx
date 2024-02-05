@@ -44,7 +44,6 @@ function ForgotPasswordPage() {
 		} else if (!emailPattern.test(email)) {
 			error = "Invalid email";
 		}
-		console.log("emaiil error :", error);
 		return error;
 	};
 
@@ -84,7 +83,6 @@ function ForgotPasswordPage() {
 	const { email, otp, password, confirmPassword } = formData;
 
 	const { isEmailVerified, isOTPVerified, isNewPasswordSet, isVerifying, verificationToken } = forgotPasswordState;
-	console.log(isVerifying);
 
 	useEffect(() => {
 		if (isNewPasswordSet) {
@@ -128,11 +126,8 @@ function ForgotPasswordPage() {
 			setForgotPasswordState(prev => ({ ...prev, isVerifying: true }));
 
 			const response = await verifyOTP(email, otp);
-			console.log(response);
 
 			if (response.status === 200) {
-				console.log("here");
-				console.log("your token :", response.data.token);
 				showToast("success", "OTP verified successfully!");
 				setForgotPasswordState(prev => ({
 					...prev,
@@ -143,7 +138,7 @@ function ForgotPasswordPage() {
 				showToast("error", "Invalid OTP..");
 			}
 		} catch (error) {
-			console.error(error);
+			throw new Error(error);
 		} finally {
 			setForgotPasswordState(prev => ({ ...prev, isVerifying: false }));
 		}
@@ -151,24 +146,18 @@ function ForgotPasswordPage() {
 
 	const onResendOtp = async () => {
 		try {
-			// setLoaderText("sending otp");
-			// setForgotPasswordState(prev => ({ ...prev, isVerifying: true }));
 			const { status } = await verifyEmail(email);
-			console.log("isEmailFound :", status);
 
 			if (status === 200) {
 				setForgotPasswordState(prev => ({
 					...prev,
 					isEmailVerified: true
 				}));
-				// showToast("success", "An OTP sent successfully to your Email..");
 			} else {
 				showToast("error", "Could'nt find your email..");
 			}
 		} catch (error) {
-			console.error(error);
-		} finally {
-			// setForgotPasswordState(prev => ({ ...prev, isVerifying: false }));
+			throw new Error(error);
 		}
 	};
 
@@ -190,7 +179,7 @@ function ForgotPasswordPage() {
 				showToast("error", "Password and Confirm Password doesnt match!!");
 			}
 		} catch (error) {
-			console.error(error);
+			throw new Error(error);
 		} finally {
 			setForgotPasswordState(prev => ({ ...prev, isVerifying: false }));
 		}

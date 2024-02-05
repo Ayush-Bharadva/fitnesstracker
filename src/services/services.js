@@ -229,11 +229,11 @@ export async function deleteMealService(type) {
 }
 
 // yearly weight data
-export async function getYearlyWeightDetailService(date) {
+export async function getYearlyWeightDetailService(year) {
 	try {
 		const response = createApiInstance.get(`${userApiUrl}/yearly-weight-details`, {
 			params: {
-				date: date
+				year
 			}
 		});
 		return response;
@@ -243,11 +243,11 @@ export async function getYearlyWeightDetailService(date) {
 }
 
 // yearly calories data
-export async function getYearlyCaloriesDetailService(date) {
+export async function getYearlyCaloriesDetailService(year) {
 	try {
 		const response = createApiInstance.get(`${userApiUrl}/yearly-caloriesburned-details`, {
 			params: {
-				date: date
+				year
 			}
 		});
 		return response;

@@ -7,7 +7,6 @@ import AuthForm from "./components/AuthForm/AuthForm";
 import Loader from "./components/Common/Loader";
 import ForgotPasswordPage from "./components/AuthForm/ForgotPasswordPage";
 import { ToastContainer } from "react-toastify";
-// import { Switch } from "react-router-dom";
 
 const dynamicImport = path => lazy(() => import("./pages/index").then(module => ({ default: module[path] })));
 
@@ -39,15 +38,6 @@ const router = createBrowserRouter(
 					element={<Dashboard />}
 				/>
 			</Route>
-			{/* <Switch> */}
-			{/* <Route
-				path="/auth"
-				element={<AuthForm />}>
-				<Route
-					path="forgot-password"
-					element={<ForgotPasswordPage />}
-				/>
-			</Route> */}
 			<Route
 				path="/auth"
 				element={<AuthForm />}
@@ -56,7 +46,6 @@ const router = createBrowserRouter(
 				path="auth/forgot-password"
 				element={<ForgotPasswordPage />}
 			/>
-			{/* </Switch> */}
 		</>
 	)
 );

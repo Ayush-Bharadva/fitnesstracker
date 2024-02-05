@@ -48,7 +48,7 @@ function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 
 	return (
 		<>
-			{isTrackingWorkout && <h1 className="no-activity-heading text-center">Add some Activities to display Here!!</h1>}
+			{isTrackingWorkout && <h1 className="no-activity-heading text-center">No Logs Currently to display!!</h1>}
 			<div className="record-card">
 				<div className="exercise-record-container">
 					{exerciseDetails?.length > 0 && (

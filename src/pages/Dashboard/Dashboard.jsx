@@ -2,11 +2,7 @@ import { useEffect, useState } from "react";
 import "./Dashboard.scss";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import {
-	getDetailsFromDateService,
-	getYearlyCaloriesDetailService,
-	getYearlyWeightDetailService,
-} from "../../services/services";
+import { getDetailsFromDateService, getYearlyCaloriesDetailService, getYearlyWeightDetailService } from "../../services/services";
 import RecordCard from "../../components/Common/RecordCard";
 import nullData from "../../assets/images/emptydata.jpg";
 import Loader from "../../components/Common/Loader";
@@ -19,9 +15,9 @@ const options = {
 	responsive: true,
 	plugins: {
 		legend: {
-			position: "top",
-		},
-	},
+			position: "top"
+		}
+	}
 };
 
 function Dashboard() {
@@ -34,10 +30,7 @@ function Dashboard() {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const [recordsResponse] = await Promise.all([
-					getDetailsFromDateService({ date: selectedDate }),
-					fetchYearlyDetails(selectedDate),
-				]);
+				const [recordsResponse] = await Promise.all([getDetailsFromDateService({ date: selectedDate }), fetchYearlyDetails(selectedDate)]);
 				setIsLoading(false);
 				if (recordsResponse.status === 200) {
 					setAllRecordsByDate({ ...recordsResponse.data });
@@ -58,9 +51,9 @@ function Dashboard() {
 			{
 				label: "Weight",
 				data: yearlyWeightDetails,
-				backgroundColor: "rgba(45, 83, 51, 0.75)",
-			},
-		],
+				backgroundColor: "rgba(45, 83, 51, 0.75)"
+			}
+		]
 	};
 	const yearlyCalorieData = {
 		labels,
@@ -68,15 +61,15 @@ function Dashboard() {
 			{
 				label: "Calories",
 				data: yearlyCalorieDetails,
-				backgroundColor: "rgba(53, 162, 235, 0.75)",
-			},
-		],
+				backgroundColor: "rgba(53, 162, 235, 0.75)"
+			}
+		]
 	};
 
 	const fetchRecordsfromDate = async formatedDate => {
 		try {
 			const response = await getDetailsFromDateService({
-				date: formatedDate,
+				date: formatedDate
 			});
 			setIsLoading(false);
 			if (response.status === 200) {
@@ -88,14 +81,14 @@ function Dashboard() {
 	};
 
 	const fetchYearlyDetails = async date => {
-		const annualCalresponse = await getYearlyCaloriesDetailService(date);
+		const annualCalresponse = await getYearlyCaloriesDetailService(date.substring(0, 4));
 		setIsLoading(false);
 
 		if (annualCalresponse.status === 200) {
 			setYearlyCalorieDetails([...(annualCalresponse.data.map(data => data.averageMonthlyCaloriesBurned) || [])]);
 		}
 
-		const annualWeightresponse = await getYearlyWeightDetailService(date);
+		const annualWeightresponse = await getYearlyWeightDetailService(date.substring(0, 4));
 		if (annualWeightresponse.status === 200) {
 			setYearlyWeightDetails([...(annualWeightresponse.data.map(data => data.averageMonthlyWeight) || [])]);
 		}
@@ -124,6 +117,7 @@ function Dashboard() {
 								id="date"
 								value={selectedDate}
 								onChange={handleDateChange}
+								max={getTodaysDate()}
 							/>
 						</div>
 						<div className="graph-container">

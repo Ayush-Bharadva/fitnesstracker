@@ -5,7 +5,7 @@ import { createUserProfileService, getImageUrlService, fetchUserProfile } from "
 import Loader from "../../components/Common/Loader";
 import "./UserProfile.scss";
 import ReactLoading from "react-loading";
-import { emailPattern } from "../../constants/constants";
+import { digitPattern, emailPattern } from "../../constants/constants";
 
 const initialErrorValue = {
 	fullNameError: "",
@@ -51,6 +51,10 @@ function UserProfile() {
 		fetchProfileDetails();
 	}, []);
 
+	function isDigit(value) {
+		digitPattern.test(value);
+	}
+
 	const validateInput = (name, value) => {
 		switch (name) {
 			case "fullName":
@@ -68,8 +72,9 @@ function UserProfile() {
 		}
 	};
 
-	const handleInputChange = e => {
-		const { name, value } = e.target;
+	const handleInputChange = event => {
+		const { name, value } = event.target;
+
 		const validationErrors = { ...inputError };
 		const error = validateInput(name, value);
 
@@ -83,7 +88,8 @@ function UserProfile() {
 		setUserDetails(prevUserInfo => {
 			return {
 				...prevUserInfo,
-				[name]: ["age", "height", "weight"].includes(name) && name !== "" ? +value : value
+				[name]: isDigit(value) ? +value : value
+				// [name]: ["age", "height", "weight"].includes(name) && name !== "" ? isDigit(value) : value
 			};
 		});
 	};
@@ -91,21 +97,23 @@ function UserProfile() {
 	const handleSubmit = async (e, type) => {
 		e.preventDefault();
 
+		console.log(userDetails);
+
 		if (type === "edit") {
 			setInputDisabled(false);
 			return;
 		}
 
 		const errorDetails = Object.values(inputError);
-		const hasInputError = errorDetails.some(error => error.length);
+		const hasInputError = errorDetails.some(error => error?.length);
 
 		if (hasInputError) {
 			showToast("error", "Please fill all details properly");
 			return;
 		}
 
-		const response = await createUserProfileService(userDetails);
-		if (response.status === 200) {
+		const response = await createUserProfileService({ ...userDetails, age: Math.floor(+userDetails.age), height: +userDetails.height, weight: +userDetails.weight });
+		if (response?.status === 200) {
 			setIsLoading(false);
 			setInputDisabled(true);
 			setInputError(initialErrorValue);
@@ -113,14 +121,14 @@ function UserProfile() {
 		}
 	};
 
-	const handleRemoveImage = e => {
-		e.preventDefault();
+	const handleRemoveImage = event => {
+		event.preventDefault();
 		setInputDisabled(false);
 		setUserDetails(prevUserInfo => ({
 			...prevUserInfo,
 			profilePhoto: ""
 		}));
-		e.stopPropagation();
+		event.stopPropagation();
 	};
 
 	const handleImageDrop = async acceptedFiles => {
@@ -140,11 +148,7 @@ function UserProfile() {
 	return (
 		<section id="user-profile-section">
 			{isLoading ? (
-				<Loader
-					color="#37455f"
-					height="64px"
-					width="64px"
-				/>
+				<Loader />
 			) : (
 				<div className="profile-form-container">
 					<h2 className="form-title">Profile</h2>
@@ -168,7 +172,7 @@ function UserProfile() {
 												{...getRootProps()}
 												className="image-dropzone">
 												<input {...getInputProps()} />
-												<p className="drop-text">Drag &apos;n&apos; drop profile here, or click to select files</p>
+												<p className="drop-text">Drag&apos;n drop profile here, or click to select files</p>
 											</div>
 										)}
 									</Dropzone>
@@ -232,7 +236,7 @@ function UserProfile() {
 										Email
 									</label>
 									<input
-										type="text"
+										type="email"
 										className="display-block"
 										id="email"
 										name="email"
@@ -240,7 +244,7 @@ function UserProfile() {
 										value={userDetails["email"]}
 										onChange={handleInputChange}
 										placeholder="Email"
-										disabled={inputDisabled}
+										disabled={true}
 										required
 									/>
 									<p className="profile-input-error">{inputError.emailError}</p>
@@ -253,9 +257,9 @@ function UserProfile() {
 												type="radio"
 												id="male"
 												name="gender"
-												value="Male"
+												value="male"
 												onChange={handleInputChange}
-												checked={userDetails.gender === "Male"}
+												checked={userDetails.gender === "male"}
 												disabled={inputDisabled}
 												required
 											/>
@@ -270,9 +274,9 @@ function UserProfile() {
 												type="radio"
 												id="female"
 												name="gender"
-												value="Female"
+												value="female"
 												onChange={handleInputChange}
-												checked={userDetails.gender === "Female"}
+												checked={userDetails.gender === "female"}
 												disabled={inputDisabled}
 												required
 											/>

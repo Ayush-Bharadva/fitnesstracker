@@ -91,8 +91,10 @@
 	width: 100%;
 	max-width: 1250px;
 	display: flex;
-	margin: 0 auto;
+	margin: 0.5rem auto;
+	padding: 0 1rem;
 	justify-content: flex-end;
+
 	.dailylog-date-section {
 		align-self: flex-end;
 		background-color: #fff;

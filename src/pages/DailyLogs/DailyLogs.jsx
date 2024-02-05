@@ -42,22 +42,21 @@ function DailyLogs() {
 
 	return (
 		<main className="daily-logs-section">
+			<div className="date-wrapper">
+				<div className="dailylog-date-section">
+					<input
+						type="date"
+						name="name"
+						id="date"
+						value={selectedDate}
+						onChange={handleDateChange}
+						max={getTodaysDate()}
+					/>
+				</div>
+			</div>
 			{isCurrentDate && (
 				<>
-					{" "}
 					<section id="activity-form-section">
-						<div className="date-wrapper">
-							<div className="dailylog-date-section">
-								<input
-									type="date"
-									name="name"
-									id="date"
-									value={selectedDate}
-									onChange={handleDateChange}
-									max={getTodaysDate()}
-								/>
-							</div>
-						</div>
 						<div className="form-container">
 							<AddActivityForm
 								isExercise={true}

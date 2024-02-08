@@ -9,14 +9,14 @@ import Loader from "../Common/Loader";
 import PasswordInput from "./PasswordInput";
 
 const initialFormData = {
-	fullname: "",
+	fullName: "",
 	email: "",
 	password: "",
 	confirmPassword: ""
 };
 
 const initialInputError = {
-	fullnameError: "",
+	fullNameError: "",
 	emailError: "",
 	passwordError: "",
 	confirmPasswordError: ""
@@ -46,8 +46,8 @@ function AuthForm() {
 	}, [isLoginForm]);
 
 	const { title, buttonText, linkText, linkButtonText } = formObject;
-	const { fullnameError, emailError, passwordError, confirmPasswordError } = inputError;
-	const { fullname, email, password, confirmPassword } = formData;
+	const { fullNameError, emailError, passwordError, confirmPasswordError } = inputError;
+	const { fullName, email, password, confirmPassword } = formData;
 
 	const handleChange = e => {
 		const { name, value } = e.target;
@@ -55,8 +55,9 @@ function AuthForm() {
 		const inputErrorObj = {};
 
 		switch (name) {
-			case "fullname":
-				inputErrorObj.fullnameError = value.length < 5 ? "Fullname length should be greater than 4" : "";
+			case "fullName":
+				inputErrorObj.fullNameError =
+					value.length < 5 ? "FullName length should be greater than 4" : "";
 				break;
 			case "email":
 				inputErrorObj.emailError = !emailPattern.test(value) ? "Invalid email" : "";
@@ -65,7 +66,8 @@ function AuthForm() {
 				inputErrorObj.passwordError = validatePassword(value);
 				break;
 			case "confirmPassword":
-				inputErrorObj.confirmPasswordError = formData.password !== value ? "Password and Confirm-Password must be same" : "";
+				inputErrorObj.confirmPasswordError =
+					formData.password !== value ? "Password and Confirm-Password must be same" : "";
 				break;
 			default:
 				break;
@@ -86,18 +88,39 @@ function AuthForm() {
 		if (isLoginForm) {
 			return !email || emailError || !password || passwordError;
 		} else {
-			return !email || emailError || !password || passwordError || !fullname || fullnameError || !confirmPassword || confirmPasswordError;
+			return (
+				!email ||
+				emailError ||
+				!password ||
+				passwordError ||
+				!fullName ||
+				fullNameError ||
+				!confirmPassword ||
+				confirmPasswordError
+			);
 		}
-	}, [isLoginForm, fullname, email, password, confirmPassword, fullnameError, emailError, passwordError, confirmPasswordError]);
+	}, [
+		isLoginForm,
+		fullName,
+		email,
+		password,
+		confirmPassword,
+		fullNameError,
+		emailError,
+		passwordError,
+		confirmPasswordError
+	]);
 
-	const handleSubmit = async e => {
-		e.preventDefault();
+	const handleSubmit = async () => {
+		// e.preventDefault();
 
-		const { fullname, email, password } = formData;
+		const { fullName, email, password } = formData;
 
 		try {
 			setIsLoading(true);
-			const response = isLoginForm ? await userLogInService({ email, password }) : await userSignUpService({ fullname, email, password });
+			const response = isLoginForm
+				? await userLogInService({ email, password })
+				: await userSignUpService({ fullName, email, password });
 			setIsLoading(false);
 
 			if (response.status === 200) {
@@ -129,20 +152,20 @@ function AuthForm() {
 						{!isLoginForm && (
 							<>
 								<label
-									htmlFor="fullname"
+									htmlFor="fullName"
 									className="auth-label">
-									Fullname
+									FullName
 								</label>
 								<input
 									type="text"
-									id="fullname"
-									name="fullname"
-									value={fullname}
+									id="fullName"
+									name="fullName"
+									value={fullName}
 									onChange={handleChange}
-									placeholder="fullname"
+									placeholder="fullName"
 									required
 								/>
-								<div className="error-message">{fullnameError}</div>
+								<div className="error-message">{fullNameError}</div>
 							</>
 						)}
 						<label
@@ -190,7 +213,7 @@ function AuthForm() {
 							/>
 						)}
 						<button
-							type="submit"
+							type="button"
 							onClick={handleSubmit}
 							className="auth-submit-btn"
 							style={{

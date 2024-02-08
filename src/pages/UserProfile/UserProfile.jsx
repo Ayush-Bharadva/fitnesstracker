@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import { showToast } from "../../utils/helper";
-import { createUserProfileService, getImageUrlService, fetchUserProfile } from "../../services/services";
+import {
+	createUserProfileService,
+	getImageUrlService,
+	fetchUserProfile
+} from "../../services/services";
 import Loader from "../../components/Common/Loader";
 import "./UserProfile.scss";
 import ReactLoading from "react-loading";
@@ -58,15 +62,23 @@ function UserProfile() {
 	const validateInput = (name, value) => {
 		switch (name) {
 			case "fullName":
-				return !value.trim() || value.length < 4 ? "Please enter correct fullname(must contains atleast 4 characters)" : "";
+				return !value.trim() || value.length < 4
+					? "Please enter correct fullname(must contains atleast 4 characters)"
+					: "";
 			case "email":
 				return !value.trim() || !emailPattern.test(value) ? "invalid Email" : "";
 			case "age":
-				return !value || value < 1 || value >= 130 ? "Please enter valid age (between 1 to 130)" : "";
+				return !value || value < 1 || value >= 130
+					? "Please enter valid age (between 1 to 130)"
+					: "";
 			case "height":
-				return !value || value < 50 || value >= 300 ? "Height should be more than 50 cms or less than 300 cms" : "";
+				return !value || value < 50 || value >= 300
+					? "Height should be more than 50 cms or less than 300 cms"
+					: "";
 			case "weight":
-				return !value || value < 2 || value >= 700 ? "Weight should be more than 2 kgs and less than 700 kgs" : "";
+				return !value || value < 2 || value >= 700
+					? "Weight should be more than 2 kgs and less than 700 kgs"
+					: "";
 			default:
 				break;
 		}
@@ -112,7 +124,12 @@ function UserProfile() {
 			return;
 		}
 
-		const response = await createUserProfileService({ ...userDetails, age: Math.floor(+userDetails.age), height: +userDetails.height, weight: +userDetails.weight });
+		const response = await createUserProfileService({
+			...userDetails,
+			age: Math.floor(+userDetails.age),
+			height: +userDetails.height,
+			weight: +userDetails.weight
+		});
 		if (response?.status === 200) {
 			setIsLoading(false);
 			setInputDisabled(true);
@@ -121,14 +138,14 @@ function UserProfile() {
 		}
 	};
 
-	const handleRemoveImage = event => {
-		event.preventDefault();
+	const handleRemoveImage = () => {
+		// event.preventDefault();
 		setInputDisabled(false);
 		setUserDetails(prevUserInfo => ({
 			...prevUserInfo,
 			profilePhoto: ""
 		}));
-		event.stopPropagation();
+		// event.stopPropagation();
 	};
 
 	const handleImageDrop = async acceptedFiles => {
@@ -172,7 +189,9 @@ function UserProfile() {
 												{...getRootProps()}
 												className="image-dropzone">
 												<input {...getInputProps()} />
-												<p className="drop-text">Drag&apos;n drop profile here, or click to select files</p>
+												<p className="drop-text">
+													Drag&apos;n drop profile here, or click to select files
+												</p>
 											</div>
 										)}
 									</Dropzone>
@@ -180,6 +199,7 @@ function UserProfile() {
 							) : (
 								<div className="image-container">
 									<button
+										type="button"
 										className="remove-img-btn"
 										style={removeImageBtnStyles}
 										onClick={handleRemoveImage}>

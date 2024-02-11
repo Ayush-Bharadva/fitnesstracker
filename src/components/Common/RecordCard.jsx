@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
-import { deleteExerciseService, deleteMealService } from "../../services/services";
-// import { ToastContainer } from "react-toastify";
+import { deleteExercise, deleteMeal } from "../../services/services";
 import "../../global.scss";
 import { showToast } from "../../utils/helper";
 import Record from "./Record";
@@ -17,13 +16,13 @@ function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 	const onConfirmDelete = async () => {
 		const { type, isExercise } = selectedRecord;
 		try {
-			const service = isExercise ? deleteExerciseService : deleteMealService;
+			const service = isExercise ? deleteExercise : deleteMeal;
 			const response = await service(type);
 
 			if (response.status === 200) {
 				const key = isExercise ? "exerciseDetails" : "mealDetails";
 				const updatedDetails = {
-					[key]: allDetails[key].filter(item => item[isExercise ? "exerciseType" : "mealType"] !== type)
+					[key]: allDetails[key].filter((item) => item[isExercise ? "exerciseType" : "mealType"] !== type),
 				};
 				showToast("success", "Activity deleted!!");
 				setAllDetails({ ...allDetails, ...updatedDetails });
@@ -72,25 +71,14 @@ function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 						<>
 							<h1 className="dg-activity-heading text-center">Meals Taken</h1>
 							{mealDetails.map((meal, index) => (
-								<Record
-									key={index}
-									data={meal}
-									index={index}
-									isReadonly={isReadonly}
-									onDelete={onDelete}
-								/>
+								<Record key={index} data={meal} index={index} isReadonly={isReadonly} onDelete={onDelete} />
 							))}
 						</>
 					)}
 				</div>
 			</div>
 			{/* <ToastContainer /> */}
-			{showModal && (
-				<DeleteActivityModal
-					onConfirmDelete={onConfirmDelete}
-					onCancel={onCancel}
-				/>
-			)}
+			{showModal && <DeleteActivityModal onConfirmDelete={onConfirmDelete} onCancel={onCancel} />}
 		</>
 	);
 }
@@ -100,5 +88,5 @@ export default RecordCard;
 RecordCard.propTypes = {
 	allDetails: PropTypes.object,
 	setAllDetails: PropTypes.func,
-	isReadonly: PropTypes.bool
+	isReadonly: PropTypes.bool,
 };

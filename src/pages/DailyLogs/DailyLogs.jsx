@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getDetailsFromDateService } from "../../services/services";
+import { getDetailsFromDate } from "../../services/services";
 import RecordCard from "../../components/Common/RecordCard";
 import "react-toastify/dist/ReactToastify.css";
 import AddActivityForm from "../../components/Common/AddActivityForm";
@@ -7,6 +7,7 @@ import Loader from "../../components/Common/Loader";
 import WeightAndWaterTracker from "./WeightAndWaterTracker";
 import { getTodaysDate, showToast } from "../../utils/helper";
 import "./DailyLogs.scss";
+import { ActivityType } from "../../constants/constants";
 
 function DailyLogs() {
 	const [todaysDetails, setTodaysDetails] = useState({});
@@ -16,8 +17,8 @@ function DailyLogs() {
 	useEffect(() => {
 		const fetchTodaysDetails = async () => {
 			try {
-				const response = await getDetailsFromDateService({
-					date: selectedDate
+				const response = await getDetailsFromDate({
+					date: selectedDate,
 				});
 				setIsLoading(false);
 				if (response.status === 200) {
@@ -60,6 +61,7 @@ function DailyLogs() {
 						<div className="form-container">
 							<AddActivityForm
 								isExercise={true}
+								activityFormType={ActivityType.exercise}
 								allDetails={todaysDetails}
 								setAllDetails={setTodaysDetails}
 							/>
@@ -67,6 +69,7 @@ function DailyLogs() {
 						<div className="form-container">
 							<AddActivityForm
 								isExercise={false}
+								activityFormType={ActivityType.meal}
 								allDetails={todaysDetails}
 								setAllDetails={setTodaysDetails}
 							/>
@@ -94,11 +97,7 @@ function DailyLogs() {
 			{isLoading ? (
 				<Loader />
 			) : (
-				<RecordCard
-					allDetails={todaysDetails}
-					setAllDetails={setTodaysDetails}
-					isReadonly={!isCurrentDate}
-				/>
+				<RecordCard allDetails={todaysDetails} setAllDetails={setTodaysDetails} isReadonly={!isCurrentDate} />
 			)}
 		</main>
 	);

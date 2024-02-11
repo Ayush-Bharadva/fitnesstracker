@@ -7,9 +7,7 @@ function PasswordInput({ label, id, name, value, onChange, placeholder }) {
 	const [showPassword, setShowPassword] = useState(false);
 	return (
 		<>
-			<label
-				htmlFor={id}
-				className="auth-label">
+			<label htmlFor={id} className="auth-label">
 				{label}
 			</label>
 			<div className="pass-field-group">
@@ -24,15 +22,9 @@ function PasswordInput({ label, id, name, value, onChange, placeholder }) {
 					required
 				/>
 				{showPassword ? (
-					<IoEyeOutline
-						className="eye-icon"
-						onClick={() => setShowPassword(prevState => !prevState)}
-					/>
+					<IoEyeOutline className="eye-icon" onClick={() => setShowPassword((prevState) => !prevState)} />
 				) : (
-					<LuEyeOff
-						className="eye-icon"
-						onClick={() => setShowPassword(prevState => !prevState)}
-					/>
+					<LuEyeOff className="eye-icon" onClick={() => setShowPassword((prevState) => !prevState)} />
 				)}
 			</div>
 		</>
@@ -43,13 +35,9 @@ export default PasswordInput;
 
 PasswordInput.propTypes = {
 	label: PropTypes.string,
-	type: PropTypes.string,
 	id: PropTypes.string,
 	name: PropTypes.string,
 	value: PropTypes.string,
 	onChange: PropTypes.func,
 	placeholder: PropTypes.string,
-	autoComplete: PropTypes.string,
-	passwordError: PropTypes.string,
-	confirmPasswordError: PropTypes.string
 };

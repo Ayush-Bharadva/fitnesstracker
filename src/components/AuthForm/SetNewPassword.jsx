@@ -1,14 +1,19 @@
 import { PropTypes } from "prop-types";
 import PasswordInput from "./PasswordInput";
 
-function SetNewPassword({ passwordValue, confirmPasswordValue, passwordError, confirmPasswordError, onPasswordChange, onSetPassword }) {
+function SetNewPassword({
+	passwordValue,
+	confirmPasswordValue,
+	passwordError,
+	confirmPasswordError,
+	onPasswordChange,
+	onSetPassword,
+}) {
 	return (
 		<div className="container">
 			<div className="password-updating-container">
 				<h2>Set New Password!</h2>
-				<form
-					action=""
-					onSubmit={onSetPassword}>
+				<form onSubmit={onSetPassword}>
 					<PasswordInput
 						label="New Password"
 						id="new-password"
@@ -29,11 +34,7 @@ function SetNewPassword({ passwordValue, confirmPasswordValue, passwordError, co
 					/>
 					{confirmPasswordError && <p className="error-message">{confirmPasswordError}</p>}
 
-					<button
-						type="submit"
-						onClick={onSetPassword}>
-						Set Password
-					</button>
+					<button>Set Password</button>
 				</form>
 			</div>
 		</div>
@@ -48,5 +49,5 @@ SetNewPassword.propTypes = {
 	passwordError: PropTypes.string,
 	confirmPasswordError: PropTypes.string,
 	onPasswordChange: PropTypes.func,
-	onSetPassword: PropTypes.func
+	onSetPassword: PropTypes.func,
 };

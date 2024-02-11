@@ -23,7 +23,7 @@ export function Timer({ resendOtp }) {
 		}
 
 		const timer = setInterval(() => {
-			setSeconds(seconds => seconds - 1);
+			setSeconds((seconds) => seconds - 1);
 		}, 1000);
 
 		return () => {
@@ -37,7 +37,7 @@ export function Timer({ resendOtp }) {
 		showToast("success", "OTP sent successfully..");
 	};
 
-	const formatTimer = remainingSeconds => {
+	const formatTimer = (remainingSeconds) => {
 		const minutes = Math.floor(remainingSeconds / 60)
 			.toString()
 			.padStart(2, "0");
@@ -50,10 +50,7 @@ export function Timer({ resendOtp }) {
 	return (
 		<div className="timer">
 			<p className="time-remaining-text">Time Remaining : {time}</p>
-			<button
-				ref={resendBtn}
-				onClick={resetTimer}
-				className="resend-otp-btn">
+			<button ref={resendBtn} onClick={resetTimer} className="resend-otp-btn">
 				Resend OTP
 			</button>
 		</div>
@@ -64,5 +61,4 @@ export default Timer;
 
 Timer.propTypes = {
 	resendOtp: PropTypes.func,
-	timerSeconds: PropTypes.number
 };

@@ -15,14 +15,14 @@ const setNewPasswordApi = `${baseApiUrl}/set-new-password`;
 
 // axios instance with common headers
 const headers = {
-	"Content-Type": "application/json",
+	"Content-Type": "application/json"
 };
 const createApiInstance = axios.create({
 	baseURL: baseApiUrl,
-	headers: headers,
+	headers: headers
 });
 
-createApiInstance.interceptors.request.use((config) => {
+createApiInstance.interceptors.request.use(config => {
 	const userId = getCookie("userId");
 	if (userId) {
 		config.headers.Authorization = userId;
@@ -31,14 +31,16 @@ createApiInstance.interceptors.request.use((config) => {
 });
 
 createApiInstance.interceptors.response.use(
-	(response) => response,
-	(error) => {
+	response => response,
+	error => {
 		if (error.response.data.code === 498) {
 			toast.error("Invalid token");
 		} else if (error.response.data.code === 400) {
 			toast.error("This record contains inconsistent or out-of-range data");
 		} else if (error.response.data.code === 409) {
-			toast.error("This record contains duplicated data that conflicts with what is already in the database");
+			toast.error(
+				"This record contains duplicated data that conflicts with what is already in the database"
+			);
 		} else if (error.response.data.code === 500) {
 			toast.error("Internal server error");
 		} else {
@@ -58,9 +60,9 @@ export async function getImageUrl(acceptedFiles) {
 		headers: {
 			Accept: "*/*",
 			"X-RapidAPI-Key": "7b9cb3e4bdmsh673fe14fd2c1338p1ac175jsnaa23464a349f",
-			"X-RapidAPI-Host": "upload-image-and-return-url-by-thichthicodeteam.p.rapidapi.com",
+			"X-RapidAPI-Host": "upload-image-and-return-url-by-thichthicodeteam.p.rapidapi.com"
 		},
-		data: data,
+		data: data
 	};
 	try {
 		const response = await axios.request(options);
@@ -91,9 +93,9 @@ export async function userLogIn(userCredentials) {
 }
 
 // forgot password / verify email
-export async function verifyEmail(email) {
+export async function verifyEmail(verifyEmailPayload) {
 	try {
-		const response = await axios.post(forgotPasswordApi, { email, eventType: "forgot_password" });
+		const response = await axios.post(forgotPasswordApi, verifyEmailPayload);
 		return response;
 	} catch (error) {
 		return error.response.data;
@@ -101,9 +103,9 @@ export async function verifyEmail(email) {
 }
 
 // verify-otp
-export async function verifyOTP(email, otp) {
+export async function verifyOTP(verifyOtpPayload) {
 	try {
-		const response = await axios.post(verifyOTPApi, { email, otp, eventType: "forgot_password" });
+		const response = await axios.post(verifyOTPApi, verifyOtpPayload);
 		return response;
 	} catch (error) {
 		return error.response.data;
@@ -111,9 +113,9 @@ export async function verifyOTP(email, otp) {
 }
 
 // set new password
-export async function setNewPassword(email, newPassword, token) {
+export async function setNewPassword(resetPasswordPayload) {
 	try {
-		const response = await axios.post(setNewPasswordApi, { email, newPassword, token, eventType: "forgot_password" });
+		const response = await axios.post(setNewPasswordApi, resetPasswordPayload);
 		return response;
 	} catch (error) {
 		return error.response.data;
@@ -154,7 +156,7 @@ export async function updateUserProfile(userInfo) {
 export async function getDetailsFromDate(currentDate) {
 	try {
 		const response = await createApiInstance.get(`${userApiUrl}/alldetails`, {
-			params: currentDate,
+			params: currentDate
 		});
 		return response;
 	} catch (error) {
@@ -187,8 +189,8 @@ export async function deleteExercise(type) {
 	try {
 		const response = await createApiInstance.delete(`${userExerciseApiUrl}`, {
 			params: {
-				exercisetype: type,
-			},
+				exercisetype: type
+			}
 		});
 		return response;
 	} catch (error) {
@@ -220,7 +222,7 @@ export async function updateMeal(mealInfo) {
 export async function deleteMeal(type) {
 	try {
 		const response = createApiInstance.delete(`${userMealApiUrl}`, {
-			params: { mealtype: type },
+			params: { mealtype: type }
 		});
 		return response;
 	} catch (error) {
@@ -233,8 +235,8 @@ export async function getYearlyWeightDetail(year) {
 	try {
 		const response = createApiInstance.get(`${userApiUrl}/yearly-weight-details`, {
 			params: {
-				year,
-			},
+				year
+			}
 		});
 		return response;
 	} catch (error) {
@@ -247,8 +249,8 @@ export async function getYearlyCaloriesDetail(year) {
 	try {
 		const response = createApiInstance.get(`${userApiUrl}/yearly-caloriesburned-details`, {
 			params: {
-				year,
-			},
+				year
+			}
 		});
 		return response;
 	} catch (error) {
@@ -260,7 +262,7 @@ export async function getYearlyCaloriesDetail(year) {
 export async function addWeight(weightInfo) {
 	try {
 		const response = createApiInstance.post(`${userApiUrl}/weight`, {
-			dailyWeight: weightInfo,
+			dailyWeight: weightInfo
 		});
 		return response;
 	} catch (error) {
@@ -272,7 +274,7 @@ export async function addWeight(weightInfo) {
 export async function editWeight(weightInfo) {
 	try {
 		const response = createApiInstance.put(`${userApiUrl}/weight`, {
-			dailyWeight: weightInfo,
+			dailyWeight: weightInfo
 		});
 		return response;
 	} catch (error) {
@@ -294,7 +296,7 @@ export async function deleteWeight() {
 export async function addWater(waterInfo) {
 	try {
 		const response = createApiInstance.post(`${userApiUrl}/water`, {
-			waterIntake: waterInfo,
+			waterIntake: waterInfo
 		});
 		return response;
 	} catch (error) {
@@ -306,7 +308,7 @@ export async function addWater(waterInfo) {
 export async function editWater(waterInfo) {
 	try {
 		const response = createApiInstance.put(`${userApiUrl}/water`, {
-			waterIntake: waterInfo,
+			waterIntake: waterInfo
 		});
 		return response;
 	} catch (error) {

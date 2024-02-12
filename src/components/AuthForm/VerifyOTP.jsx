@@ -1,27 +1,100 @@
 import { PropTypes } from "prop-types";
 import { Timer } from "../Common/Timer";
+import { useState } from "react";
+import { showToast } from "../../utils/helper";
+import { verifyEmail, verifyOTP } from "../../services/services";
+import ReactLoading from "react-loading";
+import { useNavigate } from "react-router-dom";
 
-function VerifyOTP({ onVerify, otpValue, onChange, resendOtp }) {
+function VerifyOTP({ handleNext, data: { email } }) {
+	const navigate = useNavigate();
+
+	const [otpState, setOtpState] = useState({
+		otp: "",
+		otpError: "",
+		isVerifying: ""
+	});
+
+	const { otp, isVerifying } = otpState;
+
+	const verifyOtpPayload = {
+		email,
+		otp,
+		eventType: "forgot_password"
+	};
+
+	const handleOtpChange = ({ target: { value } }) => {
+		setOtpState(prev => ({ ...prev, otp: value }));
+	};
+
+	const handleOtpVerification = async event => {
+		event.preventDefault();
+
+		if (!otp || otp.length < 6) {
+			showToast("error", "Please Enter valid OTP!");
+			return;
+		}
+
+		try {
+			setOtpState(prev => ({ ...prev, isVerifying: true }));
+
+			const response = await verifyOTP(verifyOtpPayload);
+
+			if (response.status === 200) {
+				handleNext("token", response.data.token);
+				showToast("success", "OTP verified successfully!");
+			} else if (response.code === 401) {
+				showToast("error", "Invalid OTP..");
+			}
+		} catch (error) {
+			throw new Error(error);
+		} finally {
+			setOtpState(prev => ({ ...prev, isVerifying: false }));
+		}
+	};
+
+	const onResendOtp = async () => {
+		try {
+			const { status } = await verifyEmail({ email, eventType: "forgot_password" });
+
+			if (status !== 200) {
+				showToast("error", "Could'nt find your email..");
+				navigate("/auth");
+			}
+		} catch (error) {
+			throw new Error(error);
+		}
+	};
+
 	return (
 		<div className="container">
+			{isVerifying && (
+				<div className="loader-wrapper">
+					<h1 className="text">Verifying OTP</h1>
+					<ReactLoading
+						type="balls"
+						color="#fff"
+						className="balls-loader"
+					/>
+				</div>
+			)}
 			<div className="otp-verification-container">
 				<h1 className="otp-verification-heading">Confirm OTP</h1>
-				<form onSubmit={onVerify}>
-					<div>
+				<form onSubmit={handleOtpVerification}>
+					<div className="input-group">
 						<input
 							className="otp-verification-input"
 							type="number"
 							name="otp"
-							value={otpValue}
-							onChange={onChange}
+							value={otp}
+							onChange={handleOtpChange}
 							placeholder="Enter OTP"
-							maxLength="6"
-							minLength="6"
+							required
 						/>
 					</div>
 					<button>Confirm</button>
 				</form>
-				<Timer resendOtp={resendOtp} />
+				<Timer resendOtp={onResendOtp} />
 			</div>
 		</div>
 	);
@@ -30,8 +103,7 @@ function VerifyOTP({ onVerify, otpValue, onChange, resendOtp }) {
 export default VerifyOTP;
 
 VerifyOTP.propTypes = {
-	onVerify: PropTypes.func,
-	otpValue: PropTypes.string,
-	onChange: PropTypes.func,
-	resendOtp: PropTypes.func,
+	handleNext: PropTypes.func,
+	data: PropTypes.obj,
+	resendOtp: PropTypes.func
 };

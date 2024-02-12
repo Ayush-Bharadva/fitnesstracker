@@ -1,12 +1,25 @@
 export const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-export const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+export const labels = [
+	"Jan",
+	"Feb",
+	"Mar",
+	"Apr",
+	"May",
+	"Jun",
+	"Jul",
+	"Aug",
+	"Sep",
+	"Oct",
+	"Nov",
+	"Dec"
+];
 
 export const digitPattern = /\d/;
 
 export const ActivityType = {
 	exercise: "exercise",
-	meal: "meal",
+	meal: "meal"
 };
 
 export const ActivityFormContent = {
@@ -16,7 +29,7 @@ export const ActivityFormContent = {
 		activityText: "Exercise Type",
 		optionText: "Select Exercise Type",
 		calorieText: "Calories Burned",
-		caloriePlaceholder: "Enter calories burned (approx)",
+		caloriePlaceholder: "Enter calories burned (approx)"
 	},
 	[ActivityType.meal]: {
 		formType: "meal",
@@ -24,16 +37,16 @@ export const ActivityFormContent = {
 		activityText: "Meal Type",
 		optionText: "Select Meal Type",
 		calorieText: "Calories Consumed",
-		caloriePlaceholder: "Enter calories consumed (approx)",
-	},
+		caloriePlaceholder: "Enter calories consumed (approx)"
+	}
 };
 
 export const ExerciseType = {
-	Weight_lifting: "weight_lifting",
+	Weight_lifting: "weight_lifting"
 };
 
 export const ResetPassword = {
 	verifyEmail: 1,
 	verifyOTP: 2,
-	setNewPassword: 3,
+	setNewPassword: 3
 };

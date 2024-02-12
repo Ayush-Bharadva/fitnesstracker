@@ -9,7 +9,6 @@ import "./RecordCard.scss";
 import { capitalizeFirstLetter } from "../../utils/helper";
 
 function Record({ index, data, isReadonly, onDelete, isExercise = false }) {
-	console.log(isExercise);
 	const recordObj = useMemo(() => {
 		if (isExercise) {
 			return {

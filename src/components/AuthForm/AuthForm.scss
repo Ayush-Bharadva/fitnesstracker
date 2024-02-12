@@ -26,7 +26,8 @@ $text-color: rgb(9, 57, 110);
 	align-items: center;
 	height: 100vh;
 	width: 100vw;
-	background: linear-gradient(45deg, hsla(234, 36%, 55%, 1) 0%, hsla(234, 36%, 55%, 0) 100%), url("../../assets/images/BgGraphics.png") top right/auto 100% no-repeat;
+	background: linear-gradient(45deg, hsla(234, 36%, 55%, 1) 0%, hsla(234, 36%, 55%, 0) 100%),
+		url("../../assets/images/BgGraphics.png") top right/auto 100% no-repeat;
 
 	.auth-form-container {
 		display: flex;
@@ -55,14 +56,12 @@ $text-color: rgb(9, 57, 110);
 
 			input {
 				display: block;
-				// margin: 0.5rem 0;
-				font-size: 1.5rem;
+				font-size: 1.2rem;
 				width: 100%;
 				padding: 0.5rem;
 				border: none;
 				border-radius: 7px;
 				outline: none;
-				background-color: #eee;
 			}
 
 			.auth-submit-btn {
@@ -123,5 +122,5 @@ $text-color: rgb(9, 57, 110);
 .error-message {
 	color: rgb(219, 19, 19);
 	font-size: 0.9rem;
-	margin-bottom: 0.55rem;
+	margin: 0 0 0.25rem 0;
 }

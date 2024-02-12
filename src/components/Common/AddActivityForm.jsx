@@ -9,7 +9,7 @@ const initialValue = {
 	type: "",
 	duration: "",
 	ingredients: "",
-	calories: "",
+	calories: ""
 };
 import { ActivityFormContent, ExerciseType } from "../../constants/constants";
 
@@ -21,7 +21,8 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 
 	const formInfo = ActivityFormContent[activityFormType];
 
-	const { formType, activityHeading, activityText, optionText, calorieText, caloriePlaceholder } = formInfo;
+	const { formType, activityHeading, activityText, optionText, calorieText, caloriePlaceholder } =
+		formInfo;
 
 	const options = useMemo(
 		() =>
@@ -31,32 +32,32 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 		[activityFormType]
 	);
 
-	const handleType = (type) => (type === "weight lifting" ? ExerciseType["Weight_lifting"] : type);
+	const handleType = type => (type === "weight lifting" ? ExerciseType["Weight_lifting"] : type);
 
-	const getActivityDetails = (type) => {
+	const getActivityDetails = type => {
 		let activityType = handleType(type);
 		return activityFormType === "exercise"
-			? exerciseDetails?.find((exercise) => exercise.exerciseType === activityType)
-			: mealDetails?.find((meal) => meal.mealType === type);
+			? exerciseDetails?.find(exercise => exercise.exerciseType === activityType)
+			: mealDetails?.find(meal => meal.mealType === type);
 	};
 
 	const { type, duration, ingredients, calories } = activityDetails;
 
-	const updateActivityDetails = (type, duration, calories) => {
+	const updateActivityDetails = ({ type, duration, calories }) => {
 		return activityFormType === "exercise"
 			? updateExercise({
 					exerciseType: handleType(type),
 					duration,
-					caloriesBurned: calories,
+					caloriesBurned: calories
 			  })
 			: updateMeal({
 					mealType: type,
 					ingredients: activityDetails.ingredients,
-					caloriesConsumed: calories,
+					caloriesConsumed: calories
 			  });
 	};
 
-	const handleInputChange = (event) => {
+	const handleInputChange = event => {
 		const { name, value } = event.target;
 
 		if (name === "type") {
@@ -69,26 +70,27 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 				caloriesBurned = "",
 				mealType = "",
 				ingredients = "",
-				caloriesConsumed = "",
+				caloriesConsumed = ""
 			} = activityDetails || {};
 
 			setActivityDetails({
-				type: exerciseType === "Weight_lifting" ? "Weight Lifting" : exerciseType || mealType || value,
+				type:
+					exerciseType === "weight_lifting" ? "weight lifting" : exerciseType || mealType || value,
 				duration,
 				ingredients,
-				calories: caloriesBurned || caloriesConsumed,
+				calories: caloriesBurned || caloriesConsumed
 			});
 		} else {
-			setActivityDetails((prevInfo) => ({
+			setActivityDetails(prevInfo => ({
 				...prevInfo,
-				[name]: name === "ingredients" ? value : Number(value),
+				[name]: name === "ingredients" ? value : Number(value)
 			}));
 		}
 	};
 
 	const updateActivity = async () => {
 		setIsLoading(true);
-		const response = await updateActivityDetails(type, duration, calories);
+		const response = await updateActivityDetails({ type, duration, calories });
 		setIsLoading(false);
 		if (response.status === 200) {
 			const previousActivity = getActivityDetails(type);
@@ -96,32 +98,32 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 			let updatedDetails;
 			if (activityFormType === "exercise") {
 				updatedDetails = {
-					exerciseDetails: exerciseDetails.map((exercise) =>
+					exerciseDetails: exerciseDetails.map(exercise =>
 						exercise.exerciseType === previousActivity.exerciseType
 							? {
 									...exercise,
 									duration,
-									caloriesBurned: calories,
+									caloriesBurned: calories
 							  }
 							: exercise
-					),
+					)
 				};
 			} else {
 				updatedDetails = {
-					mealDetails: mealDetails.map((meal) =>
+					mealDetails: mealDetails.map(meal =>
 						meal.mealType === previousActivity.mealType
 							? {
 									...meal,
 									ingredients,
-									caloriesConsumed: calories,
+									caloriesConsumed: calories
 							  }
 							: meal
-					),
+					)
 				};
 			}
 			setAllDetails({
 				...allDetails,
-				...updatedDetails,
+				...updatedDetails
 			});
 
 			showToast("success", "activity updated successfully");
@@ -139,12 +141,12 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 				? await addExercise({
 						exerciseType: handleType(type),
 						duration: duration,
-						caloriesBurned: calories,
+						caloriesBurned: calories
 				  })
 				: await addMeal({
 						mealType: type,
 						ingredients: ingredients,
-						caloriesConsumed: calories,
+						caloriesConsumed: calories
 				  });
 		setIsLoading(false);
 		if (response.status === 200) {
@@ -153,15 +155,16 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 					? {
 							exerciseType: handleType(type),
 							duration,
-							caloriesBurned: calories,
+							caloriesBurned: calories
 					  }
 					: { mealType: type, ingredients, caloriesConsumed: calories };
 
-			const activityDetailsType = activityFormType === "exercise" ? "exerciseDetails" : "mealDetails";
+			const activityDetailsType =
+				activityFormType === "exercise" ? "exerciseDetails" : "mealDetails";
 
 			setAllDetails({
 				...allDetails,
-				[activityDetailsType]: [...(allDetails[activityDetailsType] || []), newActivity],
+				[activityDetailsType]: [...(allDetails[activityDetailsType] || []), newActivity]
 			});
 			showToast("success", `${formType.toLowerCase()} added successfully`);
 			setActivityDetails(initialValue);
@@ -171,7 +174,7 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 		}
 	};
 
-	const handleActivitySubmission = (event) => {
+	const handleActivitySubmission = event => {
 		event.preventDefault();
 		if (buttonText === "Add") {
 			addActivity();
@@ -186,10 +189,17 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 			<form onSubmit={handleActivitySubmission}>
 				<div className="field">
 					<label htmlFor="activity">{activityText}</label>
-					<select name="type" id="activity" value={activityDetails["type"]} onChange={handleInputChange} required>
-						<option value="">{optionText}</option>
+					<select
+						name="type"
+						id="activity"
+						value={activityDetails["type"]}
+						onChange={handleInputChange}
+						required>
+						<option>{optionText}</option>
 						{options.map((data, index) => (
-							<option key={index} value={data.toLowerCase()}>
+							<option
+								key={index}
+								value={data.toLowerCase()}>
 								{data}
 							</option>
 						))}
@@ -255,5 +265,5 @@ export default AddActivityForm;
 AddActivityForm.propTypes = {
 	activityFormType: PropTypes.string,
 	allDetails: PropTypes.object,
-	setAllDetails: PropTypes.func,
+	setAllDetails: PropTypes.func
 };

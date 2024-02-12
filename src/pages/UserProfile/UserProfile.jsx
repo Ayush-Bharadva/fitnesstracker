@@ -12,7 +12,7 @@ const initialErrorValue = {
 	emailError: "",
 	ageError: "",
 	heightError: "",
-	weightError: "",
+	weightError: ""
 };
 
 const initialUserDetails = {
@@ -23,7 +23,7 @@ const initialUserDetails = {
 	gender: "",
 	height: "",
 	weight: "",
-	healthGoal: "",
+	healthGoal: ""
 };
 
 function UserProfile() {
@@ -59,22 +59,28 @@ function UserProfile() {
 		switch (name) {
 			case "fullName":
 				return !value.trim() || value.length < 4
-					? "Please enter correct fullname(must contains atleast 4 characters)"
+					? "Please enter correct fullName(must contains at least 4 characters)"
 					: "";
 			case "email":
 				return !value.trim() || !emailPattern.test(value) ? "invalid Email" : "";
 			case "age":
-				return !value || value < 1 || value >= 130 ? "Please enter valid age (between 1 to 130)" : "";
+				return !value || value < 1 || value >= 130
+					? "Please enter valid age (between 1 to 130)"
+					: "";
 			case "height":
-				return !value || value < 50 || value >= 300 ? "Height should be more than 50 cms or less than 300 cms" : "";
+				return !value || value < 50 || value >= 300
+					? "Height should be more than 50 cms or less than 300 cms"
+					: "";
 			case "weight":
-				return !value || value < 2 || value >= 700 ? "Weight should be more than 2 kgs and less than 700 kgs" : "";
+				return !value || value < 2 || value >= 700
+					? "Weight should be more than 2 kgs and less than 700 kgs"
+					: "";
 			default:
 				break;
 		}
 	};
 
-	const handleInputChange = (event) => {
+	const handleInputChange = event => {
 		const { name, value } = event.target;
 
 		const validationErrors = { ...inputError };
@@ -86,12 +92,11 @@ function UserProfile() {
 			validationErrors[`${name}Error`] = error;
 		}
 
-		setInputError((prevErrors) => ({ ...prevErrors, ...validationErrors }));
-		setUserDetails((prevUserInfo) => {
+		setInputError(prevErrors => ({ ...prevErrors, ...validationErrors }));
+		setUserDetails(prevUserInfo => {
 			return {
 				...prevUserInfo,
-				[name]: isDigit(value) ? +value : value,
-				// [name]: ["age", "height", "weight"].includes(name) && name !== "" ? isDigit(value) : value
+				[name]: isDigit(value) ? +value : value
 			};
 		});
 	};
@@ -99,15 +104,13 @@ function UserProfile() {
 	const handleSubmit = async (e, type) => {
 		e.preventDefault();
 
-		console.log(userDetails);
-
 		if (type === "edit") {
 			setInputDisabled(false);
 			return;
 		}
 
 		const errorDetails = Object.values(inputError);
-		const hasInputError = errorDetails.some((error) => error?.length);
+		const hasInputError = errorDetails.some(error => error?.length);
 
 		if (hasInputError) {
 			showToast("error", "Please fill all details properly");
@@ -118,7 +121,7 @@ function UserProfile() {
 			...userDetails,
 			age: Math.floor(+userDetails.age),
 			height: +userDetails.height,
-			weight: +userDetails.weight,
+			weight: +userDetails.weight
 		});
 		if (response?.status === 200) {
 			setIsLoading(false);
@@ -129,27 +132,25 @@ function UserProfile() {
 	};
 
 	const handleRemoveImage = () => {
-		// event.preventDefault();
 		setInputDisabled(false);
-		setUserDetails((prevUserInfo) => ({
+		setUserDetails(prevUserInfo => ({
 			...prevUserInfo,
-			profilePhoto: "",
+			profilePhoto: ""
 		}));
-		// event.stopPropagation();
 	};
 
-	const handleImageDrop = async (acceptedFiles) => {
+	const handleImageDrop = async acceptedFiles => {
 		setIsImageLoading(true);
 		const imageUrl = await getImageUrl(acceptedFiles);
-		setUserDetails((prevUserInfo) => ({
+		setUserDetails(prevUserInfo => ({
 			...prevUserInfo,
-			profilePhoto: imageUrl,
+			profilePhoto: imageUrl
 		}));
 		setIsImageLoading(false);
 	};
 
 	const removeImageBtnStyles = {
-		display: inputDisabled ? "none" : "block",
+		display: inputDisabled ? "none" : "block"
 	};
 
 	return (
@@ -164,14 +165,24 @@ function UserProfile() {
 							{!userDetails.profilePhoto ? (
 								isImageLoading ? (
 									<div>
-										<ReactLoading className="image-loader" type="spin" color="#37455f" height="32px" width="32px" />
+										<ReactLoading
+											className="image-loader"
+											type="spin"
+											color="#37455f"
+											height="32px"
+											width="32px"
+										/>
 									</div>
 								) : (
 									<Dropzone onDrop={handleImageDrop}>
 										{({ getRootProps, getInputProps }) => (
-											<div {...getRootProps()} className="image-dropzone">
+											<div
+												{...getRootProps()}
+												className="image-dropzone">
 												<input {...getInputProps()} />
-												<p className="drop-text">Drag&apos;n drop profile here, or click to select files</p>
+												<p className="drop-text">
+													Drag&apos;n drop profile here, or click to select files
+												</p>
 											</div>
 										)}
 									</Dropzone>
@@ -182,12 +193,16 @@ function UserProfile() {
 										type="button"
 										className="remove-img-btn"
 										style={removeImageBtnStyles}
-										onClick={handleRemoveImage}
-									>
+										onClick={handleRemoveImage}>
 										X
 									</button>
 									<div className="profile-img">
-										{userDetails.profilePhoto && <img src={userDetails?.profilePhoto} alt="profile" />}
+										{userDetails.profilePhoto && (
+											<img
+												src={userDetails?.profilePhoto}
+												alt="profile"
+											/>
+										)}
 									</div>
 									<p className="text-center text-your-image">Your Image</p>
 								</div>
@@ -199,15 +214,16 @@ function UserProfile() {
 								<h3 className="form-title">Profile Details</h3>
 								<button
 									className={inputDisabled ? "edit-profile-btn" : "save-profile-btn"}
-									onClick={(e) => handleSubmit(e, inputDisabled ? "edit" : "save")}
-								>
+									onClick={e => handleSubmit(e, inputDisabled ? "edit" : "save")}>
 									{inputDisabled ? "Edit Profile" : "Save Profile"}
 								</button>
 							</div>
 
 							<div className="form-elements-container">
 								<div className="form-group">
-									<label htmlFor="fullName" className="display-block">
+									<label
+										htmlFor="fullName"
+										className="display-block">
 										Fullname
 									</label>
 									<input
@@ -225,7 +241,9 @@ function UserProfile() {
 									<p className="profile-input-error">{inputError.fullNameError}</p>
 								</div>
 								<div className="form-group">
-									<label htmlFor="email" className="display-block">
+									<label
+										htmlFor="email"
+										className="display-block">
 										Email
 									</label>
 									<input
@@ -256,7 +274,9 @@ function UserProfile() {
 												disabled={inputDisabled}
 												required
 											/>
-											<label htmlFor="male" style={{ margin: "4px" }}>
+											<label
+												htmlFor="male"
+												style={{ margin: "4px" }}>
 												Male
 											</label>
 										</div>
@@ -271,14 +291,18 @@ function UserProfile() {
 												disabled={inputDisabled}
 												required
 											/>
-											<label htmlFor="female" style={{ margin: "4px" }}>
+											<label
+												htmlFor="female"
+												style={{ margin: "4px" }}>
 												Female
 											</label>
 										</div>
 									</div>
 								</div>
 								<div className="form-group">
-									<label htmlFor="age" className="display-block">
+									<label
+										htmlFor="age"
+										className="display-block">
 										Age (Years)
 									</label>
 									<input
@@ -296,7 +320,9 @@ function UserProfile() {
 									<p className="profile-input-error">{inputError.ageError}</p>
 								</div>
 								<div className="form-group">
-									<label htmlFor="height" className="display-block">
+									<label
+										htmlFor="height"
+										className="display-block">
 										Height (cms)
 									</label>
 									<input
@@ -314,7 +340,9 @@ function UserProfile() {
 									<p className="profile-input-error">{inputError.heightError}</p>
 								</div>
 								<div className="form-group">
-									<label htmlFor="weight" className="display-block">
+									<label
+										htmlFor="weight"
+										className="display-block">
 										Weight (kgs)
 									</label>
 									<input
@@ -332,7 +360,9 @@ function UserProfile() {
 									<p className="profile-input-error">{inputError.weightError}</p>
 								</div>
 								<div className="form-group">
-									<label htmlFor="healthGoal" className="display-block">
+									<label
+										htmlFor="healthGoal"
+										className="display-block">
 										Health Goal
 									</label>
 									<select
@@ -342,8 +372,7 @@ function UserProfile() {
 										value={userDetails["healthGoal"]}
 										onChange={handleInputChange}
 										disabled={inputDisabled}
-										required
-									>
+										required>
 										<option value="">Select Health Goal</option>
 										<option value="weight_loss">Weight loss</option>
 										<option value="weight_gain">Weight gain</option>

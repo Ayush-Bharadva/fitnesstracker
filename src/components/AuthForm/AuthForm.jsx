@@ -111,9 +111,7 @@ function AuthForm() {
 		confirmPasswordError
 	]);
 
-	const handleUserAuth = async event => {
-		event.preventDefault();
-
+	const handleAuthUser = async () => {
 		const { fullName, email, password } = formData;
 
 		try {
@@ -148,9 +146,7 @@ function AuthForm() {
 				<div className={`auth-form-container ${isLoading ? "m-opacity" : ""}`}>
 					{isLoading && <Loader />}
 					<h1>{title}</h1>
-					<form
-						className="auth-form"
-						onSubmit={handleUserAuth}>
+					<form className="auth-form">
 						{!isLoginForm && (
 							<>
 								<label
@@ -215,7 +211,9 @@ function AuthForm() {
 							/>
 						)}
 						<button
+							type="button"
 							className="auth-submit-btn"
+							onClick={handleAuthUser}
 							style={{
 								cursor: !handleButtonDisable ? "pointer" : "no-drop"
 							}}

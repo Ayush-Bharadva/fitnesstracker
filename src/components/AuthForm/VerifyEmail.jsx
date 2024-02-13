@@ -25,9 +25,7 @@ function VerifyEmail({ handleNext }) {
 		setEmailState(prev => ({ ...prev, email: value, emailError: error }));
 	};
 
-	const handleEmailVerification = async event => {
-		event.preventDefault();
-
+	const handleEmailVerification = async () => {
 		try {
 			setEmailState(prev => ({ ...prev, isVerifying: true }));
 			const { status } = await verifyEmail(verifyEmailPayload);
@@ -64,7 +62,7 @@ function VerifyEmail({ handleNext }) {
 					<p className="email-verification-subtitle">
 						Enter your email and we&apos;ll send you an otp for email verification
 					</p>
-					<form onSubmit={handleEmailVerification}>
+					<form>
 						<div className="input-group">
 							<CiMail className="mail-icon" />
 							<input
@@ -79,7 +77,11 @@ function VerifyEmail({ handleNext }) {
 							/>
 						</div>
 						<p className="email-error-text">{emailError}</p>
-						<button>Verify</button>
+						<button
+							type="button"
+							onClick={handleEmailVerification}>
+							Verify
+						</button>
 					</form>
 				</div>
 			</div>

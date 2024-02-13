@@ -22,7 +22,9 @@ function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 			if (response.status === 200) {
 				const key = isExercise ? "exerciseDetails" : "mealDetails";
 				const updatedDetails = {
-					[key]: allDetails[key].filter((item) => item[isExercise ? "exerciseType" : "mealType"] !== type),
+					[key]: allDetails[key].filter(
+						item => item[isExercise ? "exerciseType" : "mealType"] !== type
+					)
 				};
 				showToast("success", "Activity deleted!!");
 				setAllDetails({ ...allDetails, ...updatedDetails });
@@ -47,7 +49,9 @@ function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 
 	return (
 		<>
-			{isTrackingWorkout && <h1 className="no-activity-heading text-center">No Logs Currently to display!!</h1>}
+			{isTrackingWorkout && (
+				<h1 className="no-activity-heading text-center">No Logs Currently to display!!</h1>
+			)}
 			<div className="record-card">
 				<div className="exercise-record-container">
 					{exerciseDetails?.length > 0 && (
@@ -71,14 +75,24 @@ function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 						<>
 							<h1 className="dg-activity-heading text-center">Meals Taken</h1>
 							{mealDetails.map((meal, index) => (
-								<Record key={index} data={meal} index={index} isReadonly={isReadonly} onDelete={onDelete} />
+								<Record
+									key={index}
+									data={meal}
+									index={index}
+									isReadonly={isReadonly}
+									onDelete={onDelete}
+								/>
 							))}
 						</>
 					)}
 				</div>
 			</div>
-			{/* <ToastContainer /> */}
-			{showModal && <DeleteActivityModal onConfirmDelete={onConfirmDelete} onCancel={onCancel} />}
+			{showModal && (
+				<DeleteActivityModal
+					onConfirmDelete={onConfirmDelete}
+					onCancel={onCancel}
+				/>
+			)}
 		</>
 	);
 }
@@ -88,5 +102,5 @@ export default RecordCard;
 RecordCard.propTypes = {
 	allDetails: PropTypes.object,
 	setAllDetails: PropTypes.func,
-	isReadonly: PropTypes.bool,
+	isReadonly: PropTypes.bool
 };

@@ -27,9 +27,7 @@ function VerifyOTP({ handleNext, data: { email } }) {
 		setOtpState(prev => ({ ...prev, otp: value }));
 	};
 
-	const handleOtpVerification = async event => {
-		event.preventDefault();
-
+	const handleOtpVerification = async () => {
 		if (!otp || otp.length < 6) {
 			showToast("error", "Please Enter valid OTP!");
 			return;
@@ -80,7 +78,7 @@ function VerifyOTP({ handleNext, data: { email } }) {
 			)}
 			<div className="otp-verification-container">
 				<h1 className="otp-verification-heading">Confirm OTP</h1>
-				<form onSubmit={handleOtpVerification}>
+				<form>
 					<div className="input-group">
 						<input
 							className="otp-verification-input"
@@ -92,7 +90,11 @@ function VerifyOTP({ handleNext, data: { email } }) {
 							required
 						/>
 					</div>
-					<button>Confirm</button>
+					<button
+						type="button"
+						onClick={handleOtpVerification}>
+						Confirm
+					</button>
 				</form>
 				<Timer resendOtp={onResendOtp} />
 			</div>

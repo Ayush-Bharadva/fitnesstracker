@@ -47,9 +47,7 @@ function SetNewPassword({ data: { email, token } }) {
 		setPasswordState(prev => ({ ...prev, [key]: value }));
 	};
 
-	const handleResetPassword = async event => {
-		event.preventDefault();
-
+	const handleResetPassword = async () => {
 		if (passwordError || confirmPasswordError) {
 			showToast("error", "Invalid Password");
 			return;
@@ -90,8 +88,7 @@ function SetNewPassword({ data: { email, token } }) {
 			)}
 			<div className="password-updating-container">
 				<h2>Set New Password!</h2>
-				<form onSubmit={handleResetPassword}>
-					{/* <div className="password-input-group"> */}
+				<form>
 					<PasswordInput
 						label="New Password"
 						id="new-password"
@@ -100,7 +97,6 @@ function SetNewPassword({ data: { email, token } }) {
 						onChange={handlePasswordChange}
 						placeholder="new password"
 					/>
-					{/* </div> */}
 					{passwordError && <p className="error-message">{passwordError}</p>}
 
 					<PasswordInput
@@ -113,7 +109,11 @@ function SetNewPassword({ data: { email, token } }) {
 					/>
 					{confirmPasswordError && <p className="error-message">{confirmPasswordError}</p>}
 
-					<button>Set Password</button>
+					<button
+						type="button"
+						onClick={handleResetPassword}>
+						Set Password
+					</button>
 				</form>
 			</div>
 		</div>

@@ -174,8 +174,7 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 		}
 	};
 
-	const handleActivitySubmission = event => {
-		event.preventDefault();
+	const handleActivitySubmission = () => {
 		if (buttonText === "Add") {
 			addActivity();
 		} else {
@@ -186,7 +185,7 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 	return (
 		<>
 			<h2 className="form-heading">{activityHeading}</h2>
-			<form onSubmit={handleActivitySubmission}>
+			<form>
 				<div className="field">
 					<label htmlFor="activity">{activityText}</label>
 					<select
@@ -251,7 +250,10 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 					/>
 				</div>
 
-				<button className="activity-submit-btn">
+				<button
+					type="button"
+					className="activity-submit-btn"
+					onClick={handleActivitySubmission}>
 					{activityFormType === "exercise" ? `${buttonText} Exercise` : `${buttonText} Meal`}
 				</button>
 			</form>

@@ -45,7 +45,7 @@ function UserProfile() {
 				}
 			} catch (error) {
 				setIsLoading(false);
-				showToast("error", "An error occured while fetching user profile");
+				showToast("error", "An unknown error occured while fetching user profile");
 			}
 		};
 		fetchProfileDetails();
@@ -101,9 +101,7 @@ function UserProfile() {
 		});
 	};
 
-	const handleSubmit = async (e, type) => {
-		e.preventDefault();
-
+	const handleUserDetails = async type => {
 		if (type === "edit") {
 			setInputDisabled(false);
 			return;
@@ -214,7 +212,7 @@ function UserProfile() {
 								<h3 className="form-title">Profile Details</h3>
 								<button
 									className={inputDisabled ? "edit-profile-btn" : "save-profile-btn"}
-									onClick={e => handleSubmit(e, inputDisabled ? "edit" : "save")}>
+									onClick={() => handleUserDetails(inputDisabled ? "edit" : "save")}>
 									{inputDisabled ? "Edit Profile" : "Save Profile"}
 								</button>
 							</div>

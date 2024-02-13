@@ -126,7 +126,7 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 				...updatedDetails
 			});
 
-			showToast("success", "activity updated successfully");
+			showToast("success", "Activity updated successfully");
 			setActivityDetails(initialValue);
 			setButtonText("Add");
 		} else {

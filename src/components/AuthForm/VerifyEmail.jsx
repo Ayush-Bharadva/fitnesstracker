@@ -2,7 +2,7 @@ import { PropTypes } from "prop-types";
 import { useState } from "react";
 import { CiMail } from "react-icons/ci";
 import { verifyEmail } from "../../services/services";
-import { showToast } from "../../utils/helper";
+import { handleKeyDown, showToast } from "../../utils/helper";
 import ReactLoading from "react-loading";
 import { emailPattern } from "../../constants/constants";
 
@@ -72,15 +72,15 @@ function VerifyEmail({ handleNext }) {
 								value={email}
 								title={email}
 								onChange={handleEmailChange}
+								onKeyDown={handleKeyDown}
 								placeholder="Enter Email"
-								required
 							/>
 						</div>
 						<p className="email-error-text">{emailError}</p>
 						<button
 							type="button"
 							onClick={handleEmailVerification}>
-							Verify
+							verify
 						</button>
 					</form>
 				</div>

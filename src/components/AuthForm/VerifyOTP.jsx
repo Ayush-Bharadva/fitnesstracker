@@ -1,7 +1,7 @@
 import { PropTypes } from "prop-types";
 import { Timer } from "../Common/Timer";
 import { useState } from "react";
-import { showToast } from "../../utils/helper";
+import { handleKeyDown, showToast } from "../../utils/helper";
 import { verifyEmail, verifyOTP } from "../../services/services";
 import ReactLoading from "react-loading";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +27,9 @@ function VerifyOTP({ handleNext, data: { email } }) {
 		setOtpState(prev => ({ ...prev, otp: value }));
 	};
 
-	const handleOtpVerification = async () => {
+	const handleOtpVerification = async event => {
+		event.preventDefault();
+
 		if (!otp || otp.length < 6) {
 			showToast("error", "Please Enter valid OTP!");
 			return;
@@ -86,8 +88,8 @@ function VerifyOTP({ handleNext, data: { email } }) {
 							name="otp"
 							value={otp}
 							onChange={handleOtpChange}
+							onKeyDown={handleKeyDown}
 							placeholder="Enter OTP"
-							required
 						/>
 					</div>
 					<button

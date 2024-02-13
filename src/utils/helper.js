@@ -19,6 +19,12 @@ export function isUserLoggedIn() {
 	return !!userId;
 }
 
+export const handleKeyDown = event => {
+	if (event.keyCode === 13) {
+		event.preventDefault();
+	}
+};
+
 export const getTodaysDate = () => {
 	const todayDate = new Date();
 	return todayDate.toJSON().split("T")[0];

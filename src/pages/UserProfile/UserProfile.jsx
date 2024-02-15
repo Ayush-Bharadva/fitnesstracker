@@ -211,6 +211,7 @@ function UserProfile() {
 							<div className="title-wrapper">
 								<h3 className="form-title">Profile Details</h3>
 								<button
+									type="button"
 									className={inputDisabled ? "edit-profile-btn" : "save-profile-btn"}
 									onClick={() => handleUserDetails(inputDisabled ? "edit" : "save")}>
 									{inputDisabled ? "Edit Profile" : "Save Profile"}

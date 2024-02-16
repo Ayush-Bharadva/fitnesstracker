@@ -22,8 +22,6 @@ const UserProfile = dynamicImport("UserProfile");
 const DailyLogs = dynamicImport("DailyLogs");
 const Dashboard = dynamicImport("Dashboard");
 
-PrivateRoutes;
-
 const router = createBrowserRouter(
 	createRoutesFromElements(
 		<>

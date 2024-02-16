@@ -223,7 +223,7 @@ function UserProfile() {
 									<label
 										htmlFor="fullName"
 										className="display-block">
-										Fullname
+										FullName
 									</label>
 									<input
 										type="text"
@@ -233,7 +233,7 @@ function UserProfile() {
 										title={userDetails["fullName"]}
 										value={userDetails["fullName"]}
 										onChange={handleInputChange}
-										placeholder="Fullname"
+										placeholder="FullName"
 										disabled={inputDisabled}
 										required
 									/>

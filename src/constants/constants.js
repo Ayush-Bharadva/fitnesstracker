@@ -45,6 +45,22 @@ export const ExerciseType = {
 	Weight_lifting: "weight_lifting"
 };
 
+export const TrackerType = {
+	weight: "weight",
+	water: "water"
+};
+
+export const TrackerConfig = {
+	[TrackerType.weight]: {
+		heading: "Today's Weight",
+		title: "Weight (Kgs)"
+	},
+	[TrackerType.water]: {
+		heading: "Water Drunk Today",
+		title: "Water Intake (Ltrs)"
+	}
+};
+
 export const ResetPassword = {
 	verifyEmail: 1,
 	verifyOTP: 2,

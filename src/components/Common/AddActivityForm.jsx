@@ -46,15 +46,15 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 	const updateActivityDetails = ({ type, duration, calories }) => {
 		return activityFormType === "exercise"
 			? updateExercise({
-					exerciseType: handleType(type),
-					duration,
-					caloriesBurned: calories
-			  })
+				exerciseType: handleType(type),
+				duration,
+				caloriesBurned: calories
+			})
 			: updateMeal({
-					mealType: type,
-					ingredients: activityDetails.ingredients,
-					caloriesConsumed: calories
-			  });
+				mealType: type,
+				ingredients: activityDetails.ingredients,
+				caloriesConsumed: calories
+			});
 	};
 
 	const handleInputChange = event => {
@@ -101,10 +101,10 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 					exerciseDetails: exerciseDetails.map(exercise =>
 						exercise.exerciseType === previousActivity.exerciseType
 							? {
-									...exercise,
-									duration,
-									caloriesBurned: calories
-							  }
+								...exercise,
+								duration,
+								caloriesBurned: calories
+							}
 							: exercise
 					)
 				};
@@ -113,10 +113,10 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 					mealDetails: mealDetails.map(meal =>
 						meal.mealType === previousActivity.mealType
 							? {
-									...meal,
-									ingredients,
-									caloriesConsumed: calories
-							  }
+								...meal,
+								ingredients,
+								caloriesConsumed: calories
+							}
 							: meal
 					)
 				};
@@ -139,24 +139,24 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 		let response =
 			activityFormType === "exercise"
 				? await addExercise({
-						exerciseType: handleType(type),
-						duration: duration,
-						caloriesBurned: calories
-				  })
+					exerciseType: handleType(type),
+					duration: duration,
+					caloriesBurned: calories
+				})
 				: await addMeal({
-						mealType: type,
-						ingredients: ingredients,
-						caloriesConsumed: calories
-				  });
+					mealType: type,
+					ingredients: ingredients,
+					caloriesConsumed: calories
+				});
 		setIsLoading(false);
 		if (response.status === 200) {
 			const newActivity =
 				activityFormType === "exercise"
 					? {
-							exerciseType: handleType(type),
-							duration,
-							caloriesBurned: calories
-					  }
+						exerciseType: handleType(type),
+						duration,
+						caloriesBurned: calories
+					}
 					: { mealType: type, ingredients, caloriesConsumed: calories };
 
 			const activityDetailsType =
@@ -174,7 +174,7 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 		}
 	};
 
-	const handleActivitySubmission = () => {
+	const saveActivity = () => {
 		if (buttonText === "Add") {
 			addActivity();
 		} else {
@@ -253,7 +253,7 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 				<button
 					type="button"
 					className="activity-submit-btn"
-					onClick={handleActivitySubmission}>
+					onClick={saveActivity}>
 					{activityFormType === "exercise" ? `${buttonText} Exercise` : `${buttonText} Meal`}
 				</button>
 			</form>

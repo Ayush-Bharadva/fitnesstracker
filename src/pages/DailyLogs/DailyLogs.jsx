@@ -7,7 +7,7 @@ import Loader from "../../components/Common/Loader";
 import WeightAndWaterTracker from "./WeightAndWaterTracker";
 import { getTodaysDate, showToast } from "../../utils/helper";
 import "./DailyLogs.scss";
-import { ActivityType } from "../../constants/constants";
+import { ActivityType, TrackerType } from "../../constants/constants";
 
 function DailyLogs() {
 	const [todaysDetails, setTodaysDetails] = useState({});
@@ -60,7 +60,6 @@ function DailyLogs() {
 					<section id="activity-form-section">
 						<div className="form-container">
 							<AddActivityForm
-								isExercise={true}
 								activityFormType={ActivityType.exercise}
 								allDetails={todaysDetails}
 								setAllDetails={setTodaysDetails}
@@ -68,7 +67,6 @@ function DailyLogs() {
 						</div>
 						<div className="form-container">
 							<AddActivityForm
-								isExercise={false}
 								activityFormType={ActivityType.meal}
 								allDetails={todaysDetails}
 								setAllDetails={setTodaysDetails}
@@ -77,18 +75,14 @@ function DailyLogs() {
 					</section>
 					<section id="track-activity-section">
 						<WeightAndWaterTracker
-							heading={"Today's Weight"}
-							title={"Weight (Kgs)"}
-							type={"weight"}
-							value={todaysDetails?.weightDetails?.dailyWeight}
+							type={TrackerType.weight}
 							setAllDetails={setTodaysDetails}
+							value={todaysDetails?.weightDetails?.dailyWeight}
 						/>
 						<WeightAndWaterTracker
-							heading={"Water Drunk Today"}
-							title={"Water Intake (Ltrs)"}
-							type={"water"}
-							value={todaysDetails?.waterDetails?.waterIntake}
+							type={TrackerType.water}
 							setAllDetails={setTodaysDetails}
+							value={todaysDetails?.waterDetails?.waterIntake}
 						/>
 					</section>
 				</>
@@ -97,7 +91,10 @@ function DailyLogs() {
 			{isLoading ? (
 				<Loader />
 			) : (
-				<RecordCard allDetails={todaysDetails} setAllDetails={setTodaysDetails} isReadonly={!isCurrentDate} />
+				<RecordCard
+					allDetails={todaysDetails}
+					setAllDetails={setTodaysDetails}
+					isReadonly={!isCurrentDate} />
 			)}
 		</main>
 	);

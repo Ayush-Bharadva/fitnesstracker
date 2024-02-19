@@ -3,21 +3,22 @@ import PropTypes from "prop-types";
 import { addWater, addWeight, editWater, editWeight } from "../../services/services";
 import { showToast } from "../../utils/helper";
 import "./DailyLogs.scss";
+import { TrackerConfig } from "../../constants/constants";
 
-function WeightAndWaterTracker({ heading, title, value, setAllDetails, type }) {
+function WeightAndWaterTracker({ type, setAllDetails, value }) {
 	const [inputValue, setInputValue] = useState(value);
-	const [inputDisabled, setInputDisabled] = useState(!!value);
+	const [isInputDisabled, setIsInputDisabled] = useState(!!value);
 
 	useEffect(() => {
 		setInputValue(value);
-		setInputDisabled(!!value);
+		setIsInputDisabled(!!value);
 	}, [value]);
 
 	const handleApiCall = async (apiCall) => {
 		try {
 			const response = await apiCall(Number(inputValue));
 			if (response.status === 200) {
-				setInputDisabled(true);
+				setIsInputDisabled(true);
 
 				const detailsKey = type === "weight" ? "weightDetails" : "waterDetails";
 
@@ -50,23 +51,23 @@ function WeightAndWaterTracker({ heading, title, value, setAllDetails, type }) {
 
 	return (
 		<div id="tracking-section">
-			<h3>{heading}</h3>
+			<h3>{TrackerConfig.type}</h3>
 			<div className="tracker-container">
-				<h2 className="title">{title}</h2>
+				<h2 className="title">{TrackerConfig.type}</h2>
 				<div className="actions">
-					{!inputDisabled ? (
+					{!isInputDisabled ? (
 						<input
 							type="text"
 							value={inputValue}
 							onChange={(e) => setInputValue(e.target.value)}
-							disabled={inputDisabled}
-							placeholder={`Today's ${title}`}
+							disabled={isInputDisabled}
+							placeholder={`Today's ${TrackerConfig.type}`}
 						/>
 					) : (
 						<p>{dailyValue}</p>
 					)}
-					<button className="action-btn" onClick={inputDisabled ? () => setInputDisabled(false) : handleSubmit}>
-						{inputDisabled ? "Edit" : "Save"}
+					<button className="action-btn" onClick={isInputDisabled ? () => setIsInputDisabled(false) : handleSubmit}>
+						{isInputDisabled ? "Edit" : "Save"}
 					</button>
 				</div>
 			</div>
@@ -77,8 +78,6 @@ function WeightAndWaterTracker({ heading, title, value, setAllDetails, type }) {
 export default WeightAndWaterTracker;
 
 WeightAndWaterTracker.propTypes = {
-	heading: PropTypes.string,
-	title: PropTypes.string,
 	value: PropTypes.number,
 	setAllDetails: PropTypes.func,
 	type: PropTypes.string,

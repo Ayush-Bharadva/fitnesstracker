@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
-import { deleteExercise, deleteMeal } from "../../services/services";
-import "../../global.scss";
-import { showToast } from "../../utils/helper";
+import { deleteExercise, deleteMeal } from "../../../services/services";
+import "../../../global.scss";
+import { showToast } from "../../../utils/helper";
 import Record from "./Record";
 import "./RecordCard.scss";
-import DeleteActivityModal from "./DeleteActivityModal";
 import { useState } from "react";
+import DeleteActivityModal from "../DeleteActivityModal/DeleteActivityModal";
 
 function RecordCard({ allDetails, setAllDetails, isReadonly }) {
 	const [showModal, setShowModal] = useState(false);

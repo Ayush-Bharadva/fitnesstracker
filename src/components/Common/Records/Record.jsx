@@ -2,11 +2,11 @@ import { useMemo } from "react";
 import PropTypes from "prop-types";
 import { MdDelete } from "react-icons/md";
 import { FaRegClock } from "react-icons/fa6";
-import Ingredient from "../../assets/icons/Ingredient.png";
-import calories from "../../assets/icons/consumedCalorie.png";
-import fireIcon from "../../assets/icons/fire-icon-image.png";
+import Ingredient from "../../../assets/icons/Ingredient.png";
+import calories from "../../../assets/icons/consumedCalorie.png";
+import fireIcon from "../../../assets/icons/fire-icon-image.png";
 import "./RecordCard.scss";
-import { capitalizeFirstLetter } from "../../utils/helper";
+import { capitalizeFirstLetter } from "../../../utils/helper";
 
 function Record({ index, data, isReadonly, onDelete, isExercise = false }) {
 	const recordObj = useMemo(() => {

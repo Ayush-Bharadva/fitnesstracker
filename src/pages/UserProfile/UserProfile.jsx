@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import { showToast } from "../../utils/helper";
 import { createUserProfile, getImageUrl, fetchUserProfile } from "../../services/services";
-import Loader from "../../components/Common/Loader";
+import Loader from "../../components/Common/Loader/Loader";
 import "./UserProfile.scss";
 import ReactLoading from "react-loading";
-import { digitPattern, emailPattern } from "../../constants/constants";
+import { digitPattern, emailPattern } from "../../utils/constants";
 
 const initialErrorValue = {
 	fullNameError: "",

@@ -3,11 +3,11 @@ import "./Dashboard.scss";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { getDetailsFromDate, getYearlyCaloriesDetail, getYearlyWeightDetail } from "../../services/services";
-import RecordCard from "../../components/Common/RecordCard";
+import RecordCard from "../../components/Common/Records/RecordCard";
 import nullData from "../../assets/images/emptydata.jpg";
-import Loader from "../../components/Common/Loader";
+import Loader from "../../components/Common/Loader/Loader";
 import { getTodaysDate, showToast } from "../../utils/helper";
-import { labels } from "../../constants/constants";
+import { labels } from "../../utils/constants";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -69,10 +69,10 @@ function Dashboard() {
 		],
 	};
 
-	const fetchRecordsfromDate = async (formatedDate) => {
+	const fetchRecordsForDate = async (formattedDate) => {
 		try {
 			const response = await getDetailsFromDate({
-				date: formatedDate,
+				date: formattedDate,
 			});
 			setIsLoading(false);
 			if (response.status === 200) {
@@ -84,16 +84,16 @@ function Dashboard() {
 	};
 
 	const fetchYearlyDetails = async (date) => {
-		const annualCalresponse = await getYearlyCaloriesDetail(date.substring(0, 4));
+		const annualCalorieDetails = await getYearlyCaloriesDetail(date.substring(0, 4));
 		setIsLoading(false);
 
-		if (annualCalresponse.status === 200) {
-			setYearlyCalorieDetails([...(annualCalresponse.data.map((data) => data.averageMonthlyCaloriesBurned) || [])]);
+		if (annualCalorieDetails.status === 200) {
+			setYearlyCalorieDetails([...(annualCalorieDetails.data.map((data) => data.averageMonthlyCaloriesBurned) || [])]);
 		}
 
-		const annualWeightresponse = await getYearlyWeightDetail(date.substring(0, 4));
-		if (annualWeightresponse.status === 200) {
-			setYearlyWeightDetails([...(annualWeightresponse.data.map((data) => data.averageMonthlyWeight) || [])]);
+		const annualWeightDetails = await getYearlyWeightDetail(date.substring(0, 4));
+		if (annualWeightDetails.status === 200) {
+			setYearlyWeightDetails([...(annualWeightDetails.data.map((data) => data.averageMonthlyWeight) || [])]);
 		}
 	};
 
@@ -102,7 +102,7 @@ function Dashboard() {
 		if (selectedDate.substring(0, 4) !== target.value.substring(0, 4)) {
 			fetchYearlyDetails(target.value);
 		}
-		fetchRecordsfromDate(target.value);
+		fetchRecordsForDate(target.value);
 	};
 
 	return (

@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { addWater, addWeight, editWater, editWeight } from "../../services/services";
 import { showToast } from "../../utils/helper";
-import "./DailyLogs.scss";
-import { TrackerConfig } from "../../constants/constants";
+import '../../pages/DailyLogs/DailyLogs.scss';
+import { TrackerConfig } from "../../utils/constants";
 
 function WeightAndWaterTracker({ type, setAllDetails, value }) {
 	const [inputValue, setInputValue] = useState(value);
@@ -51,9 +51,9 @@ function WeightAndWaterTracker({ type, setAllDetails, value }) {
 
 	return (
 		<div id="tracking-section">
-			<h3>{TrackerConfig.type}</h3>
+			<h3>{TrackerConfig[type].heading}</h3>
 			<div className="tracker-container">
-				<h2 className="title">{TrackerConfig.type}</h2>
+				<h2 className="title">{TrackerConfig[type].title}</h2>
 				<div className="actions">
 					{!isInputDisabled ? (
 						<input
@@ -61,7 +61,7 @@ function WeightAndWaterTracker({ type, setAllDetails, value }) {
 							value={inputValue}
 							onChange={(e) => setInputValue(e.target.value)}
 							disabled={isInputDisabled}
-							placeholder={`Today's ${TrackerConfig.type}`}
+							placeholder={`Today's ${TrackerConfig[type].title}`}
 						/>
 					) : (
 						<p>{dailyValue}</p>

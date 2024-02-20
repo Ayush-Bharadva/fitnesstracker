@@ -4,9 +4,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { Outlet, useNavigate } from "react-router-dom";
 import { userLogIn, userSignUp } from "../../services/services";
 import { setCookie, showToast, validatePassword } from "../../utils/helper";
-import { emailPattern } from "../../constants/constants";
-import Loader from "../Common/Loader";
-import PasswordInput from "./PasswordInput";
+import { emailPattern } from "../../utils/constants";
+import Loader from "../../components/Common/Loader/Loader";
+import PasswordInput from "../../components/Auth/PasswordInput";
 
 const initialFormData = {
 	fullName: "",
@@ -32,17 +32,17 @@ function AuthForm() {
 	const formObject = useMemo(() => {
 		return isLoginForm
 			? {
-					title: "Welcome Back!",
-					buttonText: "Log In",
-					linkText: "Don't have an account? ",
-					linkButtonText: "Register"
-			  }
+				title: "Welcome Back!",
+				buttonText: "Log In",
+				linkText: "Don't have an account? ",
+				linkButtonText: "Register"
+			}
 			: {
-					title: "Create Account",
-					buttonText: "Sign Up",
-					linkText: "Already have an account? ",
-					linkButtonText: "Log In"
-			  };
+				title: "Create Account",
+				buttonText: "Sign Up",
+				linkText: "Already have an account? ",
+				linkButtonText: "Log In"
+			};
 	}, [isLoginForm]);
 
 	const { title, buttonText, linkText, linkButtonText } = formObject;
@@ -160,7 +160,7 @@ function AuthForm() {
 									name="fullName"
 									value={fullName}
 									onChange={handleChange}
-									placeholder="fullName"
+									placeholder="FullName"
 									required
 								/>
 								<div className="error-message">{fullNameError}</div>
@@ -177,7 +177,7 @@ function AuthForm() {
 							name="email"
 							value={email}
 							onChange={handleChange}
-							placeholder="email"
+							placeholder="Email"
 							required
 						/>
 						<div className="error-message">{emailError}</div>
@@ -187,7 +187,7 @@ function AuthForm() {
 							name="password"
 							value={password}
 							onChange={handleChange}
-							placeholder="password"
+							placeholder="Password"
 							passwordError={passwordError}
 						/>
 
@@ -206,7 +206,7 @@ function AuthForm() {
 								name="confirmPassword"
 								value={confirmPassword}
 								onChange={handleChange}
-								placeholder="confirm password"
+								placeholder="Confirm Password"
 								passwordError={confirmPasswordError}
 							/>
 						)}

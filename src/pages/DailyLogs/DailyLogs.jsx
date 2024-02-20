@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { getDetailsFromDate } from "../../services/services";
-import RecordCard from "../../components/Common/RecordCard";
+import RecordCard from "../../components/Common/Records/RecordCard";
 import "react-toastify/dist/ReactToastify.css";
-import AddActivityForm from "../../components/Common/AddActivityForm";
-import Loader from "../../components/Common/Loader";
-import WeightAndWaterTracker from "./WeightAndWaterTracker";
+import AddActivityForm from "../../components/DailyLogs/AddActivityForm";
+import Loader from "../../components/Common/Loader/Loader";
+import WeightAndWaterTracker from "../../components/DailyLogs/WeightAndWaterTracker";
 import { getTodaysDate, showToast } from "../../utils/helper";
 import "./DailyLogs.scss";
-import { ActivityType, TrackerType } from "../../constants/constants";
+import { ActivityType, TrackerType } from "../../utils/constants";
 
 function DailyLogs() {
 	const [todaysDetails, setTodaysDetails] = useState({});

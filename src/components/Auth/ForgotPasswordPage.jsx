@@ -3,7 +3,7 @@ import "./ForgotPasswordPage.scss";
 import VerifyEmail from "./VerifyEmail";
 import VerifyOTP from "./VerifyOTP";
 import SetNewPassword from "./SetNewPassword";
-import { ResetPassword } from "../../constants/constants";
+import { ResetPassword } from "../../utils/constants";
 
 function ForgotPasswordPage() {
 	const [data, setData] = useState({});

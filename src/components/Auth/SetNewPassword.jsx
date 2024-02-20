@@ -5,7 +5,7 @@ import { showToast, validatePassword } from "../../utils/helper";
 import { setNewPassword } from "../../services/services";
 import { useNavigate } from "react-router-dom";
 import ReactLoading from "react-loading";
-import "./AuthForm.scss";
+import "../../pages/Auth/AuthForm.scss";
 
 function SetNewPassword({ data: { email, token } }) {
 	const navigate = useNavigate();
@@ -34,7 +34,7 @@ function SetNewPassword({ data: { email, token } }) {
 	const validateNewPassword = password => {
 		let error = "";
 		if (!password) {
-			return "password is Required";
+			return "Password is Required";
 		}
 		error = validatePassword(password);
 		return error;

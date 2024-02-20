@@ -4,14 +4,14 @@ import { showToast } from "../../utils/helper";
 import { addExercise, addMeal, updateExercise, updateMeal } from "../../services/services";
 import "./AddActivityForm.scss";
 import "react-toastify/dist/ReactToastify.css";
-import Loader from "./Loader";
+import Loader from "../Common/Loader/Loader";
+import { ActivityFormContent, ExerciseType } from "../../utils/constants";
 const initialValue = {
 	type: "",
 	duration: "",
 	ingredients: "",
 	calories: ""
 };
-import { ActivityFormContent, ExerciseType } from "../../constants/constants";
 
 function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 	const { exerciseDetails, mealDetails } = allDetails || {};

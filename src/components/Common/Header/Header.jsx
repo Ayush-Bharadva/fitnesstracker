@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import ProfileMenu from "../Common/ProfileMenu";
-import { isUserLoggedIn, setCookie } from "../../utils/helper";
+import ProfileMenu from "../ProfileMenu/ProfileMenu";
+import { isUserLoggedIn, setCookie } from "../../../utils/helper";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RxCross1 } from "react-icons/rx";
 import "./Header.scss";

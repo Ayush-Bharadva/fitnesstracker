@@ -4,7 +4,7 @@ import { CiMail } from "react-icons/ci";
 import { verifyEmail } from "../../services/services";
 import { handleKeyDown, showToast } from "../../utils/helper";
 import ReactLoading from "react-loading";
-import { emailPattern } from "../../constants/constants";
+import { emailPattern } from "../../utils/constants";
 
 function VerifyEmail({ handleNext }) {
 	const [emailState, setEmailState] = useState({
@@ -44,48 +44,51 @@ function VerifyEmail({ handleNext }) {
 	};
 
 	return (
-		<>
-			<div className="container">
-				{isVerifying && (
-					<div className="loader-wrapper">
-						<h1 className="text">Verifying Email</h1>{" "}
-						<ReactLoading
-							type="balls"
-							color="#fff"
-							className="balls-loader"
+		<div className="container">
+			{isVerifying && (
+				<div className="loader-wrapper">
+					<h1 className="text">Verifying Email</h1>{" "}
+					<ReactLoading
+						type="balls"
+						color="#fff"
+						className="balls-loader"
+					/>
+				</div>
+			)}
+			<div className="email-verification-container">
+				<h1 className="text-center email-verification-heading">Forgot Password!! </h1>
+				<h3 className="text-center"> Verify Your Email</h3>
+				<p className="email-verification-subtitle">
+					Enter your email and we&apos;ll send you an otp for Email verification
+				</p>
+				<form>
+					<label
+						htmlFor="email"
+						className="email-input-label">
+						Email
+					</label>
+					<div className="input-group">
+						<CiMail className="mail-icon" />
+						<input
+							id="email-verify"
+							type="email"
+							name="email"
+							value={email}
+							title={email}
+							onChange={handleEmailChange}
+							onKeyDown={handleKeyDown}
+							placeholder="Enter Email"
 						/>
 					</div>
-				)}
-				<div className="email-verification-container">
-					<h1 className="text-center email-verification-heading">Forgot Password!! </h1>
-					<h2 className="text-center"> Verify Your Email</h2>
-					<p className="email-verification-subtitle">
-						Enter your email and we&apos;ll send you an otp for email verification
-					</p>
-					<form>
-						<div className="input-group">
-							<CiMail className="mail-icon" />
-							<input
-								id="email-verify"
-								type="email"
-								name="email"
-								value={email}
-								title={email}
-								onChange={handleEmailChange}
-								onKeyDown={handleKeyDown}
-								placeholder="Enter Email"
-							/>
-						</div>
-						<p className="email-error-text">{emailError}</p>
-						<button
-							type="button"
-							onClick={handleEmailVerification}>
-							verify
-						</button>
-					</form>
-				</div>
+					<p className="email-error-text">{emailError}</p>
+					<button
+						type="button"
+						onClick={handleEmailVerification}>
+						verify
+					</button>
+				</form>
 			</div>
-		</>
+		</div>
 	);
 }
 

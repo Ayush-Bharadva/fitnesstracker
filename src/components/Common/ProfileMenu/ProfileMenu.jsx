@@ -3,7 +3,7 @@ import { PropTypes } from "prop-types";
 import { VscAccount } from "react-icons/vsc";
 import { CiLogout } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
-import { setCookie } from "../../utils/helper";
+import { setCookie } from "../../../utils/helper";
 import "./ProfileMenu.scss";
 
 function ProfileMenu(props) {

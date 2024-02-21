@@ -41,19 +41,22 @@ function SetNewPassword({ data: { email, token } }) {
 	};
 
 	const handlePasswordChange = ({ target: { name: key, value } }) => {
-		const error = validateNewPassword(value);
 
-		setPasswordErrorState(prev => ({ ...prev, [`${key}Error`]: error }));
+		if (key === "password") {
+			const error = validateNewPassword(value);
+			setPasswordErrorState(prev => ({ ...prev, [`${key}Error`]: error }));
+		}
+
 		setPasswordState(prev => ({ ...prev, [key]: value }));
 	};
 
 	const handleResetPassword = async () => {
-		if (passwordError || confirmPasswordError) {
-			showToast("error", "Invalid Password");
+
+		if (password !== confirmPassword) {
+			setPasswordErrorState(prev => ({ ...prev, confirmPasswordError: "Password and confirm Password must match.." }));
 			return;
-		} else if (password !== confirmPassword) {
-			showToast("error", "Password and confirm Password must match..");
-			return;
+		} else {
+			setPasswordErrorState(prev => ({ ...prev, confirmPasswordError: "" }));
 		}
 
 		try {

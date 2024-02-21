@@ -62,6 +62,18 @@ $light-teal: #00b69e;
 	cursor: pointer;
 }
 
+.input-wrapper {
+	position: relative;
+	margin-bottom: 1.5rem;
+
+	.error-message {
+		position: absolute;
+		left: 0;
+		color: red;
+		font-size: 0.8rem;
+	}
+}
+
 .loader-wrapper {
 	position: absolute;
 	height: 100vh;

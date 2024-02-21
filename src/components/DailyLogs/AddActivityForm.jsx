@@ -6,6 +6,7 @@ import "./AddActivityForm.scss";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../Common/Loader/Loader";
 import { ActivityFormContent, ExerciseType } from "../../utils/constants";
+
 const initialValue = {
 	type: "",
 	duration: "",
@@ -99,26 +100,12 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 			if (activityFormType === "exercise") {
 				updatedDetails = {
 					exerciseDetails: exerciseDetails.map(exercise =>
-						exercise.exerciseType === previousActivity.exerciseType
-							? {
-								...exercise,
-								duration,
-								caloriesBurned: calories
-							}
-							: exercise
-					)
+						exercise.exerciseType === previousActivity.exerciseType ? { ...exercise, duration, caloriesBurned: calories } : exercise)
 				};
 			} else {
 				updatedDetails = {
 					mealDetails: mealDetails.map(meal =>
-						meal.mealType === previousActivity.mealType
-							? {
-								...meal,
-								ingredients,
-								caloriesConsumed: calories
-							}
-							: meal
-					)
+						meal.mealType === previousActivity.mealType ? { ...meal, ingredients, caloriesConsumed: calories } : meal)
 				};
 			}
 			setAllDetails({
@@ -130,7 +117,7 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 			setActivityDetails(initialValue);
 			setButtonText("Add");
 		} else {
-			showToast("error", "some error occured while Updating Activity!");
+			showToast("error", "some error occurred while Updating Activity!");
 		}
 	};
 
@@ -170,7 +157,7 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 			setActivityDetails(initialValue);
 			setButtonText("Add");
 		} else {
-			showToast("error", "some error occured while Adding Activity!");
+			showToast("error", "some error occurred while Adding Activity!");
 		}
 	};
 

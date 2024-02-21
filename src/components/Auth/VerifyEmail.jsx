@@ -4,7 +4,7 @@ import { CiMail } from "react-icons/ci";
 import { verifyEmail } from "../../services/services";
 import { handleKeyDown, showToast } from "../../utils/helper";
 import ReactLoading from "react-loading";
-import { emailPattern } from "../../utils/constants";
+import { EmailPattern } from "../../utils/constants";
 
 function VerifyEmail({ handleNext }) {
 	const [emailState, setEmailState] = useState({
@@ -18,7 +18,7 @@ function VerifyEmail({ handleNext }) {
 	const verifyEmailPayload = { email, eventType: "forgot_password" };
 
 	const handleEmailChange = ({ target: { value } }) => {
-		let error = !emailPattern.test(value) ? "invalid Email" : "";
+		let error = !EmailPattern.test(value) ? "invalid Email" : "";
 		if (!value) {
 			error = "";
 		}

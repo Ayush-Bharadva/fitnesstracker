@@ -5,7 +5,7 @@ import { createUserProfile, getImageUrl, fetchUserProfile } from "../../services
 import Loader from "../../components/Common/Loader/Loader";
 import "./UserProfile.scss";
 import ReactLoading from "react-loading";
-import { digitPattern, emailPattern } from "../../utils/constants";
+import { DigitPattern, EmailPattern } from "../../utils/constants";
 
 const initialErrorValue = {
 	fullNameError: "",
@@ -52,7 +52,7 @@ function UserProfile() {
 	}, []);
 
 	function isDigit(value) {
-		digitPattern.test(value);
+		DigitPattern.test(value);
 	}
 
 	const validateInput = (name, value) => {
@@ -62,7 +62,7 @@ function UserProfile() {
 					? "Please enter correct fullName(must contains at least 4 characters)"
 					: "";
 			case "email":
-				return !value.trim() || !emailPattern.test(value) ? "invalid Email" : "";
+				return !value.trim() || !EmailPattern.test(value) ? "invalid Email" : "";
 			case "age":
 				return !value || value < 1 || value >= 130
 					? "Please enter valid age (between 1 to 130)"

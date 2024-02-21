@@ -1,4 +1,5 @@
-export const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+export const EmailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+export const DigitPattern = /\d/;
 
 export const labels = [
 	"Jan",
@@ -14,8 +15,6 @@ export const labels = [
 	"Nov",
 	"Dec"
 ];
-
-export const digitPattern = /\d/;
 
 export const ActivityType = {
 	exercise: "exercise",

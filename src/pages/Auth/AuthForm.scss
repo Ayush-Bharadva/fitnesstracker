@@ -1,5 +1,4 @@
 $teal: #008170;
-$heading-color: #112a46;
 $text-color: rgb(9, 57, 110);
 
 * {
@@ -20,6 +19,17 @@ $text-color: rgb(9, 57, 110);
 	opacity: 0.65;
 }
 
+.random-css {
+	text-align: justify;
+	font-weight: lighter;
+	display: flex;
+}
+
+.another-random-class {
+	font-size: 1.5rem;
+	margin: 0.5rem;
+}
+
 .auth-container {
 	display: flex;
 	justify-content: center;
@@ -34,76 +44,86 @@ $text-color: rgb(9, 57, 110);
 		url("../../assets/images/BgGraphics.png") top right/auto 100% no-repeat;
 
 	.auth-form-container {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 1 0;
-		object-fit: cover;
+		min-width: 310px;
+		max-width: 450px;
+		background-color: #ddd;
+		border-radius: 7px;
 		padding: 1rem;
-		height: 100%;
-		width: 100%;
 
-		h1 {
-			font-size: 2.2rem;
-			padding: 2rem 0;
-			color: $heading-color;
-			text-shadow: 1px 1px 3px #5252ce;
-		}
+		.auth-form-wrapper {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			flex: 1 0;
+			object-fit: cover;
+			padding: 1rem;
+			height: 100%;
+			width: 100%;
 
-		.auth-form {
-			min-width: 310px;
-			label {
-				margin: 0.5rem 0;
-				color: #112a46;
-				font-weight: bold;
+			h1 {
+				font-size: 2.2rem;
+				padding: 2rem 0;
+				color: $teal;
+				text-shadow: 1px 1px 2px $teal;
 			}
 
-			input {
-				display: block;
-				font-size: 1.2rem;
-				width: 100%;
-				padding: 0.5rem;
-				border: none;
-				border-radius: 7px;
-				outline: none;
-			}
+			.auth-form {
+				min-width: 290px;
+				label {
+					margin: 0.5rem 0 0.15rem 0;
+					color: #112a46;
+					font-weight: bold;
+					display: inline-block;
+				}
 
-			.auth-submit-btn {
-				padding: 0.5rem 1rem;
-				margin-top: 1rem;
-				font-size: 1rem;
-				background-color: $teal;
-				color: white;
-				width: 100%;
-				border: none;
-				border-radius: 7px;
-				cursor: pointer;
-			}
+				input {
+					display: block;
+					font-size: 1.2rem;
+					width: 100%;
+					padding: 0.5rem;
+					border: none;
+					border-radius: 7px;
+					outline: none;
+				}
 
-			.forgot-password-text {
-				color: #eee;
-				text-decoration: underline;
-				text-align: left;
-				padding: 0.25rem 0;
-				display: inline-block;
-				cursor: pointer;
+				.auth-submit-btn {
+					padding: 0.5rem 1rem;
+					margin-top: 0.55rem;
+					font-size: 1rem;
+					background-color: $teal;
+					color: white;
+					width: 100%;
+					border: none;
+					border-radius: 7px;
+					cursor: pointer;
+				}
 
-				&:hover {
-					color: #ddd;
+				.forgot-password-text {
+					color: #333;
+					text-decoration: underline;
+					text-align: left;
+					padding: 0.25rem 0;
+					margin: 0.5rem 0 0;
+					display: inline-block;
+					cursor: pointer;
+
+					&:hover {
+						color: #777;
+					}
 				}
 			}
-		}
 
-		p {
-			color: $text-color;
-			padding: 1rem 0;
-			text-align: center;
-			font-size: 18px;
-			span {
-				font-weight: bold;
-				cursor: pointer;
-				text-decoration: underline;
+			.auth-form-text {
+				color: $text-color;
+				padding: 1rem 0;
+				text-align: center;
+				font-size: 18px;
+				span {
+					font-weight: bold;
+					cursor: pointer;
+					text-decoration: underline;
+				}
 			}
 		}
 	}
@@ -127,5 +147,17 @@ $text-color: rgb(9, 57, 110);
 .error-message {
 	color: rgb(219, 19, 19);
 	font-size: 0.9rem;
-	margin: 0 0 0.25rem 0;
+	margin: 0.25rem 0;
+	padding: 0 0.25rem;
+	text-transform: capitalize;
+	width: 280px;
+}
+
+@media screen and (max-width: 375px) {
+	.auth-container {
+		.auth-form-container {
+			width: 98%;
+			padding: 0;
+		}
+	}
 }

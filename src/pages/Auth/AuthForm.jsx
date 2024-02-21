@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
 import "./AuthForm.scss";
 import "react-toastify/dist/ReactToastify.css";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { userLogIn, userSignUp } from "../../services/services";
 import { setCookie, showToast, validatePassword } from "../../utils/helper";
-import { emailPattern } from "../../utils/constants";
+import { EmailPattern } from "../../utils/constants";
 import Loader from "../../components/Common/Loader/Loader";
 import PasswordInput from "../../components/Auth/PasswordInput";
 
@@ -57,10 +57,10 @@ function AuthForm() {
 		switch (name) {
 			case "fullName":
 				inputErrorObj.fullNameError =
-					value.length < 5 ? "FullName length should be greater than 4" : "";
+					value.length < 5 ? "fullName length should be greater than 4 characters" : "";
 				break;
 			case "email":
-				inputErrorObj.emailError = !emailPattern.test(value) ? "Invalid email" : "";
+				inputErrorObj.emailError = !EmailPattern.test(value) ? "Invalid email" : "";
 				break;
 			case "password":
 				inputErrorObj.passwordError = validatePassword(value);
@@ -140,94 +140,101 @@ function AuthForm() {
 		navigate("forgot-password");
 	};
 
+	console.log('passwordError', passwordError);
+
 	return (
 		<>
 			<div className="auth-container">
 				<div className={`auth-form-container ${isLoading ? "m-opacity" : ""}`}>
 					{isLoading && <Loader />}
-					<h1>{title}</h1>
-					<form className="auth-form">
-						{!isLoginForm && (
-							<>
+					<div className="auth-form-wrapper">
+						<h1>{title}</h1>
+						<form className="auth-form">
+							{!isLoginForm && (
+								<div className="input-wrapper">
+									<label
+										htmlFor="fullName"
+										className="auth-label">
+										FullName
+									</label>
+									<input
+										type="text"
+										id="fullName"
+										name="fullName"
+										value={fullName}
+										onChange={handleChange}
+										placeholder="FullName"
+										required
+									/>
+									<p className="error-message">{fullNameError}</p>
+								</div>
+							)}
+
+							<div className="input-wrapper">
 								<label
-									htmlFor="fullName"
+									htmlFor="email"
 									className="auth-label">
-									FullName
+									Email
 								</label>
 								<input
-									type="text"
-									id="fullName"
-									name="fullName"
-									value={fullName}
+									type="email"
+									id="email"
+									name="email"
+									value={email}
 									onChange={handleChange}
-									placeholder="FullName"
+									placeholder="Email"
 									required
 								/>
-								<div className="error-message">{fullNameError}</div>
-							</>
-						)}
-						<label
-							htmlFor="email"
-							className="auth-label">
-							Email
-						</label>
-						<input
-							type="email"
-							id="email"
-							name="email"
-							value={email}
-							onChange={handleChange}
-							placeholder="Email"
-							required
-						/>
-						<div className="error-message">{emailError}</div>
-						<PasswordInput
-							label="Password"
-							id="password"
-							name="password"
-							value={password}
-							onChange={handleChange}
-							placeholder="Password"
-							passwordError={passwordError}
-						/>
+								<p className="error-message">{emailError}</p>
+							</div>
 
-						{isLoginForm && (
-							<p
-								className="forgot-password-text"
-								onClick={navToForgotPassWord}>
-								forgot password
-							</p>
-						)}
-
-						{!isLoginForm && (
 							<PasswordInput
-								label="Confirm Password"
-								id="confirm-password"
-								name="confirmPassword"
-								value={confirmPassword}
+								label="Password"
+								id="password"
+								name="password"
+								value={password}
 								onChange={handleChange}
-								placeholder="Confirm Password"
-								passwordError={confirmPasswordError}
+								placeholder="Password"
+								error={passwordError}
 							/>
-						)}
-						<button
-							type="button"
-							className="auth-submit-btn"
-							onClick={handleAuthUser}
-							style={{
-								cursor: !handleButtonDisable ? "pointer" : "no-drop"
-							}}
-							disabled={handleButtonDisable}>
-							{buttonText}
-						</button>
-					</form>
-					<p>
-						{linkText}
-						<span onClick={handleFormChange}>{linkButtonText}</span>
-					</p>
+
+							{!isLoginForm && (
+								<PasswordInput
+									label="Confirm Password"
+									id="confirm-password"
+									name="confirmPassword"
+									value={confirmPassword}
+									onChange={handleChange}
+									placeholder="Confirm Password"
+									error={confirmPasswordError}
+								/>
+							)}
+
+							{isLoginForm && (
+								<p
+									className="forgot-password-text"
+									onClick={navToForgotPassWord}>
+									forgot password
+								</p>
+							)}
+							<button
+								type="button"
+								className="auth-submit-btn"
+								onClick={handleAuthUser}
+								style={{
+									cursor: !handleButtonDisable ? "pointer" : "no-drop"
+								}}
+								disabled={handleButtonDisable}>
+								{buttonText}
+							</button>
+						</form>
+						<p className="auth-form-text" >
+							{linkText}
+							<span onClick={handleFormChange}>{linkButtonText}</span>
+						</p>
+					</div>
 				</div>
 			</div>
-			<Outlet />
 		</>
 	);
 }

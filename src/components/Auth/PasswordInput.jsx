@@ -3,10 +3,10 @@ import { useState } from "react";
 import { IoEyeOutline } from "react-icons/io5";
 import { LuEyeOff } from "react-icons/lu";
 
-function PasswordInput({ label, id, name, value, onChange, placeholder }) {
+function PasswordInput({ label, id, name, value, onChange, placeholder, error }) {
 	const [showPassword, setShowPassword] = useState(false);
 	return (
-		<>
+		<div className="input-wrapper">
 			<label htmlFor={id} className="auth-label">
 				{label}
 			</label>
@@ -27,7 +27,8 @@ function PasswordInput({ label, id, name, value, onChange, placeholder }) {
 					<LuEyeOff className="eye-icon" onClick={() => setShowPassword((prevState) => !prevState)} />
 				)}
 			</div>
-		</>
+			<p className="error-message"> {error} </p>
+		</div>
 	);
 }
 
@@ -40,4 +41,5 @@ PasswordInput.propTypes = {
 	value: PropTypes.string,
 	onChange: PropTypes.func,
 	placeholder: PropTypes.string,
+	error: PropTypes.string
 };

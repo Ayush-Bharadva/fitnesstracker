@@ -9,9 +9,9 @@ const userProfileApiUrl = `${userApiUrl}/profile`;
 const userExerciseApiUrl = `${userApiUrl}/exercise`;
 const userMealApiUrl = `${userApiUrl}/meal`;
 
-const forgotPasswordApi = `${baseApiUrl}/otp/request`;
-const verifyOTPApi = `${baseApiUrl}/otp/verify`;
-const setNewPasswordApi = `${baseApiUrl}/set-new-password`;
+const forgotPasswordApiUrl = `${baseApiUrl}/otp/request`;
+const verifyOTPApiUrl = `${baseApiUrl}/otp/verify`;
+const setNewPasswordApiUrl = `${baseApiUrl}/set-new-password`;
 
 // axios instance with common headers
 const headers = {
@@ -75,7 +75,10 @@ export async function getImageUrl(acceptedFiles) {
 // SignUp User
 export async function userSignUp(userCredentials) {
 	try {
-		const response = await createApiInstance.post(`${baseApiUrl}/signup`, userCredentials);
+		const response = await createApiInstance.post(
+			`${baseApiUrl}/signup`,
+			userCredentials
+		);
 		return response;
 	} catch (error) {
 		showToast("error", "Error loading Image!!");
@@ -95,7 +98,7 @@ export async function userLogIn(userCredentials) {
 // forgot password / verify email
 export async function verifyEmail(verifyEmailPayload) {
 	try {
-		const response = await axios.post(forgotPasswordApi, verifyEmailPayload);
+		const response = await axios.post(forgotPasswordApiUrl, verifyEmailPayload);
 		return response;
 	} catch (error) {
 		return error.response.data;
@@ -105,7 +108,7 @@ export async function verifyEmail(verifyEmailPayload) {
 // verify-otp
 export async function verifyOTP(verifyOtpPayload) {
 	try {
-		const response = await axios.post(verifyOTPApi, verifyOtpPayload);
+		const response = await axios.post(verifyOTPApiUrl, verifyOtpPayload);
 		return response;
 	} catch (error) {
 		return error.response.data;
@@ -115,7 +118,7 @@ export async function verifyOTP(verifyOtpPayload) {
 // set new password
 export async function setNewPassword(resetPasswordPayload) {
 	try {
-		const response = await axios.post(setNewPasswordApi, resetPasswordPayload);
+		const response = await axios.post(setNewPasswordApiUrl, resetPasswordPayload);
 		return response;
 	} catch (error) {
 		return error.response.data;
@@ -247,11 +250,14 @@ export async function getYearlyWeightDetail(year) {
 // yearly calories data
 export async function getYearlyCaloriesDetail(year) {
 	try {
-		const response = createApiInstance.get(`${userApiUrl}/yearly-caloriesburned-details`, {
-			params: {
-				year
+		const response = createApiInstance.get(
+			`${userApiUrl}/yearly-caloriesburned-details`,
+			{
+				params: {
+					year
+				}
 			}
-		});
+		);
 		return response;
 	} catch (error) {
 		return error.response;

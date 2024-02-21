@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+
 export function getCookie(name) {
 	const allCookies = document.cookie.split(";");
 	for (const cookie of allCookies) {
@@ -44,9 +45,9 @@ export const validatePassword = value => {
 	const alphabetPattern = /[a-zA-Z]/;
 
 	if (value.length <= 5) {
-		return "Password length should be greater than 5";
+		return "Password must contain more than 5 characters";
 	} else if (!specialCharacterPattern.test(value)) {
-		return "Password must contain special characters";
+		return "Password must contain a special character";
 	} else if (!digitPattern.test(value)) {
 		return "Password must contain at least one digit";
 	} else if (!alphabetPattern.test(value)) {

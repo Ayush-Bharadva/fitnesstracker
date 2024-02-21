@@ -44,7 +44,7 @@ function DailyLogs() {
 	return (
 		<main className="daily-logs-section">
 			<div className="date-wrapper">
-				<div className="dailylog-date-section">
+				<div className="daily-log-date-section">
 					<input
 						type="date"
 						name="name"

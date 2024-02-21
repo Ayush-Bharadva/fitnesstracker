@@ -32,7 +32,7 @@ function WeightAndWaterTracker({ type, setAllDetails, value }) {
 				showToast("success", "Data Saved Successfully..");
 			}
 		} catch (error) {
-			showToast("error", "An Error Occured while Updating Data!!");
+			showToast("error", "An Error Occurred while Updating Data!!");
 		}
 	};
 
@@ -47,7 +47,7 @@ function WeightAndWaterTracker({ type, setAllDetails, value }) {
 		handleApiCall(apiCall);
 	};
 
-	let dailyValue = type === "weight" ? inputValue + " Kgs" : inputValue + " Ltrs";
+	let dailyValue = type === "weight" ? inputValue + " Kgs" : inputValue + " Ltr";
 
 	return (
 		<div id="tracking-section">

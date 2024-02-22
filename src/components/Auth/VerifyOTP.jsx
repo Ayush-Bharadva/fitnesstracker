@@ -66,10 +66,10 @@ function VerifyOTP({ handleNext, data: { email } }) {
 	};
 
 	return (
-		<div className="container">
+		<>
 			{isVerifying && (
 				<div className="loader-wrapper">
-					<h1 className="text">Verifying OTP</h1>
+					<h2 className="text">Verifying OTP</h2>
 					<ReactLoading
 						type="balls"
 						color="#fff"
@@ -77,29 +77,31 @@ function VerifyOTP({ handleNext, data: { email } }) {
 					/>
 				</div>
 			)}
-			<div className="otp-verification-container">
-				<h1 className="otp-verification-heading">Confirm OTP</h1>
-				<form>
-					<div className="input-group">
-						<input
-							className="otp-verification-input"
-							type="number"
-							name="otp"
-							value={otp}
-							onChange={handleOtpChange}
-							onKeyDown={handleKeyDown}
-							placeholder="Enter OTP"
-						/>
-					</div>
-					<button
-						type="button"
-						onClick={handleOtpVerification}>
-						Confirm
-					</button>
-				</form>
-				<Timer resendOtp={onResendOtp} />
+			<div className="container">
+				<div className="otp-verification-container">
+					<h1 className="otp-verification-heading">Confirm OTP</h1>
+					<form>
+						<div className="input-group">
+							<input
+								className="otp-verification-input"
+								type="number"
+								name="otp"
+								value={otp}
+								onChange={handleOtpChange}
+								onKeyDown={handleKeyDown}
+								placeholder="Enter OTP"
+							/>
+						</div>
+						<button
+							type="button"
+							onClick={handleOtpVerification}>
+							Confirm
+						</button>
+					</form>
+					<Timer resendOtp={onResendOtp} />
+				</div>
 			</div>
-		</div>
+		</>
 	);
 }
 

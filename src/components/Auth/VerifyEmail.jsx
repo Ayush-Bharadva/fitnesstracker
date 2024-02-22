@@ -49,10 +49,10 @@ function VerifyEmail({ handleNext }) {
 	};
 
 	return (
-		<div className="container">
+		<>
 			{isVerifying && (
 				<div className="loader-wrapper">
-					<h1 className="text">Verifying Email</h1>{" "}
+					<h2 className="text">Verifying Email</h2>
 					<ReactLoading
 						type="balls"
 						color="#fff"
@@ -60,40 +60,42 @@ function VerifyEmail({ handleNext }) {
 					/>
 				</div>
 			)}
-			<div className="email-verification-container">
-				<h1 className="text-center email-verification-heading">Forgot Password!! </h1>
-				<h3 className="text-center"> Verify Your Email</h3>
-				<p className="email-verification-subtitle">
-					Enter your email and we&apos;ll send you an otp for Email verification
-				</p>
-				<form>
-					<label
-						htmlFor="email"
-						className="email-input-label">
-						Email
-					</label>
-					<div className="input-group">
-						<CiMail className="mail-icon" />
-						<input
-							id="email-verify"
-							type="email"
-							name="email"
-							value={email}
-							title={email}
-							onChange={handleEmailChange}
-							onKeyDown={handleKeyDown}
-							placeholder="Enter Email"
-						/>
-					</div>
-					<p className="email-error-text">{emailError}</p>
-					<button
-						type="button"
-						onClick={handleEmailVerification}>
-						verify
-					</button>
-				</form>
+			<div className="container">
+				<div className="email-verification-container">
+					<h1 className="text-center email-verification-heading">Forgot Password!! </h1>
+					<h3 className="text-center"> Verify Your Email</h3>
+					<p className="email-verification-subtitle">
+						Enter your email and we&apos;ll send you an otp for Email verification
+					</p>
+					<form>
+						<label
+							htmlFor="email"
+							className="email-input-label">
+							Email
+						</label>
+						<div className="input-group">
+							<CiMail className="mail-icon" />
+							<input
+								id="email-verify"
+								type="email"
+								name="email"
+								value={email}
+								title={email}
+								onChange={handleEmailChange}
+								onKeyDown={handleKeyDown}
+								placeholder="Enter Email"
+							/>
+						</div>
+						<p className="email-error-text">{emailError}</p>
+						<button
+							type="button"
+							onClick={handleEmailVerification}>
+							verify
+						</button>
+					</form>
+				</div>
 			</div>
-		</div>
+		</>
 	);
 }
 

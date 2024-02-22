@@ -78,46 +78,47 @@ function SetNewPassword({ data: { email, token } }) {
 	};
 
 	return (
-		<div className="container">
-			{isResetting && (
-				<div className="loader-wrapper">
-					<h1 className="text">Resetting Password</h1>
+		<>
+			{isResetting &&
+				(<div className="loader-wrapper">
+					<h2 className="text">Resetting Password</h2>
 					<ReactLoading
 						type="balls"
 						color="#fff"
 						className="balls-loader"
 					/>
+				</div>)}
+			<div className="container">
+				<div className="password-updating-container">
+					<h2>Set New Password!</h2>
+					<form>
+						<PasswordInput
+							label="New Password"
+							id="new-password"
+							name="password"
+							value={password}
+							onChange={handlePasswordChange}
+							placeholder="new password"
+							error={passwordError}
+						/>
+						<PasswordInput
+							label="Confirm New Password"
+							id="new-confirm-password"
+							name="confirmPassword"
+							value={confirmPassword}
+							onChange={handlePasswordChange}
+							placeholder="confirm new password"
+							error={confirmPasswordError}
+						/>
+						<button
+							type="button"
+							onClick={handleResetPassword}>
+							Set Password
+						</button>
+					</form>
 				</div>
-			)}
-			<div className="password-updating-container">
-				<h2>Set New Password!</h2>
-				<form>
-					<PasswordInput
-						label="New Password"
-						id="new-password"
-						name="password"
-						value={password}
-						onChange={handlePasswordChange}
-						placeholder="new password"
-						error={passwordError}
-					/>
-					<PasswordInput
-						label="Confirm New Password"
-						id="new-confirm-password"
-						name="confirmPassword"
-						value={confirmPassword}
-						onChange={handlePasswordChange}
-						placeholder="confirm new password"
-						error={confirmPasswordError}
-					/>
-					<button
-						type="button"
-						onClick={handleResetPassword}>
-						Set Password
-					</button>
-				</form>
 			</div>
-		</div>
+		</>
 	);
 }
 

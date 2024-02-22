@@ -84,6 +84,7 @@ $light-teal: #00b69e;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	z-index: 100;
 
 	.text {
 		color: white;

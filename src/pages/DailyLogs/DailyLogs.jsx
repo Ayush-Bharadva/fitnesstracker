@@ -87,7 +87,6 @@ function DailyLogs() {
 					</section>
 				</>
 			)}
-
 			{isLoading ? (
 				<Loader />
 			) : (

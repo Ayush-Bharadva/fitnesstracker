@@ -145,8 +145,8 @@ function AuthForm() {
 	return (
 		<>
 			<div className="auth-container">
-				<div className={`auth-form-container ${isLoading ? "m-opacity" : ""}`}>
-					{isLoading && <Loader />}
+				{isLoading && <Loader />}
+				<div className="auth-form-container">
 					<div className="auth-form-wrapper">
 						<h1>{title}</h1>
 						<form className="auth-form">

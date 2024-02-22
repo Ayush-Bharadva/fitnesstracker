@@ -106,46 +106,41 @@ function Dashboard() {
 	};
 
 	return (
-		<>
-			{isLoading ? (
-				<Loader />
-			) : (
-				<section id="dashboard-section">
-					<h2 className="year-title">Annual Data Tracking (Year : {selectedDate?.substring(0, 4)})</h2>
-					<div id="graph-section">
-						<div className="select-date-section">
-							<input
-								type="date"
-								name="name"
-								id="date"
-								value={selectedDate}
-								onChange={handleDateChange}
-								max={getTodaysDate()}
-							/>
+		<section id="dashboard-section">
+			{isLoading && <Loader />}
+			<h2 className="year-title">Annual Data Tracking (Year : {selectedDate?.substring(0, 4)})</h2>
+			<div id="graph-section">
+				<div className="select-date-section">
+					<input
+						type="date"
+						name="name"
+						id="date"
+						value={selectedDate}
+						onChange={handleDateChange}
+						max={getTodaysDate()}
+					/>
+				</div>
+				<div className="graph-container">
+					<Bar className="graph" options={options} data={yearlyWeightData} />
+					<Bar className="graph" options={options} data={yearlyCalorieData} />
+				</div>
+			</div>
+			<div id="record-section">
+				{allRecordsByDate.exerciseDetails || allRecordsByDate.mealDetails ? (
+					<>
+						<h2 className="day-title">Activity Records (Date : {selectedDate})</h2>
+						<RecordCard allDetails={allRecordsByDate} isReadonly={true} />
+					</>
+				) : (
+					<>
+						<div className="no-data">
+							<img src={nullData} alt="No Data" />
 						</div>
-						<div className="graph-container">
-							<Bar className="graph" options={options} data={yearlyWeightData} />
-							<Bar className="graph" options={options} data={yearlyCalorieData} />
-						</div>
-					</div>
-					<div id="record-section">
-						{allRecordsByDate.exerciseDetails || allRecordsByDate.mealDetails ? (
-							<>
-								<h2 className="day-title">Activity Records (Date : {selectedDate})</h2>
-								<RecordCard allDetails={allRecordsByDate} isReadonly={true} />
-							</>
-						) : (
-							<>
-								<div className="no-data">
-									<img src={nullData} alt="No Data" />
-								</div>
-								<h1>No Activity For Selected Date!!</h1>
-							</>
-						)}
-					</div>
-				</section>
-			)}
-		</>
+						<h1>No Activity For Selected Date!!</h1>
+					</>
+				)}
+			</div>
+		</section>
 	);
 }
 

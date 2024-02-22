@@ -179,8 +179,7 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 						name="type"
 						id="activity"
 						value={activityDetails["type"]}
-						onChange={handleInputChange}
-						required>
+						onChange={handleInputChange}>
 						<option>{optionText}</option>
 						{options.map((data, index) => (
 							<option
@@ -202,7 +201,7 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 								value={activityDetails["duration"]}
 								onChange={handleInputChange}
 								min="1"
-								max="1440"
+								max="1439"
 								placeholder="Exercise duration (in min)"
 								required
 							/>
@@ -217,7 +216,6 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 								value={activityDetails["ingredients"]}
 								onChange={handleInputChange}
 								placeholder="Meal ingredients"
-								required
 							/>
 						</>
 					)}
@@ -231,12 +229,10 @@ function AddActivityForm({ activityFormType, allDetails, setAllDetails }) {
 						value={activityDetails["calories"]}
 						onChange={handleInputChange}
 						min="1"
-						max="20000"
+						max="19999"
 						placeholder={caloriePlaceholder}
-						required
 					/>
 				</div>
-
 				<button
 					type="button"
 					className="activity-submit-btn"

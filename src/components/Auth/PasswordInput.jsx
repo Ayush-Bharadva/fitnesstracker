@@ -19,7 +19,6 @@ function PasswordInput({ label, id, name, value, onChange, placeholder, error })
 					onChange={onChange}
 					placeholder={placeholder}
 					autoComplete="on"
-					required
 				/>
 				{showPassword ? (
 					<IoEyeOutline className="eye-icon" onClick={() => setShowPassword((prevState) => !prevState)} />

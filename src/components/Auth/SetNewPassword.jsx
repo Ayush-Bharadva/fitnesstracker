@@ -99,9 +99,8 @@ function SetNewPassword({ data: { email, token } }) {
 						value={password}
 						onChange={handlePasswordChange}
 						placeholder="new password"
+						error={passwordError}
 					/>
-					{passwordError && <p className="error-message">{passwordError}</p>}
-
 					<PasswordInput
 						label="Confirm New Password"
 						id="new-confirm-password"
@@ -109,9 +108,8 @@ function SetNewPassword({ data: { email, token } }) {
 						value={confirmPassword}
 						onChange={handlePasswordChange}
 						placeholder="confirm new password"
+						error={confirmPasswordError}
 					/>
-					{confirmPasswordError && <p className="error-message">{confirmPasswordError}</p>}
-
 					<button
 						type="button"
 						onClick={handleResetPassword}>

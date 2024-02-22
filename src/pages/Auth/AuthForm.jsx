@@ -164,7 +164,6 @@ function AuthForm() {
 										value={fullName}
 										onChange={handleChange}
 										placeholder="FullName"
-										required
 									/>
 									<p className="error-message">{fullNameError}</p>
 								</div>
@@ -183,7 +182,6 @@ function AuthForm() {
 									value={email}
 									onChange={handleChange}
 									placeholder="Email"
-									required
 								/>
 								<p className="error-message">{emailError}</p>
 							</div>
@@ -197,7 +195,6 @@ function AuthForm() {
 								placeholder="Password"
 								error={passwordError}
 							/>
-
 							{!isLoginForm && (
 								<PasswordInput
 									label="Confirm Password"

@@ -4,7 +4,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 import { Bar } from "react-chartjs-2";
 import { getDetailsFromDate, getYearlyCaloriesDetail, getYearlyWeightDetail } from "../../services/services";
 import RecordCard from "../../components/Common/Records/RecordCard";
-import nullData from "../../assets/images/emptydata.jpg";
+import nullData from "../../assets/images/no-data.jpg";
 import Loader from "../../components/Common/Loader/Loader";
 import { getTodaysDate, showToast } from "../../utils/helper";
 import { labels } from "../../utils/constants";

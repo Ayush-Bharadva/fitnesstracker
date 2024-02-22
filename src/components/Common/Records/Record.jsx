@@ -8,7 +8,7 @@ import fireIcon from "../../../assets/icons/fire-icon-image.png";
 import "./RecordCard.scss";
 import { capitalizeFirstLetter } from "../../../utils/helper";
 
-function Record({ index, data, isReadonly, onDelete, isExercise = false }) {
+function Record({ index, data, isReadonly, onDelete, isExercise }) {
 	const recordObj = useMemo(() => {
 		if (isExercise) {
 			return {
@@ -67,6 +67,10 @@ function Record({ index, data, isReadonly, onDelete, isExercise = false }) {
 		</div>
 	);
 }
+
+Record.defaultProps = {
+	isExercise: false
+};
 
 Record.propTypes = {
 	index: PropTypes.number,

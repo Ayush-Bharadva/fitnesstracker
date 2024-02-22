@@ -60,7 +60,7 @@ function Header() {
 						<button type="button" className="mobile-logout-btn" onClick={handleLogout}> Logout </button>
 					</ul>
 					{burgerBtn}
-					<ProfileMenu className="profile-menu" />
+					<ProfileMenu />
 				</>
 			) : (
 				<NavLink to="auth" className="login"> LogIn </NavLink>

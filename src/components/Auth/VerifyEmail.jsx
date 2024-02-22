@@ -26,6 +26,11 @@ function VerifyEmail({ handleNext }) {
 	};
 
 	const handleEmailVerification = async () => {
+
+		if (emailError || !email) {
+			return;
+		}
+
 		try {
 			setEmailState(prev => ({ ...prev, isVerifying: true }));
 			const { status } = await verifyEmail(verifyEmailPayload);

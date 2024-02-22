@@ -45,7 +45,7 @@ function UserProfile() {
 				}
 			} catch (error) {
 				setIsLoading(false);
-				showToast("error", "An unknown error occured while fetching user profile");
+				showToast("error", "An unknown error occurred while fetching user profile");
 			}
 		};
 		fetchProfileDetails();
@@ -235,7 +235,6 @@ function UserProfile() {
 										onChange={handleInputChange}
 										placeholder="FullName"
 										disabled={inputDisabled}
-										required
 									/>
 									<p className="profile-input-error">{inputError.fullNameError}</p>
 								</div>
@@ -255,7 +254,6 @@ function UserProfile() {
 										onChange={handleInputChange}
 										placeholder="Email"
 										disabled={true}
-										required
 									/>
 									<p className="profile-input-error">{inputError.emailError}</p>
 								</div>
@@ -271,7 +269,6 @@ function UserProfile() {
 												onChange={handleInputChange}
 												checked={userDetails.gender === "male"}
 												disabled={inputDisabled}
-												required
 											/>
 											<label
 												htmlFor="male"
@@ -288,7 +285,6 @@ function UserProfile() {
 												onChange={handleInputChange}
 												checked={userDetails.gender === "female"}
 												disabled={inputDisabled}
-												required
 											/>
 											<label
 												htmlFor="female"
@@ -314,7 +310,6 @@ function UserProfile() {
 										onChange={handleInputChange}
 										placeholder="age"
 										disabled={inputDisabled}
-										required
 									/>
 									<p className="profile-input-error">{inputError.ageError}</p>
 								</div>
@@ -334,7 +329,6 @@ function UserProfile() {
 										onChange={handleInputChange}
 										placeholder="height (cm)"
 										disabled={inputDisabled}
-										required
 									/>
 									<p className="profile-input-error">{inputError.heightError}</p>
 								</div>
@@ -354,7 +348,6 @@ function UserProfile() {
 										onChange={handleInputChange}
 										placeholder="weight (kg)"
 										disabled={inputDisabled}
-										required
 									/>
 									<p className="profile-input-error">{inputError.weightError}</p>
 								</div>
@@ -370,8 +363,7 @@ function UserProfile() {
 										className="display-block"
 										value={userDetails["healthGoal"]}
 										onChange={handleInputChange}
-										disabled={inputDisabled}
-										required>
+										disabled={inputDisabled}>
 										<option value="">Select Health Goal</option>
 										<option value="weight_loss">Weight loss</option>
 										<option value="weight_gain">Weight gain</option>

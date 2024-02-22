@@ -5,7 +5,7 @@ import { showToast } from "../../utils/helper";
 import '../../pages/DailyLogs/DailyLogs.scss';
 import { TrackerConfig } from "../../utils/constants";
 
-function WeightAndWaterTracker({ type, setAllDetails, value }) {
+function Tracker({ type, setAllDetails, value }) {
 	const [inputValue, setInputValue] = useState(value);
 	const [isInputDisabled, setIsInputDisabled] = useState(!!value);
 
@@ -75,9 +75,9 @@ function WeightAndWaterTracker({ type, setAllDetails, value }) {
 	);
 }
 
-export default WeightAndWaterTracker;
+export default Tracker;
 
-WeightAndWaterTracker.propTypes = {
+Tracker.propTypes = {
 	value: PropTypes.number,
 	setAllDetails: PropTypes.func,
 	type: PropTypes.string,

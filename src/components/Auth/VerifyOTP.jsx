@@ -56,7 +56,6 @@ function VerifyOTP({ handleNext, data: { email } }) {
 	const onResendOtp = async () => {
 		try {
 			const { status } = await verifyEmail({ email, eventType: "forgot_password" });
-
 			if (status !== 200) {
 				showToast("error", "Could'nt find your email..");
 				navigate("/auth");
@@ -109,5 +108,4 @@ export default VerifyOTP;
 VerifyOTP.propTypes = {
 	handleNext: PropTypes.func,
 	data: PropTypes.obj,
-	resendOtp: PropTypes.func
 };

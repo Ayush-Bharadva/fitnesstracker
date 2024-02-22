@@ -4,7 +4,7 @@ import RecordCard from "../../components/Common/Records/RecordCard";
 import "react-toastify/dist/ReactToastify.css";
 import AddActivityForm from "../../components/DailyLogs/AddActivityForm";
 import Loader from "../../components/Common/Loader/Loader";
-import WeightAndWaterTracker from "../../components/DailyLogs/WeightAndWaterTracker";
+import Tracker from "../../components/DailyLogs/Tracker";
 import { getTodaysDate, showToast } from "../../utils/helper";
 import "./DailyLogs.scss";
 import { ActivityType, TrackerType } from "../../utils/constants";
@@ -74,12 +74,12 @@ function DailyLogs() {
 						</div>
 					</section>
 					<section id="track-activity-section">
-						<WeightAndWaterTracker
+						<Tracker
 							type={TrackerType.weight}
 							setAllDetails={setTodaysDetails}
 							value={todaysDetails?.weightDetails?.dailyWeight}
 						/>
-						<WeightAndWaterTracker
+						<Tracker
 							type={TrackerType.water}
 							setAllDetails={setTodaysDetails}
 							value={todaysDetails?.waterDetails?.waterIntake}

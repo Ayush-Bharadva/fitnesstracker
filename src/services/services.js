@@ -11,7 +11,7 @@ const userMealApiUrl = `${userApiUrl}/meal`;
 
 const forgotPasswordApiUrl = `${baseApiUrl}/otp/request`;
 const verifyOTPApiUrl = `${baseApiUrl}/otp/verify`;
-const setNewPasswordApiUrl = `${baseApiUrl}/set-new-password`;
+const setNewPasswordApiUrl = `${baseApiUrl}/forgot-password`;
 
 // axios instance with common headers
 const headers = {

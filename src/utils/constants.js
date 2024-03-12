@@ -56,7 +56,7 @@ export const TrackerConfig = {
 	},
 	[TrackerType.water]: {
 		heading: "Water Drunk Today",
-		title: "Water Intake (Ltrs)"
+		title: "Water Intake (Ltr)"
 	}
 };
 

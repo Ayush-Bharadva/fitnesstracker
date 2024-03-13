@@ -13,7 +13,7 @@ $light-teal: #64ccc5;
 	background-color: $dark-blue;
 	color: white;
 	flex-wrap: wrap;
-	padding: 0.5rem 1rem;
+	padding: 0.5rem 0.75rem;
 	margin: 0 auto;
 	width: 100%;
 
@@ -127,7 +127,7 @@ $light-teal: #64ccc5;
 			position: absolute;
 			flex-direction: column;
 			justify-content: center;
-			height: calc(100vh - 110px);
+			height: calc(100vh - 102px);
 			top: 68px;
 			background-color: rgba($light-blue, $alpha: 1);
 			color: #fff;
@@ -158,6 +158,13 @@ $light-teal: #64ccc5;
 			.nav-item:hover {
 				background-color: rgba($color: $mid-teal, $alpha: 0.5);
 			}
+		}
+	}
+}
+@media screen and (max-width: 320px) {
+	.navbar {
+		.nav-items {
+			height: calc(100vh - 120px);
 		}
 	}
 }

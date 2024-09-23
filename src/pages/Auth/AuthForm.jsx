@@ -123,6 +123,7 @@ function AuthForm() {
 
 			if (response.status === 200) {
 				setCookie("userId", response.data.userId);
+				window.ReactNativeWebView.postMessage(JSON.stringify({ userId: response.data.userId, isAuthSuccessful: true }));
 				navigate("/");
 			}
 		} catch (error) {

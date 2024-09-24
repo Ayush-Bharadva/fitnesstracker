@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import "./AuthForm.scss";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { userLogIn, userSignUp } from "../../services/services";
 import { setCookie, showToast, validatePassword } from "../../utils/helper";
 import { EmailPattern } from "../../utils/constants";
@@ -28,6 +28,9 @@ function AuthForm() {
 	const [isLoginForm, setIsLoginForm] = useState(true);
 	const [formData, setFormData] = useState(initialFormData);
 	const [inputError, setInputError] = useState(initialInputError);
+
+	const [searchParams] = useSearchParams();
+	const serviceType = searchParams.get("service");
 
 	const formObject = useMemo(() => {
 		return isLoginForm
@@ -123,7 +126,9 @@ function AuthForm() {
 
 			if (response.status === 200) {
 				setCookie("userId", response.data.userId);
-				window.ReactNativeWebView.postMessage(JSON.stringify({ userId: response.data.userId, isAuthSuccessful: true }));
+				if (serviceType === "smartHomeApp") {
+					window.ReactNativeWebView.postMessage(JSON.stringify({ userId: response.data.userId, isAuthSuccessful: true, userInfo: { fullName: fullName, email: email } }));
+				}
 				navigate("/");
 			}
 		} catch (error) {

@@ -124,11 +124,11 @@ function AuthForm() {
 				: await userSignUp({ fullName, email, password });
 			setIsLoading(false);
 
+			if (serviceType === "smartHomeApp" && response.status === 200) {
+				window.ReactNativeWebView.postMessage('login_success');
+			}
 			if (response.status === 200) {
 				setCookie("userId", response.data.userId);
-				if (serviceType === "smartHomeApp") {
-					window.ReactNativeWebView.postMessage(JSON.stringify({ userId: response.data.userId, isAuthSuccessful: true, userInfo: { fullName: fullName, email: email } }));
-				}
 				navigate("/");
 			}
 		} catch (error) {

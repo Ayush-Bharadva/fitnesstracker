@@ -130,9 +130,11 @@ function AuthForm() {
 			}
 			if (serviceType === "smartHomeApp" && response.status === 200) {
 				console.log('response', response, 'test1');
+				console.log('window.ReactNativeWebView', window.ReactNativeWebView);
 				window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: 'login_success' }));
 			} else if (serviceType === "smartHomeApp" && response.status !== 200) {
 				console.log('response', response, 'test2');
+				console.log('window.ReactNativeWebView', window.ReactNativeWebView);
 				window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: 'login_failed' }));
 			}
 		} catch (error) {

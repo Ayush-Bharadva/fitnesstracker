@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { VscAccount } from "react-icons/vsc";
 import { CiLogout } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
-import { setCookie } from "../../utils/helper";
+import { setCookie } from "../../../utils/helper";
 import "./ProfileMenu.scss";
 
-function ProfileMenu(props) {
+function ProfileMenu() {
 	const navigate = useNavigate();
 	const [openProfile, setOpenProfile] = useState(false);
 
@@ -23,13 +23,15 @@ function ProfileMenu(props) {
 
 	return (
 		<div
-			className={"profile " + props.className}
+			className={"profile profile-menu"}
 			onClick={() => setOpenProfile(!openProfile)}>
 			<VscAccount className="profile-icon" />
 			{openProfile && (
 				<ul>
-					{profileOptions.map((option) => (
-						<li key={option.text} onClick={handleClick}>
+					{profileOptions.map(option => (
+						<li
+							key={option.text}
+							onClick={handleClick}>
 							{option.icon} {option.text}
 						</li>
 					))}

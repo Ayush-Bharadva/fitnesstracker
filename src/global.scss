@@ -8,7 +8,6 @@ $dark-green: #005b41;
 $teal: #008170;
 $light-teal: #00b69e;
 
-// global css classes
 .text-center {
 	text-align: center;
 }
@@ -48,4 +47,46 @@ $light-teal: #00b69e;
 
 .flex-wrap {
 	flex-wrap: wrap;
+}
+
+.flex-row-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 5px;
+}
+
+.resend-otp-text {
+	color: lightgreen;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.input-wrapper {
+	position: relative;
+	margin-bottom: 1.5rem;
+
+	.error-message {
+		position: absolute;
+		color: red;
+		font-size: 0.7rem;
+	}
+}
+
+.loader-wrapper {
+	position: absolute;
+	height: 100vh;
+	width: 100vw;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: rgba(0, 0, 0, 0.6);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 100;
+
+	.text {
+		color: white;
+	}
 }
